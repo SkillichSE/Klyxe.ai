@@ -1,0 +1,49 @@
+name: Daily AI Benchmark
+
+on:
+  schedule:
+    # Run every day at 3:00 UTC
+    - cron: '0 3 * * *'
+  
+  # Allow manual trigger
+  workflow_dispatch:
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v3
+      
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: 📦 Install dependencies
+        run: |
+          pip install requests feedparser
+      
+      - name: ⚡ Run benchmarks
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+          TOGETHER_API_KEY: ${{ secrets.TOGETHER_API_KEY }}
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          cd src
+          python benchmark.py
+      
+      - name: 📰 Fetch news
+        run: |
+          cd src
+          python news_parser.py
+      
+      - name: 💾 Commit results
+        run: |
+          git config user.name "Benchmark Bot"
+          git config user.email "bot@benchmark.ai"
+          git add data/results/
+          git diff --quiet && git diff --staged --quiet || git commit -m "📊 Update benchmark results - $(date +'%Y-%m-%d')"
+          git push
