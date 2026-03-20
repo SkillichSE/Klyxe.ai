@@ -233,7 +233,8 @@ function buildQualityBoard(results){
     });
     html+=`</div></div>`;
   });
-  document.getElementById('quality-board').innerHTML=html;
+  const qb = document.getElementById('quality-board');
+  if(qb) qb.innerHTML=html;
 }
 
 function buildSpeedBoard(results){
@@ -263,7 +264,8 @@ function buildSpeedBoard(results){
     </div>`;
   });
   html+='</div>';
-  document.getElementById('speed-board').innerHTML=html;
+  const sb = document.getElementById('speed-board');
+  if(sb) sb.innerHTML=html;
 }
 
 function buildChampions(results){
@@ -276,7 +278,9 @@ function buildChampions(results){
     {emoji:'⚡',title:'Fastest',model:byS[0],val:`${Math.round(byS[0]?.raw_speed||0)} tok/s`,sub:'tokens per second'},
     {emoji:'🌟',title:'Best Small Model',model:bestSmall,val:bestSmall?`${Math.round(bestSmall.quality_score||0)}/100`:'–',sub:'quality score, ≤10B params'},
   ];
-  document.getElementById('champions-grid').innerHTML=champs.map(ch=>ch.model?`
+  const cgEl = document.getElementById('champions-grid');
+  if(!cgEl) return;
+  cgEl.innerHTML=champs.map(ch=>ch.model?`
     <div class="card" style="text-align:center;">
       <div style="font-size:2.5rem;margin-bottom:8px;">${ch.emoji}</div>
       <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-tertiary);font-weight:600;margin-bottom:6px;">${ch.title}</div>
@@ -311,6 +315,13 @@ document.addEventListener('DOMContentLoaded',async()=>{
     // Only show models that actually ran (quality > 0 OR speed > 0)
     const results = allResults.filter(m => m.quality_score > 0 || m.raw_speed > 0);
     document.getElementById('last-update').textContent='Updated '+new Date(data.timestamp).toLocaleString();
+    
+    if(results.length === 0) {
+      document.getElementById('champions-grid').innerHTML = '<p style="color:var(--md-on-surface-var);grid-column:1/-1">No results yet — benchmark is running.</p>';
+      document.getElementById('quality-board').innerHTML = '';
+      document.getElementById('speed-board').innerHTML = '';
+      return;
+    }
 
     // Dynamic hero — show what actually matters right now
     const top = [...results].sort((a,b)=>(b.quality_score||0)-(a.quality_score||0))[0];
@@ -324,10 +335,11 @@ document.addEventListener('DOMContentLoaded',async()=>{
     document.getElementById('hero-subtitle').innerHTML =
       `${freeCount} free models tested last night &mdash; real code execution, verified answers, zero paywalls.`;
     const providers=[...new Set(results.map(r=>r.provider))];
-    document.getElementById('stat-models').textContent=results.length;
-    document.getElementById('stat-fastest').textContent=Math.round(Math.max(...results.map(r=>r.raw_speed||0)));
-    document.getElementById('stat-quality').textContent=Math.round(Math.max(...results.map(r=>r.quality_score||0)));
-    document.getElementById('stat-providers').textContent=providers.length;
+    const setEl = (id, val) => { const el=document.getElementById(id); if(el) el.textContent=val; };
+    setEl('stat-models', results.length);
+    setEl('stat-fastest', Math.round(Math.max(...results.map(r=>r.raw_speed||0))));
+    setEl('stat-quality', Math.round(Math.max(...results.map(r=>r.quality_score||0))));
+    setEl('stat-providers', providers.length);
     buildChampions(results);
     buildQualityBoard(results);
     buildSpeedBoard(results);
