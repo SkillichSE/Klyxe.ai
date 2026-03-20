@@ -1,86 +1,143 @@
 """
-News Parser for AI Model Updates
-Scrapes news from various AI providers
+News Parser for ModelArena
+Fetches AI news from reliable RSS feeds.
 """
 
-import os
 import json
-import requests
+import re
 import feedparser
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
-from config import NEWS_SOURCES
+from email.utils import parsedate_to_datetime
 
-class NewsParser:
-    def __init__(self):
-        self.news_items = []
-    
-    def parse_rss_feed(self, url, keywords):
-        """Parse RSS feed"""
+# RSS feeds that reliably cover AI model releases and updates
+RSS_FEEDS = [
+    {
+        "url": "https://huggingface.co/blog/feed.xml",
+        "source": "Hugging Face",
+        "keywords": ["model", "release", "launch", "llm", "benchmark", "fine-tun", "open"]
+    },
+    {
+        "url": "https://blog.google/technology/ai/rss/",
+        "source": "Google AI Blog",
+        "keywords": ["gemini", "model", "ai", "release", "update"]
+    },
+    {
+        "url": "https://openai.com/blog/rss/",
+        "source": "OpenAI",
+        "keywords": ["model", "release", "gpt", "update", "api"]
+    },
+    {
+        "url": "https://www.anthropic.com/news/rss.xml",
+        "source": "Anthropic",
+        "keywords": ["claude", "model", "release", "update", "api"]
+    },
+    {
+        "url": "https://mistral.ai/news/rss",
+        "source": "Mistral AI",
+        "keywords": ["model", "release", "mistral", "update"]
+    },
+]
+
+KEYWORDS_ALWAYS_INCLUDE = [
+    "llm", "language model", "gpt", "llama", "gemini", "claude", "mistral",
+    "qwen", "deepseek", "release", "launched", "benchmark", "open source",
+    "open-source", "api", "fine-tun", "instruct", "inference"
+]
+
+
+def parse_date(entry) -> str:
+    """Try to extract a parseable ISO date from a feed entry."""
+    for field in ("published", "updated", "created"):
+        val = entry.get(field, "")
+        if not val:
+            continue
         try:
-            feed = feedparser.parse(url)
-            
-            for entry in feed.entries[:10]:  # Latest 10
-                title = entry.get("title", "")
-                
-                # Check if relevant
-                if any(kw.lower() in title.lower() for kw in keywords):
-                    self.news_items.append({
-                        "title": title,
-                        "link": entry.get("link", ""),
-                        "date": entry.get("published", ""),
-                        "source": "HuggingFace",
-                        "summary": entry.get("summary", "")[:200]
-                    })
+            dt = parsedate_to_datetime(val)
+            return dt.astimezone(timezone.utc).isoformat()
+        except Exception:
+            pass
+        # Already ISO-ish
+        if "T" in val or val.count("-") >= 2:
+            return val
+    return datetime.now(timezone.utc).isoformat()
+
+
+def is_relevant(title: str, summary: str, keywords: list) -> bool:
+    text = (title + " " + summary).lower()
+    feed_match   = any(kw.lower() in text for kw in keywords)
+    global_match = any(kw in text for kw in KEYWORDS_ALWAYS_INCLUDE)
+    return feed_match or global_match
+
+
+def clean_html(text: str) -> str:
+    text = re.sub(r"<[^>]+>", " ", text)
+    text = re.sub(r"\s+", " ", text).strip()
+    return text[:280]
+
+
+def fetch_all_news() -> list:
+    items = []
+    seen_titles = set()
+
+    for feed_cfg in RSS_FEEDS:
+        print(f"  📡 {feed_cfg['source']}...", end=" ", flush=True)
+        try:
+            feed = feedparser.parse(feed_cfg["url"])
+            count = 0
+            for entry in feed.entries[:15]:
+                title   = entry.get("title", "").strip()
+                link    = entry.get("link", "")
+                summary = clean_html(entry.get("summary", entry.get("description", "")))
+
+                if not title or title in seen_titles:
+                    continue
+                if not is_relevant(title, summary, feed_cfg["keywords"]):
+                    continue
+
+                seen_titles.add(title)
+                items.append({
+                    "title":   title,
+                    "link":    link,
+                    "date":    parse_date(entry),
+                    "source":  feed_cfg["source"],
+                    "summary": summary,
+                })
+                count += 1
+
+            print(f"{count} items")
         except Exception as e:
-            print(f"⚠️  Error parsing RSS: {e}")
-    
-    def parse_webpage(self, source_name, config):
-        """Parse webpage for news (placeholder - needs proper scraping)"""
-        # Note: For production, would use BeautifulSoup
-        # This is a simplified version using RSS when available
-        print(f"📰 Checking {source_name}...")
-        
-        if "rss" in config:
-            self.parse_rss_feed(config["rss"], config["keywords"])
-    
-    def fetch_all_news(self):
-        """Fetch news from all sources"""
-        print("🔍 Fetching AI news...")
-        
-        for source_name, config in NEWS_SOURCES.items():
-            self.parse_webpage(source_name, config)
-        
-        # Sort by date (newest first)
-        self.news_items.sort(key=lambda x: x.get("date", ""), reverse=True)
-        
-        # Deduplicate
-        seen = set()
-        unique_news = []
-        for item in self.news_items:
-            if item["title"] not in seen:
-                seen.add(item["title"])
-                unique_news.append(item)
-        
-        self.news_items = unique_news[:20]  # Keep latest 20
-        print(f"✅ Found {len(self.news_items)} news items")
-    
-    def save_news(self):
-        """Save news to JSON"""
-        Path("../docs/data/results").mkdir(parents=True, exist_ok=True)
-        
-        news_file = "../docs/data/results/news.json"
-        with open(news_file, "w") as f:
-            json.dump({
-                "updated": datetime.now().isoformat(),
-                "count": len(self.news_items),
-                "items": self.news_items
-            }, f, indent=2)
-        
-        print(f"💾 News saved to {news_file}")
+            print(f"⚠️  error: {e}")
+
+    # Sort newest first
+    items.sort(key=lambda x: x["date"], reverse=True)
+
+    # Deduplicate by title again (cross-feed)
+    seen = set()
+    unique = []
+    for item in items:
+        if item["title"] not in seen:
+            seen.add(item["title"])
+            unique.append(item)
+
+    return unique[:30]
+
+
+def save_news(items: list):
+    Path("../docs/data/results").mkdir(parents=True, exist_ok=True)
+    out = {
+        "updated": datetime.now(timezone.utc).isoformat(),
+        "count":   len(items),
+        "items":   items,
+    }
+    path = "../docs/data/results/news.json"
+    with open(path, "w") as f:
+        json.dump(out, f, indent=2)
+    print(f"💾 {len(items)} news items saved")
+
 
 if __name__ == "__main__":
-    parser = NewsParser()
-    parser.fetch_all_news()
-    parser.save_news()
-    print("✨ News parsing complete!")
+    print("🔍 Fetching AI news...")
+    items = fetch_all_news()
+    save_news(items)
+    print("✨ Done!")
