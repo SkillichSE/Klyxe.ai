@@ -2,9 +2,26 @@ MODELS = {
     "groq": {
         "llama-3.1-8b": {
             "id": "llama-3.1-8b-instant",
-            "name": "Llama 3.1 8B",
+            "name": "Llama 3.1 8B Instant",
             "provider": "Groq",
             "size": "8B",
+            "size_category": "small",
+            "context": "128k"
+        },
+        "llama-3.2-1b": {
+            "id": "llama-3.2-1b-preview",
+            "name": "Llama 3.2 1B",
+            "provider": "Groq",
+            "size": "1B",
+            "size_category": "small",
+            "context": "128k"
+        },
+        "llama-3.2-3b": {
+            "id": "llama-3.2-3b-preview",
+            "name": "Llama 3.2 3B",
+            "provider": "Groq",
+            "size": "3B",
+            "size_category": "small",
             "context": "128k"
         },
         "llama-3.3-70b": {
@@ -12,109 +29,155 @@ MODELS = {
             "name": "Llama 3.3 70B",
             "provider": "Groq",
             "size": "70B",
+            "size_category": "large",
             "context": "128k"
         },
-        "qwen2.5-72b": {
-            "id": "qwen/qwen2.5-72b",
-            "name": "Qwen 2.5 72B",
+        "llama-3.3-70b-specdec": {
+            "id": "llama-3.3-70b-specdec",
+            "name": "Llama 3.3 70B SpecDec",
             "provider": "Groq",
-            "size": "72B",
-            "context": "128k"
+            "size": "70B",
+            "size_category": "large",
+            "context": "8k"
         },
-        "qwen3-32b": {
-            "id": "qwen/qwen3-32b",
-            "name": "Qwen 3 32B",
+        "gemma2-9b": {
+            "id": "gemma2-9b-it",
+            "name": "Gemma 2 9B",
             "provider": "Groq",
-            "size": "32B",
+            "size": "9B",
+            "size_category": "small",
+            "context": "8k"
+        },
+        "gemma-7b": {
+            "id": "gemma-7b-it",
+            "name": "Gemma 7B",
+            "provider": "Groq",
+            "size": "7B",
+            "size_category": "small",
+            "context": "8k"
+        },
+        "mixtral-8x7b": {
+            "id": "mixtral-8x7b-32768",
+            "name": "Mixtral 8x7B",
+            "provider": "Groq",
+            "size": "47B",
+            "size_category": "medium",
             "context": "32k"
         },
-        "mistral-large-2": {
-            "id": "mistral-large-latest",
-            "name": "Mistral Large 2",
-            "provider": "Groq",
-            "size": "123B",
-            "context": "128k"
-        },
     },
-    "google": {
-        "gemini-2.0-flash": {
-            "id": "gemini-2.0-flash",
-            "name": "Gemini 2.0 Flash",
-            "provider": "Google",
-            "size": "N/A",
-            "context": "1M"
-        },
-        "gemini-2.0-flash-lite": {
-            "id": "gemini-2.0-flash-lite",
-            "name": "Gemini 2.0 Flash Lite",
-            "provider": "Google",
-            "size": "N/A",
-            "context": "1M"
-        }
-    },
+    
     "openrouter": {
-        "llama-3.1-405b": {
-            "id": "meta-llama/llama-3.1-405b-instruct:free",
-            "name": "Llama 3.1 405B",
+        "llama-3.2-1b": {
+            "id": "meta-llama/llama-3.2-1b-instruct:free",
+            "name": "Llama 3.2 1B",
             "provider": "OpenRouter",
-            "size": "405B",
-            "context": "128k"
-        },
-        "llama-3.1-70b-or": {
-            "id": "meta-llama/llama-3.1-70b-instruct:free",
-            "name": "Llama 3.1 70B",
-            "provider": "OpenRouter",
-            "size": "70B",
-            "context": "128k"
+            "size": "1B",
+            "size_category": "small",
+            "context": "131k"
         },
         "llama-3.2-3b": {
             "id": "meta-llama/llama-3.2-3b-instruct:free",
             "name": "Llama 3.2 3B",
             "provider": "OpenRouter",
             "size": "3B",
+            "size_category": "small",
             "context": "131k"
         },
-        "qwen2.5-7b": {
+        "llama-3.1-8b": {
+            "id": "meta-llama/llama-3.1-8b-instruct:free",
+            "name": "Llama 3.1 8B",
+            "provider": "OpenRouter",
+            "size": "8B",
+            "size_category": "small",
+            "context": "131k"
+        },
+        "llama-3.1-70b": {
+            "id": "meta-llama/llama-3.1-70b-instruct:free",
+            "name": "Llama 3.1 70B",
+            "provider": "OpenRouter",
+            "size": "70B",
+            "size_category": "large",
+            "context": "131k"
+        },
+        "llama-3.1-405b": {
+            "id": "meta-llama/llama-3.1-405b-instruct:free",
+            "name": "Llama 3.1 405B",
+            "provider": "OpenRouter",
+            "size": "405B",
+            "size_category": "large",
+            "context": "131k"
+        },
+        "qwen-2.5-7b": {
             "id": "qwen/qwen-2.5-7b-instruct:free",
             "name": "Qwen 2.5 7B",
             "provider": "OpenRouter",
             "size": "7B",
+            "size_category": "small",
             "context": "128k"
+        },
+        "qwen-2.5-72b": {
+            "id": "qwen/qwen-2.5-72b-instruct:free",
+            "name": "Qwen 2.5 72B",
+            "provider": "OpenRouter",
+            "size": "72B",
+            "size_category": "large",
+            "context": "131k"
         },
         "mistral-7b": {
             "id": "mistralai/mistral-7b-instruct:free",
             "name": "Mistral 7B",
             "provider": "OpenRouter",
             "size": "7B",
+            "size_category": "small",
             "context": "32k"
         },
-        "mistral-small-3.1": {
-            "id": "mistralai/mistral-small-3.1-24b-instruct:free",
-            "name": "Mistral Small 3.1 24B",
+        "mistral-nemo": {
+            "id": "mistralai/mistral-nemo:free",
+            "name": "Mistral Nemo 12B",
             "provider": "OpenRouter",
-            "size": "24B",
+            "size": "12B",
+            "size_category": "medium",
             "context": "128k"
         },
-        "nemotron-super-49b": {
-            "id": "nvidia/llama-3.1-nemotron-70b-instruct:free",
-            "name": "Nemotron 70B",
+        "gemma-2-9b": {
+            "id": "google/gemma-2-9b-it:free",
+            "name": "Gemma 2 9B",
             "provider": "OpenRouter",
-            "size": "70B",
-            "context": "131k"
+            "size": "9B",
+            "size_category": "small",
+            "context": "8k"
         },
-        "deepseek-r1": {
-            "id": "deepseek/deepseek-r1:free",
-            "name": "DeepSeek R1",
+        "phi-3-medium": {
+            "id": "microsoft/phi-3-medium-128k-instruct:free",
+            "name": "Phi-3 Medium 14B",
             "provider": "OpenRouter",
-            "size": "671B",
-            "context": "164k"
+            "size": "14B",
+            "size_category": "medium",
+            "context": "128k"
         },
-        "deepseek-v3": {
-            "id": "deepseek/deepseek-chat-v3-0324:free",
-            "name": "DeepSeek V3",
+        "phi-3-mini": {
+            "id": "microsoft/phi-3-mini-128k-instruct:free",
+            "name": "Phi-3 Mini 3.8B",
             "provider": "OpenRouter",
-            "size": "671B",
-            "context": "131k"
+            "size": "3.8B",
+            "size_category": "small",
+            "context": "128k"
+        },
+        "mythomax-13b": {
+            "id": "gryphe/mythomax-l2-13b:free",
+            "name": "MythoMax 13B",
+            "provider": "OpenRouter",
+            "size": "13B",
+            "size_category": "medium",
+            "context": "8k"
+        },
+        "toppy-m-7b": {
+            "id": "undi95/toppy-m-7b:free",
+            "name": "Toppy M 7B",
+            "provider": "OpenRouter",
+            "size": "7B",
+            "size_category": "small",
+            "context": "4k"
         },
     }
 }
@@ -206,7 +269,6 @@ TESTS = {
 }
 
 RATE_LIMITS = {
-    "groq": 30,
-    "google": 15,
-    "openrouter": 20
+    "groq": 25,
+    "openrouter": 8,
 }
