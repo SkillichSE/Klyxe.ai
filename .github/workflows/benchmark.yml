@@ -317,6 +317,48 @@ jobs:
           OPENROUTER_API_KEY_10: ${{ secrets.OPENROUTER_API_KEY_10 }}
         run: cd src && python benchmark.py --providers openrouter --models llama-3.2-3b --merge
 
+      - name: Llama 3.1 8B (cerebras)
+        continue-on-error: true
+        timeout-minutes: 8
+        env:
+          CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_API_KEY }}
+        run: cd src && python benchmark.py --providers cerebras --models llama-3.1-8b --merge
+
+      - name: Llama 3.3 70B (cerebras)
+        continue-on-error: true
+        timeout-minutes: 8
+        env:
+          CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_API_KEY }}
+        run: cd src && python benchmark.py --providers cerebras --models llama-3.3-70b --merge
+
+      - name: Qwen 3 32B (cerebras)
+        continue-on-error: true
+        timeout-minutes: 8
+        env:
+          CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_API_KEY }}
+        run: cd src && python benchmark.py --providers cerebras --models qwen3-32b --merge
+
+      - name: Llama 3.3 70B (together)
+        continue-on-error: true
+        timeout-minutes: 10
+        env:
+          TOGETHER_API_KEY: ${{ secrets.TOGETHER_API_KEY }}
+        run: cd src && python benchmark.py --providers together --models llama-3.3-70b --merge
+
+      - name: Llama 3.2 3B (together)
+        continue-on-error: true
+        timeout-minutes: 10
+        env:
+          TOGETHER_API_KEY: ${{ secrets.TOGETHER_API_KEY }}
+        run: cd src && python benchmark.py --providers together --models llama-3.2-3b --merge
+
+      - name: DeepSeek R1 (together)
+        continue-on-error: true
+        timeout-minutes: 10
+        env:
+          TOGETHER_API_KEY: ${{ secrets.TOGETHER_API_KEY }}
+        run: cd src && python benchmark.py --providers together --models deepseek-r1-free --merge
+
       - name: News
         continue-on-error: true
         run: cd src && python news_parser.py

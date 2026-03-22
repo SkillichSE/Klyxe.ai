@@ -6,8 +6,13 @@ from config import MODELS, TESTS
 
 GROQ_API       = "https://api.groq.com/openai/v1/chat/completions"
 OPENROUTER_API = "https://openrouter.ai/api/v1/chat/completions"
+CEREBRAS_API   = "https://api.cerebras.ai/v1/chat/completions"
+TOGETHER_API   = "https://api.together.xyz/v1/chat/completions"
 
-REQUEST_DELAY = {"groq": 2, "google": 6, "openrouter": 2}
+REQUEST_DELAY = {"groq": 2, "google": 6, "openrouter": 4, "cerebras": 1, "together": 2}
+
+# Per-key jitter: adds random delay to avoid thundering herd on same RPM window
+import random
 
 REASONING_ANSWERS = {
     "syllogism":      ["yes", "correct", "true", "definitely"],
@@ -60,6 +65,8 @@ class ModelBenchmark:
     def __init__(self, active_providers=None, active_models=None, merge=False):
         self.groq_key         = os.getenv("GROQ_API_KEY")
         self.google_key       = os.getenv("GOOGLE_API_KEY")
+        self.cerebras_key     = os.getenv("CEREBRAS_API_KEY")
+        self.together_key     = os.getenv("TOGETHER_API_KEY")
         self._openrouter_keys = _load_openrouter_keys()
         self._or_key_index    = 0
         self.active_providers = active_providers
@@ -76,10 +83,18 @@ class ModelBenchmark:
     def _rotate_openrouter_key(self):
         if self._or_key_index + 1 < len(self._openrouter_keys):
             self._or_key_index += 1
-            hint = self._openrouter_keys[self._or_key_index][:8] + "..."
-            print(f"\n    [openrouter] rate-limited → key #{self._or_key_index + 1}/{len(self._openrouter_keys)} ({hint})", end="")
+            hint = self._openrouter_keys[self._or_key_index][:12] + "..."
+            print(f"\n    [openrouter] key #{self._or_key_index + 1}/{len(self._openrouter_keys)} ({hint})", end="", flush=True)
+            time.sleep(3)   # brief pause before trying next key
             return True
         return False
+
+    def _reset_openrouter_keys(self, attempt=1):
+        """After exhausting all keys — wait for RPM window to reset, then start over."""
+        wait = 65 * attempt  # longer wait on each retry: 65s, 130s, 195s
+        print(f"\n    [openrouter] all keys at limit, waiting {wait}s (attempt {attempt}/3)...", flush=True)
+        time.sleep(wait)
+        self._or_key_index = 0   # reset to key #1
 
     def _openai_post(self, url, headers, model_id, prompt, timeout=45):
         data = {
@@ -150,6 +165,7 @@ class ModelBenchmark:
     def call_openrouter(self, model_id, prompt):
         if not self._openrouter_keys:
             return {"success": False, "error": "no OPENROUTER_API_KEY configured"}
+        resets = 0
         while True:
             result = self._openai_post(OPENROUTER_API, {
                 "Authorization": f"Bearer {self.openrouter_key}",
@@ -162,15 +178,53 @@ class ModelBenchmark:
             err = result.get("error", "")
             m = re.search(r"Status (\d+)", err)
             status = int(m.group(1)) if m else 0
-            if status in _OR_ROTATE_STATUSES and self._rotate_openrouter_key():
-                continue
             if status in _OR_ROTATE_STATUSES:
-                print(f"\n    [openrouter] all {len(self._openrouter_keys)} key(s) exhausted", end="")
+                if self._rotate_openrouter_key():
+                    continue
+                # All keys exhausted — wait and retry (up to 3 times)
+                if resets < 3:
+                    resets += 1
+                    self._reset_openrouter_keys(resets)
+                    continue
             return result
 
+    def call_cerebras(self, model_id, prompt):
+        if not self.cerebras_key:
+            return {"success": False, "error": "CEREBRAS_API_KEY not set"}
+        return self._openai_post(CEREBRAS_API,
+            {"Authorization": f"Bearer {self.cerebras_key}", "Content-Type": "application/json"},
+            model_id, prompt)
+
+    def call_together(self, model_id, prompt):
+        if not self.together_key:
+            return {"success": False, "error": "TOGETHER_API_KEY not set"}
+        return self._openai_post(TOGETHER_API,
+            {"Authorization": f"Bearer {self.together_key}", "Content-Type": "application/json"},
+            model_id, prompt)
+
     def _call(self, provider, model_id, prompt):
-        return {"groq": self.call_groq, "google": self.call_google,
-                "openrouter": self.call_openrouter}[provider](model_id, prompt)
+        fn = {"groq": self.call_groq, "google": self.call_google,
+              "openrouter": self.call_openrouter,
+              "cerebras": self.call_cerebras,
+              "together": self.call_together}.get(provider)
+        if not fn:
+            return {"success": False, "error": f"unknown provider: {provider}"}
+        result = fn(model_id, prompt)
+        # Fallback chain: if primary fails with 429, try fallback providers
+        if not result["success"] and "429" in result.get("error", ""):
+            model_info = self._current_model_info
+            fallbacks = model_info.get("fallbacks", [])
+            for fb_provider, fb_model_id in fallbacks:
+                print(f"\n    [fallback] {provider} 429 → trying {fb_provider}/{fb_model_id}", end="", flush=True)
+                time.sleep(1 + random.random())
+                fb_fn = {"groq": self.call_groq, "cerebras": self.call_cerebras,
+                         "together": self.call_together}.get(fb_provider)
+                if fb_fn:
+                    fb_result = fb_fn(fb_model_id, prompt)
+                    if fb_result["success"]:
+                        fb_result["via_fallback"] = f"{fb_provider}/{fb_model_id}"
+                        return fb_result
+        return result
 
     def eval_code(self, test_name, response):
         cfg = TESTS["code"][test_name]
@@ -258,6 +312,7 @@ class ModelBenchmark:
     def run_model(self, provider, model_info):
         delay = REQUEST_DELAY.get(provider, 2)
         mid   = model_info["id"]
+        self._current_model_info = model_info  # for fallback lookup
         result = {
             "model_id":      model_info.get("key", mid),
             "model_name":    model_info["name"],

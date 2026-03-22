@@ -56,7 +56,8 @@ MODELS = {
             "id": "meta-llama/llama-3.3-70b-instruct:free",
             "name": "Llama 3.3 70B",
             "provider": "OpenRouter", "size": "70B",
-            "size_category": "large", "context": "66k"
+            "size_category": "large", "context": "66k",
+            "fallbacks": [("groq", "llama-3.3-70b-versatile"), ("together", "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free")]
         },
         "step-3.5-flash": {
             "id": "stepfun/step-3.5-flash:free",
@@ -80,7 +81,8 @@ MODELS = {
             "id": "openai/gpt-oss-120b:free",
             "name": "GPT-OSS 120B",
             "provider": "OpenRouter", "size": "120B",
-            "size_category": "large", "context": "131k"
+            "size_category": "large", "context": "131k",
+            "fallbacks": [("groq", "openai/gpt-oss-120b")]
         },
         "qwen3-coder": {
             "id": "qwen/qwen3-coder:free",
@@ -105,13 +107,15 @@ MODELS = {
             "id": "openai/gpt-oss-20b:free",
             "name": "GPT-OSS 20B",
             "provider": "OpenRouter", "size": "20B",
-            "size_category": "medium", "context": "131k"
+            "size_category": "medium", "context": "131k",
+            "fallbacks": [("groq", "openai/gpt-oss-20b")]
         },
         "mistral-small-3.1": {
             "id": "mistralai/mistral-small-3.1-24b-instruct:free",
             "name": "Mistral Small 3.1 24B",
             "provider": "OpenRouter", "size": "24B",
-            "size_category": "medium", "context": "128k"
+            "size_category": "medium", "context": "128k",
+            "fallbacks": [("together", "mistralai/Mistral-7B-Instruct-v0.2")]
         },
         "trinity-mini": {
             "id": "arcee-ai/trinity-mini:free",
@@ -142,9 +146,54 @@ MODELS = {
             "id": "meta-llama/llama-3.2-3b-instruct:free",
             "name": "Llama 3.2 3B",
             "provider": "OpenRouter", "size": "3B",
-            "size_category": "small", "context": "131k"
+            "size_category": "small", "context": "131k",
+            "fallbacks": [("together", "meta-llama/Llama-3.2-3B-Instruct-Turbo-Free"), ("cerebras", "llama3.1-8b")]
         },
     },
+    "cerebras": {
+        # Free tier, extremely fast inference
+        "llama-3.1-8b": {
+            "id": "llama3.1-8b",
+            "name": "Llama 3.1 8B",
+            "provider": "Cerebras", "size": "8B",
+            "size_category": "small", "context": "131k"
+        },
+        "llama-3.3-70b": {
+            "id": "llama-3.3-70b",
+            "name": "Llama 3.3 70B",
+            "provider": "Cerebras", "size": "70B",
+            "size_category": "large", "context": "131k"
+        },
+        "qwen3-32b": {
+            "id": "qwen-3-32b",
+            "name": "Qwen 3 32B",
+            "provider": "Cerebras", "size": "32B",
+            "size_category": "medium", "context": "131k"
+        },
+    },
+
+    "together": {
+        # Free models (suffix -Free or -Free-Turbo)
+        "llama-3.3-70b": {
+            "id": "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free",
+            "name": "Llama 3.3 70B",
+            "provider": "Together", "size": "70B",
+            "size_category": "large", "context": "131k"
+        },
+        "llama-3.2-3b": {
+            "id": "meta-llama/Llama-3.2-3B-Instruct-Turbo-Free",
+            "name": "Llama 3.2 3B",
+            "provider": "Together", "size": "3B",
+            "size_category": "small", "context": "131k"
+        },
+        "deepseek-r1-free": {
+            "id": "deepseek-ai/DeepSeek-R1-Free",
+            "name": "DeepSeek R1",
+            "provider": "Together", "size": "671B",
+            "size_category": "large", "context": "32k"
+        },
+    },
+
 }
 
 TESTS = {
