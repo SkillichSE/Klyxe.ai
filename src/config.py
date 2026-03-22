@@ -50,39 +50,115 @@ MODELS = {
     },
 
     "openrouter": {
-        # All verified on openrouter.ai/collections/free-models, March 2026
-        # ── Large ──────────────────────────────────────────────────────────
-        "llama-3.3-70b": {
-            "id": "meta-llama/llama-3.3-70b-instruct:free",
-            "name": "Llama 3.3 70B",
-            "provider": "OpenRouter", "size": "70B",
-            "size_category": "large", "context": "66k",
-            "fallbacks": [("groq", "llama-3.3-70b-versatile"), ("together", "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free")]
-        },
-        "step-3.5-flash": {
-            "id": "stepfun/step-3.5-flash:free",
-            "name": "Step 3.5 Flash 196B",
-            "provider": "OpenRouter", "size": "196B",
-            "size_category": "large", "context": "256k"
-        },
+        # Verified working March 2026 via API probe
+        # ERR latin-1 = Windows encoding issue only, work fine on Linux/GitHub Actions
+
+        # ── NVIDIA ────────────────────────────────────────────────────────
         "nemotron-super-120b": {
             "id": "nvidia/nemotron-3-super-120b-a12b:free",
             "name": "Nemotron 3 Super 120B",
             "provider": "OpenRouter", "size": "120B",
             "size_category": "large", "context": "262k"
         },
+        "nemotron-nano-30b": {
+            "id": "nvidia/nemotron-3-nano-30b-a3b:free",
+            "name": "Nemotron 3 Nano 30B",
+            "provider": "OpenRouter", "size": "30B",
+            "size_category": "medium", "context": "256k"
+        },
+        "nemotron-nano-12b": {
+            "id": "nvidia/nemotron-nano-12b-v2-vl:free",
+            "name": "Nemotron Nano 12B",
+            "provider": "OpenRouter", "size": "12B",
+            "size_category": "medium", "context": "128k"
+        },
+        "nemotron-nano-9b": {
+            "id": "nvidia/nemotron-nano-9b-v2:free",
+            "name": "Nemotron Nano 9B",
+            "provider": "OpenRouter", "size": "9B",
+            "size_category": "small", "context": "128k"
+        },
+
+        # ── Arcee ─────────────────────────────────────────────────────────
         "trinity-large": {
             "id": "arcee-ai/trinity-large-preview:free",
             "name": "Trinity Large 400B",
             "provider": "OpenRouter", "size": "400B",
             "size_category": "large", "context": "131k"
         },
-        "gpt-oss-120b": {
-            "id": "openai/gpt-oss-120b:free",
-            "name": "GPT-OSS 120B",
-            "provider": "OpenRouter", "size": "120B",
-            "size_category": "large", "context": "131k",
-            "fallbacks": [("groq", "openai/gpt-oss-120b")]
+        "trinity-mini": {
+            "id": "arcee-ai/trinity-mini:free",
+            "name": "Trinity Mini 26B",
+            "provider": "OpenRouter", "size": "26B",
+            "size_category": "medium", "context": "131k"
+        },
+
+        # ── StepFun ───────────────────────────────────────────────────────
+        "step-3.5-flash": {
+            "id": "stepfun/step-3.5-flash:free",
+            "name": "Step 3.5 Flash 196B",
+            "provider": "OpenRouter", "size": "196B",
+            "size_category": "large", "context": "256k"
+        },
+
+        # ── Google Gemma ──────────────────────────────────────────────────
+        "gemma-3-27b": {
+            "id": "google/gemma-3-27b-it:free",
+            "name": "Gemma 3 27B",
+            "provider": "OpenRouter", "size": "27B",
+            "size_category": "medium", "context": "131k"
+        },
+        "gemma-3-12b": {
+            "id": "google/gemma-3-12b-it:free",
+            "name": "Gemma 3 12B",
+            "provider": "OpenRouter", "size": "12B",
+            "size_category": "medium", "context": "32k"
+        },
+        "gemma-3-4b": {
+            "id": "google/gemma-3-4b-it:free",
+            "name": "Gemma 3 4B",
+            "provider": "OpenRouter", "size": "4B",
+            "size_category": "small", "context": "32k"
+        },
+        "gemma-3n-e4b": {
+            "id": "google/gemma-3n-e4b-it:free",
+            "name": "Gemma 3n E4B",
+            "provider": "OpenRouter", "size": "4B",
+            "size_category": "small", "context": "8k"
+        },
+        "gemma-3n-e2b": {
+            "id": "google/gemma-3n-e2b-it:free",
+            "name": "Gemma 3n E2B",
+            "provider": "OpenRouter", "size": "2B",
+            "size_category": "small", "context": "8k"
+        },
+
+        # ── Liquid AI ─────────────────────────────────────────────────────
+        "lfm-2.5-instruct": {
+            "id": "liquid/lfm-2.5-1.2b-instruct:free",
+            "name": "LFM 2.5 1.2B Instruct",
+            "provider": "OpenRouter", "size": "1.2B",
+            "size_category": "small", "context": "32k"
+        },
+        "lfm-2.5-thinking": {
+            "id": "liquid/lfm-2.5-1.2b-thinking:free",
+            "name": "LFM 2.5 1.2B Thinking",
+            "provider": "OpenRouter", "size": "1.2B",
+            "size_category": "small", "context": "32k"
+        },
+
+        # ── ERR latin-1 on Windows = work fine on Linux ───────────────────
+        "llama-3.3-70b": {
+            "id": "meta-llama/llama-3.3-70b-instruct:free",
+            "name": "Llama 3.3 70B",
+            "provider": "OpenRouter", "size": "70B",
+            "size_category": "large", "context": "66k"
+        },
+        "llama-3.2-3b": {
+            "id": "meta-llama/llama-3.2-3b-instruct:free",
+            "name": "Llama 3.2 3B",
+            "provider": "OpenRouter", "size": "3B",
+            "size_category": "small", "context": "131k"
         },
         "qwen3-coder": {
             "id": "qwen/qwen3-coder:free",
@@ -96,38 +172,29 @@ MODELS = {
             "provider": "OpenRouter", "size": "80B",
             "size_category": "large", "context": "262k"
         },
-        "minimax-m2.5": {
-            "id": "minimax/minimax-m2.5:free",
-            "name": "MiniMax M2.5",
-            "provider": "OpenRouter", "size": "N/A",
-            "size_category": "large", "context": "197k"
-        },
-        # ── Medium ─────────────────────────────────────────────────────────
-        "gpt-oss-20b": {
-            "id": "openai/gpt-oss-20b:free",
-            "name": "GPT-OSS 20B",
-            "provider": "OpenRouter", "size": "20B",
-            "size_category": "medium", "context": "131k",
-            "fallbacks": [("groq", "openai/gpt-oss-20b")]
+        "qwen3-4b": {
+            "id": "qwen/qwen3-4b:free",
+            "name": "Qwen 3 4B",
+            "provider": "OpenRouter", "size": "4B",
+            "size_category": "small", "context": "41k"
         },
         "mistral-small-3.1": {
             "id": "mistralai/mistral-small-3.1-24b-instruct:free",
             "name": "Mistral Small 3.1 24B",
             "provider": "OpenRouter", "size": "24B",
-            "size_category": "medium", "context": "128k",
-            "fallbacks": [("together", "mistralai/Mistral-7B-Instruct-v0.2")]
+            "size_category": "medium", "context": "128k"
         },
-        "trinity-mini": {
-            "id": "arcee-ai/trinity-mini:free",
-            "name": "Trinity Mini 26B",
-            "provider": "OpenRouter", "size": "26B",
-            "size_category": "medium", "context": "131k"
+        "hermes-405b": {
+            "id": "nousresearch/hermes-3-llama-3.1-405b:free",
+            "name": "Hermes 3 405B",
+            "provider": "OpenRouter", "size": "405B",
+            "size_category": "large", "context": "131k"
         },
-        "nemotron-nano-30b": {
-            "id": "nvidia/nemotron-3-nano-30b-a3b:free",
-            "name": "Nemotron 3 Nano 30B",
-            "provider": "OpenRouter", "size": "30B",
-            "size_category": "medium", "context": "256k"
+        "dolphin-mistral-24b": {
+            "id": "cognitivecomputations/dolphin-mistral-24b-venice-edition:free",
+            "name": "Dolphin Mistral 24B",
+            "provider": "OpenRouter", "size": "24B",
+            "size_category": "medium", "context": "32k"
         },
         "glm-4.5-air": {
             "id": "z-ai/glm-4.5-air:free",
@@ -135,21 +202,8 @@ MODELS = {
             "provider": "OpenRouter", "size": "N/A",
             "size_category": "medium", "context": "131k"
         },
-        # ── Small ──────────────────────────────────────────────────────────
-        "nemotron-nano-9b": {
-            "id": "nvidia/nemotron-nano-9b-v2:free",
-            "name": "Nemotron Nano 9B",
-            "provider": "OpenRouter", "size": "9B",
-            "size_category": "small", "context": "128k"
-        },
-        "llama-3.2-3b": {
-            "id": "meta-llama/llama-3.2-3b-instruct:free",
-            "name": "Llama 3.2 3B",
-            "provider": "OpenRouter", "size": "3B",
-            "size_category": "small", "context": "131k",
-            "fallbacks": [("together", "meta-llama/Llama-3.2-3B-Instruct-Turbo-Free"), ("cerebras", "llama3.1-8b")]
-        },
     },
+
     "cerebras": {
         # Free tier, extremely fast inference
         "llama-3.1-8b": {
