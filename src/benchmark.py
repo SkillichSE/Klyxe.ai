@@ -41,10 +41,15 @@ def _bucket(b):
 
 def _load_openrouter_keys():
     keys = []
-    for i in range(1, 11):
+    # Numbered keys: OPENROUTER_API_KEY_1, _2, _3, ... until gap
+    i = 1
+    while True:
         k = os.getenv(f"OPENROUTER_API_KEY_{i}", "").strip()
-        if k:
-            keys.append(k)
+        if not k:
+            break
+        keys.append(k)
+        i += 1
+    # Also accept plain OPENROUTER_API_KEY
     plain = os.getenv("OPENROUTER_API_KEY", "").strip()
     if plain and plain not in keys:
         keys.append(plain)

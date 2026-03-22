@@ -84,6 +84,13 @@ jobs:
           OPENROUTER_API_KEY_1: ${{ secrets.OPENROUTER_API_KEY_1 }}
           OPENROUTER_API_KEY_2: ${{ secrets.OPENROUTER_API_KEY_2 }}
           OPENROUTER_API_KEY_3: ${{ secrets.OPENROUTER_API_KEY_3 }}
+          OPENROUTER_API_KEY_4: ${{ secrets.OPENROUTER_API_KEY_4 }}
+          OPENROUTER_API_KEY_5: ${{ secrets.OPENROUTER_API_KEY_5 }}
+          OPENROUTER_API_KEY_6: ${{ secrets.OPENROUTER_API_KEY_6 }}
+          OPENROUTER_API_KEY_7: ${{ secrets.OPENROUTER_API_KEY_7 }}
+          OPENROUTER_API_KEY_8: ${{ secrets.OPENROUTER_API_KEY_8 }}
+          OPENROUTER_API_KEY_9: ${{ secrets.OPENROUTER_API_KEY_9 }}
+          OPENROUTER_API_KEY_10: ${{ secrets.OPENROUTER_API_KEY_10 }}
         run: cd src && python benchmark.py --providers openrouter --models llama-3.3-70b --merge
 
       - name: Step 3.5 Flash 196B (openrouter)
@@ -93,6 +100,13 @@ jobs:
           OPENROUTER_API_KEY_1: ${{ secrets.OPENROUTER_API_KEY_1 }}
           OPENROUTER_API_KEY_2: ${{ secrets.OPENROUTER_API_KEY_2 }}
           OPENROUTER_API_KEY_3: ${{ secrets.OPENROUTER_API_KEY_3 }}
+          OPENROUTER_API_KEY_4: ${{ secrets.OPENROUTER_API_KEY_4 }}
+          OPENROUTER_API_KEY_5: ${{ secrets.OPENROUTER_API_KEY_5 }}
+          OPENROUTER_API_KEY_6: ${{ secrets.OPENROUTER_API_KEY_6 }}
+          OPENROUTER_API_KEY_7: ${{ secrets.OPENROUTER_API_KEY_7 }}
+          OPENROUTER_API_KEY_8: ${{ secrets.OPENROUTER_API_KEY_8 }}
+          OPENROUTER_API_KEY_9: ${{ secrets.OPENROUTER_API_KEY_9 }}
+          OPENROUTER_API_KEY_10: ${{ secrets.OPENROUTER_API_KEY_10 }}
         run: cd src && python benchmark.py --providers openrouter --models step-3.5-flash --merge
 
       - name: Nemotron 3 Super 120B (openrouter)
@@ -102,6 +116,13 @@ jobs:
           OPENROUTER_API_KEY_1: ${{ secrets.OPENROUTER_API_KEY_1 }}
           OPENROUTER_API_KEY_2: ${{ secrets.OPENROUTER_API_KEY_2 }}
           OPENROUTER_API_KEY_3: ${{ secrets.OPENROUTER_API_KEY_3 }}
+          OPENROUTER_API_KEY_4: ${{ secrets.OPENROUTER_API_KEY_4 }}
+          OPENROUTER_API_KEY_5: ${{ secrets.OPENROUTER_API_KEY_5 }}
+          OPENROUTER_API_KEY_6: ${{ secrets.OPENROUTER_API_KEY_6 }}
+          OPENROUTER_API_KEY_7: ${{ secrets.OPENROUTER_API_KEY_7 }}
+          OPENROUTER_API_KEY_8: ${{ secrets.OPENROUTER_API_KEY_8 }}
+          OPENROUTER_API_KEY_9: ${{ secrets.OPENROUTER_API_KEY_9 }}
+          OPENROUTER_API_KEY_10: ${{ secrets.OPENROUTER_API_KEY_10 }}
         run: cd src && python benchmark.py --providers openrouter --models nemotron-super-120b --merge
 
       - name: Trinity Large 400B (openrouter)
@@ -111,6 +132,13 @@ jobs:
           OPENROUTER_API_KEY_1: ${{ secrets.OPENROUTER_API_KEY_1 }}
           OPENROUTER_API_KEY_2: ${{ secrets.OPENROUTER_API_KEY_2 }}
           OPENROUTER_API_KEY_3: ${{ secrets.OPENROUTER_API_KEY_3 }}
+          OPENROUTER_API_KEY_4: ${{ secrets.OPENROUTER_API_KEY_4 }}
+          OPENROUTER_API_KEY_5: ${{ secrets.OPENROUTER_API_KEY_5 }}
+          OPENROUTER_API_KEY_6: ${{ secrets.OPENROUTER_API_KEY_6 }}
+          OPENROUTER_API_KEY_7: ${{ secrets.OPENROUTER_API_KEY_7 }}
+          OPENROUTER_API_KEY_8: ${{ secrets.OPENROUTER_API_KEY_8 }}
+          OPENROUTER_API_KEY_9: ${{ secrets.OPENROUTER_API_KEY_9 }}
+          OPENROUTER_API_KEY_10: ${{ secrets.OPENROUTER_API_KEY_10 }}
         run: cd src && python benchmark.py --providers openrouter --models trinity-large --merge
 
       - name: GPT-OSS 120B (openrouter)
@@ -120,6 +148,13 @@ jobs:
           OPENROUTER_API_KEY_1: ${{ secrets.OPENROUTER_API_KEY_1 }}
           OPENROUTER_API_KEY_2: ${{ secrets.OPENROUTER_API_KEY_2 }}
           OPENROUTER_API_KEY_3: ${{ secrets.OPENROUTER_API_KEY_3 }}
+          OPENROUTER_API_KEY_4: ${{ secrets.OPENROUTER_API_KEY_4 }}
+          OPENROUTER_API_KEY_5: ${{ secrets.OPENROUTER_API_KEY_5 }}
+          OPENROUTER_API_KEY_6: ${{ secrets.OPENROUTER_API_KEY_6 }}
+          OPENROUTER_API_KEY_7: ${{ secrets.OPENROUTER_API_KEY_7 }}
+          OPENROUTER_API_KEY_8: ${{ secrets.OPENROUTER_API_KEY_8 }}
+          OPENROUTER_API_KEY_9: ${{ secrets.OPENROUTER_API_KEY_9 }}
+          OPENROUTER_API_KEY_10: ${{ secrets.OPENROUTER_API_KEY_10 }}
         run: cd src && python benchmark.py --providers openrouter --models gpt-oss-120b --merge
 
       - name: Qwen3 Coder 480B (openrouter)
@@ -129,6 +164,13 @@ jobs:
           OPENROUTER_API_KEY_1: ${{ secrets.OPENROUTER_API_KEY_1 }}
           OPENROUTER_API_KEY_2: ${{ secrets.OPENROUTER_API_KEY_2 }}
           OPENROUTER_API_KEY_3: ${{ secrets.OPENROUTER_API_KEY_3 }}
+          OPENROUTER_API_KEY_4: ${{ secrets.OPENROUTER_API_KEY_4 }}
+          OPENROUTER_API_KEY_5: ${{ secrets.OPENROUTER_API_KEY_5 }}
+          OPENROUTER_API_KEY_6: ${{ secrets.OPENROUTER_API_KEY_6 }}
+          OPENROUTER_API_KEY_7: ${{ secrets.OPENROUTER_API_KEY_7 }}
+          OPENROUTER_API_KEY_8: ${{ secrets.OPENROUTER_API_KEY_8 }}
+          OPENROUTER_API_KEY_9: ${{ secrets.OPENROUTER_API_KEY_9 }}
+          OPENROUTER_API_KEY_10: ${{ secrets.OPENROUTER_API_KEY_10 }}
         run: cd src && python benchmark.py --providers openrouter --models qwen3-coder --merge
 
       - name: Qwen3 Next 80B (openrouter)
@@ -138,6 +180,13 @@ jobs:
           OPENROUTER_API_KEY_1: ${{ secrets.OPENROUTER_API_KEY_1 }}
           OPENROUTER_API_KEY_2: ${{ secrets.OPENROUTER_API_KEY_2 }}
           OPENROUTER_API_KEY_3: ${{ secrets.OPENROUTER_API_KEY_3 }}
+          OPENROUTER_API_KEY_4: ${{ secrets.OPENROUTER_API_KEY_4 }}
+          OPENROUTER_API_KEY_5: ${{ secrets.OPENROUTER_API_KEY_5 }}
+          OPENROUTER_API_KEY_6: ${{ secrets.OPENROUTER_API_KEY_6 }}
+          OPENROUTER_API_KEY_7: ${{ secrets.OPENROUTER_API_KEY_7 }}
+          OPENROUTER_API_KEY_8: ${{ secrets.OPENROUTER_API_KEY_8 }}
+          OPENROUTER_API_KEY_9: ${{ secrets.OPENROUTER_API_KEY_9 }}
+          OPENROUTER_API_KEY_10: ${{ secrets.OPENROUTER_API_KEY_10 }}
         run: cd src && python benchmark.py --providers openrouter --models qwen3-next-80b --merge
 
       - name: MiniMax M2.5 (openrouter)
@@ -147,6 +196,13 @@ jobs:
           OPENROUTER_API_KEY_1: ${{ secrets.OPENROUTER_API_KEY_1 }}
           OPENROUTER_API_KEY_2: ${{ secrets.OPENROUTER_API_KEY_2 }}
           OPENROUTER_API_KEY_3: ${{ secrets.OPENROUTER_API_KEY_3 }}
+          OPENROUTER_API_KEY_4: ${{ secrets.OPENROUTER_API_KEY_4 }}
+          OPENROUTER_API_KEY_5: ${{ secrets.OPENROUTER_API_KEY_5 }}
+          OPENROUTER_API_KEY_6: ${{ secrets.OPENROUTER_API_KEY_6 }}
+          OPENROUTER_API_KEY_7: ${{ secrets.OPENROUTER_API_KEY_7 }}
+          OPENROUTER_API_KEY_8: ${{ secrets.OPENROUTER_API_KEY_8 }}
+          OPENROUTER_API_KEY_9: ${{ secrets.OPENROUTER_API_KEY_9 }}
+          OPENROUTER_API_KEY_10: ${{ secrets.OPENROUTER_API_KEY_10 }}
         run: cd src && python benchmark.py --providers openrouter --models minimax-m2.5 --merge
 
       - name: GPT-OSS 20B (openrouter)
@@ -156,6 +212,13 @@ jobs:
           OPENROUTER_API_KEY_1: ${{ secrets.OPENROUTER_API_KEY_1 }}
           OPENROUTER_API_KEY_2: ${{ secrets.OPENROUTER_API_KEY_2 }}
           OPENROUTER_API_KEY_3: ${{ secrets.OPENROUTER_API_KEY_3 }}
+          OPENROUTER_API_KEY_4: ${{ secrets.OPENROUTER_API_KEY_4 }}
+          OPENROUTER_API_KEY_5: ${{ secrets.OPENROUTER_API_KEY_5 }}
+          OPENROUTER_API_KEY_6: ${{ secrets.OPENROUTER_API_KEY_6 }}
+          OPENROUTER_API_KEY_7: ${{ secrets.OPENROUTER_API_KEY_7 }}
+          OPENROUTER_API_KEY_8: ${{ secrets.OPENROUTER_API_KEY_8 }}
+          OPENROUTER_API_KEY_9: ${{ secrets.OPENROUTER_API_KEY_9 }}
+          OPENROUTER_API_KEY_10: ${{ secrets.OPENROUTER_API_KEY_10 }}
         run: cd src && python benchmark.py --providers openrouter --models gpt-oss-20b --merge
 
       - name: Mistral Small 3.1 24B (openrouter)
@@ -165,6 +228,13 @@ jobs:
           OPENROUTER_API_KEY_1: ${{ secrets.OPENROUTER_API_KEY_1 }}
           OPENROUTER_API_KEY_2: ${{ secrets.OPENROUTER_API_KEY_2 }}
           OPENROUTER_API_KEY_3: ${{ secrets.OPENROUTER_API_KEY_3 }}
+          OPENROUTER_API_KEY_4: ${{ secrets.OPENROUTER_API_KEY_4 }}
+          OPENROUTER_API_KEY_5: ${{ secrets.OPENROUTER_API_KEY_5 }}
+          OPENROUTER_API_KEY_6: ${{ secrets.OPENROUTER_API_KEY_6 }}
+          OPENROUTER_API_KEY_7: ${{ secrets.OPENROUTER_API_KEY_7 }}
+          OPENROUTER_API_KEY_8: ${{ secrets.OPENROUTER_API_KEY_8 }}
+          OPENROUTER_API_KEY_9: ${{ secrets.OPENROUTER_API_KEY_9 }}
+          OPENROUTER_API_KEY_10: ${{ secrets.OPENROUTER_API_KEY_10 }}
         run: cd src && python benchmark.py --providers openrouter --models mistral-small-3.1 --merge
 
       - name: Trinity Mini 26B (openrouter)
@@ -174,6 +244,13 @@ jobs:
           OPENROUTER_API_KEY_1: ${{ secrets.OPENROUTER_API_KEY_1 }}
           OPENROUTER_API_KEY_2: ${{ secrets.OPENROUTER_API_KEY_2 }}
           OPENROUTER_API_KEY_3: ${{ secrets.OPENROUTER_API_KEY_3 }}
+          OPENROUTER_API_KEY_4: ${{ secrets.OPENROUTER_API_KEY_4 }}
+          OPENROUTER_API_KEY_5: ${{ secrets.OPENROUTER_API_KEY_5 }}
+          OPENROUTER_API_KEY_6: ${{ secrets.OPENROUTER_API_KEY_6 }}
+          OPENROUTER_API_KEY_7: ${{ secrets.OPENROUTER_API_KEY_7 }}
+          OPENROUTER_API_KEY_8: ${{ secrets.OPENROUTER_API_KEY_8 }}
+          OPENROUTER_API_KEY_9: ${{ secrets.OPENROUTER_API_KEY_9 }}
+          OPENROUTER_API_KEY_10: ${{ secrets.OPENROUTER_API_KEY_10 }}
         run: cd src && python benchmark.py --providers openrouter --models trinity-mini --merge
 
       - name: Nemotron 3 Nano 30B (openrouter)
@@ -183,6 +260,13 @@ jobs:
           OPENROUTER_API_KEY_1: ${{ secrets.OPENROUTER_API_KEY_1 }}
           OPENROUTER_API_KEY_2: ${{ secrets.OPENROUTER_API_KEY_2 }}
           OPENROUTER_API_KEY_3: ${{ secrets.OPENROUTER_API_KEY_3 }}
+          OPENROUTER_API_KEY_4: ${{ secrets.OPENROUTER_API_KEY_4 }}
+          OPENROUTER_API_KEY_5: ${{ secrets.OPENROUTER_API_KEY_5 }}
+          OPENROUTER_API_KEY_6: ${{ secrets.OPENROUTER_API_KEY_6 }}
+          OPENROUTER_API_KEY_7: ${{ secrets.OPENROUTER_API_KEY_7 }}
+          OPENROUTER_API_KEY_8: ${{ secrets.OPENROUTER_API_KEY_8 }}
+          OPENROUTER_API_KEY_9: ${{ secrets.OPENROUTER_API_KEY_9 }}
+          OPENROUTER_API_KEY_10: ${{ secrets.OPENROUTER_API_KEY_10 }}
         run: cd src && python benchmark.py --providers openrouter --models nemotron-nano-30b --merge
 
       - name: GLM 4.5 Air (openrouter)
@@ -192,6 +276,13 @@ jobs:
           OPENROUTER_API_KEY_1: ${{ secrets.OPENROUTER_API_KEY_1 }}
           OPENROUTER_API_KEY_2: ${{ secrets.OPENROUTER_API_KEY_2 }}
           OPENROUTER_API_KEY_3: ${{ secrets.OPENROUTER_API_KEY_3 }}
+          OPENROUTER_API_KEY_4: ${{ secrets.OPENROUTER_API_KEY_4 }}
+          OPENROUTER_API_KEY_5: ${{ secrets.OPENROUTER_API_KEY_5 }}
+          OPENROUTER_API_KEY_6: ${{ secrets.OPENROUTER_API_KEY_6 }}
+          OPENROUTER_API_KEY_7: ${{ secrets.OPENROUTER_API_KEY_7 }}
+          OPENROUTER_API_KEY_8: ${{ secrets.OPENROUTER_API_KEY_8 }}
+          OPENROUTER_API_KEY_9: ${{ secrets.OPENROUTER_API_KEY_9 }}
+          OPENROUTER_API_KEY_10: ${{ secrets.OPENROUTER_API_KEY_10 }}
         run: cd src && python benchmark.py --providers openrouter --models glm-4.5-air --merge
 
       - name: Nemotron Nano 9B (openrouter)
@@ -201,6 +292,13 @@ jobs:
           OPENROUTER_API_KEY_1: ${{ secrets.OPENROUTER_API_KEY_1 }}
           OPENROUTER_API_KEY_2: ${{ secrets.OPENROUTER_API_KEY_2 }}
           OPENROUTER_API_KEY_3: ${{ secrets.OPENROUTER_API_KEY_3 }}
+          OPENROUTER_API_KEY_4: ${{ secrets.OPENROUTER_API_KEY_4 }}
+          OPENROUTER_API_KEY_5: ${{ secrets.OPENROUTER_API_KEY_5 }}
+          OPENROUTER_API_KEY_6: ${{ secrets.OPENROUTER_API_KEY_6 }}
+          OPENROUTER_API_KEY_7: ${{ secrets.OPENROUTER_API_KEY_7 }}
+          OPENROUTER_API_KEY_8: ${{ secrets.OPENROUTER_API_KEY_8 }}
+          OPENROUTER_API_KEY_9: ${{ secrets.OPENROUTER_API_KEY_9 }}
+          OPENROUTER_API_KEY_10: ${{ secrets.OPENROUTER_API_KEY_10 }}
         run: cd src && python benchmark.py --providers openrouter --models nemotron-nano-9b --merge
 
       - name: Llama 3.2 3B (openrouter)
@@ -210,6 +308,13 @@ jobs:
           OPENROUTER_API_KEY_1: ${{ secrets.OPENROUTER_API_KEY_1 }}
           OPENROUTER_API_KEY_2: ${{ secrets.OPENROUTER_API_KEY_2 }}
           OPENROUTER_API_KEY_3: ${{ secrets.OPENROUTER_API_KEY_3 }}
+          OPENROUTER_API_KEY_4: ${{ secrets.OPENROUTER_API_KEY_4 }}
+          OPENROUTER_API_KEY_5: ${{ secrets.OPENROUTER_API_KEY_5 }}
+          OPENROUTER_API_KEY_6: ${{ secrets.OPENROUTER_API_KEY_6 }}
+          OPENROUTER_API_KEY_7: ${{ secrets.OPENROUTER_API_KEY_7 }}
+          OPENROUTER_API_KEY_8: ${{ secrets.OPENROUTER_API_KEY_8 }}
+          OPENROUTER_API_KEY_9: ${{ secrets.OPENROUTER_API_KEY_9 }}
+          OPENROUTER_API_KEY_10: ${{ secrets.OPENROUTER_API_KEY_10 }}
         run: cd src && python benchmark.py --providers openrouter --models llama-3.2-3b --merge
 
       - name: News
