@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>News — ModelLens</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="animations.css">
 </head>
 <body>
   <header class="header">
@@ -68,7 +69,6 @@
         if(el) el.textContent='Updated '+new Date(data.updated).toLocaleString();
         allNews=data.items||[];
         
-        // If no news items, show placeholder immediately
         if(allNews.length === 0){
           document.getElementById('news-feed').innerHTML='';
           document.getElementById('no-news').style.display='block';
@@ -124,6 +124,26 @@
       if(btn)btn.addEventListener('click',function(){applyTheme((document.documentElement.getAttribute('data-theme')||'dark')==='dark'?'light':'dark');});
       window.addEventListener('scroll',function(){document.querySelector('.header').classList.toggle('scrolled',window.scrollY>0);});
     })();
+  </script>
+
+  <script>
+  
+  (function() {
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+
+    function observe() {
+      document.querySelectorAll('.reveal:not([data-obs]), .news-item:not([data-obs])').forEach(function(el) {
+        el.setAttribute('data-obs','1');
+        io.observe(el);
+      });
+    }
+    observe();
+    new MutationObserver(observe).observe(document.body, { childList: true, subtree: true });
+  })();
   </script>
 </body>
 </html>

@@ -1,8 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Google+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Google+Sans+Display:wght@400;500;700&family=Roboto:wght@400;500&family=Roboto+Mono:wght@400;500&display=swap');
 
-/* ─── M3 Design Tokens ─────────────────────────────────────── */
 :root {
-  /* seed: #1a73e8 blue */
+  
   --md-sys-color-primary:              #1a73e8;
   --md-sys-color-on-primary:           #ffffff;
   --md-sys-color-primary-container:    #d3e3fd;
@@ -45,7 +44,7 @@
   --md-sys-color-surface-container-high:    #e6e8f0;
   --md-sys-color-surface-container-highest: #e1e2ea;
 
-  /* elevation overlays */
+  
   --md-sys-elevation-level0: none;
   --md-sys-elevation-level1: 0px 1px 2px rgba(0,0,0,.3), 0px 1px 3px 1px rgba(0,0,0,.15);
   --md-sys-elevation-level2: 0px 1px 2px rgba(0,0,0,.3), 0px 2px 6px 2px rgba(0,0,0,.15);
@@ -53,7 +52,7 @@
   --md-sys-elevation-level4: 0px 2px 3px rgba(0,0,0,.3), 0px 6px 10px 4px rgba(0,0,0,.15);
   --md-sys-elevation-level5: 0px 4px 4px rgba(0,0,0,.3), 0px 8px 12px 6px rgba(0,0,0,.15);
 
-  /* shape */
+  
   --md-sys-shape-corner-none:        0px;
   --md-sys-shape-corner-extra-small: 4px;
   --md-sys-shape-corner-small:       8px;
@@ -62,7 +61,7 @@
   --md-sys-shape-corner-extra-large: 28px;
   --md-sys-shape-corner-full:        9999px;
 
-  /* typescale */
+  
   --md-sys-typescale-display-large-font:   'Google Sans Display', sans-serif;
   --md-sys-typescale-display-large-size:   57px;
   --md-sys-typescale-headline-large-font:  'Google Sans', sans-serif;
@@ -86,12 +85,12 @@
   --md-sys-typescale-body-medium-font:     'Roboto', sans-serif;
   --md-sys-typescale-body-medium-size:     14px;
 
-  /* state layers */
+  
   --md-sys-state-hover-opacity:   0.08;
   --md-sys-state-pressed-opacity: 0.12;
   --md-sys-state-focused-opacity: 0.12;
 
-  /* shortcuts for use in rules */
+  
   --color-primary:           var(--md-sys-color-primary);
   --color-on-primary:        var(--md-sys-color-on-primary);
   --color-primary-cont:      var(--md-sys-color-primary-container);
@@ -127,13 +126,13 @@
   --elev2: var(--md-sys-elevation-level2);
   --elev3: var(--md-sys-elevation-level3);
 
-  /* benchmark metric colors */
+  
   --metric-code:   #1e8e3e;
   --metric-reason: #9334ea;
   --metric-mmlu:   #1a73e8;
   --metric-trans:  #e37400;
 
-  /* compat aliases */
+  
   --primary:              var(--color-primary);
   --background:           var(--color-bg);
   --surface-2:            var(--color-surf-cont);
@@ -182,7 +181,6 @@
   color-scheme: light;
 }
 
-/* ─── Dark theme ───────────────────────────────────────────── */
 [data-theme="dark"] {
   --md-sys-color-primary:              #a8c7fa;
   --md-sys-color-on-primary:           #00316a;
@@ -245,7 +243,6 @@
   color-scheme: dark;
 }
 
-/* ─── Reset ────────────────────────────────────────────────── */
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior: smooth; }
 body {
@@ -259,7 +256,6 @@ body {
 }
 h1,h2,h3 { font-family: 'Google Sans', sans-serif; font-weight: 400; line-height: 1.2; }
 
-/* ─── Top App Bar (M3 spec) ────────────────────────────────── */
 .header {
   background: var(--color-surf-cont-low);
   height: 64px;
@@ -321,7 +317,6 @@ h1,h2,h3 { font-family: 'Google Sans', sans-serif; font-weight: 400; line-height
 .nav-link.active { color: var(--color-primary); }
 .nav-link.active::after { transform: scaleX(1); }
 
-/* ─── Theme toggle switch (not a button) ───────────────────── */
 .theme-switch-wrap {
   display: flex;
   align-items: center;
@@ -387,7 +382,6 @@ h1,h2,h3 { font-family: 'Google Sans', sans-serif; font-weight: 400; line-height
 }
 .theme-switch:hover .theme-switch-track { border-color: var(--color-primary); }
 
-/* ─── Hero / Banner ────────────────────────────────────────── */
 .hero {
   background: var(--color-surf-cont-low);
   border-bottom: 1px solid var(--color-outline-var);
@@ -433,7 +427,6 @@ h1,h2,h3 { font-family: 'Google Sans', sans-serif; font-weight: 400; line-height
 }
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
 
-/* Hero size filter chips */
 .size-filter-row {
   display: flex;
   align-items: center;
@@ -489,14 +482,12 @@ h1,h2,h3 { font-family: 'Google Sans', sans-serif; font-weight: 400; line-height
   color: var(--md-sys-color-on-primary-container);
 }
 
-/* ─── Container ────────────────────────────────────────────── */
 .container {
   max-width: 1232px;
   margin: 0 auto;
   padding: 40px 24px 64px;
 }
 
-/* ─── M3 Summary Cards (stat row) ──────────────────────────── */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -539,7 +530,6 @@ h1,h2,h3 { font-family: 'Google Sans', sans-serif; font-weight: 400; line-height
   color: var(--color-on-surface-var);
 }
 
-/* ─── Section headings ─────────────────────────────────────── */
 .section-title {
   font-family: 'Google Sans', sans-serif;
   font-size: 22px;
@@ -553,7 +543,6 @@ h1,h2,h3 { font-family: 'Google Sans', sans-serif; font-weight: 400; line-height
   margin-bottom: 24px;
 }
 
-/* ─── Segmented Button (M3) — tabs ─────────────────────────── */
 .seg-btn-group {
   display: inline-flex;
   border: 1px solid var(--color-outline);
@@ -589,11 +578,9 @@ h1,h2,h3 { font-family: 'Google Sans', sans-serif; font-weight: 400; line-height
   color: var(--md-sys-color-on-primary);
 }
 
-/* ─── Leaderboard panels ───────────────────────────────────── */
 .leaderboard-panel { display: none; }
 .leaderboard-panel.active { display: block; }
 
-/* ─── Category header ──────────────────────────────────────── */
 .category-section { margin-bottom: 48px; }
 .category-header {
   display: flex;
@@ -615,7 +602,6 @@ h1,h2,h3 { font-family: 'Google Sans', sans-serif; font-weight: 400; line-height
   letter-spacing: .8px;
 }
 
-/* ─── M3 Assist Chip (size badge) ──────────────────────────── */
 .size-badge {
   display: inline-flex;
   align-items: center;
@@ -632,7 +618,6 @@ h1,h2,h3 { font-family: 'Google Sans', sans-serif; font-weight: 400; line-height
 .size-badge.large  { background: var(--color-error-cont); color: var(--color-on-error-cont); }
 .size-badge.unknown { background: var(--color-surf-cont-high); color: var(--color-on-surface-var); }
 
-/* ─── Sort chips row ───────────────────────────────────────── */
 .sort-row { display: flex; gap: 6px; flex-wrap: wrap; }
 .sort-chip {
   height: 28px;
@@ -659,7 +644,6 @@ h1,h2,h3 { font-family: 'Google Sans', sans-serif; font-weight: 400; line-height
   color: var(--md-sys-color-on-secondary-container);
 }
 
-/* ─── Model card ───────────────────────────────────────────── */
 .grid-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; }
 .model-card {
   background: var(--color-surface);
@@ -721,7 +705,6 @@ h1,h2,h3 { font-family: 'Google Sans', sans-serif; font-weight: 400; line-height
 .rank-num.bronze { color: #8d6e63; }
 .rank-num.other  { color: var(--color-on-surface-var); }
 
-/* compare chip on card */
 .cmp-chip {
   height: 26px;
   padding: 0 10px;
@@ -745,7 +728,6 @@ h1,h2,h3 { font-family: 'Google Sans', sans-serif; font-weight: 400; line-height
   color: var(--color-on-primary-cont);
 }
 
-/* ─── Score bars ───────────────────────────────────────────── */
 .score-block { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
 .score-row {
   display: flex;
@@ -797,7 +779,6 @@ h1,h2,h3 { font-family: 'Google Sans', sans-serif; font-weight: 400; line-height
   flex-shrink: 0;
 }
 
-/* tooltip */
 .score-tooltip {
   position: absolute;
   bottom: calc(100% + 8px);
@@ -845,7 +826,6 @@ h1,h2,h3 { font-family: 'Google Sans', sans-serif; font-weight: 400; line-height
   color: var(--color-outline);
 }
 
-/* ─── Compare FAB bar ──────────────────────────────────────── */
 .compare-bar {
   position: fixed;
   bottom: 24px;
@@ -864,7 +844,6 @@ h1,h2,h3 { font-family: 'Google Sans', sans-serif; font-weight: 400; line-height
 .compare-bar.visible { display: flex; }
 .compare-bar-label { font-family: 'Google Sans', sans-serif; font-size: 14px; font-weight: 500; color: var(--color-on-surface); }
 
-/* ─── M3 Buttons ───────────────────────────────────────────── */
 .btn-filled {
   height: 40px;
   padding: 0 24px;
@@ -904,7 +883,6 @@ h1,h2,h3 { font-family: 'Google Sans', sans-serif; font-weight: 400; line-height
   color: var(--md-sys-color-on-secondary-container);
 }
 
-/* ─── Dialog (M3) ──────────────────────────────────────────── */
 .dialog-scrim {
   position: fixed;
   inset: 0;
@@ -958,7 +936,6 @@ h1,h2,h3 { font-family: 'Google Sans', sans-serif; font-weight: 400; line-height
 .dialog-close:hover { background: rgba(26,115,232,.08); }
 .dialog-body { overflow-y: auto; padding: 20px 24px 24px; }
 
-/* radar */
 .radar-grid { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; margin-bottom: 24px; }
 .radar-card {
   flex: 1; min-width: 210px; max-width: 290px;
@@ -976,7 +953,6 @@ h1,h2,h3 { font-family: 'Google Sans', sans-serif; font-weight: 400; line-height
 }
 .radar-card-meta { font-size: 12px; color: var(--color-on-surface-var); margin-bottom: 12px; }
 
-/* compare table */
 .cmp-table { width: 100%; border-collapse: collapse; font-size: 14px; }
 .cmp-table th {
   text-align: left;
@@ -993,12 +969,10 @@ h1,h2,h3 { font-family: 'Google Sans', sans-serif; font-weight: 400; line-height
 .cmp-table .row-label { font-size: 12px; color: var(--color-on-surface-var); font-weight: 500; }
 .cmp-table .best { color: var(--metric-code); font-weight: 700; }
 
-/* ─── Legend ───────────────────────────────────────────────── */
 .legend { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 20px; font-size: 12px; color: var(--color-on-surface-var); font-weight: 500; }
 .legend-item { display: flex; align-items: center; gap: 6px; }
 .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 
-/* ─── News ─────────────────────────────────────────────────── */
 .news-item { border-bottom: 1px solid var(--color-outline-var); padding: 20px 0; }
 .news-item:last-child { border-bottom: none; }
 .news-date { font-size: 11px; font-weight: 500; letter-spacing: .5px; text-transform: uppercase; color: var(--color-on-surface-var); margin-bottom: 6px; }
@@ -1008,11 +982,9 @@ h1,h2,h3 { font-family: 'Google Sans', sans-serif; font-weight: 400; line-height
 .news-summary { font-size: 13px; color: var(--color-on-surface-var); line-height: 1.75; margin-bottom: 6px; }
 .news-source { font-size: 12px; color: var(--color-primary); font-weight: 500; }
 
-/* ─── Tighten section gaps ─────────────────────────────────── */
 main.container > section { margin-bottom: 48px !important; }
 main.container > section:last-child { margin-bottom: 0 !important; }
 
-/* ─── Feature cards ("what we test") ──────────────────────── */
 .feature-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
 .feature-card {
   background: var(--color-surface);
@@ -1067,7 +1039,6 @@ main.container > section:last-child { margin-bottom: 0 !important; }
   transform: translateY(0);
 }
 
-/* ─── Footer ───────────────────────────────────────────────── */
 .footer {
   border-top: 1px solid var(--color-outline-var);
   padding: 28px 24px;
@@ -1081,7 +1052,6 @@ main.container > section:last-child { margin-bottom: 0 !important; }
 .footer-link:hover { color: var(--color-primary); }
 .footer-copy { font-size: 12px; color: var(--color-on-surface-var); }
 
-/* ─── Other pages compat ───────────────────────────────────── */
 .card, .card-outlined, .card-elevated { background: var(--color-surface); border-radius: var(--shape-lg); padding: 24px; }
 .card { background: var(--color-surf-cont-low); }
 .card-outlined { border: 1px solid var(--color-outline-var); }
@@ -1112,7 +1082,6 @@ main.container > section:last-child { margin-bottom: 0 !important; }
 @keyframes shimmer { 0%{background-position:-600px 0} 100%{background-position:600px 0} }
 .skeleton { background: linear-gradient(90deg,var(--color-surf-cont) 0px,var(--color-surf-cont-high) 80px,var(--color-surf-cont) 160px); background-size:800px; animation:shimmer 1.5s infinite; border-radius:var(--shape-md); }
 
-/* ─── Responsive ───────────────────────────────────────────── */
 @media (max-width: 960px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 640px) {
   .hero-headline { font-size: 22px; line-height: 1.3; }

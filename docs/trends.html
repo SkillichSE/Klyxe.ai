@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Theme init: prevent flash -->
+  
   <script>
     (function(){
       var t = localStorage.getItem('theme') || 'dark';
@@ -12,10 +12,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Trends — ModelLens</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="animations.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 </head>
 <body>
-  <!-- Header -->
+  
   <header class="header">
     <div class="header-content">
       <a href="index.html" class="logo">
@@ -42,7 +43,6 @@
       Track how models improve over time
     </p>
 
-    <!-- Chart: Speed Over Time -->
     <section style="margin-bottom: 48px;">
       <div class="card">
         <h2 style="margin-bottom: 24px;">Speed Comparison (Tokens/Second)</h2>
@@ -50,7 +50,6 @@
       </div>
     </section>
 
-    <!-- Chart: Code Quality Over Time -->
     <section style="margin-bottom: 48px;">
       <div class="card">
         <h2 style="margin-bottom: 24px;">Code Quality Score</h2>
@@ -58,11 +57,10 @@
       </div>
     </section>
 
-    <!-- Insights -->
     <section>
       <h2>Key Insights</h2>
       <div class="grid grid-2" id="insights">
-        <!-- Populated by JS -->
+        
       </div>
     </section>
   </main>
@@ -77,7 +75,7 @@
   </footer>
 
   <script>
-    // Chart.js configuration
+    
     Chart.defaults.font.family = "'Roboto', sans-serif";
     Chart.defaults.color = '#5f6368';
 
@@ -91,17 +89,14 @@
 
     async function loadTrends() {
       try {
-        // For now, use latest data (in production, would load historical data)
+        
         const response = await fetch('data/results/latest.json');
         const data = await response.json();
         
-        // Create speed chart
         createSpeedChart(data.results);
         
-        // Create code quality chart
         createCodeChart(data.results);
         
-        // Generate insights
         generateInsights(data.results);
         
       } catch (error) {
@@ -231,17 +226,14 @@
     function generateInsights(results) {
       const insightsContainer = document.getElementById('insights');
       
-      // Find fastest model
       const fastest = results.reduce((prev, current) => 
         (current.tests.speed?.avg_tokens_per_sec || 0) > (prev.tests.speed?.avg_tokens_per_sec || 0) ? current : prev
       );
 
-      // Find best code model
       const bestCode = results.reduce((prev, current) => 
         (current.tests.code?.avg_score || 0) > (prev.tests.code?.avg_score || 0) ? current : prev
       );
 
-      // Average speed
       const avgSpeed = results.reduce((sum, r) => sum + (r.tests.speed?.avg_tokens_per_sec || 0), 0) / results.length;
 
       insightsContainer.innerHTML = `
@@ -291,7 +283,7 @@
     document.addEventListener('DOMContentLoaded', loadTrends);
   </script>
   <script>
-    // Theme toggle
+    
     (function() {
       function applyTheme(t) {
         document.documentElement.setAttribute('data-theme', t);

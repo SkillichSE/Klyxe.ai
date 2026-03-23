@@ -15,11 +15,11 @@
   <meta property="og:type" content="website">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="style-spacing.css">
+  <link rel="stylesheet" href="animations.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 </head>
 <body>
 
-<!-- ═══ Top App Bar ═══════════════════════════════════════════ -->
 <header class="header" id="app-bar">
   <div class="header-content">
     <a href="index.html" class="logo">
@@ -43,7 +43,6 @@
   </div>
 </header>
 
-<!-- ═══ Hero / Banner ═════════════════════════════════════════ -->
 <div class="hero">
   <div class="hero-inner">
     <h1 class="hero-headline" id="hero-headline">ModelLens</h1>
@@ -56,11 +55,9 @@
   </div>
 </div>
 
-<!-- ═══ Main content ══════════════════════════════════════════ -->
 <main class="container">
 
-  <!-- stat cards -->
-  <div class="stats-grid">
+  <div class="stats-grid reveal">
     <div class="stat-card">
       <div class="stat-card-icon primary-cont">🤖</div>
       <div class="stat-value" id="stat-models">–</div>
@@ -83,12 +80,11 @@
     </div>
   </div>
 
-  <!-- rankings -->
   <section style="margin-bottom:64px;">
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;gap:16px;flex-wrap:wrap;">
       <div>
-        <h2 class="section-title">Rankings</h2>
-        <p class="section-sub" style="margin-bottom:0;">
+        <h2 class="section-title reveal">Rankings</h2>
+        <p class="section-sub reveal reveal-d1" style="margin-bottom:0;">
           Scores are normalized within each size tier — a Small model's #1 rank is against other Small models only
         </p>
       </div>
@@ -122,7 +118,6 @@
       <span class="legend-item"><span class="legend-dot" style="background:var(--color-primary)"></span>Tokens/second — averaged over short, medium, and long prompts</span>
     </div>
 
-    <!-- quality panel -->
     <div class="leaderboard-panel active" id="panel-quality">
       <div class="category-section" data-tier="large">
         <div class="category-header">
@@ -156,7 +151,6 @@
       </div>
     </div>
 
-    <!-- speed panel -->
     <div class="leaderboard-panel" id="panel-speed">
       <div class="category-section" data-tier="large">
         <div class="category-header">
@@ -188,10 +182,9 @@
     </div>
   </section>
 
-  <!-- what we test -->
   <section style="margin-bottom:64px;">
-    <h2 class="section-title">What We Test</h2>
-    <p class="section-sub">Industry-standard benchmarks — no invented metrics</p>
+    <h2 class="section-title reveal">What We Test</h2>
+    <p class="section-sub reveal reveal-d1">Industry-standard benchmarks — no invented metrics</p>
     <div class="feature-grid">
       <div class="feature-card" onclick="window.location.href='methodology.html#humaneval'" role="button" tabindex="0" aria-label="Learn more about HumanEval benchmark">
         <div class="feature-icon" style="background:var(--color-tertiary-cont);">💻</div>
@@ -232,10 +225,9 @@
     </div>
   </section>
 
-  <!-- news -->
   <section style="margin-bottom:0;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-      <h2 class="section-title">Latest AI News</h2>
+      <h2 class="section-title reveal">Latest AI News</h2>
       <a href="news.html" style="font-family:'Google Sans',sans-serif;font-size:14px;font-weight:500;color:var(--color-primary);text-decoration:none;">View all →</a>
     </div>
     <div id="news-preview"></div>
@@ -254,14 +246,12 @@
   </footer>
 </div>
 
-<!-- compare FAB -->
 <div class="compare-bar" id="compare-bar">
   <span class="compare-bar-label" id="compare-count">0 selected</span>
   <button class="btn-filled" id="compare-go" style="height:36px;padding:0 20px;font-size:13px;">⚖️ Compare</button>
   <button class="btn-tonal" id="compare-clear" style="height:36px;padding:0 16px;font-size:13px;">Clear</button>
 </div>
 
-<!-- compare dialog -->
 <div class="dialog-scrim" id="dialog-scrim">
   <div class="dialog">
     <div class="dialog-header">
@@ -279,7 +269,7 @@
 </div>
 
 <script>
-/* ── theme switch ──────────────────────────────────────────── */
+
 const themeToggle = document.getElementById('theme-toggle');
 const themeLabel  = document.getElementById('theme-label');
 const thumbIcon   = document.getElementById('thumb-icon');
@@ -299,16 +289,13 @@ themeToggle.addEventListener('change', () => {
   applyTheme(themeToggle.checked ? 'dark' : 'light');
 });
 
-/* ── scroll elevation ──────────────────────────────────────── */
 window.addEventListener('scroll', () =>
   document.getElementById('app-bar').classList.toggle('scrolled', window.scrollY > 0));
 
-/* ── state ─────────────────────────────────────────────────── */
 const compareMap = new Map();
 let allResults = [];
 let activeTier = 'all';
 
-/* ── helpers ───────────────────────────────────────────────── */
 function scalePct(val) { return val <= 0 ? 0 : 50 + (val / 100) * 50; }
 
 function rankMeta(i) {
@@ -318,7 +305,6 @@ function rankMeta(i) {
 }
 function cardClass(i) { return i === 0 ? 'rank-1' : i === 1 ? 'rank-2' : ''; }
 
-/* ── score bar with tooltip ────────────────────────────────── */
 function scoreRow(label, val, fillClass, tip) {
   const w = scalePct(val);
   return `<div class="score-row">
@@ -331,7 +317,6 @@ function scoreRow(label, val, fillClass, tip) {
   </div>`;
 }
 
-/* ── compare toggle ────────────────────────────────────────── */
 function toggleCompare(btn) {
   const m   = JSON.parse(decodeURIComponent(escape(atob(btn.dataset.model))));
   const key = m.model_id || m.model_name;
@@ -351,7 +336,6 @@ function toggleCompare(btn) {
   document.getElementById('compare-count').textContent = `${n} model${n !== 1 ? 's' : ''} selected`;
 }
 
-/* ── render quality card ───────────────────────────────────── */
 function renderCard(m, i) {
   const q   = m.quality_score || 0;
   const c   = m.tests?.code?.avg_score || 0;
@@ -389,7 +373,6 @@ function renderCard(m, i) {
   </div>`;
 }
 
-/* ── render speed card ─────────────────────────────────────── */
 function renderSpeedCard(m, i, maxSpd) {
   const spd = m.raw_speed || 0;
   const pct = maxSpd > 0 ? spd / maxSpd * 100 : 0;
@@ -418,14 +401,12 @@ function renderSpeedCard(m, i, maxSpd) {
   </div>`;
 }
 
-/* ── empty state ───────────────────────────────────────────── */
 function emptyState(tier) {
   return `<div style="padding:32px;text-align:center;color:var(--color-on-surface-var);
     background:var(--color-surf-cont-low);border-radius:var(--md-sys-shape-corner-large,16px);">
     No ${tier} models tested yet</div>`;
 }
 
-/* ── sort helpers ──────────────────────────────────────────── */
 function sortList(list, key) {
   return [...list].sort((a, b) => {
     if (key === 'quality')   return (b.quality_score||0) - (a.quality_score||0);
@@ -457,7 +438,6 @@ function buildSortRow(el, list, renderFn) {
   });
 }
 
-/* ── build quality board ───────────────────────────────────── */
 function buildQualityBoard(results) {
   const groups = { large: [], medium: [], small: [], unknown: [] };
   sortList(results, 'quality').forEach(m =>
@@ -478,7 +458,6 @@ function buildQualityBoard(results) {
   });
 }
 
-/* ── build speed board ─────────────────────────────────────── */
 function buildSpeedBoard(results) {
   const groups = { large: [], medium: [], small: [], unknown: [] };
   sortList(results, 'speed').forEach(m =>
@@ -494,7 +473,6 @@ function buildSpeedBoard(results) {
   });
 }
 
-/* ── tier filter ───────────────────────────────────────────── */
 function applyTierFilter(tier) {
   activeTier = tier;
   document.querySelectorAll('.category-section').forEach(sec => {
@@ -510,7 +488,6 @@ document.querySelectorAll('.size-chip').forEach(chip => {
   chip.addEventListener('click', () => applyTierFilter(chip.dataset.size));
 });
 
-/* ── compare modal ─────────────────────────────────────────── */
 function openCompare() {
   const models = [...compareMap.values()];
   if (!models.length) return;
@@ -597,7 +574,6 @@ function openCompare() {
 }
 
 document.getElementById('compare-go').addEventListener('click', openCompare);
-document.getElementById('compare-clear').addEventListener('click', () => {
   compareMap.clear();
   document.querySelectorAll('.cmp-chip').forEach(b => {
     b.classList.remove('selected');
@@ -611,7 +587,6 @@ document.getElementById('dialog-scrim').addEventListener('click', e => {
   if (e.target === e.currentTarget) e.currentTarget.classList.remove('open');
 });
 
-/* ── tab switch ────────────────────────────────────────────── */
 document.querySelectorAll('.seg-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('active'));
@@ -623,7 +598,6 @@ document.querySelectorAll('.seg-btn').forEach(btn => {
   });
 });
 
-/* ── load data ─────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', async () => {
   try {
     const today = new Date().toISOString().split('T')[0];
@@ -657,7 +631,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const byQ = [...allResults].sort((a, b) => (b.quality_score||0) - (a.quality_score||0));
     const byS = [...allResults].sort((a, b) => (b.raw_speed||0) - (a.raw_speed||0));
 
-    /* hero — per-tier leaders */
     const tierLeaders = {};
     ['large','medium','small'].forEach(t => {
       const t_models = byQ.filter(m => m.size_category === t);
@@ -703,6 +676,87 @@ document.addEventListener('DOMContentLoaded', async () => {
       </div>`;
   }
 });
+
+(function initReveal() {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('visible');
+      const title = e.target.classList.contains('section-title')
+        ? e.target
+        : e.target.querySelector && e.target.querySelector('.section-title');
+      if (title) title.classList.add('visible');
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal, .section-title').forEach(el => io.observe(el));
+
+  new MutationObserver(() => {
+    document.querySelectorAll('.reveal:not([data-obs]), .section-title:not([data-obs])').forEach(el => {
+      el.setAttribute('data-obs', '1');
+      io.observe(el);
+    });
+  }).observe(document.body, { childList: true, subtree: true });
+})();
+
+function animateCounter(el, target, duration) {
+  if (!el || isNaN(+target)) return;
+  const t0 = performance.now();
+  el.classList.add('counting');
+  (function step(now) {
+    const p     = Math.min((now - t0) / duration, 1);
+    const eased = 1 - (1 - p) * (1 - p);
+    el.textContent = Math.round(target * eased);
+    if (p < 1) requestAnimationFrame(step);
+    else el.textContent = target;
+  })(t0);
+}
+
+const _origBuildQuality = buildQualityBoard;
+window.buildQualityBoard = function(results) {
+  _origBuildQuality(results);
+  setTimeout(function() {
+    const fastest = Math.round(Math.max.apply(null, results.map(function(r){ return r.raw_speed || 0; })));
+    const quality = Math.round(Math.max.apply(null, results.map(function(r){ return r.quality_score || 0; })));
+    animateCounter(document.getElementById('stat-models'),  results.length, 900);
+    animateCounter(document.getElementById('stat-fastest'), fastest, 1100);
+    animateCounter(document.getElementById('stat-quality'), quality, 1000);
+  }, 320);
+  
+  ['large','medium','small'].forEach(function(t) {
+    var container = document.getElementById('quality-board-' + t);
+    if (!container) return;
+    container.querySelectorAll('.model-card').forEach(function(card, i) {
+      card.style.animationDelay = (i * 0.055) + 's';
+    });
+  });
+};
+
+const _origBuildSpeed = buildSpeedBoard;
+window.buildSpeedBoard = function(results) {
+  _origBuildSpeed(results);
+  ['large','medium','small'].forEach(function(t) {
+    var container = document.getElementById('speed-board-' + t);
+    if (!container) return;
+    container.querySelectorAll('.model-card').forEach(function(card, i) {
+      card.style.animationDelay = (i * 0.055) + 's';
+    });
+  });
+};
+
+document.addEventListener('click', function(e) {
+  var card = e.target.closest('.model-card');
+  if (!card || e.target.closest('button')) return;
+  var rect   = card.getBoundingClientRect();
+  var circle = document.createElement('span');
+  circle.className = 'ripple-circle';
+  circle.style.left = (e.clientX - rect.left) + 'px';
+  circle.style.top  = (e.clientY - rect.top)  + 'px';
+  card.appendChild(circle);
+  circle.addEventListener('animationend', function(){ circle.remove(); }, { once: true });
+});
+
 </script>
 
 </body>
