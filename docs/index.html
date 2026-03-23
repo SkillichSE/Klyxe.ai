@@ -574,12 +574,14 @@ function openCompare() {
 }
 
 document.getElementById('compare-go').addEventListener('click', openCompare);
+document.getElementById('compare-clear').addEventListener('click', () => {
   compareMap.clear();
   document.querySelectorAll('.cmp-chip').forEach(b => {
     b.classList.remove('selected');
     b.textContent = '+ Compare';
   });
   document.getElementById('compare-bar').classList.remove('visible');
+  document.getElementById('compare-count').textContent = '0 selected';
 });
 document.getElementById('dialog-close').addEventListener('click', () =>
   document.getElementById('dialog-scrim').classList.remove('open'));
