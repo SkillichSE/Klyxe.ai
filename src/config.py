@@ -1,14 +1,9 @@
-THINKING_MODELS = {
-    "qwen/qwen3-32b",
-    "qwen/qwen3-4b:free",
-    "qwen/qwen3-coder:free",
-    "qwen/qwen3-next-80b-a3b-instruct:free",
-    "qwen-3-32b",
-    "liquid/lfm-2.5-1.2b-thinking:free",
-}
+# ModelLens — Model configuration
+# Last verified: March 2026
 
 MODELS = {
     "groq": {
+        # ── Production models (stable, no deprecation planned) ─────────────
         "llama-3.1-8b": {
             "id": "llama-3.1-8b-instant",
             "name": "Llama 3.1 8B Instant",
@@ -33,6 +28,7 @@ MODELS = {
             "provider": "Groq", "size": "20B",
             "size_category": "medium", "context": "131k"
         },
+        # ── Preview models (for eval, may change) ──────────────────────────
         "llama-4-scout": {
             "id": "meta-llama/llama-4-scout-17b-16e-instruct",
             "name": "Llama 4 Scout 17B",
@@ -43,8 +39,7 @@ MODELS = {
             "id": "qwen/qwen3-32b",
             "name": "Qwen 3 32B",
             "provider": "Groq", "size": "32B",
-            "size_category": "medium", "context": "32k",
-            "thinking": True
+            "size_category": "medium", "context": "32k"
         },
         "kimi-k2": {
             "id": "moonshotai/kimi-k2-instruct",
@@ -55,6 +50,10 @@ MODELS = {
     },
 
     "openrouter": {
+        # Verified working March 2026 via API probe
+        # ERR latin-1 = Windows encoding issue only, work fine on Linux/GitHub Actions
+
+        # ── NVIDIA ────────────────────────────────────────────────────────
         "nemotron-super-120b": {
             "id": "nvidia/nemotron-3-super-120b-a12b:free",
             "name": "Nemotron 3 Super 120B",
@@ -79,6 +78,8 @@ MODELS = {
             "provider": "OpenRouter", "size": "9B",
             "size_category": "small", "context": "128k"
         },
+
+        # ── Arcee ─────────────────────────────────────────────────────────
         "trinity-large": {
             "id": "arcee-ai/trinity-large-preview:free",
             "name": "Trinity Large 400B",
@@ -91,12 +92,16 @@ MODELS = {
             "provider": "OpenRouter", "size": "26B",
             "size_category": "medium", "context": "131k"
         },
+
+        # ── StepFun ───────────────────────────────────────────────────────
         "step-3.5-flash": {
             "id": "stepfun/step-3.5-flash:free",
             "name": "Step 3.5 Flash 196B",
             "provider": "OpenRouter", "size": "196B",
             "size_category": "large", "context": "256k"
         },
+
+        # ── Google Gemma ──────────────────────────────────────────────────
         "gemma-3-27b": {
             "id": "google/gemma-3-27b-it:free",
             "name": "Gemma 3 27B",
@@ -127,6 +132,8 @@ MODELS = {
             "provider": "OpenRouter", "size": "2B",
             "size_category": "small", "context": "8k"
         },
+
+        # ── Liquid AI ─────────────────────────────────────────────────────
         "lfm-2.5-instruct": {
             "id": "liquid/lfm-2.5-1.2b-instruct:free",
             "name": "LFM 2.5 1.2B Instruct",
@@ -137,9 +144,10 @@ MODELS = {
             "id": "liquid/lfm-2.5-1.2b-thinking:free",
             "name": "LFM 2.5 1.2B Thinking",
             "provider": "OpenRouter", "size": "1.2B",
-            "size_category": "small", "context": "32k",
-            "thinking": True
+            "size_category": "small", "context": "32k"
         },
+
+        # ── ERR latin-1 on Windows = work fine on Linux ───────────────────
         "llama-3.3-70b": {
             "id": "meta-llama/llama-3.3-70b-instruct:free",
             "name": "Llama 3.3 70B",
@@ -156,22 +164,19 @@ MODELS = {
             "id": "qwen/qwen3-coder:free",
             "name": "Qwen3 Coder 480B",
             "provider": "OpenRouter", "size": "480B",
-            "size_category": "large", "context": "262k",
-            "thinking": True
+            "size_category": "large", "context": "262k"
         },
         "qwen3-next-80b": {
             "id": "qwen/qwen3-next-80b-a3b-instruct:free",
             "name": "Qwen3 Next 80B",
             "provider": "OpenRouter", "size": "80B",
-            "size_category": "large", "context": "262k",
-            "thinking": True
+            "size_category": "large", "context": "262k"
         },
         "qwen3-4b": {
             "id": "qwen/qwen3-4b:free",
             "name": "Qwen 3 4B",
             "provider": "OpenRouter", "size": "4B",
-            "size_category": "small", "context": "41k",
-            "thinking": True
+            "size_category": "small", "context": "41k"
         },
         "mistral-small-3.1": {
             "id": "mistralai/mistral-small-3.1-24b-instruct:free",
@@ -200,6 +205,7 @@ MODELS = {
     },
 
     "cerebras": {
+        # Free tier, extremely fast inference
         "llama-3.1-8b": {
             "id": "llama3.1-8b",
             "name": "Llama 3.1 8B",
@@ -210,18 +216,106 @@ MODELS = {
             "id": "llama-3.3-70b",
             "name": "Llama 3.3 70B",
             "provider": "Cerebras", "size": "70B",
-            "size_category": "large", "context": "131k",
-            "disabled": True
+            "size_category": "large", "context": "131k"
         },
         "qwen3-32b": {
             "id": "qwen-3-32b",
             "name": "Qwen 3 32B",
             "provider": "Cerebras", "size": "32B",
-            "size_category": "medium", "context": "131k",
-            "disabled": True,
-            "thinking": True
+            "size_category": "medium", "context": "131k"
         },
     },
+
+    "together": {
+        # Free models (suffix -Free or -Free-Turbo)
+        "llama-3.3-70b": {
+            "id": "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free",
+            "name": "Llama 3.3 70B",
+            "provider": "Together", "size": "70B",
+            "size_category": "large", "context": "131k"
+        },
+        "llama-3.2-3b": {
+            "id": "meta-llama/Llama-3.2-3B-Instruct-Turbo-Free",
+            "name": "Llama 3.2 3B",
+            "provider": "Together", "size": "3B",
+            "size_category": "small", "context": "131k"
+        },
+        "deepseek-r1-free": {
+            "id": "deepseek-ai/DeepSeek-R1-Free",
+            "name": "DeepSeek R1",
+            "provider": "Together", "size": "671B",
+            "size_category": "large", "context": "32k"
+        },
+    },
+
+    "google": {
+        # Free tier via Google AI Studio (GOOGLE_API_KEY)
+        "gemini-2.0-flash": {
+            "id": "gemini-2.0-flash",
+            "name": "Gemini 2.0 Flash",
+            "provider": "Google", "size": "N/A",
+            "size_category": "medium", "context": "1048k"
+        },
+        "gemini-2.0-flash-lite": {
+            "id": "gemini-2.0-flash-lite",
+            "name": "Gemini 2.0 Flash Lite",
+            "provider": "Google", "size": "N/A",
+            "size_category": "small", "context": "1048k"
+        },
+        "gemini-2.5-flash": {
+            "id": "gemini-2.5-flash-preview-04-17",
+            "name": "Gemini 2.5 Flash",
+            "provider": "Google", "size": "N/A",
+            "size_category": "large", "context": "1048k"
+        },
+        "gemma-3-27b-google": {
+            "id": "gemma-3-27b-it",
+            "name": "Gemma 3 27B (Google)",
+            "provider": "Google", "size": "27B",
+            "size_category": "medium", "context": "131k"
+        },
+    },
+
+    "sambanova": {
+        # Free tier — SAMBANOVA_API_KEY — extremely fast inference
+        "llama-4-maverick": {
+            "id": "Meta-Llama-4-Maverick-17B-128E-Instruct",
+            "name": "Llama 4 Maverick 17B",
+            "provider": "SambaNova", "size": "17B",
+            "size_category": "medium", "context": "131k"
+        },
+        "llama-4-scout-sn": {
+            "id": "Meta-Llama-4-Scout-17B-16E-Instruct",
+            "name": "Llama 4 Scout 17B",
+            "provider": "SambaNova", "size": "17B",
+            "size_category": "medium", "context": "131k"
+        },
+        "llama-3.3-70b-sn": {
+            "id": "Meta-Llama-3.3-70B-Instruct",
+            "name": "Llama 3.3 70B",
+            "provider": "SambaNova", "size": "70B",
+            "size_category": "large", "context": "131k"
+        },
+        "llama-3.1-405b-sn": {
+            "id": "Meta-Llama-3.1-405B-Instruct",
+            "name": "Llama 3.1 405B",
+            "provider": "SambaNova", "size": "405B",
+            "size_category": "large", "context": "16k"
+        },
+        "deepseek-r1-sn": {
+            "id": "DeepSeek-R1",
+            "name": "DeepSeek R1",
+            "provider": "SambaNova", "size": "671B",
+            "size_category": "large", "context": "32k"
+        },
+        "qwen3-32b-sn": {
+            "id": "Qwen3-32B",
+            "name": "Qwen 3 32B",
+            "provider": "SambaNova", "size": "32B",
+            "size_category": "medium", "context": "131k"
+        },
+    },
+
 }
 
 TESTS = {
@@ -308,5 +402,9 @@ TESTS = {
 
 RATE_LIMITS = {
     "groq": 30,
-    "openrouter": 8
+    "openrouter": 8,
+    "google": 4,
+    "sambanova": 2,
+    "cerebras": 1,
+    "together": 2,
 }
