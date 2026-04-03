@@ -1,20 +1,76 @@
 {
-  "updated": "2026-04-02T06:20:21.240119+00:00",
+  "updated": "2026-04-03T05:52:58.330747+00:00",
   "count": 30,
   "items": [
+    {
+      "title": "Accelerating Vision AI Pipelines with Batch Mode VC-6 and NVIDIA Nsight",
+      "link": "https://developer.nvidia.com/blog/accelerating-vision-ai-pipelines-with-batch-mode-vc-6-and-nvidia-nsight/",
+      "date": "2026-04-02T20:00:00Z",
+      "source": "NVIDIA Developer",
+      "summary": "In vision AI systems, model throughput continues to improve. The surrounding pipeline stages must keep pace, including decode, preprocessing, and GPU..."
+    },
+    {
+      "title": "Bringing AI Closer to the Edge and On-Device with Gemma 4",
+      "link": "https://developer.nvidia.com/blog/bringing-ai-closer-to-the-edge-and-on-device-with-gemma-4/",
+      "date": "2026-04-02T16:27:46Z",
+      "source": "NVIDIA Developer",
+      "summary": "The Gemmaverse expands with the launch of the latest Gemma 4 multimodal and multilingual models, designed to scale across the full spectrum of deployments, from..."
+    },
+    {
+      "title": "Achieving Single-Digit Microsecond Latency Inference for Capital Markets",
+      "link": "https://developer.nvidia.com/blog/achieving-single-digit-microsecond-latency-inference-for-capital-markets/",
+      "date": "2026-04-02T16:00:00Z",
+      "source": "NVIDIA Developer",
+      "summary": "In algorithmic trading, reducing response times to market events is crucial. To keep pace with high-speed electronic markets, latency-sensitive firms often use..."
+    },
+    {
+      "title": "New ways to balance cost and reliability in the Gemini API",
+      "link": "https://blog.google/innovation-and-ai/technology/developers-tools/introducing-flex-and-priority-inference/",
+      "date": "2026-04-02T16:00:00+00:00",
+      "source": "Google AI Blog",
+      "summary": "Gemini API Dials"
+    },
+    {
+      "title": "Scaling seismic foundation models on AWS: Distributed training with Amazon SageMaker HyperPod and expanding context windows",
+      "link": "https://aws.amazon.com/blogs/machine-learning/scaling-seismic-foundation-models-on-aws-distributed-training-with-amazon-sagemaker-hyperpod-and-expanding-context-windows/",
+      "date": "2026-04-02T13:30:57+00:00",
+      "source": "AWS ML Blog",
+      "summary": "This post describes how TGS achieved near-linear scaling for distributed training and expanded context windows for their Vision Transformer-based SFM using Amazon SageMaker HyperPod. This joint solution cut training time from 6 months to just 5 days while enabling analysis of sei"
+    },
+    {
+      "title": "Rocket Close transforms mortgage document processing with Amazon Bedrock and Amazon Textract",
+      "link": "https://aws.amazon.com/blogs/machine-learning/rocket-close-transforms-mortgage-document-processing-with-amazon-bedrock-and-amazon-textract/",
+      "date": "2026-04-02T12:59:31+00:00",
+      "source": "AWS ML Blog",
+      "summary": "Through a strategic partnership with the AWS Generative AI Innovation Center (GenAIIC), Rocket Close developed an intelligent document processing solution that has significantly reduced processing time, making the process 15 times faster. The solution, which uses Amazon Textract "
+    },
+    {
+      "title": "OpenAI acquires TBPN",
+      "link": "https://openai.com/index/openai-acquires-tbpn",
+      "date": "2026-04-02T10:30:00+00:00",
+      "source": "OpenAI",
+      "summary": "OpenAI acquires TBPN to accelerate global conversations around AI and support independent media, expanding dialogue with builders, businesses, and the broader tech community."
+    },
+    {
+      "title": "Codex now offers more flexible pricing for teams",
+      "link": "https://openai.com/index/codex-flexible-pricing-for-teams",
+      "date": "2026-04-02T10:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Codex now includes pay-as-you-go pricing for ChatGPT Business and Enterprise, providing teams a more flexible option to start and scale adoption."
+    },
+    {
+      "title": "Welcome Gemma 4: Frontier multimodal intelligence on device",
+      "link": "https://huggingface.co/blog/gemma4",
+      "date": "2026-04-02T00:00:00+00:00",
+      "source": "Hugging Face",
+      "summary": ""
+    },
     {
       "title": "Holo3: Breaking the Computer Use Frontier",
       "link": "https://huggingface.co/blog/Hcompany/holo3",
       "date": "2026-04-01T16:36:15+00:00",
       "source": "Hugging Face",
       "summary": ""
-    },
-    {
-      "title": "CUDA Tile Programming Now Available for BASIC!",
-      "link": "https://developer.nvidia.com/blog/cuda-tile-programming-now-available-for-basic/",
-      "date": "2026-04-01T16:00:00Z",
-      "source": "NVIDIA Developer",
-      "summary": "CUDA 13.1 introduced CUDA Tile, a next generation tile-based GPU programming paradigm designed to make fine-grained parallelism more accessible and flexible...."
     },
     {
       "title": "NVIDIA Extreme Co-Design Delivers New MLPerf Inference Records",
@@ -155,62 +211,6 @@
       "date": "2026-03-27T00:00:00+00:00",
       "source": "Hugging Face",
       "summary": ""
-    },
-    {
-      "title": "Run Generative AI inference with Amazon Bedrock in Asia Pacific (New Zealand)",
-      "link": "https://aws.amazon.com/blogs/machine-learning/run-generative-ai-inference-with-amazon-bedrock-in-asia-pacific-new-zealand/",
-      "date": "2026-03-26T23:08:53+00:00",
-      "source": "AWS ML Blog",
-      "summary": "Today, we\u2019re excited to announce that Amazon Bedrock is now available in the Asia Pacific (New Zealand) Region (ap-southeast-6). Customers in New Zealand can now access Anthropic Claude models (Claude Opus 4.5, Opus 4.6, Sonnet 4.5, Sonnet 4.6, and Haiku 4.5) and Amazon (Nova 2 L"
-    },
-    {
-      "title": "Building age-responsive, context-aware AI with Amazon Bedrock Guardrails",
-      "link": "https://aws.amazon.com/blogs/machine-learning/building-age-responsive-context-aware-ai-with-amazon-bedrock-guardrails/",
-      "date": "2026-03-26T17:26:23+00:00",
-      "source": "AWS ML Blog",
-      "summary": "In this post, we walk you through how to implement a fully automated, context-aware AI solution using a serverless architecture on AWS. This solution helps organizations looking to deploy responsible AI systems, align with compliance requirements for vulnerable populations, and h"
-    },
-    {
-      "title": "Accelerating LLM fine-tuning with unstructured data using SageMaker Unified Studio and S3",
-      "link": "https://aws.amazon.com/blogs/machine-learning/accelerating-llm-fine-tuning-with-unstructured-data-using-sagemaker-unified-studio-and-s3/",
-      "date": "2026-03-26T17:20:26+00:00",
-      "source": "AWS ML Blog",
-      "summary": "Last year, AWS announced an integration between Amazon SageMaker Unified Studio and Amazon S3 general purpose buckets. This integration makes it straightforward for teams to use unstructured data stored in Amazon Simple Storage Service (Amazon S3) for machine learning (ML) and da"
-    },
-    {
-      "title": "Introducing Amazon Polly Bidirectional Streaming: Real-time speech synthesis for conversational AI",
-      "link": "https://aws.amazon.com/blogs/machine-learning/introducing-amazon-polly-bidirectional-streaming-real-time-speech-synthesis-for-conversational-ai/",
-      "date": "2026-03-26T17:10:20+00:00",
-      "source": "AWS ML Blog",
-      "summary": "Today, we\u2019re excited to announce the new Bidirectional Streaming API for Amazon Polly, enabling streamlined real-time text-to-speech (TTS) synthesis where you can start sending text and receiving audio simultaneously. This new API is built for conversational AI applications that "
-    },
-    {
-      "title": "Watch James Manyika talk AI and creativity with LL COOL J.",
-      "link": "https://blog.google/innovation-and-ai/technology/ai/ll-cool-j-dialogues/",
-      "date": "2026-03-26T17:00:00+00:00",
-      "source": "Google AI Blog",
-      "summary": "In the latest episode of our Dialogues on Technology and Society series, LL COOL J sits down with James Manyika."
-    },
-    {
-      "title": "Gemini 3.1 Flash Live: Making audio AI more natural and reliable",
-      "link": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-flash-live/",
-      "date": "2026-03-26T15:21:00+00:00",
-      "source": "Google AI Blog",
-      "summary": "The Gemini emblem sits next to text reading 'Gemini 3.1 Flash Live'. The background has blue, multicolored dots making up a microphone icon"
-    },
-    {
-      "title": "Plan, divide, and conquer: How weak models excel at long context tasks",
-      "link": "https://www.together.ai/blog/plan-divide-conquer",
-      "date": "2026-03-26T00:00:00+00:00",
-      "source": "Together AI",
-      "summary": "As context windows grow, LLM performance degrades in unexpected ways. We show how a \"Divide & Conquer\" framework \u2014 breaking long documents into parallel chunks with a planner, workers, and manager \u2014 lets smaller models like Llama-3-70B and Qwen-72B outperform GPT-4o single-shot."
-    },
-    {
-      "title": "Unlocking video insights at scale with Amazon Bedrock multimodal models",
-      "link": "https://aws.amazon.com/blogs/machine-learning/unlocking-video-insights-at-scale-with-amazon-bedrock-multimodal-models/",
-      "date": "2026-03-25T18:57:15+00:00",
-      "source": "AWS ML Blog",
-      "summary": "In this post, we explore how the multimodal foundation models (FMs) of Amazon Bedrock enable scalable video understanding through three distinct architectural approaches. Each approach is designed for different use cases and cost-performance trade-offs."
     }
   ]
 }
