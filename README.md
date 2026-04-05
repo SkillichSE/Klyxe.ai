@@ -1,6 +1,6 @@
 # Lexentia Proof
 
-**[skillichse.github.io/Lexentia Proof](https://skillichse.github.io/Lexentia Proof)**
+**[skillichse.github.io/Lexentia Proof](https://skillichse.github.io/Lexentia-Proof)**
 
 Free AI models, ranked every day. 
 
