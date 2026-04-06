@@ -1,3 +1,4 @@
 delete metholodgy and replace links
 remove garbage
 redo tests
+json refactor
