@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="style-spacing.css">
   <link rel="stylesheet" href="animations.css">
   <style>
-    /* ── Page layout ── */
+    /* Page layout */
     .model-hero {
       background: var(--color-surf-cont-low);
       border-bottom: 1px solid var(--color-outline-var);
@@ -78,7 +78,7 @@
     .hero-score-chip.chip-quality .chip-val { color: var(--color-primary); }
     .hero-score-chip.chip-speed   .chip-val { color: #0b8043; }
 
-    /* ── Content grid ── */
+    /* Content grid */
     .detail-container {
       max-width: 900px;
       margin: 0 auto;
@@ -96,7 +96,7 @@
     }
     .section-heading:first-child { margin-top: 0; }
 
-    /* ── Test category card ── */
+    /* Test category card */
     .test-category {
       background: var(--color-surf-cont-low);
       border: 1px solid var(--color-outline-var);
@@ -152,7 +152,7 @@
     }
     .test-category.open .chevron { transform: rotate(180deg); }
 
-    /* ── Score bar mini ── */
+    /* Score bar mini */
     .cat-bar-wrap {
       width: 80px;
       height: 6px;
@@ -169,7 +169,7 @@
     .cat-bar-fill.fail    { background: var(--color-error); }
     .cat-bar-fill.partial { background: #e65100; }
 
-    /* ── Test details body ── */
+    /* Test details body */
     .test-body {
       display: none;
       padding: 0 20px 20px;
@@ -177,7 +177,7 @@
     }
     .test-category.open .test-body { display: block; }
 
-    /* ── Individual test item ── */
+    /* Individual test item */
     .test-item {
       background: var(--color-surf-cont);
       border-radius: 12px;
@@ -212,7 +212,7 @@
     [data-theme="dark"] .pass-badge.fail    { background: #370c0b; color: #f28b82; }
     [data-theme="dark"] .pass-badge.partial { background: #3e2400; color: #ffb74d; }
 
-    /* ── Q&A prompt/answer boxes ── */
+    /* Q&A prompt/answer boxes */
     .qa-block { margin-top: 10px; }
     .qa-label {
       font-size: 11px;
@@ -236,7 +236,7 @@
     .qa-box.answer-box { border-left-color: var(--color-primary); }
     .qa-box.wrong-box  { border-left-color: var(--color-error); }
 
-    /* ── Code test cases table ── */
+    /* Code test cases table */
     .cases-table {
       width: 100%;
       border-collapse: collapse;
@@ -271,7 +271,7 @@
       color: var(--color-on-surface);
     }
 
-    /* ── Speed section ── */
+    /* Speed section */
     .speed-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -298,7 +298,7 @@
     }
     .speed-item-unit { font-size: 13px; font-weight: 400; color: var(--text-tertiary); }
 
-    /* ── Translation result ── */
+    /* Translation result */
     .trans-item {
       display: flex;
       align-items: center;
@@ -311,7 +311,7 @@
     .trans-direction { font-size: 13px; font-weight: 500; color: var(--color-on-surface); }
     .trans-detail { font-size: 12px; color: var(--text-tertiary); margin-top: 2px; }
 
-    /* ── Summary table ── */
+    /* Summary table */
     .summary-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -340,7 +340,7 @@
       margin-top: 4px;
     }
 
-    /* ── Loading / error ── */
+    /* Loading / error */
     .page-loading {
       text-align: center;
       padding: 80px 24px;
@@ -353,7 +353,7 @@
     }
     .page-error h2 { color: var(--color-error); margin-bottom: 8px; }
 
-    /* ── Instruction details ── */
+    /* Instruction details */
     .instr-item {
       padding: 10px 0;
       border-bottom: 1px solid var(--color-outline-var);
@@ -398,7 +398,7 @@
 </div>
 
 <script>
-// ── Theme ──
+// Theme
 (function(){
   var themeToggle = document.getElementById('theme-toggle');
   var themeLabel  = document.getElementById('theme-label');
@@ -418,7 +418,7 @@
   });
 })();
 
-// ── Helpers ──
+// Helpers
 function esc(str) {
   return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
@@ -433,7 +433,7 @@ function passBadge(passed, total) {
   return '<span class="pass-badge ' + cls + '">' + passed + '/' + total + ' passed</span>';
 }
 
-// ── Prompt definitions (matching the benchmark workflow) ──
+// Prompt definitions (matching the benchmark workflow)
 var PROMPTS = {
   code: {
     prime:      'Write a Python function called <code>is_prime(n)</code> that returns <code>True</code> if n is prime, <code>False</code> otherwise.',
@@ -494,7 +494,7 @@ var INSTR_CHECK = {
   word_count: function(d){ return 'Check: count sentences · found ' + d.found + ', expected ' + d.expected; }
 };
 
-// ── Render functions ──
+// Render functions
 function renderCodeSection(tests) {
   if (!tests.code || !tests.code.details) return '';
   var details = tests.code.details;
@@ -658,7 +658,7 @@ function toggleCat(header) {
   card.classList.toggle('open');
 }
 
-// ── Main render ──
+// Main render
 function renderPage(model) {
   var t = model.tests;
   document.title = model.model_name + ' — Lexentia Proof';
@@ -698,7 +698,7 @@ function renderPage(model) {
   document.getElementById('page-root').innerHTML = heroHtml + sectionsHtml;
 }
 
-// ── Load data ──
+// Load data
 var params  = new URLSearchParams(window.location.search);
 var modelId = params.get('id');
 
