@@ -124,7 +124,7 @@ h1,h2,h3 { font-family: var(--font-sans); font-weight: 600; line-height: 1.2; co
   margin-right: 8px;
   flex-shrink: 0;
 }
-.logo-icon { height: 28px; width: auto; display: block; }
+.logo-icon { height: 28px; width: 28px; object-fit: contain; display: block; flex-shrink: 0; }
 .nav { display: flex; align-items: center; flex: 1; }
 .nav-link {
   position: relative;
