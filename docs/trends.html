@@ -14,7 +14,7 @@
   <style>
     .trends-hero{background:transparent;border-bottom:1px solid var(--border);padding:28px 0 20px;}
     .trends-hero-inner{max-width:1440px;margin:0 auto;padding:0 48px;}
-    .trends-hero-title{font-family:var(--font-sans);font-size:28px;font-weight:700;color:var(--text-primary);letter-spacing:-0.03em;margin-bottom:6px;}
+    .trends-hero-title{font-family:var(--font-sans);font-size:28px;font-weight:700;color:var(--text-primary);letter-spacing:-0.03em;margin:0 0 6px 0;}
     .trends-hero-sub{font-size:13px;color:var(--text-secondary);max-width:560px;line-height:1.6;}
     .chart-section{margin-bottom:32px;}
     .chart-title{font-size:15px;font-weight:700;color:var(--text-primary);margin-bottom:4px;}
@@ -245,6 +245,28 @@ function buildTier(tier, models){
 
   var io=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}});},{threshold:0.07});
   el.querySelectorAll('.reveal').forEach(function(r){io.observe(r);});
+}
+
+function loadData(){
+  fetch('data/results/leaderboard_speed.json')
+    .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
+    .then(function(all){
+      var byTier={large:[],medium:[],small:[]};
+      all.forEach(function(m){
+        var t=m.tier||m.size_category||'medium';
+        if(t==='unknown')t='medium';
+        if(byTier[t])byTier[t].push(m);
+        else byTier.medium.push(m);
+      });
+      ['large','medium','small'].forEach(function(t){buildTier(t,byTier[t]);});
+    })
+    .catch(function(e){
+      console.error('loadData error:',e);
+      ['large','medium','small'].forEach(function(t){
+        var el=document.getElementById('tier-'+t);
+        if(el)el.innerHTML='<div class="no-data">Failed to load data. Please refresh.</div>';
+      });
+    });
 }
 
 document.addEventListener('DOMContentLoaded',loadData);

@@ -59,7 +59,7 @@ body {
   background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
 }
-h1,h2,h3 { font-family: var(--font-sans); font-weight: 600; line-height: 1.2; color: var(--text-primary); }
+h1,h2,h3 { font-family: var(--font-sans); font-weight: 600; line-height: 1.2; color: var(--text-primary); margin: 0; }
 
 /* header */
 .header {
@@ -1005,7 +1005,7 @@ h1,h2,h3 { font-family: var(--font-sans); font-weight: 600; line-height: 1.2; co
   font-weight: 700;
   color: var(--text-primary);
   letter-spacing: -0.03em;
-  margin-bottom: 6px;
+  margin: 0 0 6px 0;
 }
 .page-hero-sub {
   font-size: 13px;
