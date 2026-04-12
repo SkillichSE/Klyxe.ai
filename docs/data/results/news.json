@@ -1,125 +1,13 @@
 {
-  "updated": "2026-04-11T05:41:00.507283+00:00",
+  "updated": "2026-04-12T06:52:45.415295+00:00",
   "count": 30,
   "items": [
     {
-      "title": "Using custom GPTs",
-      "link": "https://openai.com/academy/custom-gpts",
-      "date": "2026-04-10T00:00:00+00:00",
-      "source": "OpenAI",
-      "summary": "Learn how to build and use custom GPTs to automate workflows, maintain consistent outputs, and create purpose-built AI assistants."
-    },
-    {
-      "title": "ChatGPT for customer success teams",
-      "link": "https://openai.com/academy/customer-success",
-      "date": "2026-04-10T00:00:00+00:00",
-      "source": "OpenAI",
-      "summary": "Learn how customer success teams use ChatGPT to manage accounts, improve communication, reduce churn, and drive adoption and renewals."
-    },
-    {
-      "title": "Applications of AI at OpenAI",
-      "link": "https://openai.com/academy/applications-of-ai",
-      "date": "2026-04-10T00:00:00+00:00",
-      "source": "OpenAI",
-      "summary": "Explore how OpenAI products like ChatGPT, Codex, and APIs bring AI into real-world use for work, development, and everyday tasks."
-    },
-    {
-      "title": "Research with ChatGPT",
-      "link": "https://openai.com/academy/search-and-deep-research",
-      "date": "2026-04-10T00:00:00+00:00",
-      "source": "OpenAI",
-      "summary": "Learn how to research with ChatGPT using search and deep research to find up-to-date information, analyze sources, and generate structured insights."
-    },
-    {
-      "title": "Analyzing data with ChatGPT",
-      "link": "https://openai.com/academy/data-analysis",
-      "date": "2026-04-10T00:00:00+00:00",
-      "source": "OpenAI",
-      "summary": "Learn how to analyze data with ChatGPT by exploring datasets, generating insights, creating visualizations, and turning findings into actionable decisions."
-    },
-    {
-      "title": "Financial services",
-      "link": "https://openai.com/academy/financial-services",
-      "date": "2026-04-10T00:00:00+00:00",
-      "source": "OpenAI",
-      "summary": "Explore AI resources for financial services, including prompt packs, GPTs, guides, and tools to help institutions deploy and scale AI securely."
-    },
-    {
-      "title": "Responsible and safe use of AI",
-      "link": "https://openai.com/academy/responsible-and-safe-use",
-      "date": "2026-04-10T00:00:00+00:00",
-      "source": "OpenAI",
-      "summary": "Learn how to use AI responsibly with best practices for safety, accuracy, and transparency when using tools like ChatGPT."
-    },
-    {
-      "title": "Writing with ChatGPT",
-      "link": "https://openai.com/academy/writing",
-      "date": "2026-04-10T00:00:00+00:00",
-      "source": "OpenAI",
-      "summary": "Learn how to use ChatGPT for writing to draft, revise, and refine content with clear structure, tone, and intent."
-    },
-    {
-      "title": "ChatGPT for research",
-      "link": "https://openai.com/academy/research",
-      "date": "2026-04-10T00:00:00+00:00",
-      "source": "OpenAI",
-      "summary": "Learn how to use ChatGPT for research to gather sources, analyze information, and create structured, citation-backed insights."
-    },
-    {
-      "title": "Creating images with ChatGPT",
-      "link": "https://openai.com/academy/image-generation",
-      "date": "2026-04-10T00:00:00+00:00",
-      "source": "OpenAI",
-      "summary": "Learn how to create and refine images with ChatGPT using clear prompts, iterate on designs, and generate high-quality visuals in minutes."
-    },
-    {
-      "title": "Personalizing ChatGPT",
-      "link": "https://openai.com/academy/personalization",
-      "date": "2026-04-10T00:00:00+00:00",
-      "source": "OpenAI",
-      "summary": "Learn how to personalize ChatGPT using custom instructions and memory to get more relevant, consistent, and tailored responses."
-    },
-    {
-      "title": "ChatGPT for finance teams",
-      "link": "https://openai.com/academy/finance",
-      "date": "2026-04-10T00:00:00+00:00",
-      "source": "OpenAI",
-      "summary": "Learn how finance teams use ChatGPT to streamline reporting, analyze data, improve forecasts, and communicate insights more clearly."
-    },
-    {
-      "title": "Getting started with ChatGPT",
-      "link": "https://openai.com/academy/getting-started",
-      "date": "2026-04-10T00:00:00+00:00",
-      "source": "OpenAI",
-      "summary": "Learn how to use ChatGPT, start your first conversation, and discover simple ways to write, brainstorm, and solve problems with AI."
-    },
-    {
-      "title": "Working with files in ChatGPT",
-      "link": "https://openai.com/academy/working-with-files",
-      "date": "2026-04-10T00:00:00+00:00",
-      "source": "OpenAI",
-      "summary": "Learn how to upload and work with files in ChatGPT to analyze data, summarize documents, and generate content from PDFs, spreadsheets, and more."
-    },
-    {
-      "title": "ChatGPT for sales teams",
-      "link": "https://openai.com/academy/sales",
-      "date": "2026-04-10T00:00:00+00:00",
-      "source": "OpenAI",
-      "summary": "Learn how sales teams use ChatGPT to research accounts, personalize outreach, manage deals, and improve pipeline and conversion."
-    },
-    {
-      "title": "Prompting fundamentals",
-      "link": "https://openai.com/academy/prompting",
-      "date": "2026-04-10T00:00:00+00:00",
-      "source": "OpenAI",
-      "summary": "Learn prompting fundamentals and how to write clear, effective prompts to get better, more useful responses from ChatGPT."
-    },
-    {
-      "title": "ChatGPT for managers",
-      "link": "https://openai.com/academy/managers",
-      "date": "2026-04-10T00:00:00+00:00",
-      "source": "OpenAI",
-      "summary": "Learn how managers use ChatGPT to prepare for conversations, write clear feedback, stay organized, and improve team effectiveness."
+      "title": "MiniMax M2.7\u00a0Advances\u00a0Scalable Agentic Workflows on\u00a0NVIDIA Platforms for Complex AI Applications",
+      "link": "https://developer.nvidia.com/blog/minimax-m2-7-advances-scalable-agentic-workflows-on-nvidia-platforms-for-complex-ai-applications/",
+      "date": "2026-04-12T01:02:44Z",
+      "source": "NVIDIA Developer",
+      "summary": "The release of&nbsp;MiniMax M2.7&nbsp;adds enhancements to the popular&nbsp;MiniMax&nbsp;M2.5 model,&nbsp;built for agentic harnesses,..."
     },
     {
       "title": "Using projects in ChatGPT",
@@ -136,11 +24,130 @@
       "summary": "Learn how marketing teams use ChatGPT to plan campaigns, generate content, analyze performance, and move from ideas to execution faster."
     },
     {
-      "title": "Brainstorming with ChatGPT",
-      "link": "https://openai.com/academy/brainstorming",
+      "title": "Our response to the Axios developer tool compromise",
+      "link": "https://openai.com/index/axios-developer-tool-compromise",
       "date": "2026-04-10T00:00:00+00:00",
       "source": "OpenAI",
-      "summary": "Learn how to use ChatGPT to brainstorm ideas, organize thinking, and turn rough concepts into structured, actionable plans."
+      "summary": "OpenAI responds to the Axios supply chain attack by rotating macOS code signing certificates, updating apps, and confirming no user data was compromised."
+    },
+    {
+      "title": "Using custom GPTs",
+      "link": "https://openai.com/academy/custom-gpts",
+      "date": "2026-04-10T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Learn how to build and use custom GPTs to automate workflows, maintain consistent outputs, and create purpose-built AI assistants."
+    },
+    {
+      "title": "Analyzing data with ChatGPT",
+      "link": "https://openai.com/academy/data-analysis",
+      "date": "2026-04-10T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Learn how to analyze data with ChatGPT by exploring datasets, generating insights, creating visualizations, and turning findings into actionable decisions."
+    },
+    {
+      "title": "Writing with ChatGPT",
+      "link": "https://openai.com/academy/writing",
+      "date": "2026-04-10T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Learn how to use ChatGPT for writing to draft, revise, and refine content with clear structure, tone, and intent."
+    },
+    {
+      "title": "ChatGPT for operations teams",
+      "link": "https://openai.com/academy/operations",
+      "date": "2026-04-10T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Learn how operations teams use ChatGPT to streamline workflows, improve coordination, standardize processes, and drive faster execution."
+    },
+    {
+      "title": "ChatGPT for research",
+      "link": "https://openai.com/academy/research",
+      "date": "2026-04-10T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Learn how to use ChatGPT for research to gather sources, analyze information, and create structured, citation-backed insights."
+    },
+    {
+      "title": "Responsible and safe use of AI",
+      "link": "https://openai.com/academy/responsible-and-safe-use",
+      "date": "2026-04-10T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Learn how to use AI responsibly with best practices for safety, accuracy, and transparency when using tools like ChatGPT."
+    },
+    {
+      "title": "Prompting fundamentals",
+      "link": "https://openai.com/academy/prompting",
+      "date": "2026-04-10T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Learn prompting fundamentals and how to write clear, effective prompts to get better, more useful responses from ChatGPT."
+    },
+    {
+      "title": "Research with ChatGPT",
+      "link": "https://openai.com/academy/search-and-deep-research",
+      "date": "2026-04-10T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Learn how to research with ChatGPT using search and deep research to find up-to-date information, analyze sources, and generate structured insights."
+    },
+    {
+      "title": "Using skills",
+      "link": "https://openai.com/academy/skills",
+      "date": "2026-04-10T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Learn how to create and use ChatGPT skills to build reusable workflows, automate recurring tasks, and ensure consistent, high-quality outputs."
+    },
+    {
+      "title": "ChatGPT for customer success teams",
+      "link": "https://openai.com/academy/customer-success",
+      "date": "2026-04-10T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Learn how customer success teams use ChatGPT to manage accounts, improve communication, reduce churn, and drive adoption and renewals."
+    },
+    {
+      "title": "Healthcare",
+      "link": "https://openai.com/academy/healthcare",
+      "date": "2026-04-10T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Explore how clinicians use ChatGPT to support diagnosis, documentation, and patient care with secure, HIPAA-compliant AI tools."
+    },
+    {
+      "title": "ChatGPT for managers",
+      "link": "https://openai.com/academy/managers",
+      "date": "2026-04-10T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Learn how managers use ChatGPT to prepare for conversations, write clear feedback, stay organized, and improve team effectiveness."
+    },
+    {
+      "title": "Getting started with ChatGPT",
+      "link": "https://openai.com/academy/getting-started",
+      "date": "2026-04-10T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Learn how to use ChatGPT, start your first conversation, and discover simple ways to write, brainstorm, and solve problems with AI."
+    },
+    {
+      "title": "ChatGPT for finance teams",
+      "link": "https://openai.com/academy/finance",
+      "date": "2026-04-10T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Learn how finance teams use ChatGPT to streamline reporting, analyze data, improve forecasts, and communicate insights more clearly."
+    },
+    {
+      "title": "AI fundamentals",
+      "link": "https://openai.com/academy/what-is-ai",
+      "date": "2026-04-10T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Learn what AI is, how it works, and how tools like ChatGPT use large language models. A clear, beginner-friendly guide to understanding artificial intelligence."
+    },
+    {
+      "title": "Creating images with ChatGPT",
+      "link": "https://openai.com/academy/image-generation",
+      "date": "2026-04-10T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Learn how to create and refine images with ChatGPT using clear prompts, iterate on designs, and generate high-quality visuals in minutes."
+    },
+    {
+      "title": "Financial services",
+      "link": "https://openai.com/academy/financial-services",
+      "date": "2026-04-10T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Explore AI resources for financial services, including prompt packs, GPTs, guides, and tools to help institutions deploy and scale AI securely."
     },
     {
       "title": "Understanding Amazon Bedrock model lifecycle",
@@ -204,13 +211,6 @@
       "date": "2026-04-08T19:43:28+00:00",
       "source": "AWS ML Blog",
       "summary": "In this post, we explore where RFT is most effective, using the GSM8K mathematical reasoning dataset as a concrete example. We then walk through best practices for dataset preparation and reward function design, show how to monitor training progress using Amazon Bedrock metrics, "
-    },
-    {
-      "title": "ALTK\u2011Evolve: On\u2011the\u2011Job Learning for AI Agents",
-      "link": "https://huggingface.co/blog/ibm-research/altk-evolve",
-      "date": "2026-04-08T14:27:42+00:00",
-      "source": "Hugging Face",
-      "summary": ""
     }
   ]
 }
