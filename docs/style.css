@@ -220,15 +220,13 @@ h1,h2,h3 { font-family: var(--font-sans); font-weight: 600; line-height: 1.2; co
   left: 10px;
   z-index: 100;
   display: flex;
-  flex-direction: column;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 8px;
+  padding: 4px;
   opacity: 0;
   transform: translateX(-100%);
   transition: opacity 0.3s, transform 0.3s;
-  width: 80px;
 }
 .mode-switcher:hover {
   opacity: 1;
@@ -238,17 +236,12 @@ h1,h2,h3 { font-family: var(--font-sans); font-weight: 600; line-height: 1.2; co
   background: none;
   border: none;
   color: var(--text-secondary);
-  padding: 8px 12px;
+  padding: 6px 12px;
   border-radius: var(--radius-sm);
   cursor: pointer;
   transition: color 0.2s, background 0.2s;
   font-size: 12px;
   font-weight: 500;
-  text-align: center;
-  margin-bottom: 4px;
-}
-.mode-btn:last-child {
-  margin-bottom: 0;
 }
 .mode-btn.active {
   color: var(--accent);
