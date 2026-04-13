@@ -1,5 +1,5 @@
 {
-  "updated": "2026-04-12T06:52:45.415295+00:00",
+  "updated": "2026-04-13T06:34:36.545283+00:00",
   "count": 30,
   "items": [
     {
@@ -45,6 +45,13 @@
       "summary": "Learn how to analyze data with ChatGPT by exploring datasets, generating insights, creating visualizations, and turning findings into actionable decisions."
     },
     {
+      "title": "Using skills",
+      "link": "https://openai.com/academy/skills",
+      "date": "2026-04-10T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Learn how to create and use ChatGPT skills to build reusable workflows, automate recurring tasks, and ensure consistent, high-quality outputs."
+    },
+    {
       "title": "Writing with ChatGPT",
       "link": "https://openai.com/academy/writing",
       "date": "2026-04-10T00:00:00+00:00",
@@ -85,13 +92,6 @@
       "date": "2026-04-10T00:00:00+00:00",
       "source": "OpenAI",
       "summary": "Learn how to research with ChatGPT using search and deep research to find up-to-date information, analyze sources, and generate structured insights."
-    },
-    {
-      "title": "Using skills",
-      "link": "https://openai.com/academy/skills",
-      "date": "2026-04-10T00:00:00+00:00",
-      "source": "OpenAI",
-      "summary": "Learn how to create and use ChatGPT skills to build reusable workflows, automate recurring tasks, and ensure consistent, high-quality outputs."
     },
     {
       "title": "ChatGPT for customer success teams",
