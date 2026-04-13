@@ -11,22 +11,6 @@
   <link rel="stylesheet" href="style-spacing.css">
   <link rel="stylesheet" href="animations.css">
   <style>
-    .prov-hero {
-      background: transparent;
-      border-bottom: 1px solid var(--border);
-      padding: 28px 0 20px;
-    }
-    .prov-hero-inner { max-width: 1440px; margin: 0 auto; padding: 0 48px; }
-    .prov-hero-title {
-      font-family: var(--font-sans);
-      font-size: 28px;
-      font-weight: 700;
-      color: var(--text-primary);
-      letter-spacing: -0.03em;
-      margin: 0 0 6px 0;
-    }
-    .prov-hero-sub { font-size: 13px; color: var(--text-secondary); max-width: 560px; line-height: 1.6; }
-
     .prov-summary-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -194,7 +178,7 @@
       <label class="theme-switch" aria-label="Toggle theme">
         <input type="checkbox" id="theme-toggle">
         <span class="theme-switch-track"></span>
-        <span class="theme-switch-thumb" id="thumb-icon">🌙</span>
+        <span class="theme-switch-thumb" id="thumb-icon"></span>
       </label>
     </div>
   </div>
@@ -212,10 +196,10 @@
 </nav>
 
 
-<div class="prov-hero">
-  <div class="prov-hero-inner">
-    <h1 class="prov-hero-title">Providers</h1>
-    <p class="prov-hero-sub">
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <h1 style="font-family:var(--font-sans);font-size:28px;font-weight:700;color:var(--text-primary);letter-spacing:-0.03em;margin:0 0 6px 0;">Providers</h1>
+    <p style="font-size:13px;color:var(--text-secondary);max-width:560px;line-height:1.6;margin:0;">
       Not all models answer all tests. This page shows which providers are most reliable —
       ranked by response rate across all benchmark categories, and which of their models perform best.
     </p>
@@ -430,14 +414,12 @@ document.addEventListener('DOMContentLoaded', loadData);
   (function(){
     var themeToggle = document.getElementById('theme-toggle');
     var themeLabel  = document.getElementById('theme-label');
-    var thumbIcon   = document.getElementById('thumb-icon');
     function applyTheme(t) {
       document.documentElement.setAttribute('data-theme', t);
       localStorage.setItem('theme', t);
       var isLight = t === 'light';
       themeToggle.checked = isLight;
       themeLabel.textContent = isLight ? 'Light' : 'Dark';
-      if (thumbIcon) thumbIcon.textContent = isLight ? '☀️' : '🌙';
     }
     applyTheme(localStorage.getItem('theme') || 'dark');
     themeToggle.addEventListener('change', function() {

@@ -487,7 +487,7 @@
       <label class="theme-switch" aria-label="Toggle theme">
         <input type="checkbox" id="theme-toggle">
         <span class="theme-switch-track"></span>
-        <span class="theme-switch-thumb" id="thumb-icon">🌙</span>
+        <span class="theme-switch-thumb" id="thumb-icon"></span>
       </label>
     </div>
   </div>
@@ -514,14 +514,12 @@
 (function(){
   var themeToggle = document.getElementById('theme-toggle');
   var themeLabel  = document.getElementById('theme-label');
-  var thumbIcon   = document.getElementById('thumb-icon');
   function applyTheme(t) {
     document.documentElement.setAttribute('data-theme', t);
     localStorage.setItem('theme', t);
     var isLight = t === 'light';
     themeToggle.checked = isLight;
     themeLabel.textContent = isLight ? 'Light' : 'Dark';
-    thumbIcon.textContent = isLight ? '☀️' : '🌙';
   }
   applyTheme(localStorage.getItem('theme') || 'dark');
   themeToggle.addEventListener('change', function() { applyTheme(themeToggle.checked ? 'light' : 'dark'); });
