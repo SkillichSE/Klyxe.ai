@@ -1225,8 +1225,8 @@ main { min-height: calc(100vh - 60px); }
 }
 
 .left-sidebar {
-  width: 220px;
-  min-width: 220px;
+  width: 52px;
+  min-width: 52px;
   background: rgba(13,17,23,0.6);
   border-right: 1px solid var(--border);
   position: sticky;
@@ -1240,6 +1240,13 @@ main { min-height: calc(100vh - 60px); }
   padding-bottom: 24px;
   scrollbar-width: thin;
   scrollbar-color: var(--border) transparent;
+  transition: width 0.22s cubic-bezier(0.4,0,0.2,1),
+              min-width 0.22s cubic-bezier(0.4,0,0.2,1);
+  z-index: 10;
+}
+.left-sidebar:hover {
+  width: 220px;
+  min-width: 220px;
 }
 .left-sidebar::-webkit-scrollbar { width: 4px; }
 .left-sidebar::-webkit-scrollbar-track { background: transparent; }
@@ -1302,11 +1309,58 @@ main { min-height: calc(100vh - 60px); }
   flex-shrink: 0;
 }
 
-/* Nav tree */
-.sidebar-nav {
-  flex: 1;
+/* Collapsed sidebar: hide text, show only icons */
+.left-sidebar .sidebar-product-btn .btn-label,
+.left-sidebar .sidebar-topnav-link .link-label {
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: opacity 0.18s, width 0.18s;
+  display: inline-block;
+}
+.left-sidebar:hover .sidebar-product-btn .btn-label,
+.left-sidebar:hover .sidebar-topnav-link .link-label {
+  opacity: 1;
+  width: auto;
+}
+
+/* Center icons when collapsed */
+.left-sidebar .sidebar-product-btns {
+  flex-direction: column;
+  padding: 10px 6px;
+  gap: 6px;
+}
+.left-sidebar:hover .sidebar-product-btns {
+  flex-direction: row;
+  padding: 12px 12px 10px;
+  gap: 8px;
+}
+.left-sidebar .sidebar-product-btn {
+  justify-content: center;
+  padding: 8px 6px;
+}
+.left-sidebar .sidebar-topnav-link {
+  justify-content: center;
+  padding: 10px 0;
+}
+.left-sidebar:hover .sidebar-topnav-link {
+  justify-content: flex-start;
+  padding: 7px 14px 7px 16px;
+}
+
+/* Nav links tooltip — show short label on collapsed */
+.left-sidebar .sidebar-topnav-link {
+  position: relative;
+}
+
+/* Nav section padding adjustment */
+.left-sidebar .sidebar-nav {
   padding: 8px 0;
 }
+
+/* Nav section */
+.sidebar-nav { flex: 1; padding: 8px 0; }
 .sidebar-section {
   margin-bottom: 2px;
 }
