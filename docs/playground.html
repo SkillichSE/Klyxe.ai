@@ -1,0 +1,1573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>(function(){
+    var t = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', t);
+  })();</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playground — Lexentia</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style-spacing.css">
+  <link rel="stylesheet" href="animations.css">
+  <script src="app.js"></script>
+  <style>
+    /* ── API Key Banner (top, always visible) ── */
+    .pg-key-banner {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .pg-key-banner-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      opacity: 0.9;
+    }
+    .pg-key-banner-text {
+      flex: 1;
+      min-width: 160px;
+    }
+    .pg-key-banner-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+    }
+    .pg-key-banner-sub {
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+    .pg-key-banner-sub a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .pg-key-banner-sub a:hover { text-decoration: underline; }
+
+    .pg-key-input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .pg-key-input {
+      background: var(--bg);
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-size: 13px;
+      font-family: var(--font-mono);
+      padding: 8px 36px 8px 12px;
+      width: 220px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .pg-key-input::placeholder { color: var(--text-tertiary); }
+    /* Focus states only — no highlight when out of focus */
+    .pg-key-input:focus { border-color: #f87171; }       /* focused + empty = red */
+    .pg-key-input.has-key:focus { border-color: #4ade80; } /* focused + filled = green */
+
+    .pg-key-toggle {
+      position: absolute;
+      right: 10px;
+      background: none;
+      border: none;
+      color: var(--text-tertiary);
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+    }
+    .pg-key-toggle:hover { color: var(--text-secondary); }
+
+    .pg-key-saved {
+      font-size: 12px;
+      color: #4ade80;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity 0.3s;
+      white-space: nowrap;
+    }
+    .pg-key-saved.show { opacity: 1; }
+
+    /* ── Controls block ── */
+    .pg-controls {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+
+    .pg-controls-header {
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--border-subtle);
+      background: var(--surface-raised);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .pg-controls-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .pg-controls-title svg { color: var(--accent); }
+
+    .pg-controls-body {
+      padding: 16px 18px;
+    }
+
+    /* System prompt toggle */
+    .pg-sys-toggle {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-family: var(--font-sans);
+      font-weight: 500;
+      cursor: pointer;
+      padding: 5px 10px;
+      transition: border-color 0.15s, color 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .pg-sys-toggle:hover { border-color: var(--border-strong); color: var(--text-primary); }
+
+    .pg-sys-wrap {
+      display: none;
+      margin-bottom: 12px;
+    }
+    .pg-sys-wrap.open { display: block; }
+
+    .pg-sys-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-tertiary);
+      margin-bottom: 6px;
+    }
+
+    .pg-sys-input {
+      width: 100%;
+      box-sizing: border-box;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-size: 13px;
+      font-family: var(--font-mono);
+      padding: 10px 12px;
+      resize: vertical;
+      min-height: 64px;
+      outline: none;
+      line-height: 1.5;
+      transition: border-color 0.15s;
+    }
+    .pg-sys-input:focus { border-color: var(--accent); }
+    .pg-sys-input::placeholder { color: var(--text-tertiary); }
+
+    /* User prompt */
+    .pg-prompt-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-tertiary);
+      margin-bottom: 6px;
+    }
+    .pg-prompt-wrap {
+      position: relative;
+      margin-bottom: 14px;
+    }
+    .pg-prompt {
+      width: 100%;
+      box-sizing: border-box;
+      background: var(--bg);
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      color: var(--text-primary);
+      font-size: 14px;
+      font-family: var(--font-sans);
+      padding: 12px 14px;
+      resize: vertical;
+      min-height: 100px;
+      outline: none;
+      transition: border-color 0.15s;
+      line-height: 1.55;
+    }
+    .pg-prompt:focus { border-color: var(--accent); }
+    .pg-prompt::placeholder { color: var(--text-tertiary); }
+
+    /* Action row */
+    .pg-action-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .pg-send-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: var(--font-sans);
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.1s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .pg-send-btn:hover { opacity: 0.88; }
+    .pg-send-btn:active { transform: scale(0.97); }
+    .pg-send-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    .pg-clear-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-secondary);
+      padding: 10px 16px;
+      font-size: 13px;
+      font-family: var(--font-sans);
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .pg-clear-btn:hover { border-color: var(--border-strong); color: var(--text-primary); }
+
+    .pg-shortcut-hint {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      font-family: var(--font-mono);
+      margin-left: 2px;
+    }
+
+    .pg-token-count {
+      font-size: 12px;
+      font-family: var(--font-mono);
+      color: var(--text-tertiary);
+      margin-left: auto;
+      background: var(--bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 4px 9px;
+    }
+
+    /* ── Error ── */
+    .pg-error {
+      color: #f87171;
+      font-size: 13px;
+      padding: 10px 14px;
+      background: rgba(248, 113, 113, 0.08);
+      border: 1px solid rgba(248, 113, 113, 0.2);
+      border-radius: 8px;
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ── Model panels layout ── */
+    .pg-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    @media (max-width: 768px) {
+      .pg-layout { grid-template-columns: 1fr; }
+    }
+
+    .pg-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Panel header with colored side stripe */
+    .pg-panel-header {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--surface-raised);
+    }
+
+    .pg-panel-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 3px 7px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+    .pg-panel-label.left  { background: rgba(99,102,241,0.15); color: #818cf8; }
+    .pg-panel-label.right { background: rgba(16,185,129,0.15); color: #34d399; }
+
+    .pg-panel-select-wrap {
+      flex: 1;
+      min-width: 0;
+    }
+    .pg-panel-select-wrap label {
+      display: block;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-tertiary);
+      margin-bottom: 3px;
+    }
+    .pg-panel-header select {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text-primary);
+      padding: 6px 10px;
+      font-size: 13px;
+      font-weight: 500;
+      font-family: var(--font-sans);
+      cursor: pointer;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .pg-panel-header select:focus { border-color: var(--accent); }
+
+    .pg-model-badge {
+      font-size: 10px;
+      font-family: var(--font-mono);
+      color: var(--text-tertiary);
+      background: var(--bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: 4px;
+      padding: 2px 6px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* Response area */
+    .pg-response {
+      flex: 1;
+      padding: 16px;
+      min-height: 300px;
+      max-height: 520px;
+      overflow-y: auto;
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--text-primary);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .pg-response.empty {
+      color: var(--text-tertiary);
+      font-style: italic;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    /* Stats footer */
+    .pg-response-meta {
+      padding: 8px 16px;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      gap: 0;
+      background: var(--surface-raised);
+    }
+    .pg-meta-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 4px 0;
+    }
+    .pg-meta-item + .pg-meta-item {
+      border-left: 1px solid var(--border-subtle);
+    }
+    .pg-meta-key {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-tertiary);
+      font-family: var(--font-mono);
+      margin-bottom: 1px;
+    }
+    .pg-meta-val {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+    }
+
+    /* ── Streaming cursor ── */
+    .stream-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1em;
+      background: var(--accent);
+      border-radius: 1px;
+      vertical-align: text-bottom;
+      animation: blink 0.9s step-end infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* ── Loading spinner ── */
+    .pg-spinner {
+      width: 15px;
+      height: 15px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── LLM Params panel ── */
+    .pg-params-row {
+      display: flex;
+      gap: 18px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+      align-items: flex-end;
+    }
+    .pg-param-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      min-width: 140px;
+    }
+    .pg-param-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-tertiary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .pg-param-val {
+      font-family: var(--font-mono);
+      color: var(--accent);
+      font-size: 11px;
+    }
+    .pg-param-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      outline: none;
+      cursor: pointer;
+    }
+    .pg-param-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      background: var(--accent);
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .pg-param-slider::-moz-range-thumb {
+      width: 14px;
+      height: 14px;
+      background: var(--accent);
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+    }
+    .pg-param-input {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 13px;
+      font-family: var(--font-mono);
+      padding: 5px 8px;
+      width: 80px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .pg-param-input:focus { border-color: var(--accent); }
+
+    /* ── TTFT in meta ── */
+    .pg-meta-key.ttft { color: #f59e0b; }
+    .pg-meta-val.ttft { color: #f59e0b; }
+
+    /* ── Markdown rendered response ── */
+    .pg-response.rendered { white-space: normal; }
+    .pg-response.rendered p { margin: 0 0 0.8em; }
+    .pg-response.rendered p:last-child { margin-bottom: 0; }
+    .pg-response.rendered h1,.pg-response.rendered h2,.pg-response.rendered h3 {
+      font-weight: 700; margin: 1em 0 0.4em; line-height: 1.3;
+    }
+    .pg-response.rendered h1 { font-size: 1.2em; }
+    .pg-response.rendered h2 { font-size: 1.1em; }
+    .pg-response.rendered h3 { font-size: 1em; }
+    .pg-response.rendered ul,.pg-response.rendered ol {
+      padding-left: 1.5em; margin: 0.5em 0;
+    }
+    .pg-response.rendered li { margin-bottom: 0.25em; }
+    .pg-response.rendered pre {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      overflow-x: auto;
+      margin: 0.8em 0;
+      position: relative;
+    }
+    .pg-response.rendered pre code {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 1.55;
+      background: none;
+      padding: 0;
+      color: var(--text-primary);
+    }
+    .pg-response.rendered code {
+      font-family: var(--font-mono);
+      font-size: 0.9em;
+      background: var(--bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: 4px;
+      padding: 1px 5px;
+    }
+    .pg-response.rendered pre code { border: none; }
+    .pg-response.rendered blockquote {
+      border-left: 3px solid var(--accent);
+      margin: 0.6em 0;
+      padding-left: 12px;
+      color: var(--text-secondary);
+    }
+    .pg-response.rendered table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 0.8em 0;
+      font-size: 13px;
+    }
+    .pg-response.rendered th,.pg-response.rendered td {
+      border: 1px solid var(--border);
+      padding: 6px 10px;
+      text-align: left;
+    }
+    .pg-response.rendered th { background: var(--surface-raised); font-weight: 600; }
+    /* Code copy btn */
+    .pg-code-copy {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      color: var(--text-tertiary);
+      font-size: 11px;
+      font-family: var(--font-mono);
+      padding: 3px 8px;
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .pg-code-copy:hover { color: var(--text-primary); border-color: var(--border-strong); }
+
+    /* ── Syntax highlight (prism-like minimal via hljs) ── */
+    .hljs-keyword,.hljs-selector-tag { color: #c792ea; }
+    .hljs-string,.hljs-attr { color: #c3e88d; }
+    .hljs-number,.hljs-literal { color: #f78c6c; }
+    .hljs-comment { color: #546e7a; font-style: italic; }
+    .hljs-function,.hljs-title { color: #82aaff; }
+    .hljs-built_in,.hljs-class { color: #ffcb6b; }
+    .hljs-variable,.hljs-params { color: #80cbc4; }
+    .hljs-operator,.hljs-punctuation { color: var(--text-secondary); }
+
+    /* ── Error tag buttons ── */
+    .pg-tag-row {
+      display: flex;
+      gap: 6px;
+      padding: 6px 16px 8px;
+      flex-wrap: wrap;
+      border-top: 1px solid var(--border-subtle);
+      background: var(--surface-raised);
+    }
+    .pg-tag-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      color: var(--text-tertiary);
+      font-size: 11px;
+      font-family: var(--font-mono);
+      padding: 3px 8px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .pg-tag-btn:hover { border-color: #f87171; color: #f87171; }
+    .pg-tag-btn.active { background: rgba(248,113,113,0.12); border-color: #f87171; color: #f87171; }
+    .pg-tag-btn.active-hall { background: rgba(251,191,36,0.12); border-color: #fbbf24; color: #fbbf24; }
+
+    /* ── Diff highlight ── */
+    .pg-diff-add { background: rgba(74,222,128,0.13); border-radius: 2px; }
+    .pg-diff-del { background: rgba(248,113,113,0.13); border-radius: 2px; text-decoration: line-through; }
+    .pg-diff-wrap {
+      display: flex;
+      gap: 8px;
+      padding: 4px 16px 8px;
+      background: var(--surface-raised);
+      border-top: 1px solid var(--border-subtle);
+    }
+    .pg-diff-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-family: var(--font-sans);
+      padding: 5px 12px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .pg-diff-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .pg-diff-btn.active { background: rgba(99,102,241,0.12); border-color: var(--accent); color: var(--accent); }
+
+    /* ── Export / Actions row ── */
+    .pg-export-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .pg-export-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-family: var(--font-sans);
+      padding: 6px 13px;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .pg-export-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── Model status dot ── */
+    .pg-status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: #6b7280;
+    }
+    .pg-status-dot.ok  { background: #4ade80; box-shadow: 0 0 5px rgba(74,222,128,0.5); }
+    .pg-status-dot.slow{ background: #f59e0b; box-shadow: 0 0 5px rgba(245,158,11,0.4); }
+    .pg-status-dot.err { background: #f87171; box-shadow: 0 0 5px rgba(248,113,113,0.5); }
+
+    /* ── Shortcut hint update ── */
+    .pg-shortcut-hint { font-size: 11px; color: var(--text-tertiary); font-family: var(--font-mono); margin-left: 2px; }
+  </style>
+
+  <!-- highlight.js for code syntax coloring -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <!-- marked for markdown parsing -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+</head>
+<body>
+
+<header class="header" id="app-bar">
+  <div class="header-content">
+    <a href="index.html" class="logo" style="padding-left:0;margin-left:0;">
+      <img src="media/L_logo.png" alt="Lexentia logo" class="logo-icon" style="margin-left:0;">
+      <span style="font-size:17px;font-weight:700;letter-spacing:-0.02em;">Lexentia</span>
+    </a>
+    <div style="flex:1;"></div>
+    <div class="theme-switch-wrap">
+      <span class="theme-switch-label" id="theme-label">Dark</span>
+      <label class="theme-switch" aria-label="Toggle theme">
+        <input type="checkbox" id="theme-toggle">
+        <span class="theme-switch-track"></span>
+        <span class="theme-switch-thumb" id="thumb-icon"></span>
+      </label>
+    </div>
+    <button class="mobile-menu-btn" id="sidebar-mobile-toggle" aria-label="Open menu" style="display:none;">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+        <path d="M2 4h14M2 9h14M2 14h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+<div class="app-layout">
+  <lex-sidebar></lex-sidebar>
+
+  <div class="sidebar-main">
+    <div class="hero">
+      <div class="hero-inner">
+        <h1 class="hero-headline">Playground</h1>
+        <p class="hero-sub">Compare two models side-by-side with your own prompt</p>
+      </div>
+    </div>
+
+    <main class="container">
+
+      <!-- Step 1: API Key -->
+      <div class="pg-key-banner reveal">
+        <div class="pg-key-banner-icon">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M11 1a4 4 0 0 1 0 8 4 4 0 0 1-3.87-3H2.5L1 7.5 2.5 9l1-1 1 1 1.5-1.5H7.13A4 4 0 0 1 11 1z" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/>
+            <circle cx="11" cy="5" r="1" fill="#fff"/>
+          </svg>
+        </div>
+        <div class="pg-key-banner-text">
+          <div class="pg-key-banner-title">OpenRouter API Key</div>
+          <div class="pg-key-banner-sub">
+            Free key at <a href="https://openrouter.ai/keys" target="_blank" rel="noopener">openrouter.ai/keys</a> · stored locally, never sent to our servers
+          </div>
+        </div>
+        <div class="pg-key-input-wrap">
+          <input type="password" class="pg-key-input" id="api-key"
+            placeholder="sk-or-v1-…"
+            oninput="saveKey(this.value)"
+            autocomplete="off"
+            spellcheck="false">
+          <button class="pg-key-toggle" onclick="toggleKeyVisibility()" title="Show/hide key">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+              <path d="M1 8C2.5 4.5 5 3 8 3s5.5 1.5 7 5c-1.5 3.5-4 5-7 5s-5.5-1.5-7-5z" stroke="currentColor" stroke-width="1.3"/>
+              <circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.3"/>
+            </svg>
+          </button>
+        </div>
+        <span class="pg-key-saved" id="key-saved">✓ saved</span>
+      </div>
+
+      <!-- Step 2: Prompt -->
+      <div class="pg-controls reveal">
+        <div class="pg-controls-header">
+          <div class="pg-controls-title">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+              <path d="M2 3h12M2 7h8M2 11h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            Your Prompt
+          </div>
+          <button class="pg-sys-toggle" id="sys-toggle-btn" onclick="toggleSysPrompt()">
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 6h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            System prompt
+          </button>
+        </div>
+
+        <div class="pg-controls-body">
+          <!-- System prompt -->
+          <div class="pg-sys-wrap" id="sys-wrap">
+            <div class="pg-sys-label">System prompt</div>
+            <textarea class="pg-sys-input" id="sys-prompt" placeholder="You are a helpful assistant…" rows="3"></textarea>
+          </div>
+
+          <!-- User prompt -->
+          <div class="pg-prompt-label">Message</div>
+          <div class="pg-prompt-wrap">
+            <textarea class="pg-prompt" id="user-prompt"
+              placeholder="Ask anything — write code, explain a concept, translate text…"
+              rows="4"
+              oninput="updateTokenCount(this.value)"></textarea>
+          </div>
+
+          <div class="pg-action-row">
+            <button class="pg-send-btn" id="send-btn" onclick="sendPrompt()">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                <path d="M14 8L2 2l2.5 6L2 14l12-6z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" fill="currentColor" opacity="0.85"/>
+              </svg>
+              Send to both models
+            </button>
+            <button class="pg-clear-btn" onclick="clearAll()">Clear</button>
+            <span class="pg-shortcut-hint">Enter — send · Ctrl+Enter — new line</span>
+            <span class="pg-token-count" id="token-count">~0 tokens</span>
+          </div>
+
+          <!-- LLM params -->
+          <div class="pg-params-row">
+            <div class="pg-param-group">
+              <div class="pg-param-label">Temperature <span class="pg-param-val" id="temp-val">0.7</span></div>
+              <input type="range" class="pg-param-slider" id="temp-slider" min="0" max="2" step="0.05" value="0.7" oninput="document.getElementById('temp-val').textContent=parseFloat(this.value).toFixed(2)">
+            </div>
+            <div class="pg-param-group">
+              <div class="pg-param-label">Max tokens <span class="pg-param-val" id="maxtok-val">2048</span></div>
+              <input type="range" class="pg-param-slider" id="maxtok-slider" min="128" max="8192" step="128" value="2048" oninput="document.getElementById('maxtok-val').textContent=parseInt(this.value)">
+            </div>
+          </div>
+
+          <div class="pg-export-row">
+            <button class="pg-export-btn" onclick="exportJSON()">
+              <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 4h10M3 8h7M3 12h5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M12 10l2 2-2 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Export JSON
+            </button>
+            <button class="pg-export-btn" id="diff-toggle-btn" onclick="toggleDiff()">
+              <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M2 4h5v8H2zM9 4h5v8H9z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+              Diff view
+            </button>
+          </div>
+
+          <div id="pg-global-error"></div>
+        </div>
+      </div>
+
+      <!-- Step 3: Side-by-side panels -->
+      <div class="pg-layout">
+
+        <!-- Left panel -->
+        <div class="pg-panel reveal" id="panel-left">
+          <div class="pg-panel-header">
+            <span class="pg-panel-label left">Model A</span>
+            <div class="pg-panel-select-wrap">
+              <label for="model-left">Select model</label>
+              <select id="model-left" onchange="onModelChange('left')"></select>
+            </div>
+            <div class="pg-status-dot" id="status-left" title="Provider status"></div>
+            <span class="pg-model-badge" id="badge-left"></span>
+          </div>
+          <div class="pg-response empty" id="response-left">Select a model above and send a prompt to see the response here</div>
+          <div class="pg-response-meta" id="meta-left" style="display:none;">
+            <div class="pg-meta-item">
+              <span class="pg-meta-key">Time</span>
+              <span class="pg-meta-val" id="time-left">–</span>
+            </div>
+            <div class="pg-meta-item">
+              <span class="pg-meta-key">TTFT</span>
+              <span class="pg-meta-val" id="ttft-left">–</span>
+            </div>
+            <div class="pg-meta-item">
+              <span class="pg-meta-key">Tokens</span>
+              <span class="pg-meta-val" id="tokens-left">–</span>
+            </div>
+            <div class="pg-meta-item">
+              <span class="pg-meta-key">tok/s</span>
+              <span class="pg-meta-val" id="tps-left">–</span>
+            </div>
+          </div>
+          <div class="pg-tag-row" id="tags-left" style="display:none;">
+            <button class="pg-tag-btn" onclick="toggleTag('left','hallucination')">⚠ Галлюцинация</button>
+            <button class="pg-tag-btn" onclick="toggleTag('left','truncated')">✂ Прерван</button>
+            <button class="pg-tag-btn" onclick="toggleTag('left','formatting')">✦ Форматирование</button>
+          </div>
+        </div>
+
+        <!-- Right panel -->
+        <div class="pg-panel reveal" id="panel-right">
+          <div class="pg-panel-header">
+            <span class="pg-panel-label right">Model B</span>
+            <div class="pg-panel-select-wrap">
+              <label for="model-right">Select model</label>
+              <select id="model-right" onchange="onModelChange('right')"></select>
+            </div>
+            <div class="pg-status-dot" id="status-right" title="Provider status"></div>
+            <span class="pg-model-badge" id="badge-right"></span>
+          </div>
+          <div class="pg-response empty" id="response-right">Select a model above and send a prompt to see the response here</div>
+          <div class="pg-response-meta" id="meta-right" style="display:none;">
+            <div class="pg-meta-item">
+              <span class="pg-meta-key">Time</span>
+              <span class="pg-meta-val" id="time-right">–</span>
+            </div>
+            <div class="pg-meta-item">
+              <span class="pg-meta-key">TTFT</span>
+              <span class="pg-meta-val" id="ttft-right">–</span>
+            </div>
+            <div class="pg-meta-item">
+              <span class="pg-meta-key">Tokens</span>
+              <span class="pg-meta-val" id="tokens-right">–</span>
+            </div>
+            <div class="pg-meta-item">
+              <span class="pg-meta-key">tok/s</span>
+              <span class="pg-meta-val" id="tps-right">–</span>
+            </div>
+          </div>
+          <div class="pg-tag-row" id="tags-right" style="display:none;">
+            <button class="pg-tag-btn" onclick="toggleTag('right','hallucination')">⚠ Галлюцинация</button>
+            <button class="pg-tag-btn" onclick="toggleTag('right','truncated')">✂ Прерван</button>
+            <button class="pg-tag-btn" onclick="toggleTag('right','formatting')">✦ Форматирование</button>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+    <footer class="footer">
+      <div class="footer-links">
+        <a href="https://skillichse.github.io/Lexentia-Proof/" target="_blank" rel="noopener" class="footer-link">GitHub</a>
+        <a href="about.html" class="footer-link">About</a>
+        <a href="news.html" class="footer-link">News</a>
+      </div>
+      <div class="footer-copy">Open source · Updated daily via GitHub Actions · All models are free to use</div>
+    </footer>
+  </div>
+</div>
+
+<script src="sidebar.js"></script>
+<script>
+// ─── Theme toggle ─────────────────────────────────────────────────────────────
+(function() {
+  const themeToggle = document.getElementById('theme-toggle');
+  const themeLabel  = document.getElementById('theme-label');
+  function applyTheme(t) {
+    document.documentElement.setAttribute('data-theme', t);
+    localStorage.setItem('theme', t);
+    const isLight = t === 'light';
+    if (themeToggle) themeToggle.checked = isLight;
+    if (themeLabel)  themeLabel.textContent = isLight ? 'Light' : 'Dark';
+  }
+  applyTheme(localStorage.getItem('theme') || 'dark');
+  if (themeToggle) themeToggle.addEventListener('change', () => {
+    applyTheme(themeToggle.checked ? 'light' : 'dark');
+  });
+})();
+
+// ─── Mobile sidebar toggle ───────────────────────────────────────────────────
+(function() {
+  const sidebar   = document.getElementById('left-sidebar');
+  const overlay   = document.getElementById('sidebar-overlay');
+  const mobileBtn = document.getElementById('sidebar-mobile-toggle');
+  function openSidebar()  { if(sidebar) sidebar.classList.add('open'); if(overlay) overlay.classList.add('open'); }
+  function closeSidebar() { if(sidebar) sidebar.classList.remove('open'); if(overlay) overlay.classList.remove('open'); }
+  if (mobileBtn) mobileBtn.addEventListener('click', openSidebar);
+  if (overlay)   overlay.addEventListener('click', closeSidebar);
+  function checkWidth() {
+    if (!mobileBtn) return;
+    mobileBtn.style.display = window.innerWidth <= 768 ? 'flex' : 'none';
+    if (window.innerWidth > 768) closeSidebar();
+  }
+  checkWidth();
+  window.addEventListener('resize', checkWidth);
+})();
+
+// ─── Reveal animations ────────────────────────────────────────────────────────
+(function() {
+  if (!window.IntersectionObserver) {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+    return;
+  }
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('visible');
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+})();
+
+// ─── marked config ────────────────────────────────────────────────────────────
+if (window.marked) {
+  marked.setOptions({
+    highlight: function(code, lang) {
+      if (window.hljs && lang && hljs.getLanguage(lang)) {
+        return hljs.highlight(code, { language: lang }).value;
+      }
+      return window.hljs ? hljs.highlightAuto(code).value : code;
+    },
+    breaks: true,
+    gfm: true,
+  });
+}
+
+// ─── Model catalogue ─────────────────────────────────────────────────────────
+const MODELS_FALLBACK = [
+  { id: 'nvidia/nemotron-3-super-120b-a12b:free',        label: 'Nemotron 3 Super 120B',  provider: 'Nvidia',    size: '120B' },
+  { id: 'nvidia/nemotron-3-nano-30b-a3b:free',           label: 'Nemotron 3 Nano 30B',    provider: 'Nvidia',    size: '30B'  },
+  { id: 'nvidia/nemotron-nano-9b-v2:free',               label: 'Nemotron Nano 9B',        provider: 'Nvidia',    size: '9B'   },
+  { id: 'openai/gpt-oss-120b:free',                      label: 'GPT OSS 120B',           provider: 'OpenAI',    size: '120B' },
+  { id: 'openai/gpt-oss-20b:free',                       label: 'GPT OSS 20B',            provider: 'OpenAI',    size: '20B'  },
+  { id: 'google/gemma-4-31b-it:free',                    label: 'Gemma 4 31B',            provider: 'Google',    size: '31B'  },
+  { id: 'google/gemma-4-26b-a4b-it:free',                label: 'Gemma 4 26B MoE',        provider: 'Google',    size: '26B'  },
+  { id: 'google/gemini-2.0-flash-exp:free',              label: 'Gemini 2.0 Flash',       provider: 'Google',    size: ''     },
+  { id: 'meta-llama/llama-3.3-70b-instruct:free',        label: 'Llama 3.3 70B',          provider: 'Meta',      size: '70B'  },
+  { id: 'qwen/qwen3-coder:free',                         label: 'Qwen3 Coder 480B',       provider: 'Alibaba',   size: '480B' },
+  { id: 'qwen/qwen3-next-80b-a3b-instruct:free',         label: 'Qwen3 Next 80B',         provider: 'Alibaba',   size: '80B'  },
+  { id: 'qwen/qwen-2.5-72b-instruct:free',               label: 'Qwen 2.5 72B',           provider: 'Alibaba',   size: '72B'  },
+  { id: 'arcee-ai/trinity-large-preview:free',           label: 'Trinity Large 400B',     provider: 'Arcee',     size: '400B' },
+  { id: 'z-ai/glm-4.5-air:free',                        label: 'GLM 4.5 Air',            provider: 'Z.ai',      size: ''     },
+  { id: 'minimax/minimax-m2.5:free',                     label: 'MiniMax M2.5',           provider: 'MiniMax',   size: ''     },
+  { id: 'openrouter/elephant-alpha',                     label: 'Elephant Alpha 100B',    provider: 'OpenRouter', size: '100B' },
+  { id: 'deepseek/deepseek-r1:free',                     label: 'DeepSeek R1',            provider: 'DeepSeek',  size: '671B' },
+  { id: 'deepseek/deepseek-chat-v3-0324:free',           label: 'DeepSeek V3',            provider: 'DeepSeek',  size: ''     },
+];
+
+let MODELS = MODELS_FALLBACK.slice();
+
+async function fetchFreeModels() {
+  try {
+    const res = await fetch('https://openrouter.ai/api/v1/models');
+    if (!res.ok) return;
+    const data = await res.json();
+    const free = (data.data || [])
+      .filter(m => m.id.endsWith(':free') && m.context_length > 0)
+      .map(m => {
+        const parts = m.id.split('/');
+        const providerSlug = parts[0] || '';
+        const providerMap = {
+          'meta-llama': 'Meta', 'google': 'Google', 'mistralai': 'Mistral',
+          'qwen': 'Alibaba', 'deepseek': 'DeepSeek', 'microsoft': 'Microsoft',
+          'nvidia': 'Nvidia', 'anthropic': 'Anthropic', 'openai': 'OpenAI',
+          'nousresearch': 'Nous', 'cohere': 'Cohere', '01-ai': '01.AI',
+          'huggingfaceh4': 'HuggingFace', 'openchat': 'OpenChat',
+        };
+        const provider = providerMap[providerSlug] || providerSlug;
+        const label = m.name || parts[1] || m.id;
+        return { id: m.id, label, provider, size: '' };
+      })
+      .sort((a, b) => a.label.localeCompare(b.label));
+
+    if (free.length > 0) {
+      MODELS = free;
+      populateSelects();
+      ['left', 'right'].forEach(side => {
+        const sel = document.getElementById('model-' + side);
+        if (!sel) return;
+        const preferred = side === 'left'
+          ? 'meta-llama/llama-3.3-70b-instruct:free'
+          : 'google/gemma-4-31b-it:free';
+        const match = MODELS.find(m => m.id === preferred) || MODELS[side === 'left' ? 0 : Math.min(4, MODELS.length - 1)];
+        if (match) sel.value = match.id;
+        updateBadge(side);
+      });
+    }
+  } catch (e) {
+    console.warn('Could not fetch OpenRouter model list, using fallback.', e);
+  }
+}
+
+// State
+let abortLeft  = null;
+let abortRight = null;
+
+// Session log for export
+const sessionLog = [];
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+function init() {
+  populateSelects();
+  loadKey();
+  document.getElementById('model-left').value  = MODELS[0].id;
+  document.getElementById('model-right').value = MODELS[5].id;
+  updateBadge('left');
+  updateBadge('right');
+  fetchFreeModels();
+
+  // Enter = send, Ctrl+Enter = new line (for user-prompt textarea)
+  const promptEl = document.getElementById('user-prompt');
+  promptEl.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
+      e.preventDefault();
+      const btn = document.getElementById('send-btn');
+      if (!btn.disabled) sendPrompt();
+    }
+    // Ctrl+Enter / Meta+Enter → insert newline
+    if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+      e.preventDefault();
+      const start = this.selectionStart;
+      const end   = this.selectionEnd;
+      this.value  = this.value.slice(0, start) + '\n' + this.value.slice(end);
+      this.selectionStart = this.selectionEnd = start + 1;
+      updateTokenCount(this.value);
+    }
+  });
+
+  // API key focus-state highlighting
+  const keyEl = document.getElementById('api-key');
+  keyEl.addEventListener('focus', updateKeyStyle);
+  keyEl.addEventListener('blur',  updateKeyStyle);
+  keyEl.addEventListener('input', updateKeyStyle);
+}
+
+function updateKeyStyle() {
+  const keyEl = document.getElementById('api-key');
+  // has-key is set by saveKey; border color handled purely by CSS focus+has-key combo
+  // Just ensure the class is current
+  keyEl.classList.toggle('has-key', keyEl.value.trim().length > 0);
+}
+
+function populateSelects() {
+  const opts = MODELS.map(m =>
+    `<option value="${m.id}">${m.label}${m.size ? ' · ' + m.size : ''} (${m.provider})</option>`
+  ).join('');
+  document.getElementById('model-left').innerHTML  = opts;
+  document.getElementById('model-right').innerHTML = opts;
+}
+
+function onModelChange(side) { updateBadge(side); updateStatusDot(side, null); }
+
+function updateBadge(side) {
+  const sel = document.getElementById('model-' + side);
+  const m = MODELS.find(x => x.id === sel.value);
+  const badge = document.getElementById('badge-' + side);
+  if (m) badge.textContent = m.provider;
+}
+
+function updateStatusDot(side, state) {
+  // state: null = neutral, 'ok', 'slow', 'err'
+  const dot = document.getElementById('status-' + side);
+  if (!dot) return;
+  dot.className = 'pg-status-dot' + (state ? ' ' + state : '');
+}
+
+// ─── Key management ───────────────────────────────────────────────────────────
+function loadKey() {
+  const k = localStorage.getItem('or_api_key') || '';
+  const inp = document.getElementById('api-key');
+  inp.value = k;
+  inp.classList.toggle('has-key', k.length > 0);
+}
+
+function saveKey(val) {
+  localStorage.setItem('or_api_key', val.trim());
+  const el = document.getElementById('key-saved');
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 1800);
+  const inp = document.getElementById('api-key');
+  inp.classList.toggle('has-key', val.trim().length > 0);
+}
+
+function toggleKeyVisibility() {
+  const inp = document.getElementById('api-key');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+}
+
+// ─── Token estimate ───────────────────────────────────────────────────────────
+function updateTokenCount(text) {
+  const est = Math.round(text.split(/\s+/).filter(Boolean).length * 1.3);
+  document.getElementById('token-count').textContent = `~${est} tokens`;
+}
+
+// ─── System prompt toggle ─────────────────────────────────────────────────────
+function toggleSysPrompt() {
+  const wrap = document.getElementById('sys-wrap');
+  const btn  = document.getElementById('sys-toggle-btn');
+  const open = wrap.classList.toggle('open');
+  btn.innerHTML = open
+    ? `<svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 6h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> System prompt`
+    : `<svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 6h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> System prompt`;
+}
+
+// ─── Clear ────────────────────────────────────────────────────────────────────
+function clearAll() {
+  if (abortLeft)  { abortLeft.abort();  abortLeft  = null; }
+  if (abortRight) { abortRight.abort(); abortRight = null; }
+
+  ['left', 'right'].forEach(side => {
+    const r = document.getElementById('response-' + side);
+    r.innerHTML = '';
+    r.textContent = 'Choose a model and send a prompt';
+    r.classList.add('empty');
+    r.classList.remove('rendered');
+    document.getElementById('meta-' + side).style.display = 'none';
+    document.getElementById('tags-' + side).style.display = 'none';
+    document.getElementById('pg-global-error').innerHTML = '';
+    updateStatusDot(side, null);
+  });
+
+  document.getElementById('user-prompt').value = '';
+  document.getElementById('token-count').textContent = '~0 tokens';
+  setSendState(false);
+  diffActive = false;
+  const diffBtn = document.getElementById('diff-toggle-btn');
+  if (diffBtn) diffBtn.classList.remove('active');
+}
+
+// ─── Send ─────────────────────────────────────────────────────────────────────
+async function sendPrompt() {
+  const apiKey = document.getElementById('api-key').value.trim();
+  const prompt = document.getElementById('user-prompt').value.trim();
+  const sysPrompt = document.getElementById('sys-prompt').value.trim();
+  const errorEl = document.getElementById('pg-global-error');
+
+  errorEl.innerHTML = '';
+
+  if (!apiKey) {
+    errorEl.innerHTML = '<div class="pg-error">Enter your OpenRouter API key →</div>';
+    document.getElementById('api-key').focus();
+    return;
+  }
+  if (!prompt) {
+    errorEl.innerHTML = '<div class="pg-error">Type a prompt first.</div>';
+    document.getElementById('user-prompt').focus();
+    return;
+  }
+
+  if (abortLeft)  { abortLeft.abort();  abortLeft  = null; }
+  if (abortRight) { abortRight.abort(); abortRight = null; }
+
+  const modelLeft  = document.getElementById('model-left').value;
+  const modelRight = document.getElementById('model-right').value;
+
+  setSendState(true);
+
+  ['left', 'right'].forEach(side => {
+    const r = document.getElementById('response-' + side);
+    r.innerHTML = '';
+    r.classList.remove('empty', 'rendered');
+    document.getElementById('meta-' + side).style.display = 'none';
+    document.getElementById('tags-' + side).style.display = 'none';
+    updateStatusDot(side, null);
+  });
+
+  abortLeft  = new AbortController();
+  abortRight = new AbortController();
+
+  const messages = [];
+  if (sysPrompt) messages.push({ role: 'system', content: sysPrompt });
+  messages.push({ role: 'user', content: prompt });
+
+  const temperature = parseFloat(document.getElementById('temp-slider').value);
+  const maxTokens   = parseInt(document.getElementById('maxtok-slider').value);
+
+  await Promise.allSettled([
+    streamResponse('left',  modelLeft,  messages, apiKey, abortLeft.signal,  temperature, maxTokens),
+    streamResponse('right', modelRight, messages, apiKey, abortRight.signal, temperature, maxTokens),
+  ]);
+
+  abortLeft  = null;
+  abortRight = null;
+  setSendState(false);
+}
+
+function setSendState(loading) {
+  const btn = document.getElementById('send-btn');
+  btn.disabled = loading;
+  btn.innerHTML = loading
+    ? '<div class="pg-spinner"></div> Sending…'
+    : '<svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M14 8L2 2l2.5 6L2 14l12-6z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" fill="currentColor" opacity="0.85"/></svg> Send to both models';
+}
+
+async function streamResponse(side, modelId, messages, apiKey, signal, temperature, maxTokens) {
+  const respEl = document.getElementById('response-' + side);
+  const metaEl = document.getElementById('meta-' + side);
+
+  const cursor = document.createElement('span');
+  cursor.className = 'stream-cursor';
+
+  const t0 = performance.now();
+  let completionTokens = 0;
+  let text = '';
+  let lastDomUpdate = 0;
+  let ttft = null; // time to first token (ms)
+  let firstChunk = true;
+
+  try {
+    const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`,
+        'HTTP-Referer': window.location.origin,
+        'X-Title': 'Lexentia Playground',
+      },
+      body: JSON.stringify({
+        model: modelId,
+        messages,
+        stream: true,
+        stream_options: { include_usage: true },
+        max_tokens: maxTokens,
+        temperature,
+      }),
+      signal,
+    });
+
+    if (!res.ok) {
+      let errMsg = `HTTP ${res.status}`;
+      try {
+        const errData = await res.json();
+        errMsg = errData?.error?.message || errMsg;
+      } catch {}
+      if (res.status === 429) errMsg = '429 Too Many Requests — подожди немного и попробуй снова.';
+      else if (res.status === 400 && errMsg.includes('context')) errMsg += ' — Context Length Exceeded.';
+      else if (errMsg.includes('No endpoints found')) errMsg += ' — модель недоступна на OpenRouter. Выбери другую.';
+      updateStatusDot(side, 'err');
+      throw new Error(errMsg);
+    }
+
+    // Show cursor while streaming
+    respEl.textContent = '';
+    respEl.appendChild(cursor);
+
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buf = '';
+
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+
+      buf += decoder.decode(value, { stream: true });
+      const lines = buf.split('\n');
+      buf = lines.pop();
+
+      for (const line of lines) {
+        const trimmed = line.trim();
+        if (!trimmed.startsWith('data:')) continue;
+        const raw = trimmed.slice(5).trim();
+        if (raw === '[DONE]') continue;
+        try {
+          const chunk = JSON.parse(raw);
+
+          if (chunk.usage?.completion_tokens) {
+            completionTokens = chunk.usage.completion_tokens;
+          }
+
+          const delta = chunk.choices?.[0]?.delta?.content;
+          if (delta) {
+            // TTFT — first token
+            if (firstChunk) {
+              ttft = performance.now() - t0;
+              firstChunk = false;
+              // Status based on TTFT
+              updateStatusDot(side, ttft < 800 ? 'ok' : ttft < 3000 ? 'slow' : 'err');
+            }
+            text += delta;
+            const now = performance.now();
+            if (now - lastDomUpdate > 16) {
+              respEl.textContent = text;
+              respEl.appendChild(cursor);
+              lastDomUpdate = now;
+            }
+          }
+        } catch { /* skip malformed JSON */ }
+      }
+    }
+
+    // Final render: use markdown
+    cursor.remove();
+    renderMarkdown(side, text);
+
+  } catch (err) {
+    cursor.remove();
+    if (err.name === 'AbortError') {
+      renderMarkdown(side, text ? text + '\n\n*[Stopped]*' : '*[Stopped]*');
+    } else {
+      respEl.classList.remove('rendered');
+      respEl.textContent = '[Error] ' + err.message;
+      respEl.classList.add('empty');
+    }
+    showStats(side, t0, completionTokens, text, ttft);
+    return;
+  }
+
+  if (!text) {
+    respEl.textContent = '[No response]';
+    respEl.classList.add('empty');
+  }
+
+  showStats(side, t0, completionTokens, text, ttft);
+
+  // Save to session log
+  const entry = {
+    timestamp: new Date().toISOString(),
+    side,
+    model: modelId,
+    prompt: document.getElementById('user-prompt').value.trim(),
+    response: text,
+    ttft_ms: ttft ? Math.round(ttft) : null,
+    tags: [],
+  };
+  sessionLog.push(entry);
+}
+
+// ─── Markdown rendering ───────────────────────────────────────────────────────
+function renderMarkdown(side, text) {
+  const respEl = document.getElementById('response-' + side);
+  if (!text) return;
+
+  if (window.marked) {
+    respEl.classList.add('rendered');
+    respEl.innerHTML = marked.parse(text);
+    // Add copy button to each pre>code block
+    respEl.querySelectorAll('pre').forEach(pre => {
+      const btn = document.createElement('button');
+      btn.className = 'pg-code-copy';
+      btn.textContent = 'copy';
+      btn.onclick = () => {
+        navigator.clipboard.writeText(pre.querySelector('code')?.textContent || '');
+        btn.textContent = '✓';
+        setTimeout(() => btn.textContent = 'copy', 1500);
+      };
+      pre.style.position = 'relative';
+      pre.appendChild(btn);
+    });
+    // highlight.js on code blocks
+    if (window.hljs) {
+      respEl.querySelectorAll('pre code').forEach(block => {
+        hljs.highlightElement(block);
+      });
+    }
+  } else {
+    respEl.textContent = text;
+  }
+}
+
+// ─── Stats footer ─────────────────────────────────────────────────────────────
+function showStats(side, t0, completionTokens, text, ttft) {
+  const elapsed = (performance.now() - t0) / 1000;
+  const tokens = completionTokens > 0
+    ? completionTokens
+    : Math.round(text.split(/\s+/).filter(Boolean).length * 1.3);
+  const tps = tokens > 0 && elapsed > 0 ? (tokens / elapsed).toFixed(1) : '–';
+
+  document.getElementById('time-'   + side).textContent = elapsed.toFixed(2) + 's';
+  document.getElementById('tokens-' + side).textContent = tokens;
+  document.getElementById('tps-'    + side).textContent = tps;
+  document.getElementById('ttft-'   + side).textContent = ttft ? (ttft / 1000).toFixed(2) + 's' : '–';
+  document.getElementById('meta-'   + side).style.display = 'flex';
+  document.getElementById('tags-'   + side).style.display = 'flex';
+
+  // Update session log entry with final stats
+  const last = [...sessionLog].reverse().find(e => e.side === side);
+  if (last) {
+    last.elapsed_s = parseFloat(elapsed.toFixed(2));
+    last.tokens    = tokens;
+    last.tps       = parseFloat(tps) || 0;
+  }
+}
+
+// ─── Error tag system ─────────────────────────────────────────────────────────
+function toggleTag(side, tag) {
+  const btns = document.querySelectorAll(`#tags-${side} .pg-tag-btn`);
+  const tagMap = { hallucination: 0, truncated: 1, formatting: 2 };
+  const btn = btns[tagMap[tag]];
+  if (!btn) return;
+  btn.classList.toggle('active');
+
+  // Update log
+  const last = [...sessionLog].reverse().find(e => e.side === side);
+  if (last) {
+    if (btn.classList.contains('active')) {
+      if (!last.tags.includes(tag)) last.tags.push(tag);
+    } else {
+      last.tags = last.tags.filter(t => t !== tag);
+    }
+  }
+}
+
+// ─── Diff view ────────────────────────────────────────────────────────────────
+let diffActive = false;
+
+function toggleDiff() {
+  diffActive = !diffActive;
+  const btn = document.getElementById('diff-toggle-btn');
+  btn.classList.toggle('active', diffActive);
+
+  if (diffActive) {
+    applyDiff();
+  } else {
+    // Re-render markdown normally
+    const leftEntry  = [...sessionLog].reverse().find(e => e.side === 'left');
+    const rightEntry = [...sessionLog].reverse().find(e => e.side === 'right');
+    if (leftEntry)  renderMarkdown('left',  leftEntry.response);
+    if (rightEntry) renderMarkdown('right', rightEntry.response);
+  }
+}
+
+function applyDiff() {
+  const leftEl  = document.getElementById('response-left');
+  const rightEl = document.getElementById('response-right');
+  const leftText  = leftEl.innerText  || leftEl.textContent;
+  const rightText = rightEl.innerText || rightEl.textContent;
+
+  const leftWords  = leftText.split(/\s+/);
+  const rightWords = rightText.split(/\s+/);
+
+  // Simple word-level diff (LCS-based)
+  const lcs = buildLCS(leftWords, rightWords);
+
+  leftEl.innerHTML  = diffHighlight(leftWords,  lcs, 'left');
+  rightEl.innerHTML = diffHighlight(rightWords, lcs, 'right');
+  leftEl.classList.add('rendered');
+  rightEl.classList.add('rendered');
+}
+
+function buildLCS(a, b) {
+  const m = Math.min(a.length, 200), n = Math.min(b.length, 200);
+  const dp = Array.from({length: m+1}, () => new Uint16Array(n+1));
+  for (let i=1;i<=m;i++) for (let j=1;j<=n;j++)
+    dp[i][j] = a[i-1]===b[j-1] ? dp[i-1][j-1]+1 : Math.max(dp[i-1][j], dp[i][j-1]);
+  // backtrack
+  const lcs = [];
+  let i=m,j=n;
+  while(i>0&&j>0) {
+    if (a[i-1]===b[j-1]) { lcs.unshift(a[i-1]); i--; j--; }
+    else if (dp[i-1][j]>dp[i][j-1]) i--;
+    else j--;
+  }
+  return new Set(lcs);
+}
+
+function diffHighlight(words, lcs, side) {
+  return words.map(w => {
+    const esc = w.replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    if (lcs.has(w)) return esc;
+    const cls = side === 'left' ? 'pg-diff-del' : 'pg-diff-add';
+    return `<mark class="${cls}">${esc}</mark>`;
+  }).join(' ');
+}
+
+// ─── Export JSON ──────────────────────────────────────────────────────────────
+function exportJSON() {
+  if (!sessionLog.length) {
+    alert('No data to export yet. Send a prompt first.');
+    return;
+  }
+  const blob = new Blob([JSON.stringify(sessionLog, null, 2)], {type:'application/json'});
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url;
+  a.download = `lexentia-playground-${Date.now()}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+    const active = document.activeElement;
+    if (active && active.id === 'user-prompt') return; // handled by textarea listener
+    const btn = document.getElementById('send-btn');
+    if (!btn.disabled) sendPrompt();
+  }
+});
+
+init();
+</script>
+</body>
+</html>

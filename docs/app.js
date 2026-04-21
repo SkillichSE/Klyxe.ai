@@ -2,6 +2,16 @@
  * Shared JavaScript utilities for AI Benchmarker
  */
 
+// sidebar section collapse/expand
+function toggleSection(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('open');
+}
+function toggleSubSection(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('open');
+}
+
 // Format large numbers
 function formatNumber(num) {
   if (num >= 1000000) {
@@ -124,10 +134,13 @@ function initSidebar() {
   let enterTimer = null;
   let leaveTimer = null;
 
+  const appLayout = sidebar.closest('.app-layout') || document.querySelector('.app-layout');
+
   sidebar.addEventListener('mouseenter', () => {
     clearTimeout(leaveTimer);
     enterTimer = setTimeout(() => {
       sidebar.classList.add('expanded');
+      if (appLayout) appLayout.classList.add('sidebar-expanded');
     }, 60);
   });
 
@@ -135,6 +148,7 @@ function initSidebar() {
     clearTimeout(enterTimer);
     leaveTimer = setTimeout(() => {
       sidebar.classList.remove('expanded');
+      if (appLayout) appLayout.classList.remove('sidebar-expanded');
     }, 120);
   });
 }

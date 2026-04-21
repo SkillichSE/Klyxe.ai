@@ -7,7 +7,7 @@
   })();</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title id="page-title">Model Details — Lexentia Proof</title>
+  <title id="page-title">Model Details — Lexentia</title>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="style-spacing.css">
@@ -466,13 +466,45 @@
     }
   </style>
   <script src="app.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    .history-section {
+      background: var(--color-surf-cont-low);
+      border: 1px solid var(--color-outline-var);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .history-chart-wrap {
+      position: relative;
+      height: 280px;
+    }
+    .history-legend {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+    .history-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+    .history-legend-dot {
+      width: 12px;
+      height: 3px;
+      border-radius: 2px;
+    }
+  </style>
 </head>
 <body>
 
 <header class="header" id="app-bar">
   <div class="header-content">
     <a href="index.html" class="logo">
-      <img src="media/L_logo.png" alt="Lexentia Proof logo" class="logo-icon">Lexentia Proof
+      <img src="media/L_logo.png" alt="Lexentia logo" class="logo-icon">Lexentia
     </a>
     <nav class="nav">
       <a href="index.html" class="nav-link">Rankings</a>
@@ -1366,7 +1398,7 @@ function renderPassportSection(model) {
 
 function renderPage(model) {
   var t = model.tests;
-  document.title = model.model_name + ' — Lexentia Proof';
+  document.title = model.model_name + ' — Lexentia';
 
   var sizeLabel = { large: '🔴 Large', medium: '🟡 Medium', small: '🟢 Small' }[model.size_category] || model.size_category;
 
@@ -1392,6 +1424,14 @@ function renderPage(model) {
   var sectionsHtml =
     '<div class="detail-container">' +
       renderPassportSection(model) +
+      '<h2 class="section-heading">📈 History (last 32 days)</h2>' +
+      '<div class="history-section">' +
+        '<div class="history-chart-wrap"><canvas id="history-chart"></canvas></div>' +
+        '<div class="history-legend">' +
+          '<div class="history-legend-item"><div class="history-legend-dot" style="background:#6366f1"></div>Quality Score</div>' +
+          '<div class="history-legend-item"><div class="history-legend-dot" style="background:#10b981"></div>Speed (normalized)</div>' +
+        '</div>' +
+      '</div>' +
       '<h2 class="section-heading">🔬 Full Test Breakdown</h2>' +
       '<p style="font-size:13px;color:var(--text-secondary);margin-bottom:24px;line-height:1.6;">Click any category to expand the exact prompts, the model\'s responses, and how each answer was graded.</p>' +
       renderCodeSection(t) +
@@ -1421,12 +1461,122 @@ if (!modelId) {
           '<div class="page-error"><h2>Model not found</h2><p>ID: ' + esc(modelId) + '</p><p><a href="index.html">← Back to rankings</a></p></div>';
       } else {
         renderPage(model);
+        loadHistoryChart(modelId);
       }
     })
     .catch(function(err) {
       document.getElementById('page-root').innerHTML =
         '<div class="page-error"><h2>Failed to load data</h2><p>' + esc(String(err)) + '</p><p><a href="index.html">← Back to rankings</a></p></div>';
     });
+}
+
+function loadHistoryChart(modelId) {
+  var dates = [];
+  var d = new Date();
+  for (var i = 31; i >= 0; i--) {
+    var dd = new Date(d);
+    dd.setDate(d.getDate() - i);
+    dates.push(dd.toISOString().split('T')[0]);
+  }
+
+  var promises = dates.map(function(date) {
+    return fetch('data/results/' + date + '.json')
+      .then(function(r) { return r.ok ? r.json() : null; })
+      .then(function(data) {
+        if (!data) return { date: date, quality: null, speed: null };
+        var results = Array.isArray(data) ? data : (data.results || []);
+        var m = results.find(function(x) { return x.model_id === modelId; });
+        return {
+          date: date,
+          quality: m ? (m.quality_score || 0) : null,
+          speed: m ? (m.raw_speed || (m.tests && m.tests.speed && m.tests.speed.avg_tokens_per_sec) || 0) : null
+        };
+      })
+      .catch(function() { return { date: date, quality: null, speed: null }; });
+  });
+
+  Promise.all(promises).then(function(rows) {
+    var canvas = document.getElementById('history-chart');
+    if (!canvas) return;
+
+    var labels = rows.map(function(r) {
+      var dt = new Date(r.date + 'T00:00:00');
+      return (dt.getMonth()+1) + '/' + dt.getDate();
+    });
+
+    var qualityData = rows.map(function(r) { return r.quality; });
+    var speedData   = rows.map(function(r) { return r.speed; });
+    var maxSpeed = Math.max.apply(null, speedData.filter(function(v){ return v !== null; })) || 1;
+    var speedNorm = speedData.map(function(v) { return v === null ? null : Math.round(v / maxSpeed * 100); });
+
+    var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    var gridColor = dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.06)';
+    var tickColor = dark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.4)';
+
+    new Chart(canvas, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Quality Score',
+            data: qualityData,
+            borderColor: '#6366f1',
+            backgroundColor: 'rgba(99,102,241,0.08)',
+            borderWidth: 2,
+            pointRadius: 3,
+            pointHoverRadius: 5,
+            pointBackgroundColor: '#6366f1',
+            fill: true,
+            tension: 0.3,
+            spanGaps: false
+          },
+          {
+            label: 'Speed (norm.)',
+            data: speedNorm,
+            borderColor: '#10b981',
+            backgroundColor: 'rgba(16,185,129,0.06)',
+            borderWidth: 2,
+            pointRadius: 3,
+            pointHoverRadius: 5,
+            pointBackgroundColor: '#10b981',
+            fill: false,
+            tension: 0.3,
+            spanGaps: false
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: function(ctx) {
+                if (ctx.datasetIndex === 0) return ' Quality: ' + (ctx.raw !== null ? ctx.raw.toFixed(1) : 'N/A');
+                var idx = ctx.dataIndex;
+                var rawSpeed = rows[idx] ? rows[idx].speed : null;
+                return ' Speed: ' + (rawSpeed !== null ? Math.round(rawSpeed) + ' tok/s' : 'N/A');
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { color: gridColor },
+            ticks: { color: tickColor, font: { size: 11 }, maxTicksLimit: 16 }
+          },
+          y: {
+            min: 0, max: 100,
+            grid: { color: gridColor },
+            ticks: { color: tickColor, font: { size: 11 } }
+          }
+        }
+      }
+    });
+  });
 }
 </script>
 

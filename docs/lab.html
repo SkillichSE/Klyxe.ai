@@ -41,34 +41,7 @@
 
 <div class="app-layout">
   <!-- Left sidebar with Lab nav -->
-  <aside class="left-sidebar" id="left-sidebar">
-    <div class="sidebar-product-btns">
-      <a href="index.html" class="sidebar-product-btn proof">
-        <span class="prod-icon proof">P</span><span class="btn-label">Proof</span>
-      </a>
-      <a href="lab.html" class="sidebar-product-btn lab active">
-        <span class="prod-icon lab">L</span><span class="btn-label">Lab</span>
-      </a>
-    </div>
-    <nav class="sidebar-nav">
-      <a href="#insights" class="sidebar-topnav-link active">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 11l4-4 3 2.5L13 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span class="link-label">Insights</span>
-      </a>
-      <a href="#prompts" class="sidebar-topnav-link">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M5 7h6M5 10h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        <span class="link-label">Prompts</span>
-      </a>
-      <a href="#specs" class="sidebar-topnav-link">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M4 4h8M4 8h6M4 12h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        <span class="link-label">Specs</span>
-      </a>
-      <a href="#methods" class="sidebar-topnav-link">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v3l2 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        <span class="link-label">Methods</span>
-      </a>
-    </nav>
-  </aside>
+  <lex-sidebar></lex-sidebar>
 
   <!-- Main Lab content -->
   <div class="sidebar-main">
@@ -316,5 +289,6 @@ window.addEventListener('scroll', () =>
   document.querySelectorAll('.reveal, .section-title').forEach(el => io.observe(el));
 })();
 </script>
+  <script src="sidebar.js"></script>
 </body>
 </html>

@@ -4,7 +4,7 @@
   <script>(function(){var t=localStorage.getItem('theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Search — Lexentia Proof</title>
+  <title>Search — Lexentia</title>
   <meta name="description" content="Search and compare free AI models by name, provider, speed or quality.">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="style-spacing.css">
@@ -16,7 +16,7 @@
   <div class="header-content">
     <a href="index.html" class="logo" style="padding-left:0;margin-left:0;">
       <img src="media/L_logo.png" alt="Lexentia logo" class="logo-icon" style="margin-left:0;">
-      <span style="font-size:17px;font-weight:700;letter-spacing:-0.02em;">Lexentia Proof</span>
+      <span style="font-size:17px;font-weight:700;letter-spacing:-0.02em;">Lexentia</span>
     </a>
     <div style="flex:1;"></div>
     <div class="theme-switch-wrap">
@@ -34,42 +34,7 @@
 
 <div class="app-layout">
   <!-- Left sidebar -->
-  <aside class="left-sidebar" id="left-sidebar">
-    <div class="sidebar-product-btns">
-      <a href="index.html" class="sidebar-product-btn proof active">
-        <span class="prod-icon proof">P</span><span class="btn-label">Proof</span>
-      </a>
-      <a href="lab.html" class="sidebar-product-btn lab">
-        <span class="prod-icon lab">L</span><span class="btn-label">Lab</span>
-      </a>
-    </div>
-    <nav class="sidebar-nav">
-      <a href="index.html" class="sidebar-topnav-link">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="2" y="10" width="3" height="4" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="6.5" y="7" width="3" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="4" width="3" height="10" rx="1" stroke="currentColor" stroke-width="1.5"/></svg>
-        <span class="link-label">Rankings</span>
-      </a>
-      <a href="trends.html" class="sidebar-topnav-link">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 12L6 8L9 10L14 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span class="link-label">Trends</span>
-      </a>
-      <a href="providers.html" class="sidebar-topnav-link">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v3l2 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        <span class="link-label">Providers</span>
-      </a>
-      <a href="search.html" class="sidebar-topnav-link active">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="4.5" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 10.5L13 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        <span class="link-label">Search</span>
-      </a>
-      <a href="news.html" class="sidebar-topnav-link">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M5 7h6M5 10h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        <span class="link-label">News</span>
-      </a>
-      <a href="about.html" class="sidebar-topnav-link">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 7v5M8 5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        <span class="link-label">About</span>
-      </a>
-    </nav>
-  </aside>
+  <lex-sidebar></lex-sidebar>
 
   <!-- Main content -->
   <div class="sidebar-main">
@@ -87,7 +52,16 @@
         <span class="search-icon">⌕</span>
         <input type="text" class="search-input" id="search-input" placeholder="Llama, Gemini, Mistral...">
       </div>
-      <div style="display:flex;gap:24px;flex-wrap:wrap;">
+      <div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-end;">
+        <div>
+          <div style="font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--text-secondary);margin-bottom:8px;">Tier</div>
+          <div class="filters" id="tier-filters">
+            <button class="filter-btn active" data-tier="all">All</button>
+            <button class="filter-btn" data-tier="large">Large 50B+</button>
+            <button class="filter-btn" data-tier="medium">Medium</button>
+            <button class="filter-btn" data-tier="small">Small</button>
+          </div>
+        </div>
         <div>
           <div style="font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--text-secondary);margin-bottom:8px;">Provider</div>
           <div class="filters" id="provider-filters">
@@ -95,6 +69,8 @@
             <button class="filter-btn" data-provider="Groq">Groq</button>
             <button class="filter-btn" data-provider="Google">Google</button>
             <button class="filter-btn" data-provider="OpenRouter">OpenRouter</button>
+            <button class="filter-btn" data-provider="Cerebras">Cerebras</button>
+            <button class="filter-btn" data-provider="SambaNova">SambaNova</button>
           </div>
         </div>
         <div>
@@ -105,19 +81,24 @@
             <button class="filter-btn" data-sort="code">Code</button>
           </div>
         </div>
+        <div>
+          <div style="font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--text-secondary);margin-bottom:8px;">Min score: <span id="min-score-val">0</span></div>
+          <input type="range" id="min-score" min="0" max="100" value="0"
+            style="width:140px;accent-color:var(--color-primary);cursor:pointer;">
+        </div>
       </div>
     </div>
 
     <div id="results-count" style="font-size:13px;color:var(--text-secondary);margin-bottom:16px;"></div>
     <div class="grid-cards" id="search-results"></div>
     <div id="no-results" style="display:none;text-align:center;padding:64px;color:var(--text-secondary);">
-      No models match your search.
+      No models match '<span id="no-results-query"></span>'. Try a provider name or model family (Llama, Gemini, Qwen...).
     </div>
   </main>
 
 <footer class="footer">
     <div class="footer-links">
-      <a href="https://skillichse.github.io/Lexentia-Proof/" class="footer-link">GitHub</a>
+      <a href="https://skillichse.github.io/Lexentia/" class="footer-link">GitHub</a>
       <a href="about.html" class="footer-link">About</a>
       <a href="news.html" class="footer-link">News</a>
     </div>
@@ -125,7 +106,7 @@
   </footer>
 
   <script>
-    let allModels=[], currentProvider='all', currentSort='quality', searchQuery='';
+    let allModels=[], currentProvider='all', currentTier='all', currentSort='quality', searchQuery='', minScore=0;
 
     function sizeBadge(cat){
       const cls={small:'size-small',medium:'size-medium',large:'size-large',unknown:'size-unknown'};
@@ -164,10 +145,14 @@
     }
 
     function filterAndDisplay(){
-      let list=currentProvider==='all'?[...allModels]:allModels.filter(m=>m.provider===currentProvider);
+      let list=[...allModels];
+      if(currentProvider!=='all') list=list.filter(m=>m.provider===currentProvider);
+      if(currentTier!=='all') list=list.filter(m=>m.size_category===currentTier);
+      if(minScore>0) list=list.filter(m=>(m.quality_score||0)>=minScore);
       if(searchQuery) list=list.filter(m=>
         m.model_name.toLowerCase().includes(searchQuery)||
-        m.provider.toLowerCase().includes(searchQuery)
+        m.provider.toLowerCase().includes(searchQuery)||
+        (m.model_id||'').toLowerCase().includes(searchQuery)
       );
       list.sort((a,b)=>{
         if(currentSort==='speed') return (b.raw_speed||0)-(a.raw_speed||0);
@@ -183,6 +168,8 @@
         sr.innerHTML=''; sr.style.display='none';
         nr.style.display='block';
         rc.textContent='';
+        const nrq=document.getElementById('no-results-query');
+        if(nrq) nrq.textContent=searchQuery||'these filters';
         return;
       }
       nr.style.display='none';
@@ -228,6 +215,22 @@
         currentProvider=e.target.dataset.provider;
         filterAndDisplay();
       });
+      document.getElementById('tier-filters').addEventListener('click',e=>{
+        if(!e.target.classList.contains('filter-btn'))return;
+        document.querySelectorAll('#tier-filters .filter-btn').forEach(b=>b.classList.remove('active'));
+        e.target.classList.add('active');
+        currentTier=e.target.dataset.tier;
+        filterAndDisplay();
+      });
+      const minScoreInput=document.getElementById('min-score');
+      const minScoreVal=document.getElementById('min-score-val');
+      if(minScoreInput){
+        minScoreInput.addEventListener('input',()=>{
+          minScore=parseInt(minScoreInput.value)||0;
+          if(minScoreVal) minScoreVal.textContent=minScore;
+          filterAndDisplay();
+        });
+      }
       document.getElementById('sort-filters').addEventListener('click',e=>{
         if(!e.target.classList.contains('filter-btn'))return;
         document.querySelectorAll('#sort-filters .filter-btn').forEach(b=>b.classList.remove('active'));
@@ -257,5 +260,6 @@
   </div><!-- /.sidebar-main -->
 </div><!-- /.app-layout -->
 
+  <script src="sidebar.js"></script>
 </body>
 </html>

@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "updated": "2026-04-21T06:47:05.006306+00:00",
   "count": 30,
   "items": [
@@ -211,6 +212,220 @@
       "date": "2026-04-15T09:25:20+00:00",
       "source": "Hugging Face",
       "summary": ""
+=======
+  "updated": "2026-04-15T05:27:00.516946+00:00",
+  "count": 30,
+  "items": [
+    {
+      "title": "Use-case based deployments on SageMaker JumpStart",
+      "link": "https://aws.amazon.com/blogs/machine-learning/use-case-based-deployments-on-sagemaker-jumpstart/",
+      "date": "2026-04-14T18:14:54+00:00",
+      "source": "AWS ML Blog",
+      "summary": "We're excited to announce the launch of Amazon SageMaker JumpStart optimized deployments. SageMaker JumpStart improved deployments address the need for rich and straightforward deployment customization on SageMaker JumpStart by offering pre-defined deployment configurations, desi"
+    },
+    {
+      "title": "Best practices to run inference on Amazon SageMaker HyperPod",
+      "link": "https://aws.amazon.com/blogs/machine-learning/best-practices-to-run-inference-on-amazon-sagemaker-hyperpod/",
+      "date": "2026-04-14T18:09:22+00:00",
+      "source": "AWS ML Blog",
+      "summary": "This post explores how Amazon SageMaker HyperPod provides a comprehensive solution for inference workloads. We walk you through the platform\u2019s key capabilities for dynamic scaling, simplified deployment, and intelligent resource management. By the end of this post, you\u2019ll underst"
+    },
+    {
+      "title": "How Guidesly built AI-generated trip reports for outdoor guides on AWS",
+      "link": "https://aws.amazon.com/blogs/machine-learning/how-guidesly-built-ai-generated-trip-reports-for-outdoor-guides-on-aws/",
+      "date": "2026-04-14T18:02:56+00:00",
+      "source": "AWS ML Blog",
+      "summary": "In this post, we walk through how Guidesly built Jack AI on AWS using AWS Lambda, AWS Step Functions, Amazon Simple Storage Service (Amazon S3), Amazon Relational Database Service (Amazon RDS), Amazon SageMaker AI, and Amazon Bedrock to ingest trip media, enrich it with context, "
+    },
+    {
+      "title": "Turn your best AI prompts into one-click tools in Chrome",
+      "link": "https://blog.google/products-and-platforms/products/chrome/skills-in-chrome/",
+      "date": "2026-04-14T17:00:00+00:00",
+      "source": "Google AI Blog",
+      "summary": "Video showing Skills in Chrome"
+    },
+    {
+      "title": "NVIDIA NVbandwidth: Your Essential Tool for Measuring GPU Interconnect and Memory Performance",
+      "link": "https://developer.nvidia.com/blog/nvidia-nvbandwidth-your-essential-tool-for-measuring-gpu-interconnect-and-memory-performance/",
+      "date": "2026-04-14T16:00:00Z",
+      "source": "NVIDIA Developer",
+      "summary": "When you\u2019re writing CUDA applications, one of the most important things you need to focus on to write great code is data transfer performance. This applies to..."
+    },
+    {
+      "title": "NVIDIA Ising Introduces AI-Powered Workflows to Build Fault-Tolerant Quantum Systems",
+      "link": "https://developer.nvidia.com/blog/nvidia-ising-introduces-ai-powered-workflows-to-build-fault-tolerant-quantum-systems/",
+      "date": "2026-04-14T14:15:56Z",
+      "source": "NVIDIA Developer",
+      "summary": "NVIDIA Ising is the world's first family of open AI models for building quantum processors, launching with two model domains: Ising Calibration and Ising..."
+    },
+    {
+      "title": "Spring AI SDK for Amazon Bedrock AgentCore is now Generally Available",
+      "link": "https://aws.amazon.com/blogs/machine-learning/spring-ai-sdk-for-amazon-bedrock-agentcore-is-now-generally-available/",
+      "date": "2026-04-14T12:40:47+00:00",
+      "source": "AWS ML Blog",
+      "summary": "With the new Spring AI AgentCore SDK, you can build production-ready AI agents and run them on the highly scalable AgentCore Runtime. The Spring AI AgentCore SDK is an open source library that brings Amazon Bedrock AgentCore capabilities into Spring AI. In this post, we build an "
+    },
+    {
+      "title": "Bringing people together at AI for the Economy Forum",
+      "link": "https://blog.google/company-news/outreach-and-initiatives/creating-opportunity/ai-economy-forum/",
+      "date": "2026-04-14T09:00:00+00:00",
+      "source": "Google AI Blog",
+      "summary": "Woman working with a large tool. On the left are the Google and MIT FutureTech logos, \"AI for the Economy Forum\", and \"Innovation and Adaption in the New Era\""
+    },
+    {
+      "title": "Trusted access for the next era of cyber defense",
+      "link": "https://openai.com/index/scaling-trusted-access-for-cyber-defense",
+      "date": "2026-04-14T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "OpenAI expands its Trusted Access for Cyber program, introducing GPT-5.4-Cyber to vetted defenders and strengthening safeguards as AI cybersecurity capabilities advance."
+    },
+    {
+      "title": "How to build effective reward functions with AWS Lambda for Amazon Nova model customization",
+      "link": "https://aws.amazon.com/blogs/machine-learning/how-to-build-effective-reward-functions-with-aws-lambda-for-amazon-nova-model-customization/",
+      "date": "2026-04-13T16:01:18+00:00",
+      "source": "AWS ML Blog",
+      "summary": "This post demonstrates how Lambda enables scalable, cost-effective reward functions for Amazon Nova customization. You'll learn to choose between Reinforcement Learning via Verifiable Rewards (RLVR) for objectively verifiable tasks and Reinforcement Learning via AI Feedback (RLAI"
+    },
+    {
+      "title": "Enterprises power agentic workflows in Cloudflare Agent Cloud with OpenAI",
+      "link": "https://openai.com/index/cloudflare-openai-agent-cloud",
+      "date": "2026-04-13T06:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Cloudflare brings OpenAI\u2019s GPT-5.4 and Codex to Agent Cloud, enabling enterprises to build, deploy, and scale AI agents for real-world tasks with speed and security."
+    },
+    {
+      "title": "EinsteinArena: Harnessing the collective intelligence of agents in the wild to advance science",
+      "link": "https://www.together.ai/blog/einsteinarena",
+      "date": "2026-04-13T00:00:00+00:00",
+      "source": "Together AI",
+      "summary": "EinsteinArena is a platform where AI agents collaborate and compete on open math problems. AI agents on EinsteinArena have already set 11 new state-of-the-art results on open math problems \u2014 including pushing the kissing number lower bound in dimension 11 from 593 to 604."
+    },
+    {
+      "title": "MiniMax M2.7\u00a0Advances\u00a0Scalable Agentic Workflows on\u00a0NVIDIA Platforms for Complex AI Applications",
+      "link": "https://developer.nvidia.com/blog/minimax-m2-7-advances-scalable-agentic-workflows-on-nvidia-platforms-for-complex-ai-applications/",
+      "date": "2026-04-12T01:02:44Z",
+      "source": "NVIDIA Developer",
+      "summary": "The release of&nbsp;MiniMax M2.7&nbsp;adds enhancements to the popular&nbsp;MiniMax&nbsp;M2.5 model,&nbsp;built for agentic harnesses,..."
+    },
+    {
+      "title": "ChatGPT for finance teams",
+      "link": "https://openai.com/academy/finance",
+      "date": "2026-04-10T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Learn how finance teams use ChatGPT to streamline reporting, analyze data, improve forecasts, and communicate insights more clearly."
+    },
+    {
+      "title": "ChatGPT for marketing teams",
+      "link": "https://openai.com/academy/marketing",
+      "date": "2026-04-10T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Learn how marketing teams use ChatGPT to plan campaigns, generate content, analyze performance, and move from ideas to execution faster."
+    },
+    {
+      "title": "Getting started with ChatGPT",
+      "link": "https://openai.com/academy/getting-started",
+      "date": "2026-04-10T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Learn how to use ChatGPT, start your first conversation, and discover simple ways to write, brainstorm, and solve problems with AI."
+    },
+    {
+      "title": "Financial services",
+      "link": "https://openai.com/academy/financial-services",
+      "date": "2026-04-10T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Explore AI resources for financial services, including prompt packs, GPTs, guides, and tools to help institutions deploy and scale AI securely."
+    },
+    {
+      "title": "Our response to the Axios developer tool compromise",
+      "link": "https://openai.com/index/axios-developer-tool-compromise",
+      "date": "2026-04-10T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "OpenAI responds to the Axios supply chain attack by rotating macOS code signing certificates, updating apps, and confirming no user data was compromised."
+    },
+    {
+      "title": "Brainstorming with ChatGPT",
+      "link": "https://openai.com/academy/brainstorming",
+      "date": "2026-04-10T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Learn how to use ChatGPT to brainstorm ideas, organize thinking, and turn rough concepts into structured, actionable plans."
+    },
+    {
+      "title": "Responsible and safe use of AI",
+      "link": "https://openai.com/academy/responsible-and-safe-use",
+      "date": "2026-04-10T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Learn how to use AI responsibly with best practices for safety, accuracy, and transparency when using tools like ChatGPT."
+    },
+    {
+      "title": "Writing with ChatGPT",
+      "link": "https://openai.com/academy/writing",
+      "date": "2026-04-10T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Learn how to use ChatGPT for writing to draft, revise, and refine content with clear structure, tone, and intent."
+    },
+    {
+      "title": "ChatGPT for research",
+      "link": "https://openai.com/academy/research",
+      "date": "2026-04-10T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Learn how to use ChatGPT for research to gather sources, analyze information, and create structured, citation-backed insights."
+    },
+    {
+      "title": "Creating images with ChatGPT",
+      "link": "https://openai.com/academy/image-generation",
+      "date": "2026-04-10T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Learn how to create and refine images with ChatGPT using clear prompts, iterate on designs, and generate high-quality visuals in minutes."
+    },
+    {
+      "title": "ChatGPT for sales teams",
+      "link": "https://openai.com/academy/sales",
+      "date": "2026-04-10T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Learn how sales teams use ChatGPT to research accounts, personalize outreach, manage deals, and improve pipeline and conversion."
+    },
+    {
+      "title": "Applications of AI at OpenAI",
+      "link": "https://openai.com/academy/applications-of-ai",
+      "date": "2026-04-10T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Explore how OpenAI products like ChatGPT, Codex, and APIs bring AI into real-world use for work, development, and everyday tasks."
+    },
+    {
+      "title": "Using custom GPTs",
+      "link": "https://openai.com/academy/custom-gpts",
+      "date": "2026-04-10T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Learn how to build and use custom GPTs to automate workflows, maintain consistent outputs, and create purpose-built AI assistants."
+    },
+    {
+      "title": "Working with files in ChatGPT",
+      "link": "https://openai.com/academy/working-with-files",
+      "date": "2026-04-10T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Learn how to upload and work with files in ChatGPT to analyze data, summarize documents, and generate content from PDFs, spreadsheets, and more."
+    },
+    {
+      "title": "Prompting fundamentals",
+      "link": "https://openai.com/academy/prompting",
+      "date": "2026-04-10T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Learn prompting fundamentals and how to write clear, effective prompts to get better, more useful responses from ChatGPT."
+    },
+    {
+      "title": "Personalizing ChatGPT",
+      "link": "https://openai.com/academy/personalization",
+      "date": "2026-04-10T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Learn how to personalize ChatGPT using custom instructions and memory to get more relevant, consistent, and tailored responses."
+    },
+    {
+      "title": "Analyzing data with ChatGPT",
+      "link": "https://openai.com/academy/data-analysis",
+      "date": "2026-04-10T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Learn how to analyze data with ChatGPT by exploring datasets, generating insights, creating visualizations, and turning findings into actionable decisions."
+>>>>>>> 8b71da5 (playground)
     }
   ]
 }
