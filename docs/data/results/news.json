@@ -1,7 +1,14 @@
 {
-  "updated": "2026-04-26T06:31:52.278634+00:00",
+  "updated": "2026-04-27T07:00:31.655471+00:00",
   "count": 30,
   "items": [
+    {
+      "title": "Our principles",
+      "link": "https://openai.com/index/our-principles",
+      "date": "2026-04-26T16:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Our mission is to ensure that AGI benefits all of humanity. Sam Altman shares five principles that guide our work."
+    },
     {
       "title": "Build with DeepSeek V4 Using NVIDIA Blackwell and GPU-Accelerated Endpoints",
       "link": "https://developer.nvidia.com/blog/build-with-deepseek-v4-using-nvidia-blackwell-and-gpu-accelerated-endpoints/",
@@ -59,18 +66,18 @@
       "summary": "Learn how Google\u2019s TPUs power increasingly demanding AI workloads with this new video."
     },
     {
-      "title": "Introducing GPT-5.5",
-      "link": "https://openai.com/index/introducing-gpt-5-5",
-      "date": "2026-04-23T11:00:00+00:00",
-      "source": "OpenAI",
-      "summary": "Introducing GPT-5.5, our smartest model yet\u2014faster, more capable, and built for complex tasks like coding, research, and data analysis across tools."
-    },
-    {
       "title": "GPT-5.5 System Card",
       "link": "https://openai.com/index/gpt-5-5-system-card",
       "date": "2026-04-23T11:00:00+00:00",
       "source": "OpenAI",
       "summary": ""
+    },
+    {
+      "title": "Introducing GPT-5.5",
+      "link": "https://openai.com/index/introducing-gpt-5-5",
+      "date": "2026-04-23T11:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Introducing GPT-5.5, our smartest model yet\u2014faster, more capable, and built for complex tasks like coding, research, and data analysis across tools."
     },
     {
       "title": "Automations",
@@ -80,32 +87,11 @@
       "summary": "Learn how to automate tasks in Codex using schedules and triggers to create reports, summaries, and recurring workflows without manual effort."
     },
     {
-      "title": "Top 10 uses for Codex at work",
-      "link": "https://openai.com/academy/top-10-use-cases-codex-for-work",
+      "title": "How to get started with Codex",
+      "link": "https://openai.com/academy/codex-how-to-start",
       "date": "2026-04-23T10:00:00+00:00",
       "source": "OpenAI",
-      "summary": "Explore 10 practical Codex use cases to automate tasks, create deliverables, and turn real inputs into outputs across tools, files, and workflows."
-    },
-    {
-      "title": "Plugins and skills",
-      "link": "https://openai.com/academy/codex-plugins-and-skills",
-      "date": "2026-04-23T10:00:00+00:00",
-      "source": "OpenAI",
-      "summary": "Learn how to use Codex plugins and skills to connect tools, access data, and follow repeatable workflows to automate tasks and improve results."
-    },
-    {
-      "title": "Working with Codex",
-      "link": "https://openai.com/academy/working-with-codex",
-      "date": "2026-04-23T10:00:00+00:00",
-      "source": "OpenAI",
-      "summary": "Learn how to set up your Codex workspace, create threads and projects, manage files, and start completing tasks with step-by-step guidance."
-    },
-    {
-      "title": "Codex settings",
-      "link": "https://openai.com/academy/codex-settings",
-      "date": "2026-04-23T10:00:00+00:00",
-      "source": "OpenAI",
-      "summary": "Learn how to configure Codex settings, including personalization, detail level, and permissions, to run tasks smoothly and customize your workflow."
+      "summary": "Learn how to get started with Codex by setting up projects, creating threads, and completing your first tasks with step-by-step guidance."
     },
     {
       "title": "What is Codex?",
@@ -115,11 +101,32 @@
       "summary": "Learn how Codex helps you go beyond chat by automating tasks, connecting tools, and producing real outputs like docs and dashboards."
     },
     {
-      "title": "How to get started with Codex",
-      "link": "https://openai.com/academy/codex-how-to-start",
+      "title": "Codex settings",
+      "link": "https://openai.com/academy/codex-settings",
       "date": "2026-04-23T10:00:00+00:00",
       "source": "OpenAI",
-      "summary": "Learn how to get started with Codex by setting up projects, creating threads, and completing your first tasks with step-by-step guidance."
+      "summary": "Learn how to configure Codex settings, including personalization, detail level, and permissions, to run tasks smoothly and customize your workflow."
+    },
+    {
+      "title": "Working with Codex",
+      "link": "https://openai.com/academy/working-with-codex",
+      "date": "2026-04-23T10:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Learn how to set up your Codex workspace, create threads and projects, manage files, and start completing tasks with step-by-step guidance."
+    },
+    {
+      "title": "Plugins and skills",
+      "link": "https://openai.com/academy/codex-plugins-and-skills",
+      "date": "2026-04-23T10:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Learn how to use Codex plugins and skills to connect tools, access data, and follow repeatable workflows to automate tasks and improve results."
+    },
+    {
+      "title": "Top 10 uses for Codex at work",
+      "link": "https://openai.com/academy/top-10-use-cases-codex-for-work",
+      "date": "2026-04-23T10:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Explore 10 practical Codex use cases to automate tasks, create deliverables, and turn real inputs into outputs across tools, files, and workflows."
     },
     {
       "title": "How to Use Transformers.js in a Chrome Extension",
@@ -199,18 +206,11 @@
       "summary": "The eighth generation of Google\u2019s TPU includes two specialized chips that will power the future of AI."
     },
     {
-      "title": "Workspace agents",
-      "link": "https://openai.com/academy/workspace-agents",
+      "title": "Introducing workspace agents in ChatGPT",
+      "link": "https://openai.com/index/introducing-workspace-agents-in-chatgpt",
       "date": "2026-04-22T10:00:00+00:00",
       "source": "OpenAI",
-      "summary": "Learn how to build, use, and scale workspace agents in ChatGPT to automate repeatable workflows, connect tools, and streamline team operations."
-    },
-    {
-      "title": "Speeding up agentic workflows with WebSockets in the Responses API",
-      "link": "https://openai.com/index/speeding-up-agentic-workflows-with-websockets",
-      "date": "2026-04-22T10:00:00+00:00",
-      "source": "OpenAI",
-      "summary": "A deep dive into the Codex agent loop, showing how WebSockets and connection-scoped caching reduced API overhead and improved model latency."
+      "summary": "Workspace agents in ChatGPT are Codex-powered agents that automate complex workflows, run in the cloud, and help teams scale work across tools securely."
     }
   ]
 }
