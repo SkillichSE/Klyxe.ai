@@ -1,7 +1,77 @@
 {
-  "updated": "2026-04-27T07:00:31.655471+00:00",
+  "updated": "2026-04-28T06:51:16.536822+00:00",
   "count": 30,
   "items": [
+    {
+      "title": "Adaptive Ultrasound Imaging with Physics-Informed NV-Raw2Insights-US AI",
+      "link": "https://huggingface.co/blog/nvidia/raw2insights-adaptive-ultrasound-imaging",
+      "date": "2026-04-28T00:28:13+00:00",
+      "source": "Hugging Face",
+      "summary": ""
+    },
+    {
+      "title": "Build and deploy an automatic sync solution for Amazon Bedrock Knowledge Bases",
+      "link": "https://aws.amazon.com/blogs/machine-learning/build-and-deploy-an-automatic-sync-solution-for-amazon-bedrock-knowledge-bases/",
+      "date": "2026-04-27T17:51:41+00:00",
+      "source": "AWS ML Blog",
+      "summary": "In this post, we explore an automated solution that detects S3 events and triggers ingestion jobs while respecting service quotas and providing comprehensive monitoring. This serverless solution uses an event-driven architecture to keep your knowledge base current without overwhe"
+    },
+    {
+      "title": "Build Strands Agents with SageMaker AI models and MLflow",
+      "link": "https://aws.amazon.com/blogs/machine-learning/build-strands-agents-with-sagemaker-ai-models-and-mlflow/",
+      "date": "2026-04-27T16:50:41+00:00",
+      "source": "AWS ML Blog",
+      "summary": "In this post, we demonstrate how to build AI agents using Strands Agents SDK with models deployed on SageMaker AI endpoints. You will learn how to deploy foundation models from SageMaker JumpStart, integrate them with Strands Agents, and establish production-grade observability u"
+    },
+    {
+      "title": "How Popsa used Amazon Nova to inspire customers with personalised title suggestions",
+      "link": "https://aws.amazon.com/blogs/machine-learning/how-popsa-used-amazon-nova-to-inspire-customers-with-personalised-title-suggestions/",
+      "date": "2026-04-27T16:45:37+00:00",
+      "source": "AWS ML Blog",
+      "summary": "In this post, we share how we applied Amazon Bedrock and the Amazon Nova family of models to reimagine our Title Suggestion feature. By combining metadata, computer vision, and retrieval-augmented generative AI, we now automatically generate creative, brand-aligned titles and sub"
+    },
+    {
+      "title": "OpenAI available at FedRAMP Moderate",
+      "link": "https://openai.com/index/openai-available-at-fedramp-moderate",
+      "date": "2026-04-27T14:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "OpenAI is available at FedRAMP Moderate authorization for ChatGPT Enterprise and the OpenAI API, enabling secure AI adoption for U.S. federal agencies."
+    },
+    {
+      "title": "Join the new AI Agents Vibe Coding Course from Google and Kaggle",
+      "link": "https://blog.google/innovation-and-ai/technology/developers-tools/kaggle-genai-intensive-course-vibe-coding-june-2026/",
+      "date": "2026-04-27T13:00:00+00:00",
+      "source": "Google AI Blog",
+      "summary": "A web next to a laptop"
+    },
+    {
+      "title": "The next phase of the Microsoft OpenAI partnership",
+      "link": "https://openai.com/index/next-phase-of-microsoft-partnership",
+      "date": "2026-04-27T06:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "OpenAI and Microsoft announce an amended agreement that simplifies the partnership, adds long-term clarity, and supports continued AI innovation at scale."
+    },
+    {
+      "title": "How to build scalable web apps with OpenAI's Privacy Filter",
+      "link": "https://huggingface.co/blog/openai-privacy-filter-web-apps",
+      "date": "2026-04-27T00:00:00+00:00",
+      "source": "Hugging Face",
+      "summary": ""
+    },
+    {
+      "title": "An open-source spec for orchestration: Symphony",
+      "link": "https://openai.com/index/open-source-codex-orchestration-symphony",
+      "date": "2026-04-27T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Learn how Symphony, an open-source spec for Codex orchestration, turns issue trackers into always-on agent systems\u2014boosting engineering output and reducing context switching."
+    },
+    {
+      "title": "Choco automates food distribution with AI agents",
+      "link": "https://openai.com/index/choco",
+      "date": "2026-04-27T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "How Choco used OpenAI APIs to streamline food distribution, boost productivity, and unlock growth\u2014an in-depth customer story on real-world AI impact."
+    },
     {
       "title": "Our principles",
       "link": "https://openai.com/index/our-principles",
@@ -80,6 +150,13 @@
       "summary": "Introducing GPT-5.5, our smartest model yet\u2014faster, more capable, and built for complex tasks like coding, research, and data analysis across tools."
     },
     {
+      "title": "Working with Codex",
+      "link": "https://openai.com/academy/working-with-codex",
+      "date": "2026-04-23T10:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Learn how to set up your Codex workspace, create threads and projects, manage files, and start completing tasks with step-by-step guidance."
+    },
+    {
       "title": "Automations",
       "link": "https://openai.com/academy/codex-automations",
       "date": "2026-04-23T10:00:00+00:00",
@@ -94,11 +171,11 @@
       "summary": "Learn how to get started with Codex by setting up projects, creating threads, and completing your first tasks with step-by-step guidance."
     },
     {
-      "title": "What is Codex?",
-      "link": "https://openai.com/academy/what-is-codex",
+      "title": "Plugins and skills",
+      "link": "https://openai.com/academy/codex-plugins-and-skills",
       "date": "2026-04-23T10:00:00+00:00",
       "source": "OpenAI",
-      "summary": "Learn how Codex helps you go beyond chat by automating tasks, connecting tools, and producing real outputs like docs and dashboards."
+      "summary": "Learn how to use Codex plugins and skills to connect tools, access data, and follow repeatable workflows to automate tasks and improve results."
     },
     {
       "title": "Codex settings",
@@ -108,25 +185,18 @@
       "summary": "Learn how to configure Codex settings, including personalization, detail level, and permissions, to run tasks smoothly and customize your workflow."
     },
     {
-      "title": "Working with Codex",
-      "link": "https://openai.com/academy/working-with-codex",
-      "date": "2026-04-23T10:00:00+00:00",
-      "source": "OpenAI",
-      "summary": "Learn how to set up your Codex workspace, create threads and projects, manage files, and start completing tasks with step-by-step guidance."
-    },
-    {
-      "title": "Plugins and skills",
-      "link": "https://openai.com/academy/codex-plugins-and-skills",
-      "date": "2026-04-23T10:00:00+00:00",
-      "source": "OpenAI",
-      "summary": "Learn how to use Codex plugins and skills to connect tools, access data, and follow repeatable workflows to automate tasks and improve results."
-    },
-    {
       "title": "Top 10 uses for Codex at work",
       "link": "https://openai.com/academy/top-10-use-cases-codex-for-work",
       "date": "2026-04-23T10:00:00+00:00",
       "source": "OpenAI",
       "summary": "Explore 10 practical Codex use cases to automate tasks, create deliverables, and turn real inputs into outputs across tools, files, and workflows."
+    },
+    {
+      "title": "What is Codex?",
+      "link": "https://openai.com/academy/what-is-codex",
+      "date": "2026-04-23T10:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Learn how Codex helps you go beyond chat by automating tasks, connecting tools, and producing real outputs like docs and dashboards."
     },
     {
       "title": "How to Use Transformers.js in a Chrome Extension",
@@ -141,76 +211,6 @@
       "date": "2026-04-23T00:00:00+00:00",
       "source": "OpenAI",
       "summary": "Explore the GPT-5.5 Bio Bug Bounty: a red-teaming challenge to find universal jailbreaks for bio safety risks, with rewards up to $25,000."
-    },
-    {
-      "title": "Cost-effective multilingual audio transcription at scale with Parakeet-TDT and AWS Batch",
-      "link": "https://aws.amazon.com/blogs/machine-learning/cost-effective-multilingual-audio-transcription-at-scale-with-parakeet-tdt-and-aws-batch/",
-      "date": "2026-04-22T21:05:01+00:00",
-      "source": "AWS ML Blog",
-      "summary": "In this post, we walk through building a scalable, event-driven transcription pipeline that automatically processes audio files uploaded to Amazon Simple Storage Service (Amazon S3), and show you how to use Amazon EC2 Spot Instances and buffered streaming inference to further red"
-    },
-    {
-      "title": "Scaling the AI-Ready Data Center with NVIDIA RTX PRO 4500 Blackwell Server Edition and NVIDIA vGPU 20",
-      "link": "https://developer.nvidia.com/blog/scaling-the-ai-ready-data-center-with-nvidia-rtx-pro-4500-blackwell-server-edition-and-nvidia-vgpu-20/",
-      "date": "2026-04-22T20:30:00Z",
-      "source": "NVIDIA Developer",
-      "summary": "AI integration is redefining mainstream enterprise applications, from productivity software like Microsoft Office to more complex design and engineering tools...."
-    },
-    {
-      "title": "Advancing Emerging Optimizers for Accelerated LLM Training with NVIDIA Megatron",
-      "link": "https://developer.nvidia.com/blog/advancing-emerging-optimizers-for-accelerated-llm-training-with-nvidia-megatron/",
-      "date": "2026-04-22T20:01:03Z",
-      "source": "NVIDIA Developer",
-      "summary": "Higher-order optimization algorithms such as Shampoo have been effectively applied in neural network training for at least a decade. These methods have achieved..."
-    },
-    {
-      "title": "Amazon SageMaker AI now supports optimized generative AI inference recommendations",
-      "link": "https://aws.amazon.com/blogs/machine-learning/amazon-sagemaker-ai-now-supports-optimized-generative-ai-inference-recommendations/",
-      "date": "2026-04-22T19:15:08+00:00",
-      "source": "AWS ML Blog",
-      "summary": "Today, Amazon SageMaker AI&nbsp; supports optimized generative AI inference recommendations. By delivering validated, optimal deployment configurations with performance metrics, Amazon SageMaker AI keeps your model developers focused on building accurate models, not managing infr"
-    },
-    {
-      "title": "Get to your first working agent in minutes: Announcing new features in Amazon Bedrock AgentCore",
-      "link": "https://aws.amazon.com/blogs/machine-learning/get-to-your-first-working-agent-in-minutes-announcing-new-features-in-amazon-bedrock-agentcore/",
-      "date": "2026-04-22T19:13:56+00:00",
-      "source": "AWS ML Blog",
-      "summary": "Today, we're introducing new capabilities that further streamline the agent building experience, removing the infrastructure barriers that slow teams down at every stage of agent development from the first prototype through production deployment."
-    },
-    {
-      "title": "Company-wise memory in Amazon Bedrock with Amazon Neptune and Mem0",
-      "link": "https://aws.amazon.com/blogs/machine-learning/company-wise-memory-in-amazon-bedrock-with-amazon-neptune-and-mem0/",
-      "date": "2026-04-22T15:56:24+00:00",
-      "source": "AWS ML Blog",
-      "summary": "Company-wise memory in Amazon Bedrock, powered by Amazon Neptune and Mem0, provides AI agents with persistent, company-specific context\u2014enabling them to learn, adapt, and respond intelligently across multiple interactions. TrendMicro, one of the largest antivirus software compani"
-    },
-    {
-      "title": "Gemma 4 VLA Demo on Jetson Orin Nano Super",
-      "link": "https://huggingface.co/blog/nvidia/gemma4",
-      "date": "2026-04-22T15:40:50+00:00",
-      "source": "Hugging Face",
-      "summary": ""
-    },
-    {
-      "title": "Making ChatGPT better for clinicians",
-      "link": "https://openai.com/index/making-chatgpt-better-for-clinicians",
-      "date": "2026-04-22T15:00:00+00:00",
-      "source": "OpenAI",
-      "summary": "OpenAI makes ChatGPT for Clinicians free for verified U.S. physicians, nurse practitioners, and pharmacists, supporting clinical care, documentation, and research."
-    },
-    {
-      "title": "We're launching two specialized TPUs for the agentic era.",
-      "link": "https://blog.google/innovation-and-ai/infrastructure-and-cloud/google-cloud/tpus-8t-8i-cloud-next/",
-      "date": "2026-04-22T12:00:00+00:00",
-      "source": "Google AI Blog",
-      "summary": "The eighth generation of Google\u2019s TPU includes two specialized chips that will power the future of AI."
-    },
-    {
-      "title": "Introducing workspace agents in ChatGPT",
-      "link": "https://openai.com/index/introducing-workspace-agents-in-chatgpt",
-      "date": "2026-04-22T10:00:00+00:00",
-      "source": "OpenAI",
-      "summary": "Workspace agents in ChatGPT are Codex-powered agents that automate complex workflows, run in the cloud, and help teams scale work across tools securely."
     }
   ]
 }
