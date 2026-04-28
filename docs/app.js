@@ -186,7 +186,6 @@ function initSidebar() {
 
     btn.onclick = null;
     btn.addEventListener('click', () => (sidebar.classList.contains('open') ? closeSidebar() : openSidebar()));
-    btn.addEventListener('touchstart', (e) => { e.preventDefault(); }, { passive: false });
     overlay.onclick = closeSidebar;
 
     const sync = () => {
