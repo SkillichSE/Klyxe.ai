@@ -190,10 +190,12 @@ function initSidebar() {
 
     const sync = () => {
       if (isMobileViewport()) {
+        sidebar.classList.add('expanded');
         btn.style.display = 'flex';
       } else {
         btn.style.display = 'none';
         closeSidebar();
+        sidebar.classList.remove('expanded');
       }
     };
     sync();

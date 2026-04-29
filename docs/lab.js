@@ -1,0 +1,610 @@
+const themeToggle = document.getElementById('theme-toggle');
+const themeLabel = document.getElementById('theme-label');
+
+function applyTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  localStorage.setItem('theme', t);
+  const l = t === 'light';
+  themeToggle.checked = l;
+  themeLabel.textContent = l ? 'Light' : 'Dark';
+}
+
+applyTheme(localStorage.getItem('theme') || 'dark');
+themeToggle.addEventListener('change', () => applyTheme(themeToggle.checked ? 'light' : 'dark'));
+window.addEventListener('scroll', () => document.getElementById('app-bar').classList.toggle('scrolled', window.scrollY > 0));
+
+(function () {
+  const sidebar = document.getElementById('left-sidebar');
+  const overlay = document.getElementById('sidebar-overlay');
+  const mobileBtn = document.getElementById('sidebar-mobile-toggle');
+  function openSidebar() { sidebar && sidebar.classList.add('open'); overlay && overlay.classList.add('open'); }
+  function closeSidebar() { sidebar && sidebar.classList.remove('open'); overlay && overlay.classList.remove('open'); }
+  mobileBtn && mobileBtn.addEventListener('click', openSidebar);
+  overlay && overlay.addEventListener('click', closeSidebar);
+  function check() {
+    const s = window.innerWidth <= 768;
+    mobileBtn && (mobileBtn.style.display = s ? 'flex' : 'none');
+    if (!s) closeSidebar();
+  }
+  check();
+  window.addEventListener('resize', check);
+})();
+
+async function loadArticles() {
+  const container = document.getElementById('articles-container');
+  const res = await fetch('articles.html');
+  const html = await res.text();
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+  const templates = doc.querySelectorAll('template');
+  templates.forEach(tpl => {
+    container.appendChild(document.importNode(tpl.content, true));
+  });
+  initReveal();
+  initMnist();
+  initVae();
+  initHumanEval();
+}
+
+function initReveal() {
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('visible');
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.05, rootMargin: '0px 0px -30px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+}
+
+function showStatus(el, type, html) {
+  el.style.display = 'flex';
+  el.className = 'status-msg' + (type ? ' ' + type : '');
+  el.innerHTML = html;
+}
+
+async function callAPI(apiKey, messages, model, maxTokens, temperature) {
+  const r = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01'
+    },
+    body: JSON.stringify({
+      model: model || 'claude-haiku-4-5-20251001',
+      max_tokens: maxTokens || 300,
+      temperature: temperature ?? 0.7,
+      messages
+    })
+  });
+  if (!r.ok) {
+    const e = await r.json().catch(() => ({}));
+    throw new Error(e.error?.message || 'HTTP ' + r.status);
+  }
+  const d = await r.json();
+  return { text: d.content?.[0]?.text || '', usage: d.usage || {} };
+}
+
+function initMnist() {
+  const canvas = document.getElementById('draw-canvas');
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#000';
+  ctx.fillRect(0, 0, 196, 196);
+  ctx.strokeStyle = 'rgba(255,255,255,0.95)';
+  ctx.lineWidth = 14;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  let drawing = false, lx = 0, ly = 0;
+
+  function pos(e) {
+    const r = canvas.getBoundingClientRect();
+    const s = e.touches ? e.touches[0] : e;
+    return [s.clientX - r.left, s.clientY - r.top];
+  }
+  function start(e) { drawing = true; [lx, ly] = pos(e); e.preventDefault(); }
+  function move(e) {
+    if (!drawing) return;
+    e.preventDefault();
+    const [x, y] = pos(e);
+    ctx.beginPath(); ctx.moveTo(lx, ly); ctx.lineTo(x, y); ctx.stroke();
+    lx = x; ly = y;
+    predict();
+  }
+  function stop() { drawing = false; }
+
+  canvas.addEventListener('mousedown', start);
+  canvas.addEventListener('mousemove', move);
+  canvas.addEventListener('mouseup', stop);
+  canvas.addEventListener('touchstart', start, { passive: false });
+  canvas.addEventListener('touchmove', move, { passive: false });
+  canvas.addEventListener('touchend', stop);
+
+  window.clearMnist = function () {
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, 196, 196);
+    document.getElementById('mnist-pred').textContent = '?';
+    document.getElementById('mnist-conf').textContent = 'Нарисуйте цифру';
+    renderBars(new Array(10).fill(0));
+  };
+
+  function smx(a) {
+    const mx = Math.max(...a);
+    const ex = a.map(x => Math.exp(x - mx));
+    const s = ex.reduce((a, b) => a + b, 0);
+    return ex.map(x => x / s);
+  }
+
+  function predict() {
+    const d = ctx.getImageData(0, 0, 196, 196).data;
+    let nz = 0;
+    for (let i = 0; i < d.length; i += 4) nz += d[i] > 30 ? 1 : 0;
+    if (nz < 20) { renderBars(new Array(10).fill(0)); return; }
+    const px = new Float32Array(28 * 28);
+    for (let y = 0; y < 28; y++) {
+      for (let x = 0; x < 28; x++) {
+        const sx = Math.floor(x * 7), sy = Math.floor(y * 7);
+        px[y * 28 + x] = d[(sy * 196 + sx) * 4] / 255;
+      }
+    }
+    const f = features(px), sc = classify(f), sp = smx(sc);
+    const best = sp.indexOf(Math.max(...sp));
+    document.getElementById('mnist-pred').textContent = best;
+    document.getElementById('mnist-conf').textContent = 'Уверенность: ' + (sp[best] * 100).toFixed(1) + '%';
+    renderBars(sp);
+  }
+
+  function features(px) {
+    const q = [0, 0, 0, 0];
+    for (let y = 0; y < 28; y++) {
+      for (let x = 0; x < 28; x++) {
+        const v = px[y * 28 + x];
+        q[(y < 14 ? 0 : 2) + (x < 14 ? 0 : 1)] += v;
+      }
+    }
+    let h = 0, v = 0;
+    for (let y = 1; y < 27; y++) { let r = 0; for (let x = 0; x < 28; x++) r += px[y * 28 + x]; if (r > 3) h++; }
+    for (let x = 1; x < 27; x++) { let c = 0; for (let y = 0; y < 28; y++) c += px[y * 28 + x]; if (c > 3) v++; }
+    let tm = 0, bm = 0, cen = 0, sym = 0;
+    for (let y = 0; y < 14; y++) for (let x = 0; x < 28; x++) tm += px[y * 28 + x];
+    for (let y = 14; y < 28; y++) for (let x = 0; x < 28; x++) bm += px[y * 28 + x];
+    for (let y = 9; y < 19; y++) for (let x = 9; x < 19; x++) cen += px[y * 28 + x];
+    for (let y = 0; y < 28; y++) for (let x = 0; x < 14; x++) sym += Math.abs(px[y * 28 + x] - px[y * 28 + (27 - x)]);
+    const tot = q[0] + q[1] + q[2] + q[3];
+    return { q, h, v, tm, bm, cen, sym, tot };
+  }
+
+  function classify({ q, h, v, tm, bm, cen, sym, tot }) {
+    const s = new Array(10).fill(0);
+    const sr = sym / (tot + 0.001), cr = cen / (tot + 0.001), vr = v / (h + 1), tr = tm / (tot + 0.001);
+    s[0] += (1 - cr) * 3 + (1 - sr) * 2; s[1] += vr * 2 + sr * 2;
+    s[2] += (q[0] + q[3]) - (q[1] + q[2]) + h * 0.3; s[3] += sr * 3 + h * 0.2;
+    s[4] += (q[0] + q[2]) * 0.1 + v * 0.3; s[5] += (q[0] + q[3]) * 0.15 + (1 - sr) * 1.5;
+    s[6] += (q[2] + q[3]) * 0.1 + (1 - tr) * 2; s[7] += tr * 2 + (q[0] + q[1]) * 0.1;
+    s[8] += sr * 4 + cr * 2; s[9] += (q[0] + q[1]) * 0.15 + (1 - cr) * 1.5;
+    for (let i = 0; i < 10; i++) s[i] += Math.random() * 0.8 - 0.4;
+    return s;
+  }
+
+  function renderBars(probs) {
+    const colors = ['#6366f1','#3b82f6','#06b6d4','#10b981','#34d399','#f59e0b','#f87171','#8b5cf6','#ec4899','#a78bfa'];
+    document.getElementById('mnist-bars').innerHTML = probs.map((p, i) =>
+      `<div class="param-row"><span class="param-label">${i}</span><span class="param-bar-wrap"><span class="param-bar" style="width:${(p * 100).toFixed(1)}%;background:${colors[i]};"></span></span><span class="param-val">${(p * 100).toFixed(0)}%</span></div>`
+    ).join('');
+  }
+
+  renderBars(new Array(10).fill(0));
+  const st = document.getElementById('mnist-status');
+  st.className = 'status-msg ok';
+  st.innerHTML = '✓ Готово — рисуйте цифру на холсте слева';
+}
+
+function initVae() {
+  const latC = document.getElementById('vae-latent'), latX = latC.getContext('2d');
+  const decC = document.getElementById('vae-decoded'), decX = decC.getContext('2d');
+  const ANCHORS = [[-2.1,-1.5],[1.8,-1.8],[0.5,2.0],[-1.8,1.6],[2.1,0.3],[-0.4,-2.1],[1.5,1.8],[-2.2,-0.2],[0.1,0.0],[0.8,-1.0]];
+  const PAL = [[99,102,241],[59,130,246],[6,182,212],[16,185,129],[52,211,153],[245,158,11],[248,113,113],[139,92,246],[236,72,153],[167,139,250]];
+
+  function drawLatent(z1, z2) {
+    const W = 200, H = 200, img = latX.createImageData(W, H);
+    for (let py = 0; py < H; py++) {
+      for (let px = 0; px < W; px++) {
+        const sx = (px / W) * 6 - 3, sy = (py / H) * 6 - 3;
+        let md = 1e9, mi = 0;
+        ANCHORS.forEach(([dx, dy], i) => { const d = Math.hypot(sx - dx, sy - dy); if (d < md) { md = d; mi = i; } });
+        const [r, g, b] = PAL[mi], al = Math.max(0, 1 - md * 0.55), base = (py * W + px) * 4;
+        img.data[base] = r; img.data[base + 1] = g; img.data[base + 2] = b; img.data[base + 3] = Math.round(al * 110 + 20);
+      }
+    }
+    latX.fillStyle = '#0d1117'; latX.fillRect(0, 0, 200, 200); latX.putImageData(img, 0, 0);
+    latX.strokeStyle = 'rgba(255,255,255,0.05)'; latX.lineWidth = 1;
+    for (let i = 0; i <= 6; i++) {
+      const x = i / 6 * 200, y = i / 6 * 200;
+      latX.beginPath(); latX.moveTo(x, 0); latX.lineTo(x, 200); latX.stroke();
+      latX.beginPath(); latX.moveTo(0, y); latX.lineTo(200, y); latX.stroke();
+    }
+    ANCHORS.forEach(([dx, dy], i) => {
+      const px = (dx + 3) / 6 * 200, py = (dy + 3) / 6 * 200;
+      latX.fillStyle = 'rgba(255,255,255,0.3)'; latX.font = '10px DM Mono,monospace'; latX.fillText(i, px + 3, py - 3);
+    });
+    const cx = (z1 + 3) / 6 * 200, cy = (z2 + 3) / 6 * 200;
+    latX.beginPath(); latX.arc(cx, cy, 6, 0, Math.PI * 2); latX.fillStyle = '#34d399'; latX.fill();
+    latX.beginPath(); latX.arc(cx, cy, 10, 0, Math.PI * 2); latX.strokeStyle = 'rgba(52,211,153,0.4)'; latX.lineWidth = 2; latX.stroke();
+  }
+
+  function getPattern(d) {
+    const W = 28, px = new Float32Array(W * W), cx = 14, cy = 14;
+    if (d === 0) { for (let y = 0; y < W; y++) for (let x = 0; x < W; x++) { const v = Math.pow((x - cx) / 8, 2) + Math.pow((y - cy) / 10, 2); px[y * W + x] = Math.exp(-Math.pow(Math.abs(v - 1) * 4, 2)); } }
+    else if (d === 1) { for (let y = 3; y < 25; y++) for (let x = 0; x < W; x++) px[y * W + x] = Math.exp(-Math.pow((x - cx) / 1.5, 2)); }
+    else if (d === 2) { for (let y = 0; y < W; y++) for (let x = 0; x < W; x++) { const t = y / W, tx = t < 0.4 ? cx + 7 * Math.cos(Math.PI * (1 - t / 0.4)) : t < 0.6 ? cx + 7 * (1 - 2 * (t - 0.4) / 0.2) - 7 : cx - 7 + 14 * (t - 0.6) / 0.4, ty = t < 0.4 ? cy - 8 + 8 * t / 0.4 : t < 0.6 ? cy : cy + (W - cy) * (t - 0.6) / 0.4; px[y * W + x] = Math.max(px[y * W + x], Math.exp(-Math.pow(x - tx, 2) / 4 - Math.pow(y - ty, 2) / 4)); } }
+    else if (d === 3) { for (let y = 0; y < W; y++) for (let x = 0; x < W; x++) { px[y * W + x] = Math.min(1, Math.exp(-Math.pow((x - cx - 4) / 3, 2) - Math.pow((y - cy + 6) / 4, 2)) + Math.exp(-Math.pow((x - cx - 4) / 3, 2) - Math.pow((y - cy - 6) / 4, 2))); } }
+    else if (d === 4) { for (let y = 0; y < W; y++) for (let x = 0; x < W; x++) { px[y * W + x] = Math.min(1, Math.exp(-Math.pow(x - cx, 2) / 2) * (y > 8 ? 1 : 0) + Math.exp(-Math.pow((y - cy + 2) / 2, 2)) * (x < cx ? 1 : 0) + Math.exp(-Math.pow(x - (cx - 4), 2) / 3) * (y < cy ? 1 : 0)); } }
+    else if (d === 5) { for (let y = 0; y < W; y++) for (let x = 0; x < W; x++) { px[y * W + x] = Math.min(1, (y < 8 ? Math.exp(-Math.pow((y - 3) / 2, 2)) : 0) + Math.exp(-Math.pow((y - cy) / 2, 2) - Math.pow((x - cx) / 6, 2)) * 0.5 + Math.exp(-Math.pow((x - cx) / 6, 2) - Math.pow((y - cy - 5) / 4, 2))); } }
+    else if (d === 6) { for (let y = 0; y < W; y++) for (let x = 0; x < W; x++) { px[y * W + x] = Math.min(1, Math.exp(-Math.pow(Math.hypot(x - cx, y - cy - 3) - 7, 2) / 2) + Math.exp(-Math.pow(x - (cx - 3), 2) / 2) * (y < cy ? 0.8 : 0)); } }
+    else if (d === 7) { for (let y = 0; y < W; y++) for (let x = 0; x < W; x++) { px[y * W + x] = Math.min(1, Math.exp(-Math.pow((y - 4) / 2, 2) - Math.pow((x - cx) / 7, 2)) + Math.exp(-Math.pow((x - cx) + (y - 4) / 1.5, 2) / 3) * (y > 4 ? 1 : 0)); } }
+    else if (d === 8) { for (let y = 0; y < W; y++) for (let x = 0; x < W; x++) { px[y * W + x] = Math.min(1, Math.exp(-Math.pow(Math.hypot(x - cx, y - cy + 5) - 5, 2) / 2) + Math.exp(-Math.pow(Math.hypot(x - cx, y - cy - 5) - 5, 2) / 2)); } }
+    else if (d === 9) { for (let y = 0; y < W; y++) for (let x = 0; x < W; x++) { px[y * W + x] = Math.min(1, Math.exp(-Math.pow(Math.hypot(x - cx, y - cy + 3) - 6, 2) / 2) + Math.exp(-Math.pow(x - (cx + 4), 2) / 2) * (y > cy ? 0.8 : 0)); } }
+    return px;
+  }
+
+  const PATTERNS = Array.from({ length: 10 }, (_, i) => getPattern(i));
+
+  function decode(z1, z2) {
+    const w = ANCHORS.map(([dx, dy]) => Math.exp(-Math.hypot(z1 - dx, z2 - dy) * 1.5));
+    const ws = w.reduce((a, b) => a + b, 0), wn = w.map(x => x / ws);
+    const out = new Float32Array(784);
+    for (let i = 0; i < 784; i++) out[i] = wn.reduce((s, ww, di) => s + ww * PATTERNS[di][i], 0);
+    return out;
+  }
+
+  function render(px28) {
+    const sc = 200 / 28;
+    decX.clearRect(0, 0, 200, 200);
+    for (let y = 0; y < 28; y++) {
+      for (let x = 0; x < 28; x++) {
+        const v = Math.min(1, Math.max(0, px28[y * 28 + x]));
+        decX.fillStyle = `rgb(${Math.round(v * 99 + 0)},${Math.round(v * 211 + 0)},${Math.round(v * 153 + 0)})`;
+        decX.fillRect(Math.round(x * sc), Math.round(y * sc), Math.ceil(sc), Math.ceil(sc));
+      }
+    }
+  }
+
+  function nearest(z1, z2) {
+    let md = 1e9, mi = 0;
+    ANCHORS.forEach(([dx, dy], i) => { const d = Math.hypot(z1 - dx, z2 - dy); if (d < md) { md = d; mi = i; } });
+    return mi;
+  }
+
+  function update(z1, z2) {
+    document.getElementById('vae-z1').textContent = z1.toFixed(2);
+    document.getElementById('vae-z2').textContent = z2.toFixed(2);
+    document.getElementById('z1-val').textContent = z1.toFixed(1);
+    document.getElementById('z2-val').textContent = z2.toFixed(1);
+    document.getElementById('z1-slider').value = z1;
+    document.getElementById('z2-slider').value = z2;
+    drawLatent(z1, z2);
+    render(decode(z1, z2));
+    document.getElementById('vae-digit-label').textContent = nearest(z1, z2);
+  }
+
+  latC.addEventListener('click', e => {
+    const r = latC.getBoundingClientRect();
+    update((e.clientX - r.left) / 200 * 6 - 3, (e.clientY - r.top) / 200 * 6 - 3);
+  });
+  latC.addEventListener('mousemove', e => {
+    if (!(e.buttons & 1)) return;
+    const r = latC.getBoundingClientRect();
+    update((e.clientX - r.left) / 200 * 6 - 3, (e.clientY - r.top) / 200 * 6 - 3);
+  });
+
+  window.onVaeSlider = function () {
+    update(+document.getElementById('z1-slider').value, +document.getElementById('z2-slider').value);
+  };
+
+  update(0, 0);
+}
+
+(function () {
+  const VECS = {
+    'кот':[0.8,0.1,-0.3],'кошка':[0.85,0.2,-0.35],'пёс':[0.7,-0.1,-0.3],'собака':[0.72,-0.15,-0.28],
+    'животное':[0.6,0,-0.1],'птица':[0.5,0.5,-0.1],'рыба':[0.4,-0.3,0.2],'лев':[0.9,-0.2,-0.4],
+    'тигр':[0.85,-0.25,-0.4],'медведь':[0.75,-0.15,-0.35],'волк':[0.78,-0.18,-0.38],
+    'машина':[-0.8,0.2,0.5],'автомобиль':[-0.85,0.2,0.5],'мотоцикл':[-0.7,0.1,0.45],
+    'самолёт':[-0.5,0.8,0.6],'корабль':[-0.55,-0.3,0.7],'велосипед':[-0.65,0,0.3],
+    'поезд':[-0.75,-0.1,0.55],'ракета':[-0.4,0.9,0.65],
+    'дерево':[0.1,0.8,-0.6],'трава':[0.2,0.9,-0.7],'цветок':[0.3,0.85,-0.65],
+    'море':[-0.1,-0.8,0.8],'гора':[0,0.3,-0.9],'лес':[0.15,0.75,-0.7],
+    'река':[-0.05,-0.7,0.75],'поле':[0.25,0.85,-0.6],
+    'город':[-0.6,-0.5,0.2],'дом':[-0.3,-0.4,-0.1],'улица':[-0.5,-0.6,0.1],
+    'офис':[-0.55,-0.55,0.15],'школа':[-0.45,-0.45,-0.05],
+    'радость':[0,0.5,0.8],'грусть':[0,0.4,-0.8],'злость':[-0.1,-0.2,-0.7],
+    'любовь':[0.1,0.6,0.9],'страх':[-0.2,-0.5,-0.6],'счастье':[0.05,0.65,0.85],
+    'cat':[0.8,0.1,-0.3],'dog':[0.7,-0.1,-0.3],'car':[-0.8,0.2,0.5],
+    'tree':[0.1,0.8,-0.6],'love':[0.1,0.6,0.9],'house':[-0.3,-0.4,-0.1],
+    'ocean':[-0.1,-0.8,0.8],'mountain':[0,0.3,-0.9],'city':[-0.6,-0.5,0.2],
+    'lion':[0.9,-0.2,-0.4],'tiger':[0.85,-0.25,-0.4],'bird':[0.5,0.5,-0.1],
+  };
+
+  function cosSim(a, b) {
+    let d = 0, na = 0, nb = 0;
+    for (let i = 0; i < 3; i++) { d += a[i] * b[i]; na += a[i] ** 2; nb += b[i] ** 2; }
+    return d / (Math.sqrt(na * nb) + 1e-9);
+  }
+
+  function seedVec(s) {
+    const n = s.split('').reduce((a, c) => a + c.charCodeAt(0), 0);
+    return [Math.sin(n) * 0.9, Math.cos(n * 2) * 0.9, Math.sin(n * 3) * 0.9];
+  }
+
+  let animId = null, ren = null, euler = { x: 0.3, y: 0.5 }, isDrag = false, prevM = { x: 0, y: 0 };
+
+  window.runWord3D = function () {
+    const word = document.getElementById('w3d-word').value.trim().toLowerCase();
+    if (!word) return;
+    const vec = VECS[word] || seedVec(word);
+    const similar = Object.entries(VECS)
+      .filter(([k]) => k !== word)
+      .map(([k, v]) => ({ word: k, vec: v, sim: cosSim(vec, v) }))
+      .sort((a, b) => b.sim - a.sim)
+      .slice(0, 16);
+    const points = [{ word, vec, sim: 1, isQ: true }, ...similar];
+
+    document.getElementById('w3d-ph').style.display = 'none';
+    const wrap = document.getElementById('w3d-wrap');
+    wrap.querySelectorAll('.word3d-word-tag').forEach(e => e.remove());
+
+    if (animId) cancelAnimationFrame(animId);
+    if (ren) ren.dispose();
+
+    const W = wrap.clientWidth || 640, H = 340;
+    const cvs = document.getElementById('word3d-canvas');
+    const scene = new THREE.Scene();
+    const cam = new THREE.PerspectiveCamera(50, W / H, 0.1, 100);
+    cam.position.set(0, 0, 4.5);
+    ren = new THREE.WebGLRenderer({ canvas: cvs, alpha: true, antialias: true });
+    ren.setSize(W, H);
+    ren.setClearColor(0, 0);
+
+    [[[-2, 0, 0], [2, 0, 0]], [[0, -2, 0], [0, 2, 0]], [[0, 0, -2], [0, 0, 2]]].forEach(pts => {
+      const g = new THREE.BufferGeometry().setFromPoints(pts.map(p => new THREE.Vector3(...p)));
+      scene.add(new THREE.Line(g, new THREE.LineBasicMaterial({ color: 0x1e293b })));
+    });
+
+    const grp = new THREE.Group(); scene.add(grp);
+    const tagData = [];
+    points.forEach(({ word: w, vec: [x, y, z], sim, isQ }) => {
+      const g = new THREE.SphereGeometry(isQ ? 0.09 : 0.06, 16, 16);
+      const hue = (sim * 0.4 + 0.55) % 1;
+      const col = isQ ? 0x34d399 : new THREE.Color().setHSL(hue, 0.85, 0.62).getHex();
+      const mesh = new THREE.Mesh(g, new THREE.MeshBasicMaterial({ color: col }));
+      mesh.position.set(x * 1.8, y * 1.8, z * 1.8);
+      grp.add(mesh);
+      if (isQ) {
+        const ring = new THREE.Mesh(new THREE.RingGeometry(0.13, 0.19, 32), new THREE.MeshBasicMaterial({ color: 0x34d399, transparent: true, opacity: 0.35, side: THREE.DoubleSide }));
+        ring.position.copy(mesh.position);
+        grp.add(ring);
+      }
+      tagData.push({ vec: [x * 1.8, y * 1.8, z * 1.8], isQ, word: w });
+    });
+
+    const labels = tagData.map(({ word: w, isQ }) => {
+      const el = document.createElement('div');
+      el.className = 'word3d-word-tag';
+      el.textContent = w;
+      el.style.color = isQ ? '#34d399' : 'rgba(180,196,215,0.8)';
+      if (isQ) el.style.borderColor = 'rgba(52,211,153,0.4)';
+      wrap.appendChild(el);
+      return el;
+    });
+
+    const st = document.getElementById('w3d-status');
+    showStatus(st, 'ok', 'Найдено ' + similar.length + ' близких слов для «' + word + '» — вращайте мышью');
+
+    euler = { x: 0.3, y: 0.5 };
+
+    function animate() {
+      animId = requestAnimationFrame(animate);
+      if (!isDrag) euler.y += 0.004;
+      grp.rotation.x = euler.x;
+      grp.rotation.y = euler.y;
+      ren.render(scene, cam);
+      tagData.forEach(({ vec: [x, y, z] }, i) => {
+        const v3 = new THREE.Vector3(x, y, z).applyEuler(grp.rotation);
+        const pr = v3.clone().project(cam);
+        labels[i].style.left = ((pr.x + 1) / 2 * W) + 'px';
+        labels[i].style.top = ((-pr.y + 1) / 2 * H) + 'px';
+        labels[i].style.display = pr.z < 1 ? '' : 'none';
+      });
+    }
+    animate();
+
+    wrap.onmousedown = e => { isDrag = true; prevM = { x: e.clientX, y: e.clientY }; };
+    wrap.onmousemove = e => { if (!isDrag) return; euler.y += (e.clientX - prevM.x) * 0.01; euler.x += (e.clientY - prevM.y) * 0.01; prevM = { x: e.clientX, y: e.clientY }; };
+    wrap.onmouseup = wrap.onmouseleave = () => { isDrag = false; };
+  };
+})();
+
+window.runTemp = async function () {
+  const apiKey = document.getElementById('temp-apikey').value.trim();
+  const prompt = document.getElementById('temp-prompt').value.trim();
+  const temp = +document.getElementById('temp-slider').value;
+  const resultsEl = document.getElementById('temp-results');
+  const status = document.getElementById('temp-status');
+  if (!apiKey) { showStatus(status, 'err', 'Введите API key'); return; }
+  if (!prompt) { showStatus(status, 'err', 'Введите промпт'); return; }
+  resultsEl.innerHTML = '';
+  status.style.display = 'flex';
+  showStatus(status, '', '<span class="pulse-dot"></span>&nbsp;Отправляю 3 запроса…');
+  const temps = [Math.max(0, +(temp - 0.3).toFixed(2)), temp, Math.min(1, +(temp + 0.3).toFixed(2))];
+  for (let i = 0; i < temps.length; i++) {
+    const t = temps[i];
+    const card = document.createElement('div');
+    card.className = 'temp-result-card';
+    const rid = 'tr' + i;
+    card.innerHTML = `<div class="temp-result-head"><span style="font-size:12px;font-family:var(--font-mono);color:var(--text-secondary);">Попытка #${i + 1}</span><span class="temp-badge">temperature=${t}</span></div><div class="temp-result-text" id="${rid}">…</div>`;
+    resultsEl.appendChild(card);
+    try {
+      const { text } = await callAPI(apiKey, [{ role: 'user', content: prompt }], 'claude-haiku-4-5-20251001', 200, t);
+      document.getElementById(rid).textContent = text;
+    } catch (e) {
+      document.getElementById(rid).innerHTML = '<span style="color:#f87171;">' + e.message + '</span>';
+    }
+  }
+  showStatus(status, 'ok', 'Сравните разнообразие ответов при разных температурах');
+};
+
+let tokChart = null, totalIn = 0, totalOut = 0, reqCount = 0;
+
+function initTokChart() {
+  if (tokChart) tokChart.destroy();
+  tokChart = new Chart(document.getElementById('tok-chart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: [],
+      datasets: [
+        { label: 'Input', data: [], backgroundColor: 'rgba(99,102,241,0.6)', borderColor: '#6366f1', borderWidth: 1 },
+        { label: 'Output', data: [], backgroundColor: 'rgba(52,211,153,0.6)', borderColor: '#34d399', borderWidth: 1 }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { labels: { color: 'rgba(255,255,255,0.5)', font: { size: 11 } } } },
+      scales: {
+        x: { ticks: { color: 'rgba(255,255,255,0.35)', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.05)' } },
+        y: { ticks: { color: 'rgba(255,255,255,0.35)', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.05)' } }
+      }
+    }
+  });
+}
+
+window.sendToken = async function () {
+  const apiKey = document.getElementById('tok-apikey').value.trim();
+  const prompt = document.getElementById('tok-prompt').value.trim();
+  const status = document.getElementById('tok-status');
+  if (!apiKey) { showStatus(status, 'err', 'Введите API key'); return; }
+  if (!prompt) { showStatus(status, 'err', 'Введите сообщение'); return; }
+  if (!tokChart) initTokChart();
+  showStatus(status, '', '<span class="pulse-dot"></span>&nbsp;Отправка…');
+  status.style.display = 'flex';
+  try {
+    const { text, usage } = await callAPI(apiKey, [{ role: 'user', content: prompt }], 'claude-haiku-4-5-20251001', 300, 0.7);
+    const inp = usage.input_tokens || 0, out = usage.output_tokens || 0;
+    totalIn += inp; totalOut += out; reqCount++;
+    document.getElementById('tok-total-in').textContent = totalIn;
+    document.getElementById('tok-total-out').textContent = totalOut;
+    document.getElementById('tok-total-all').textContent = totalIn + totalOut;
+    document.getElementById('tok-count').textContent = reqCount;
+    const short = prompt.length > 28 ? prompt.slice(0, 26) + '…' : prompt;
+    tokChart.data.labels.push(short);
+    tokChart.data.datasets[0].data.push(inp);
+    tokChart.data.datasets[1].data.push(out);
+    tokChart.update();
+    const row = document.createElement('div');
+    row.className = 'tokens-log-row';
+    row.innerHTML = `<span title="${prompt}">${short}</span><span>${inp}</span><span>${out}</span><span>${inp + out}</span>`;
+    document.getElementById('tok-log-body').prepend(row);
+    document.getElementById('tok-prompt').value = '';
+    showStatus(status, 'ok', '✓ ' + inp + ' in + ' + out + ' out = ' + (inp + out) + ' токенов');
+  } catch (e) {
+    showStatus(status, 'err', e.message);
+  }
+};
+
+window.clearTokenLog = function () {
+  totalIn = totalOut = reqCount = 0;
+  ['tok-total-in', 'tok-total-out', 'tok-total-all', 'tok-count'].forEach(id => document.getElementById(id).textContent = '0');
+  document.getElementById('tok-log-body').innerHTML = '';
+  if (tokChart) { tokChart.data.labels = []; tokChart.data.datasets.forEach(d => d.data = []); tokChart.update(); }
+};
+
+const HE_TASKS = [
+  {
+    name: 'has_close_elements',
+    sig: 'def has_close_elements(numbers: List[float], threshold: float) -> bool:',
+    doc: '    """Check if in given list of numbers, are any two numbers\n    closer to each other than given threshold.\n    >>> has_close_elements([1.0, 2.0, 3.0], 0.5)\n    False\n    >>> has_close_elements([1.0, 2.8, 3.0, 4.0, 5.0, 2.0], 0.3)\n    True\n    """',
+    tests: ["assert has_close_elements([1.0, 2.0, 3.0], 0.5) == False", "assert has_close_elements([1.0, 2.8, 3.0, 4.0, 5.0, 2.0], 0.3) == True"]
+  },
+  {
+    name: 'separate_paren_groups',
+    sig: "def separate_paren_groups(paren_string: str) -> List[str]:",
+    doc: '    """Input to this function is a string containing multiple\n    groups of nested parentheses. Separate those groups into\n    separate strings and return the list of those.\n    >>> separate_paren_groups("( ) (( )) (( )( ))")\n    [\'( )\', \'(( ))\', \'(( )( ))\']\n    """',
+    tests: ["assert separate_paren_groups('( ) (( )) (( )( ))') == ['( )', '(( ))', '(( )( ))']"]
+  },
+  {
+    name: 'truncate_number',
+    sig: 'def truncate_number(number: float) -> float:',
+    doc: '    """Given a positive floating point number, decompose it into\n    an integer part and decimals. Return the decimal part.\n    >>> truncate_number(3.5)\n    0.5\n    """',
+    tests: ['assert abs(truncate_number(3.5) - 0.5) < 0.001', 'assert abs(truncate_number(1.33) - 0.33) < 0.001']
+  },
+  {
+    name: 'below_zero',
+    sig: 'def below_zero(operations: List[int]) -> bool:',
+    doc: "    \"\"\"You're given a list of deposit and withdrawal operations.\n    Detect if at any point the balance falls below zero.\n    >>> below_zero([1, 2, 3])\n    False\n    >>> below_zero([1, 2, -4, 5])\n    True\n    \"\"\"",
+    tests: ['assert below_zero([1, 2, 3]) == False', 'assert below_zero([1, 2, -4, 5]) == True']
+  },
+];
+
+let selTask = 0;
+
+function initHumanEval() {
+  showHeProblem();
+  document.querySelectorAll('#he-model-chips .model-chip').forEach(c => c.addEventListener('click', () => c.classList.toggle('active')));
+}
+
+window.selectTask = function (idx, btn) {
+  selTask = idx;
+  document.querySelectorAll('.he-task-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  showHeProblem();
+};
+
+function showHeProblem() {
+  const t = HE_TASKS[selTask];
+  document.getElementById('he-problem').textContent = 'from typing import List\n\n' + t.sig + '\n' + t.doc;
+}
+
+window.runHumanEval = async function () {
+  const apiKey = document.getElementById('he-apikey').value.trim();
+  const status = document.getElementById('he-status');
+  const results = document.getElementById('he-results');
+  if (!apiKey) { showStatus(status, 'err', 'Введите API key'); return; }
+  const models = [...document.querySelectorAll('#he-model-chips .model-chip.active')].map(c => c.dataset.model);
+  if (!models.length) { showStatus(status, 'err', 'Выберите хотя бы одну модель'); return; }
+  const task = HE_TASKS[selTask];
+  const prompt = 'Complete the following Python function. Return ONLY the complete working function code, no markdown, no explanation:\n\nfrom typing import List\n\n' + task.sig + '\n' + task.doc + '\n    pass';
+  results.innerHTML = '';
+  status.style.display = 'flex';
+  showStatus(status, '', '<span class="pulse-dot"></span>&nbsp;Запускаю ' + models.length + ' модел' + (models.length > 1 ? 'и' : 'ь') + ' параллельно…');
+
+  models.forEach(model => {
+    const id = model.replace(/[^a-z0-9]/gi, '-');
+    const card = document.createElement('div');
+    card.className = 'he-result-card';
+    card.innerHTML = `<div class="he-result-head"><span class="he-model-name">${model}</span><span class="he-pass-badge running" id="hb-${id}">Запуск…</span></div><div class="he-code" id="hc-${id}">Ожидание ответа…</div>`;
+    results.appendChild(card);
+  });
+
+  await Promise.all(models.map(async model => {
+    const id = model.replace(/[^a-z0-9]/gi, '-');
+    try {
+      const { text } = await callAPI(apiKey, [{ role: 'user', content: prompt }], model, 500, 0.2);
+      document.getElementById('hc-' + id).textContent = text;
+      const passed = task.tests.every(test => {
+        try { new Function('List', text + '\n' + test + '\nreturn true;')(Array); return true; } catch { return false; }
+      });
+      const badge = document.getElementById('hb-' + id);
+      badge.textContent = passed ? '✓ PASS' : '✗ FAIL';
+      badge.className = 'he-pass-badge ' + (passed ? 'pass' : 'fail');
+    } catch (e) {
+      document.getElementById('hc-' + id).innerHTML = '<span style="color:#f87171;">' + e.message + '</span>';
+      const badge = document.getElementById('hb-' + id);
+      badge.textContent = 'ERROR';
+      badge.className = 'he-pass-badge fail';
+    }
+  }));
+
+  showStatus(status, 'ok', 'Завершено для ' + models.length + ' модел' + (models.length > 1 ? 'ей' : 'и'));
+};
+
+loadArticles();

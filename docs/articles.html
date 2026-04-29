@@ -7,13 +7,16 @@
   })();</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Klyxe — Lab</title>
+  <title>Klyxe — Lab Article</title>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <meta name="description" content="Klyxe Lab — interactive AI visualizations and experiments.">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="style-spacing.css">
   <link rel="stylesheet" href="animations.css">
   <link rel="stylesheet" href="lab.css">
+  <!-- Chart.js нужен только для статьи 5 (Token Tracker), Three.js — для статьи 3 (Word 3D).
+       Оба подключены глобально, чтобы lab-article.js не управлял динамической загрузкой. -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="app.js"></script>
 </head>
 <body>
@@ -25,7 +28,13 @@
       <span style="font-size:17px;font-weight:700;letter-spacing:-0.02em;">Klyxe</span>
     </a>
     <div style="flex:1;"></div>
-    <div class="theme-switch-wrap">
+    <a href="lab.html" class="lab-btn-secondary" style="display:inline-flex;align-items:center;gap:6px;text-decoration:none;padding:7px 14px;">
+      <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+        <path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Back to Lab
+    </a>
+    <div class="theme-switch-wrap" style="margin-left:16px;">
       <span class="theme-switch-label" id="theme-label">Dark</span>
       <label class="theme-switch" aria-label="Toggle theme">
         <input type="checkbox" id="theme-toggle">
@@ -41,30 +50,13 @@
 <div class="app-layout">
   <lex-sidebar></lex-sidebar>
   <div class="sidebar-main">
-
-    <div class="hero" style="border-bottom:1px solid rgba(52,211,153,0.15);background:radial-gradient(ellipse at 20% 50%,rgba(16,185,129,0.07) 0%,transparent 60%);">
-      <div class="hero-inner">
-        <div class="lab-hero-badge">
-          <svg width="10" height="10" viewBox="0 0 16 16" fill="none">
-            <path d="M6 2v5L3 12a1 1 0 00.9 1.5h8.2A1 1 0 0013 12L10 7V2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M5 2h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-          Research Lab
-        </div>
-        <h1 class="hero-headline" style="font-size:28px;">Visualizations &amp; Experiments</h1>
-        <p class="hero-sub" style="color:var(--text-secondary);">
-          Interactive demos: in-browser neural networks, API exploration, 3D graphs
-        </p>
-      </div>
-    </div>
-
-    <main class="container">
-      <div id="lab-cards" class="lab-cards-grid reveal"></div>
+    <main class="container" style="padding-top:32px;">
+      <div id="article-container"></div>
     </main>
   </div>
 </div>
 
-<script src="lab-index.js"></script>
+<script src="lab-article.js"></script>
 <script src="sidebar.js"></script>
 </body>
 </html>
