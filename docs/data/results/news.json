@@ -1,13 +1,55 @@
 {
-  "updated": "2026-04-28T06:51:16.536822+00:00",
+  "updated": "2026-04-29T06:36:20.146220+00:00",
   "count": 30,
   "items": [
     {
-      "title": "Adaptive Ultrasound Imaging with Physics-Informed NV-Raw2Insights-US AI",
-      "link": "https://huggingface.co/blog/nvidia/raw2insights-adaptive-ultrasound-imaging",
-      "date": "2026-04-28T00:28:13+00:00",
+      "title": "Scaling Biomolecular Modeling Using Context Parallelism in NVIDIA BioNeMo",
+      "link": "https://developer.nvidia.com/blog/scaling-biomolecular-modeling-using-context-parallelism-in-nvidia-bionemo/",
+      "date": "2026-04-28T19:00:00Z",
+      "source": "NVIDIA Developer",
+      "summary": "For decades, computational biology has operated under a reductionist compromise. To fit complex biological systems into the limited memory of a single GPU,..."
+    },
+    {
+      "title": "NVIDIA Nemotron 3 Nano Omni model now available on Amazon SageMaker JumpStart",
+      "link": "https://aws.amazon.com/blogs/machine-learning/nvidia-nemotron-3-nano-omni-model-now-available-on-amazon-sagemaker-jumpstart/",
+      "date": "2026-04-28T16:40:34+00:00",
+      "source": "AWS ML Blog",
+      "summary": "Today, we are excited to announce the day zero availability of NVIDIA Nemotron 3 Nano Omni on Amazon SageMaker JumpStart. In this post, we walk through the model architecture and key capabilities of Nemotron 3 Nano Omni, explore the enterprise use cases it unlocks, and show you h"
+    },
+    {
+      "title": "NVIDIA Nemotron 3 Nano Omni Powers Multimodal Agent Reasoning in a Single Efficient Open Model",
+      "link": "https://developer.nvidia.com/blog/nvidia-nemotron-3-nano-omni-powers-multimodal-agent-reasoning-in-a-single-efficient-open-model/",
+      "date": "2026-04-28T16:01:12Z",
+      "source": "NVIDIA Developer",
+      "summary": "Agentic systems often reason across screens, documents, audio, video, and text within a single perception\u2011to\u2011action loop. However, they still rely on..."
+    },
+    {
+      "title": "Introducing NVIDIA Nemotron 3 Nano Omni: Long-Context Multimodal Intelligence for Documents, Audio and Video Agents",
+      "link": "https://huggingface.co/blog/nvidia/nemotron-3-nano-omni-multimodal-intelligence",
+      "date": "2026-04-28T15:58:57+00:00",
       "source": "Hugging Face",
       "summary": ""
+    },
+    {
+      "title": "Together AI Brings NVIDIA Nemotron 3 Nano Omni to Developers on Day 0",
+      "link": "https://www.together.ai/blog/together-ai-brings-nvidia-nemotron-3-nano-omni-to-developers-on-day-0",
+      "date": "2026-04-28T00:00:00+00:00",
+      "source": "Together AI",
+      "summary": "NVIDIA Nemotron 3 Nano Omni is now on Together AI: a single open model that reasons across video, images, audio, and text, built for agentic workloads at scale."
+    },
+    {
+      "title": "OpenAI models, Codex, and Managed Agents come to AWS",
+      "link": "https://openai.com/index/openai-on-aws",
+      "date": "2026-04-28T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "OpenAI GPT models, Codex, and Managed Agents are now available on AWS, enabling enterprises to build secure AI in their AWS environments."
+    },
+    {
+      "title": "Our commitment to community safety",
+      "link": "https://openai.com/index/our-commitment-to-community-safety",
+      "date": "2026-04-28T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Learn how OpenAI protects community safety in ChatGPT through model safeguards, misuse detection, policy enforcement, and collaboration with safety experts."
     },
     {
       "title": "Build and deploy an automatic sync solution for Amazon Bedrock Knowledge Bases",
@@ -150,18 +192,11 @@
       "summary": "Introducing GPT-5.5, our smartest model yet\u2014faster, more capable, and built for complex tasks like coding, research, and data analysis across tools."
     },
     {
-      "title": "Working with Codex",
-      "link": "https://openai.com/academy/working-with-codex",
+      "title": "What is Codex?",
+      "link": "https://openai.com/academy/what-is-codex",
       "date": "2026-04-23T10:00:00+00:00",
       "source": "OpenAI",
-      "summary": "Learn how to set up your Codex workspace, create threads and projects, manage files, and start completing tasks with step-by-step guidance."
-    },
-    {
-      "title": "Automations",
-      "link": "https://openai.com/academy/codex-automations",
-      "date": "2026-04-23T10:00:00+00:00",
-      "source": "OpenAI",
-      "summary": "Learn how to automate tasks in Codex using schedules and triggers to create reports, summaries, and recurring workflows without manual effort."
+      "summary": "Learn how Codex helps you go beyond chat by automating tasks, connecting tools, and producing real outputs like docs and dashboards."
     },
     {
       "title": "How to get started with Codex",
@@ -171,46 +206,11 @@
       "summary": "Learn how to get started with Codex by setting up projects, creating threads, and completing your first tasks with step-by-step guidance."
     },
     {
-      "title": "Plugins and skills",
-      "link": "https://openai.com/academy/codex-plugins-and-skills",
-      "date": "2026-04-23T10:00:00+00:00",
-      "source": "OpenAI",
-      "summary": "Learn how to use Codex plugins and skills to connect tools, access data, and follow repeatable workflows to automate tasks and improve results."
-    },
-    {
       "title": "Codex settings",
       "link": "https://openai.com/academy/codex-settings",
       "date": "2026-04-23T10:00:00+00:00",
       "source": "OpenAI",
       "summary": "Learn how to configure Codex settings, including personalization, detail level, and permissions, to run tasks smoothly and customize your workflow."
-    },
-    {
-      "title": "Top 10 uses for Codex at work",
-      "link": "https://openai.com/academy/top-10-use-cases-codex-for-work",
-      "date": "2026-04-23T10:00:00+00:00",
-      "source": "OpenAI",
-      "summary": "Explore 10 practical Codex use cases to automate tasks, create deliverables, and turn real inputs into outputs across tools, files, and workflows."
-    },
-    {
-      "title": "What is Codex?",
-      "link": "https://openai.com/academy/what-is-codex",
-      "date": "2026-04-23T10:00:00+00:00",
-      "source": "OpenAI",
-      "summary": "Learn how Codex helps you go beyond chat by automating tasks, connecting tools, and producing real outputs like docs and dashboards."
-    },
-    {
-      "title": "How to Use Transformers.js in a Chrome Extension",
-      "link": "https://huggingface.co/blog/transformersjs-chrome-extension",
-      "date": "2026-04-23T00:00:00+00:00",
-      "source": "Hugging Face",
-      "summary": ""
-    },
-    {
-      "title": "GPT-5.5 Bio Bug Bounty",
-      "link": "https://openai.com/index/gpt-5-5-bio-bug-bounty",
-      "date": "2026-04-23T00:00:00+00:00",
-      "source": "OpenAI",
-      "summary": "Explore the GPT-5.5 Bio Bug Bounty: a red-teaming challenge to find universal jailbreaks for bio safety risks, with rewards up to $25,000."
     }
   ]
 }
