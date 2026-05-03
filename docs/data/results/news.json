@@ -1,0 +1,216 @@
+{
+  "updated": "2026-05-03T07:26:36.145217+00:00",
+  "count": 30,
+  "items": [
+    {
+      "title": "Reinforcement fine-tuning with LLM-as-a-judge",
+      "link": "https://aws.amazon.com/blogs/machine-learning/reinforcement-fine-tuning-with-llm-as-a-judge/",
+      "date": "2026-04-30T20:07:25+00:00",
+      "source": "AWS ML Blog",
+      "summary": "In this post, we take a deeper look at how RLAIF or RL with LLM-as-a-judge works with Amazon Nova models effectively."
+    },
+    {
+      "title": "AWS Generative AI Model Agility Solution: A comprehensive guide to migrating LLMs for generative AI production",
+      "link": "https://aws.amazon.com/blogs/machine-learning/aws-generative-ai-model-agility-solution-a-comprehensive-guide-to-migrating-llms-for-generative-ai-production/",
+      "date": "2026-04-30T17:04:41+00:00",
+      "source": "AWS ML Blog",
+      "summary": "In this post, we introduce a systematic framework for LLM migration or upgrade in generative AI production, encompassing essential tools, methodologies, and best practices. The framework facilitates transitions between different LLMs by providing robust protocols for prompt conve"
+    },
+    {
+      "title": "Sun Finance automates ID extraction and fraud detection with generative AI on AWS",
+      "link": "https://aws.amazon.com/blogs/machine-learning/sun-finance-automates-id-extraction-and-fraud-detection-with-generative-ai-on-aws/",
+      "date": "2026-04-30T17:00:45+00:00",
+      "source": "AWS ML Blog",
+      "summary": "In this post, we show how Sun Finance used Amazon Bedrock, Amazon Textract, and Amazon Rekognition to build an AI-powered identity verification (IDV) pipeline. The solution improved extraction accuracy from 79.7% to 90.8%, cut per-document costs by 91%, and reduced processing tim"
+    },
+    {
+      "title": "Speed Up Unreal Engine NNE Inference with NVIDIA TensorRT for RTX Runtime",
+      "link": "https://developer.nvidia.com/blog/speed-up-unreal-engine-nne-inference-with-nvidia-tensorrt-for-rtx-runtime/",
+      "date": "2026-04-30T17:00:00Z",
+      "source": "NVIDIA Developer",
+      "summary": "Neural network techniques are increasingly used in computer graphics to boost image quality, improve performance, and streamline content creation. Approaches..."
+    },
+    {
+      "title": "Unleashing Agentic AI Analytics on Amazon SageMaker with Amazon Athena and Amazon Quick",
+      "link": "https://aws.amazon.com/blogs/machine-learning/unleashing-agentic-ai-analytics-on-amazon-sagemaker-with-amazon-athena-and-amazon-quick/",
+      "date": "2026-04-30T16:52:40+00:00",
+      "source": "AWS ML Blog",
+      "summary": "This post demonstrates how agentic AI assistant from Amazon Quick transform data analytics into a self-service capability by using Amazon Simple Storage Service (Amazon S3) as a storage, Amazon SageMaker and AWS Glue for lakehouse, Amazon Athena for serverless SQL querying across"
+    },
+    {
+      "title": "Configuring Amazon Bedrock AgentCore Gateway for secure access to private resources",
+      "link": "https://aws.amazon.com/blogs/machine-learning/configuring-amazon-bedrock-agentcore-gateway-for-secure-access-to-private-resources/",
+      "date": "2026-04-30T16:32:43+00:00",
+      "source": "AWS ML Blog",
+      "summary": "In this post, you will configure Amazon Bedrock AgentCore Gateway to access private endpoints using Resource Gateway, a managed construct that provisions Elastic Network Interfaces (ENIs) directly inside your Amazon VPC, one per subnet. You will explore two implementation modes ("
+    },
+    {
+      "title": "Automating GPU Kernel Translation with AI Agents: cuTile Python to cuTile.jl",
+      "link": "https://developer.nvidia.com/blog/automating-gpu-kernel-translation-with-ai-agents-cutile-python-to-cutile-jl/",
+      "date": "2026-04-30T15:54:38Z",
+      "source": "NVIDIA Developer",
+      "summary": "NVIDIA CUDA Tile (cuTile) is a tile-based programming model that enables developers to write GPU kernels in terms of tile-level operations\u2014loads, stores, and..."
+    },
+    {
+      "title": "From 732 bytes to nowhere: shutting down Copy Fail in production",
+      "link": "https://www.together.ai/blog/shutting-down-copy-fail-in-production",
+      "date": "2026-04-30T00:00:00+00:00",
+      "source": "Together AI",
+      "summary": ""
+    },
+    {
+      "title": "Announcing Together AI and Adaption Partnership",
+      "link": "https://www.together.ai/blog/announcing-together-ai-and-adaption-partnership",
+      "date": "2026-04-30T00:00:00+00:00",
+      "source": "Together AI",
+      "summary": "Together AI and Adaption partner to bring Together Fine-Tuning natively into Adaptive Data, helping teams optimize datasets, run fine-tuning, evaluate results, and deploy stronger open models."
+    },
+    {
+      "title": "Introducing Advanced Account Security",
+      "link": "https://openai.com/index/advanced-account-security",
+      "date": "2026-04-30T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Introducing Advanced Account Security: phishing-resistant login, stronger recovery, and enhanced protections to safeguard sensitive data and prevent account takeover."
+    },
+    {
+      "title": "Where the goblins came from",
+      "link": "https://openai.com/index/where-the-goblins-came-from",
+      "date": "2026-04-29T20:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "How goblin outputs spread in AI models: timeline, root cause, and fixes behind personality-driven quirks in GPT-5 behavior."
+    },
+    {
+      "title": "AI evals are becoming the new compute bottleneck",
+      "link": "https://huggingface.co/blog/evaleval/eval-costs-bottleneck",
+      "date": "2026-04-29T16:45:09+00:00",
+      "source": "Hugging Face",
+      "summary": ""
+    },
+    {
+      "title": "Granite 4.1 LLMs: How They\u2019re Built",
+      "link": "https://huggingface.co/blog/ibm-granite/granite-4-1",
+      "date": "2026-04-29T15:01:48+00:00",
+      "source": "Hugging Face",
+      "summary": ""
+    },
+    {
+      "title": "Building the compute infrastructure for the Intelligence Age",
+      "link": "https://openai.com/index/building-the-compute-infrastructure-for-the-intelligence-age",
+      "date": "2026-04-29T15:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "OpenAI scales Stargate to build the compute infrastructure powering AGI, adding new data center capacity to meet growing AI demand."
+    },
+    {
+      "title": "Run custom MCP proxies serverless on Amazon Bedrock AgentCore Runtime",
+      "link": "https://aws.amazon.com/blogs/machine-learning/run-custom-mcp-proxies-serverless-on-amazon-bedrock-agentcore-runtime/",
+      "date": "2026-04-29T11:52:16+00:00",
+      "source": "AWS ML Blog",
+      "summary": "This post shows you how to deploy a serverless MCP proxy on Amazon Bedrock AgentCore Runtime that gives you a programmable layer to implement proper governance, controls, and observability aligned with an organization's security policies."
+    },
+    {
+      "title": "Cybersecurity in the Intelligence Age",
+      "link": "https://openai.com/index/cybersecurity-in-the-intelligence-age",
+      "date": "2026-04-29T04:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "OpenAI outlines a five-part action plan for strengthening cybersecurity in the Intelligence Age, focused on democratizing AI-powered cyber defense and protecting critical systems."
+    },
+    {
+      "title": "DeepInfra on Hugging Face Inference Providers \ud83d\udd25",
+      "link": "https://huggingface.co/blog/inference-providers-deepinfra",
+      "date": "2026-04-29T00:00:00+00:00",
+      "source": "Hugging Face",
+      "summary": ""
+    },
+    {
+      "title": "DeepSeek-V4 Pro now available on Together AI",
+      "link": "https://www.together.ai/blog/deepseek-v4-pro-now-available-on-together-ai",
+      "date": "2026-04-29T00:00:00+00:00",
+      "source": "Together AI",
+      "summary": "DeepSeek-V4 Pro is now available on Together AI with 512K context, controllable reasoning modes, and cached-input pricing for long-context reasoning workloads like code agents, document intelligence, and research synthesis."
+    },
+    {
+      "title": "Scaling Biomolecular Modeling Using Context Parallelism in NVIDIA BioNeMo",
+      "link": "https://developer.nvidia.com/blog/scaling-biomolecular-modeling-using-context-parallelism-in-nvidia-bionemo/",
+      "date": "2026-04-28T19:00:00Z",
+      "source": "NVIDIA Developer",
+      "summary": "For decades, computational biology has operated under a reductionist compromise. To fit complex biological systems into the limited memory of a single GPU,..."
+    },
+    {
+      "title": "NVIDIA Nemotron 3 Nano Omni model now available on Amazon SageMaker JumpStart",
+      "link": "https://aws.amazon.com/blogs/machine-learning/nvidia-nemotron-3-nano-omni-model-now-available-on-amazon-sagemaker-jumpstart/",
+      "date": "2026-04-28T16:40:34+00:00",
+      "source": "AWS ML Blog",
+      "summary": "Today, we are excited to announce the day zero availability of NVIDIA Nemotron 3 Nano Omni on Amazon SageMaker JumpStart. In this post, we walk through the model architecture and key capabilities of Nemotron 3 Nano Omni, explore the enterprise use cases it unlocks, and show you h"
+    },
+    {
+      "title": "NVIDIA Nemotron 3 Nano Omni Powers Multimodal Agent Reasoning in a Single Efficient Open Model",
+      "link": "https://developer.nvidia.com/blog/nvidia-nemotron-3-nano-omni-powers-multimodal-agent-reasoning-in-a-single-efficient-open-model/",
+      "date": "2026-04-28T16:01:12Z",
+      "source": "NVIDIA Developer",
+      "summary": "Agentic systems often reason across screens, documents, audio, video, and text within a single perception\u2011to\u2011action loop. However, they still rely on..."
+    },
+    {
+      "title": "Introducing NVIDIA Nemotron 3 Nano Omni: Long-Context Multimodal Intelligence for Documents, Audio and Video Agents",
+      "link": "https://huggingface.co/blog/nvidia/nemotron-3-nano-omni-multimodal-intelligence",
+      "date": "2026-04-28T15:58:57+00:00",
+      "source": "Hugging Face",
+      "summary": ""
+    },
+    {
+      "title": "Together AI Brings NVIDIA Nemotron 3 Nano Omni to Developers on Day 0",
+      "link": "https://www.together.ai/blog/together-ai-brings-nvidia-nemotron-3-nano-omni-to-developers-on-day-0",
+      "date": "2026-04-28T00:00:00+00:00",
+      "source": "Together AI",
+      "summary": "NVIDIA Nemotron 3 Nano Omni is now on Together AI: a single open model that reasons across video, images, audio, and text, built for agentic workloads at scale."
+    },
+    {
+      "title": "Our commitment to community safety",
+      "link": "https://openai.com/index/our-commitment-to-community-safety",
+      "date": "2026-04-28T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "Learn how OpenAI protects community safety in ChatGPT through model safeguards, misuse detection, policy enforcement, and collaboration with safety experts."
+    },
+    {
+      "title": "OpenAI models, Codex, and Managed Agents come to AWS",
+      "link": "https://openai.com/index/openai-on-aws",
+      "date": "2026-04-28T00:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "OpenAI GPT models, Codex, and Managed Agents are now available on AWS, enabling enterprises to build secure AI in their AWS environments."
+    },
+    {
+      "title": "Build and deploy an automatic sync solution for Amazon Bedrock Knowledge Bases",
+      "link": "https://aws.amazon.com/blogs/machine-learning/build-and-deploy-an-automatic-sync-solution-for-amazon-bedrock-knowledge-bases/",
+      "date": "2026-04-27T17:51:41+00:00",
+      "source": "AWS ML Blog",
+      "summary": "In this post, we explore an automated solution that detects S3 events and triggers ingestion jobs while respecting service quotas and providing comprehensive monitoring. This serverless solution uses an event-driven architecture to keep your knowledge base current without overwhe"
+    },
+    {
+      "title": "Build Strands Agents with SageMaker AI models and MLflow",
+      "link": "https://aws.amazon.com/blogs/machine-learning/build-strands-agents-with-sagemaker-ai-models-and-mlflow/",
+      "date": "2026-04-27T16:50:41+00:00",
+      "source": "AWS ML Blog",
+      "summary": "In this post, we demonstrate how to build AI agents using Strands Agents SDK with models deployed on SageMaker AI endpoints. You will learn how to deploy foundation models from SageMaker JumpStart, integrate them with Strands Agents, and establish production-grade observability u"
+    },
+    {
+      "title": "How Popsa used Amazon Nova to inspire customers with personalised title suggestions",
+      "link": "https://aws.amazon.com/blogs/machine-learning/how-popsa-used-amazon-nova-to-inspire-customers-with-personalised-title-suggestions/",
+      "date": "2026-04-27T16:45:37+00:00",
+      "source": "AWS ML Blog",
+      "summary": "In this post, we share how we applied Amazon Bedrock and the Amazon Nova family of models to reimagine our Title Suggestion feature. By combining metadata, computer vision, and retrieval-augmented generative AI, we now automatically generate creative, brand-aligned titles and sub"
+    },
+    {
+      "title": "OpenAI available at FedRAMP Moderate",
+      "link": "https://openai.com/index/openai-available-at-fedramp-moderate",
+      "date": "2026-04-27T14:00:00+00:00",
+      "source": "OpenAI",
+      "summary": "OpenAI is available at FedRAMP Moderate authorization for ChatGPT Enterprise and the OpenAI API, enabling secure AI adoption for U.S. federal agencies."
+    },
+    {
+      "title": "Join the new AI Agents Vibe Coding Course from Google and Kaggle",
+      "link": "https://blog.google/innovation-and-ai/technology/developers-tools/kaggle-genai-intensive-course-vibe-coding-june-2026/",
+      "date": "2026-04-27T13:00:00+00:00",
+      "source": "Google AI Blog",
+      "summary": "A web next to a laptop"
+    }
+  ]
+}
