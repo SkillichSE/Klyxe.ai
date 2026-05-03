@@ -474,7 +474,7 @@ class ModelBenchmark:
             "size_category":  cat,
             "tier":           cat,
             "context":        model_info.get("context", "N/A"),
-            "timestamp":      datetime.now().isoformat(),
+            "timestamp":      datetime.utcnow().isoformat(),
             "tests":          {},
         }
 
@@ -573,7 +573,7 @@ class ModelBenchmark:
 
     def run_benchmark(self):
         print("Lexentia Proof Benchmark")
-        print(f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        print(f"Date: {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')}")
 
         key_map = {"groq": self.groq_key, "google": self.google_key,
                    "openrouter": bool(self._openrouter_keys),
@@ -611,8 +611,8 @@ class ModelBenchmark:
         self.save_results()
 
     def save_results(self):
-        date_str = datetime.now().strftime("%Y-%m-%d")
-        now_iso  = datetime.now().isoformat()
+        date_str = datetime.utcnow().strftime("%Y-%m-%d")
+        now_iso  = datetime.utcnow().isoformat()
 
         # max history points kept per model (~3 months of daily runs)
         MAX_HISTORY = 90
