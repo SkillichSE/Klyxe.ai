@@ -21,25 +21,6 @@
 </head>
 <body>
 
-<header class="header" id="app-bar">
-  <div class="header-content">
-    <a href="index.html" class="logo" style="padding-left:0;margin-left:0;">
-      <img src="media/L_logo.png" alt="Klyxe logo" class="logo-icon" style="margin-left:0;">
-      <span style="font-size:17px;font-weight:700;letter-spacing:-0.02em;">Klyxe</span>
-    </a>
-    <div style="flex:1;"></div>
-    <div class="theme-switch-wrap">
-      <span class="theme-switch-label" id="theme-label">Dark</span>
-      <label class="theme-switch" aria-label="Toggle theme">
-        <input type="checkbox" id="theme-toggle">
-        <span class="theme-switch-track"></span>
-        <span class="theme-switch-thumb" id="thumb-icon"></span>
-      </label>
-    </div>
-  </div>
-</header>
-</div>
-
 <!-- Sidebar overlay for mobile -->
 <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
@@ -247,25 +228,7 @@
 
 <script>
 
-const themeToggle = document.getElementById('theme-toggle');
-const themeLabel  = document.getElementById('theme-label');
-
-function applyTheme(t) {
-  document.documentElement.setAttribute('data-theme', t);
-  localStorage.setItem('theme', t);
-  const isLight = t === 'light';
-  themeToggle.checked = isLight;
-  themeLabel.textContent = isLight ? 'Light' : 'Dark';
-}
-
-applyTheme(localStorage.getItem('theme') || 'dark');
-
-themeToggle.addEventListener('change', () => {
-  applyTheme(themeToggle.checked ? 'light' : 'dark');
-});
-
-window.addEventListener('scroll', () =>
-  document.getElementById('app-bar').classList.toggle('scrolled', window.scrollY > 0));
+// Theme is handled in sidebar.js
 
 const compareMap = new Map();
 let allResults = [];

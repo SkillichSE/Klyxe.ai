@@ -620,7 +620,7 @@ class ModelBenchmark:
         MAX_PROOFS  = 30
 
         # output dirs resolved relative to this file, not the caller's cwd
-        base        = Path(__file__).resolve().parent.parent / "docs" / "data"
+        base        = Path(__file__).resolve().parent.parent / "public" / "data"
         results_dir = base / "results"
         models_dir  = base / "models"
         proofs_dir  = base / "proofs"

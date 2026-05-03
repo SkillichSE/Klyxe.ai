@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 
-export default function Hero() {
+export default function Sidebar() {
   const [theme, setTheme] = useState('dark');
 
   useEffect(() => {
@@ -19,34 +19,47 @@ export default function Hero() {
   };
 
   return (
-    <header style={{
-      padding: '16px 24px',
+    <aside style={{
+      position: 'fixed',
+      left: 0,
+      top: 0,
+      bottom: 0,
+      width: '240px',
       display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      borderBottom: '1px solid rgba(255,255,255,0.1)'
+      flexDirection: 'column',
+      padding: '24px',
+      borderRight: '1px solid rgba(255,255,255,0.1)',
+      background: 'var(--bg-secondary, #1a1a1a)'
     }}>
       <a href="/" style={{
         fontSize: '20px',
         fontWeight: 700,
         color: 'var(--text-primary)',
-        textDecoration: 'none'
+        textDecoration: 'none',
+        marginBottom: '32px'
       }}>
         Klyxe
       </a>
+
+      <nav style={{ flex: 1 }}>
+        {/* Navigation items can be added here */}
+      </nav>
+
       <button
         onClick={toggleTheme}
         style={{
-          padding: '8px 16px',
+          padding: '10px 16px',
           background: 'var(--accent)',
           border: 'none',
           borderRadius: '8px',
           color: 'white',
-          cursor: 'pointer'
+          cursor: 'pointer',
+          fontSize: '14px',
+          fontWeight: 500
         }}
       >
         {theme === 'dark' ? 'Light' : 'Dark'}
       </button>
-    </header>
+    </aside>
   );
 }

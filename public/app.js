@@ -165,14 +165,12 @@ function initSidebar() {
 
     let btn = document.getElementById('sidebar-mobile-toggle');
     if (!btn) {
-      const header = document.querySelector('.header-content');
-      if (!header) return;
       btn = document.createElement('button');
       btn.id = 'sidebar-mobile-toggle';
       btn.className = 'mobile-menu-btn';
       btn.setAttribute('aria-label', 'Open menu');
       btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 4h14M2 9h14M2 14h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
-      header.appendChild(btn);
+      document.body.appendChild(btn);
     }
 
     const openSidebar = () => {

@@ -73,10 +73,37 @@ class LexSidebar extends HTMLElement {
           ${icon('<circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 7v5M8 5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>')}
           <span class="link-label">About</span>
         </a>
-      </div>`;
+      </div>
+    `;
+
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    const isLight = savedTheme === 'light';
+    html += `
+      <div class="sidebar-theme">
+        <span class="theme-switch-label">${isLight ? 'Light' : 'Dark'}</span>
+        <label class="theme-switch" aria-label="Toggle theme">
+          <input type="checkbox" id="sidebar-theme-toggle" ${isLight ? 'checked' : ''}>
+          <span class="theme-switch-track"></span>
+          <span class="theme-switch-thumb"></span>
+        </label>
+      </div>
+    `;
 
     html += '</nav>';
+
     this.innerHTML = html;
+
+    // Theme toggle handler
+    const toggle = this.querySelector('#sidebar-theme-toggle');
+    const label = this.querySelector('.theme-switch-label');
+    if (toggle) {
+      toggle.addEventListener('change', () => {
+        const newTheme = toggle.checked ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        if (label) label.textContent = toggle.checked ? 'Light' : 'Dark';
+      });
+    }
   }
 }
 

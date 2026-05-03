@@ -855,6 +855,12 @@ h1,h2,h3 { font-family: var(--font-sans); font-weight: 600; line-height: 1.2; co
   color: #111827;
 }
 
+html[data-theme="light"] .left-sidebar,
+[data-theme="light"] .left-sidebar {
+  background: #f8fafc !important;
+  border-right-color: rgba(0,0,0,0.12);
+}
+
 /* aliases for legacy references in html */
 :root {
   --metric-code:    #8b5cf6;
@@ -1231,8 +1237,8 @@ main { min-height: calc(100vh - 60px); }
   border-right: 1px solid var(--border);
   position: fixed;
   left: 0;
-  top: 60px;
-  height: calc(100vh - 60px);
+  top: 0;
+  height: 100vh;
   overflow-y: auto;
   overflow-x: hidden;
   display: flex;
@@ -1380,7 +1386,13 @@ main { min-height: calc(100vh - 60px); }
 }
 
 /* Nav section */
-.sidebar-nav { flex: 1; padding: 8px 0; }
+.sidebar-nav {
+  flex: 1;
+  padding: 8px 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
 .sidebar-section {
   margin-bottom: 2px;
 }
@@ -1592,10 +1604,9 @@ main { min-height: calc(100vh - 60px); }
 
   .mobile-menu-btn {
     display: flex !important;
-    position: absolute;
-    right: 8px;
-    top: 50%;
-    transform: translateY(-50%);
+    position: fixed;
+    left: 8px;
+    top: 8px;
     width: 34px;
     height: 34px;
     margin-left: 0;
@@ -1629,7 +1640,7 @@ main { min-height: calc(100vh - 60px); }
   .sidebar-overlay {
     display: none;
     position: fixed;
-    inset: 60px 0 0 0;
+    inset: 0;
     background: rgba(0,0,0,0.45);
     z-index: 1000;
     backdrop-filter: none;
@@ -1645,9 +1656,26 @@ main { min-height: calc(100vh - 60px); }
 
 /* sidebar footer (about link) */
 .sidebar-footer-links {
-  margin-top: auto;
-  padding-top: 8px;
+  padding-top: 12px;
   border-top: 1px solid var(--border-subtle);
+}
+
+/* sidebar theme toggle at bottom */
+.sidebar-theme {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  margin-top: auto;
+  border-top: 1px solid var(--border-subtle);
+  flex-shrink: 0;
+}
+.left-sidebar:not(.expanded) .sidebar-theme {
+  justify-content: center;
+  padding: 10px 0;
+}
+.left-sidebar:not(.expanded) .sidebar-theme .theme-switch-label {
+  display: none;
 }
 
 /* global mobile hardening for all pages */
