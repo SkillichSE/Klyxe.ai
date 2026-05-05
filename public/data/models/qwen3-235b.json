@@ -1,0 +1,36 @@
+{
+  "meta": {
+    "id": "qwen3-235b",
+    "name": "Qwen 3 235B",
+    "provider": "Cerebras",
+    "api_provider": "cerebras",
+    "size": "235B",
+    "tier": "large",
+    "context": "64k",
+    "is_os": false
+  },
+  "history": [
+    {
+      "date": "2026-05-05T06:54:12.219931",
+      "score": 0.0,
+      "tps": 135.07
+    },
+    {
+      "date": "2026-05-05T06:54:12.219931",
+      "score": 0.0,
+      "tps": 135.07
+    },
+    {
+      "date": "2026-05-05T06:54:12.219931",
+      "score": 0.0,
+      "tps": 135.07
+    },
+    {
+      "date": "2026-05-05T06:54:12.219931",
+      "score": 0.0,
+      "tps": 135.07
+    }
+  ],
+  "strengths": [],
+  "last_updated": "2026-05-05T06:54:34.832831"
+}
