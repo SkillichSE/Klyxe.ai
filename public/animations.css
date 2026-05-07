@@ -1,10 +1,10 @@
-/* page load reveal — stagger from below */
+/* page load reveal - stagger from below */
 @keyframes reveal {
   from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Only animate cards when they get the .animate class (set via JS after paint) */
+/* only animate cards when they get the animate class, set via js after paint */
 .stat-card.animate    { animation: reveal 0.35s cubic-bezier(0.4,0,0.2,1) both; }
 .model-card.animate   { animation: reveal 0.35s cubic-bezier(0.4,0,0.2,1) both; }
 .news-item.animate    { animation: reveal 0.35s cubic-bezier(0.4,0,0.2,1) both; }

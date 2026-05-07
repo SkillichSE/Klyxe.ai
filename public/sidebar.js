@@ -1,6 +1,6 @@
-// lex-sidebar web component — single source of truth for all pages
-// usage: <lex-sidebar></lex-sidebar>
-// active link is detected automatically via window.location.pathname
+// lex sidebar web component single source of truth for all pages
+// usage lex sidebar
+// active link is detected automatically via window location pathname
 
 const SIDEBAR_LINKS = [
   {
@@ -39,7 +39,7 @@ function icon(inner) {
 function currentPage() {
   const p = window.location.pathname;
   const file = p.substring(p.lastIndexOf('/') + 1) || 'index.html';
-  // github pages trailing slash -> index.html
+  // github pages trailing slash to index.html
   return file === '' ? 'index.html' : file;
 }
 
@@ -98,7 +98,7 @@ class LexSidebar extends HTMLElement {
 
     this.innerHTML = html;
 
-    // Theme toggle handler
+    // theme toggle handler
     const toggle = this.querySelector('#sidebar-theme-toggle');
     const label = this.querySelector('.theme-switch-label');
     if (toggle) {
@@ -112,13 +112,13 @@ class LexSidebar extends HTMLElement {
   }
 }
 
-// Global toggle function for sections
+// global toggle function for sections
 window.toggleSection = (id) => {
   const el = document.getElementById(id);
   if (el) el.classList.toggle('open');
 };
 
-// Sidebar hover expand/collapse
+// sidebar hover expand and collapse
 const initSidebarHover = () => {
   const sidebar = document.getElementById('left-sidebar');
   if (!sidebar) return;
@@ -139,7 +139,7 @@ const initSidebarHover = () => {
   });
 };
 
-// Init after DOM ready
+// init after dom ready
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initSidebarHover);
 } else {

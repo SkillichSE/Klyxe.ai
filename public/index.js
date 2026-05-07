@@ -1,9 +1,9 @@
-// Klyxe index page - optimized bundle
+// klyxe index page - optimized bundle
 const compareMap = new Map();
 let allResults = [];
 let activeTier = 'all';
 
-// Count completed tests (5 categories: code, reasoning, instruction, translation, speed)
+// count completed tests - 5 categories: code, reasoning, instruction, translation, speed
 function countTests(m) {
   const t = m.tests || {};
   let n = 0;
@@ -162,7 +162,7 @@ const applyTierFilter = (tier) => {
   });
 };
 
-// Lazy load Chart.js only when needed
+// lazy load chart.js only when needed
 let chartLoaded = false;
 const loadChart = async () => {
   if (chartLoaded) return;
@@ -233,14 +233,14 @@ window.openCompare = async () => {
   document.getElementById('cmp-table').innerHTML = html + '</tbody>';
 };
 
-// Main init
+// main init
 document.addEventListener('DOMContentLoaded', async () => {
-  // Size filter handlers
+  // size filter handlers
   document.querySelectorAll('.size-chip').forEach(chip => {
     chip.addEventListener('click', () => applyTierFilter(chip.dataset.size));
   });
 
-  // Compare bar handlers
+  // compare bar handlers
   document.getElementById('compare-go')?.addEventListener('click', openCompare);
   document.getElementById('compare-clear')?.addEventListener('click', () => {
     compareMap.clear();
@@ -251,7 +251,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('dialog-close')?.addEventListener('click', () => document.getElementById('dialog-scrim').classList.remove('open'));
   document.getElementById('dialog-scrim')?.addEventListener('click', e => { if (e.target === e.currentTarget) e.currentTarget.classList.remove('open'); });
 
-  // Load data
+  // load data
   try {
     const today = new Date().toISOString().split('T')[0];
     let data;
@@ -304,12 +304,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     buildQualityBoard(allResults);
     applyTierFilter('all');
 
-    // Animate bars after render
+    // animate bars after render
     setTimeout(() => {
       ['large','medium','small'].forEach(t => animateBars(document.getElementById(`quality-board-${t}`)));
     }, 200);
 
-    // Load news
+    // load news
     try {
       const news = await fetch('data/results/news.json').then(r => r.json());
       const el = document.getElementById('news-preview');
@@ -329,7 +329,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
-// Intersection Observer for reveals
+// intersection observer for reveals
 (function initReveal() {
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => {

@@ -426,20 +426,18 @@ MODELS = {
     },
 }
 
-# ---------------------------------------------------------------------------
-# Tiered tests: small / medium / large
+# tiered tests: small, medium, large
 #
-# Philosophy:
-#   small  (≤10B)  — basic functionality: follow instructions, simple math,
-#                    trivial functions. These models struggle with anything complex.
-#   medium (11-50B) — standard tasks: solid coding, multi-step reasoning,
-#                    structured output, translation.
-#   large  (>50B)  — hard tasks: algorithmic problems, multi-step logic chains,
-#                    complex instruction following, nuanced translation.
+# philosophy:
+#   small (under 10b) - basic functionality: follow instructions, simple math,
+#                       trivial functions. these models struggle with anything complex.
+#   medium (11-50b) - standard tasks: solid coding, multi-step reasoning,
+#                     structured output, translation.
+#   large (over 50b) - hard tasks: algorithmic problems, multi-step logic chains,
+#                      complex instruction following, nuanced translation.
 #
-# Score weights (must sum to 100):
-#   code 35% | reasoning 30% | instruction 20% | translation 15%
-# ---------------------------------------------------------------------------
+# score weights (must sum to 100):
+#   code 35 percent, reasoning 30 percent, instruction 20 percent, translation 15 percent
 
 _SPEED_TESTS = {
     "simple": "Write a haiku about artificial intelligence.",
@@ -447,9 +445,7 @@ _SPEED_TESTS = {
     "long":   "Write a detailed tutorial on Python decorators with examples (300 words).",
 }
 
-# ---------------------------------------------------------------------------
-# Score weights — shared across all tiers so quality_score is comparable
-# ---------------------------------------------------------------------------
+# score weights - shared across all tiers so quality score is comparable
 SCORE_WEIGHTS = {
     "code":        0.35,
     "reasoning":   0.30,
@@ -459,16 +455,14 @@ SCORE_WEIGHTS = {
 
 TESTS_BY_TIER = {
 
-    # -----------------------------------------------------------------------
-    # SMALL  ≤10B
-    # Goal: verify the model can do basic programming, simple logic,
+    # small models under 10b
+    # goal: verify the model can do basic programming, simple logic,
     # follow short instructions, and translate a sentence.
-    # -----------------------------------------------------------------------
     "small": {
         "speed": _SPEED_TESTS,
 
         "code": {
-            # Basic recursion / iteration
+            # basic recursion and iteration
             "fibonacci": {
                 "prompt": (
                     "Write a Python function called fibonacci(n) that returns the nth Fibonacci number "
@@ -492,17 +486,17 @@ TESTS_BY_TIER = {
         },
 
         "reasoning": {
-            # Basic deduction
+            # basic deduction
             "syllogism": {
                 "prompt": "If all bloops are razzies and all razzies are lazzies, are all bloops definitely lazzies? Answer with just Yes or No.",
                 "answer": "yes",
             },
-            # Trick question — same speed
+            # trick question - same speed
             "speed_math": {
                 "prompt": "A train travels 120 km in 2 hours. Another train travels 180 km in 3 hours. Which is faster? Answer with: First, Second, or Same.",
                 "answer": "same",
             },
-            # Simple counting
+            # simple counting
             "counting": {
                 "prompt": "How many letters are in the word MISSISSIPPI? Answer with just the number.",
                 "answer": "11",
@@ -510,13 +504,13 @@ TESTS_BY_TIER = {
         },
 
         "instruction": {
-            # Basic JSON output
+            # basic json output
             "json": {
                 "prompt": 'Return a JSON object with exactly these keys: "name", "age", "city". Use any values you like. Return ONLY valid JSON, nothing else.',
                 "check": "json_keys",
                 "required_keys": ["name", "age", "city"],
             },
-            # Numbered list
+            # numbered list
             "list": {
                 "prompt": "List exactly 5 programming languages, one per line, numbered 1-5. No extra text.",
                 "check": "numbered_list",
@@ -536,16 +530,14 @@ TESTS_BY_TIER = {
         },
     },
 
-    # -----------------------------------------------------------------------
-    # MEDIUM  11–50B
-    # Goal: standard professional use — coding tasks, multi-step reasoning,
+    # medium models 11-50b
+    # goal: standard professional use - coding tasks, multi-step reasoning,
     # structured output with constraints, multi-language translation.
-    # -----------------------------------------------------------------------
     "medium": {
         "speed": _SPEED_TESTS,
 
         "code": {
-            # Number theory
+            # number theory
             "is_prime": {
                 "prompt": (
                     "Write a Python function called is_prime(n) that returns True if n is prime, "
@@ -555,7 +547,7 @@ TESTS_BY_TIER = {
                 "test_input": [1, 2, 3, 4, 17, 100],
                 "expected":   [False, True, True, False, True, False],
             },
-            # Sorting
+            # sorting
             "bubble_sort": {
                 "prompt": (
                     "Write a Python function called bubble_sort(arr) that returns a new sorted list "
@@ -565,7 +557,7 @@ TESTS_BY_TIER = {
                 "test_input": [[3,1,4,1,5], [5,4,3,2,1], [], [1], [2,2,2]],
                 "expected":   [[1,1,3,4,5], [1,2,3,4,5], [], [1], [2,2,2]],
             },
-            # String manipulation with logic
+            # string manipulation with logic
             "count_vowels": {
                 "prompt": (
                     "Write a Python function called count_vowels(s) that returns the number of vowels "
@@ -578,27 +570,27 @@ TESTS_BY_TIER = {
         },
 
         "reasoning": {
-            # Classic puzzle
+            # classic puzzle
             "river_crossing": {
                 "prompt": "A farmer has a fox, a chicken, and a bag of grain. He needs to cross a river with a boat that can only carry him and one item. The fox eats the chicken if left alone, and the chicken eats the grain. What does he take first? Answer with one word: Fox, Chicken, or Grain.",
                 "answer": "chicken",
             },
-            # Probability with a common misconception trap
+            # probability with a common misconception trap
             "coin_flip": {
                 "prompt": "I flip a fair coin 3 times and get heads each time. What is the probability of getting heads on the 4th flip? Answer with a fraction like 1/2.",
                 "answer": "1/2",
             },
-            # Multi-step arithmetic
+            # multi-step arithmetic
             "word_problem": {
                 "prompt": "Alice has twice as many apples as Bob. Bob has 3 more than Carol. Carol has 4 apples. How many apples does Alice have? Answer with just the number.",
                 "answer": "14",
             },
-            # Logical deduction with negation
+            # logical deduction with negation
             "deduction": {
                 "prompt": "Some cats are black. All black things are visible at night. Does it follow that some cats are visible at night? Answer with just Yes or No.",
                 "answer": "yes",
             },
-            # Counting trap
+            # counting trap
             "counting": {
                 "prompt": "How many letters are in the word MISSISSIPPI? Answer with just the number.",
                 "answer": "11",
@@ -606,19 +598,19 @@ TESTS_BY_TIER = {
         },
 
         "instruction": {
-            # JSON with required keys
+            # json with required keys
             "json": {
                 "prompt": 'Return a JSON object with exactly these keys: "name", "age", "city". Use any values you like. Return ONLY valid JSON, nothing else.',
                 "check": "json_keys",
                 "required_keys": ["name", "age", "city"],
             },
-            # Exact list length
+            # exact list length
             "list": {
                 "prompt": "List exactly 5 programming languages, one per line, numbered 1-5. No extra text.",
                 "check": "numbered_list",
                 "count": 5,
             },
-            # Exact sentence count
+            # exact sentence count
             "sentence_count": {
                 "prompt": "Write a description of Paris in exactly 3 sentences. No more, no less.",
                 "check": "sentence_count",
@@ -644,16 +636,14 @@ TESTS_BY_TIER = {
         },
     },
 
-    # -----------------------------------------------------------------------
-    # LARGE  >50B
-    # Goal: hard tasks that separate frontier models — algorithmic complexity,
+    # large models over 50b
+    # goal: hard tasks that separate frontier models - algorithmic complexity,
     # multi-step logic, nested structured output, nuanced translation.
-    # -----------------------------------------------------------------------
     "large": {
         "speed": _SPEED_TESTS,
 
         "code": {
-            # Binary search — index correctness matters
+            # binary search - index correctness matters
             "binary_search": {
                 "prompt": (
                     "Write a Python function called binary_search(arr, target) that returns the index "
@@ -663,7 +653,7 @@ TESTS_BY_TIER = {
                 "test_input": [([1,3,5,7,9],5), ([1,3,5,7,9],6), ([2,4,6],2), ([],1), ([42],42)],
                 "expected":   [2, -1, 0, -1, 0],
             },
-            # Graph / tree — harder data structures
+            # graph and tree - harder data structures
             "flatten": {
                 "prompt": (
                     "Write a Python function called flatten(lst) that takes a nested list of any depth "
@@ -674,7 +664,7 @@ TESTS_BY_TIER = {
                 "test_input": [[1,[2,[3,4]],5], [[[]]], [1,2,3], [[[1]],[[2]],[[3]]]],
                 "expected":   [[1,2,3,4,5], [], [1,2,3], [1,2,3]],
             },
-            # Algorithm — requires understanding of the problem
+            # algorithm - requires understanding of the problem
             "longest_common_prefix": {
                 "prompt": (
                     "Write a Python function called longest_common_prefix(strs) that takes a list of strings "
@@ -684,7 +674,7 @@ TESTS_BY_TIER = {
                 "test_input": [["flower","flow","flight"], ["dog","racecar","car"], ["interview","interact","interface"], [""]],
                 "expected":   ["fl", "", "inter", ""],
             },
-            # Correctness under edge cases
+            # correctness under edge cases
             "is_prime": {
                 "prompt": (
                     "Write a Python function called is_prime(n) that returns True if n is prime, "
@@ -697,7 +687,7 @@ TESTS_BY_TIER = {
         },
 
         "reasoning": {
-            # Logic puzzle with truth/lie roles
+            # logic puzzle with truth and lie roles
             "knights_knaves": {
                 "prompt": (
                     "On an island, knights always tell the truth and knaves always lie. "
@@ -706,7 +696,7 @@ TESTS_BY_TIER = {
                 ),
                 "answer": "knight",
             },
-            # Multi-constraint scheduling
+            # multi-constraint scheduling
             "scheduling": {
                 "prompt": (
                     "Alice, Bob, and Carol each have one meeting today. "
@@ -715,7 +705,7 @@ TESTS_BY_TIER = {
                 ),
                 "answer": "no",
             },
-            # Probability — requires Bayes thinking
+            # probability - requires bayes thinking
             "base_rate": {
                 "prompt": (
                     "A disease affects 1 in 1000 people. A test is 99% accurate (correctly identifies both sick and healthy). "
@@ -723,12 +713,12 @@ TESTS_BY_TIER = {
                 ),
                 "answer": "healthy",
             },
-            # River crossing
+            # river crossing
             "river_crossing": {
                 "prompt": "A farmer has a fox, a chicken, and a bag of grain. He needs to cross a river with a boat that can only carry him and one item. The fox eats the chicken if left alone, and the chicken eats the grain. What does he take first? Answer with one word: Fox, Chicken, or Grain.",
                 "answer": "chicken",
             },
-            # Coin trap
+            # coin trap
             "coin_flip": {
                 "prompt": "I flip a fair coin 3 times and get heads each time. What is the probability of getting heads on the 4th flip? Answer with a fraction like 1/2.",
                 "answer": "1/2",
@@ -741,7 +731,7 @@ TESTS_BY_TIER = {
         },
 
         "instruction": {
-            # Nested JSON structure
+            # nested json structure
             "json_nested": {
                 "prompt": (
                     'Return a JSON object with key "user" whose value is an object containing '
@@ -750,19 +740,19 @@ TESTS_BY_TIER = {
                 ),
                 "check": "json_nested_user",
             },
-            # Exact sentence count
+            # exact sentence count
             "sentence_count": {
                 "prompt": "Write a description of Paris in exactly 3 sentences. No more, no less.",
                 "check": "sentence_count",
                 "count": 3,
             },
-            # Numbered list with constraint
+            # numbered list with constraint
             "list": {
                 "prompt": "List exactly 5 programming languages, one per line, numbered 1-5. No extra text.",
                 "check": "numbered_list",
                 "count": 5,
             },
-            # Basic JSON
+            # basic json
             "json": {
                 "prompt": 'Return a JSON object with exactly these keys: "name", "age", "city". Use any values you like. Return ONLY valid JSON, nothing else.',
                 "check": "json_keys",

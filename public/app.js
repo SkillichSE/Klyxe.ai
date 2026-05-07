@@ -1,8 +1,6 @@
-/**
- * Shared JavaScript utilities for AI Benchmarker
- */
+// shared javascript utilities for ai benchmarker
 
-// sidebar section collapse/expand
+// sidebar section collapse and expand
 function toggleSection(id) {
   const el = document.getElementById(id);
   if (el) el.classList.toggle('open');
@@ -12,7 +10,7 @@ function toggleSubSection(id) {
   if (el) el.classList.toggle('open');
 }
 
-// Format large numbers
+// format large numbers
 function formatNumber(num) {
   if (num >= 1000000) {
     return (num / 1000000).toFixed(1) + 'M';
@@ -23,7 +21,7 @@ function formatNumber(num) {
   return num.toString();
 }
 
-// Format date
+// format date
 function formatDate(dateString) {
   const date = new Date(dateString);
   return date.toLocaleDateString('en-US', {
@@ -33,7 +31,7 @@ function formatDate(dateString) {
   });
 }
 
-// Get relative time
+// get relative time
 function getRelativeTime(dateString) {
   const date = new Date(dateString);
   const now = new Date();
@@ -45,7 +43,7 @@ function getRelativeTime(dateString) {
   return `${Math.floor(diffInSeconds / 86400)}d ago`;
 }
 
-// Error handling
+// error handling
 function handleError(error, container) {
   console.error('Error:', error);
   if (container) {
@@ -60,12 +58,12 @@ function handleError(error, container) {
   }
 }
 
-// ─── Sliding nav indicator ────────────────────────────────────────────────────
+// sliding nav indicator
 function initNavIndicator() {
   const nav = document.querySelector('.nav');
   if (!nav) return;
 
-  // Create indicator element
+  // create indicator element
   const indicator = document.createElement('div');
   indicator.className = 'nav-indicator';
   nav.appendChild(indicator);
@@ -81,21 +79,21 @@ function initNavIndicator() {
   }
 
   const activeLink = nav.querySelector('.nav-link.active');
-  // Set initial position without transition
+  // set initial position without transition
   indicator.style.transition = 'none';
   moveToLink(activeLink);
   requestAnimationFrame(() => {
     indicator.style.transition = '';
   });
 
-  // Hover: slide to hovered link
+  // hover slide to hovered link
   nav.querySelectorAll('.nav-link').forEach(link => {
     link.addEventListener('mouseenter', () => moveToLink(link));
     link.addEventListener('mouseleave', () => moveToLink(activeLink));
   });
 }
 
-// ─── Hamburger mobile menu ────────────────────────────────────────────────────
+// hamburger mobile menu
 function initHamburger() {
   const hamburger = document.getElementById('nav-hamburger');
   const drawer    = document.getElementById('nav-drawer');
@@ -114,7 +112,7 @@ function initHamburger() {
     }
   });
 
-  // Close on outside click
+  // close on outside click
   document.addEventListener('click', e => {
     if (!hamburger.contains(e.target) && !drawer.contains(e.target)) {
       hamburger.classList.remove('open');
@@ -126,7 +124,7 @@ function initHamburger() {
   });
 }
 
-// ─── Sidebar expand/collapse (overlay mode — content does NOT shift) ──────────
+// sidebar expand and collapse in overlay mode, content does not shift
 function initSidebar() {
   const sidebar = document.getElementById('left-sidebar');
   if (!sidebar) return;
@@ -135,7 +133,7 @@ function initSidebar() {
   let enterTimer = null;
   let leaveTimer = null;
 
-  // Use CSS containment for paint optimization
+  // use css containment for paint optimization
   sidebar.style.contain = 'layout style';
 
   sidebar.addEventListener('mouseenter', () => {
@@ -206,10 +204,10 @@ function initSidebar() {
 document.addEventListener('DOMContentLoaded', () => {
   initNavIndicator();
   initHamburger();
-  // initSidebar removed — handled by sidebar.js
+  // initsidebar removed, handled by sidebar.js
 });
 
-// Export for use in other scripts
+// export for use in other scripts
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = { formatNumber, formatDate, getRelativeTime, handleError };
 }

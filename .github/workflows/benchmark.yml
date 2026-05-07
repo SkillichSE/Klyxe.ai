@@ -28,12 +28,10 @@ jobs:
 
       - run: pip install requests feedparser
 
-      # ═══════════════════════════════════════════════════════════════════════════
-      # Interleaved provider testing — each step hits a different provider
+      # interleaved provider testing - each step hits a different provider
       # to avoid rate limits without artificial delays
-      # ═══════════════════════════════════════════════════════════════════════════
 
-      # ROUND 1 — First batch from each provider
+      # round 1 - first batch from each provider
       - name: "[1] Groq — llama-3.1-8b"
         continue-on-error: true
         timeout-minutes: 12
@@ -85,7 +83,7 @@ jobs:
           TOGETHER_API_KEY: ${{ secrets.TOGETHER_API_KEY }}
         run: cd src && python benchmark.py --providers together --models llama-3.3-70b --merge
 
-      # ROUND 2 — Second batch from each provider
+      # round 2 - second batch from each provider
       - name: "[2] Groq — llama-3.3-70b"
         continue-on-error: true
         timeout-minutes: 12
@@ -137,7 +135,7 @@ jobs:
           TOGETHER_API_KEY: ${{ secrets.TOGETHER_API_KEY }}
         run: cd src && python benchmark.py --providers together --models llama-3.2-3b --merge
 
-      # ROUND 3 — Third batch from each provider
+      # round 3 - third batch from each provider
       - name: "[3] Groq — gpt-oss-120b"
         continue-on-error: true
         timeout-minutes: 12
@@ -189,7 +187,7 @@ jobs:
           TOGETHER_API_KEY: ${{ secrets.TOGETHER_API_KEY }}
         run: cd src && python benchmark.py --providers together --models deepseek-r1-free --merge
 
-      # ROUND 4 — Fourth batch
+      # round 4 - fourth batch
       - name: "[4] Groq — gpt-oss-20b"
         continue-on-error: true
         timeout-minutes: 12
@@ -227,7 +225,7 @@ jobs:
           CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_API_KEY }}
         run: cd src && python benchmark.py --providers cerebras --models gpt-oss-120b --merge
 
-      # ROUND 5 — Fifth batch
+      # round 5 - fifth batch
       - name: "[5] Groq — llama-4-scout"
         continue-on-error: true
         timeout-minutes: 12
@@ -265,7 +263,7 @@ jobs:
           CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_API_KEY }}
         run: cd src && python benchmark.py --providers cerebras --models zai-glm-4.7 --merge
 
-      # ROUND 6 — Sixth batch
+      # round 6 - sixth batch
       - name: "[6] Groq — qwen3-32b"
         continue-on-error: true
         timeout-minutes: 12
@@ -303,7 +301,7 @@ jobs:
           CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_API_KEY }}
         run: cd src && python benchmark.py --providers cerebras --models qwen3-235b --merge
 
-      # ROUND 7 — Remaining SambaNova models
+      # round 7 - remaining sambanova models
       - name: "[7] Groq — kimi-k2"
         continue-on-error: true
         timeout-minutes: 12
@@ -318,7 +316,7 @@ jobs:
           SAMBANOVA_API_KEY: ${{ secrets.SAMBANOVA_API_KEY }}
         run: cd src && python benchmark.py --providers sambanova --models deepseek-r1-sn --merge
 
-      # ROUND 8 — Final SambaNova models
+      # round 8 - final sambanova models
       - name: "[8] SambaNova — deepseek-v3-sn"
         continue-on-error: true
         timeout-minutes: 20
@@ -326,7 +324,7 @@ jobs:
           SAMBANOVA_API_KEY: ${{ secrets.SAMBANOVA_API_KEY }}
         run: cd src && python benchmark.py --providers sambanova --models deepseek-v3-sn --merge
 
-      # ROUND 9 — More SambaNova
+      # round 9 - more sambanova
       - name: "[9] SambaNova — qwen3-32b-sn"
         continue-on-error: true
         timeout-minutes: 20
@@ -334,7 +332,7 @@ jobs:
           SAMBANOVA_API_KEY: ${{ secrets.SAMBANOVA_API_KEY }}
         run: cd src && python benchmark.py --providers sambanova --models qwen3-32b-sn --merge
 
-      # ROUND 10 — More SambaNova
+      # round 10 - more sambanova
       - name: "[10] SambaNova — qwen2.5-72b-sn"
         continue-on-error: true
         timeout-minutes: 20
@@ -342,7 +340,7 @@ jobs:
           SAMBANOVA_API_KEY: ${{ secrets.SAMBANOVA_API_KEY }}
         run: cd src && python benchmark.py --providers sambanova --models qwen2.5-72b-sn --merge
 
-      # ROUND 11 — Final SambaNova
+      # round 11 - final sambanova
       - name: "[11] SambaNova — qwen2.5-coder-32b-sn"
         continue-on-error: true
         timeout-minutes: 20
@@ -350,7 +348,7 @@ jobs:
           SAMBANOVA_API_KEY: ${{ secrets.SAMBANOVA_API_KEY }}
         run: cd src && python benchmark.py --providers sambanova --models qwen2.5-coder-32b-sn --merge
 
-      # Post-processing
+      # post-processing
       - name: News
         continue-on-error: true
         run: cd src && python news_parser.py

@@ -76,7 +76,7 @@ h1,h2,h3 { font-family: var(--font-sans); font-weight: 600; line-height: 1.2; co
 }
 .header.scrolled { box-shadow: 0 4px 32px rgba(0,0,0,0.4); }
 
-/* beta ribbon — diagonal white stripe top-right corner */
+/* beta ribbon - diagonal white stripe top right corner */
 .beta-ribbon-wrapper {
   display: none; /* removed */
 }
@@ -140,7 +140,7 @@ h1,h2,h3 { font-family: var(--font-sans); font-weight: 600; line-height: 1.2; co
 .nav-link:hover { color: var(--text-primary); }
 .nav-link.active { color: var(--text-primary); font-weight: 500; }
 
-/* Sliding underline indicator */
+/* sliding underline indicator */
 .nav-indicator {
   position: absolute;
   bottom: 0;
@@ -1212,9 +1212,7 @@ main { min-height: calc(100vh - 60px); }
 .prod-icon.proof { background: rgba(99,102,241,0.15); color: #818cf8; }
 .prod-icon.lab   { background: rgba(16,185,129,0.15); color: #34d399; }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   LEFT SIDEBAR NAVIGATION (shared by Proof & Lab layouts)
-   ═══════════════════════════════════════════════════════════════════════════ */
+/* left sidebar navigation - shared by proof and lab layouts */
 .app-layout {
   display: flex;
   min-height: calc(100vh - 60px);
@@ -1248,8 +1246,7 @@ main { min-height: calc(100vh - 60px); }
 .left-sidebar::-webkit-scrollbar-track { background: transparent; }
 .left-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 
-/* Section switcher at top of sidebar */
-/* Product switcher buttons at top of sidebar */
+/* product switcher buttons at top of sidebar */
 .sidebar-product-btns {
   display: flex;
   gap: 8px;
@@ -1291,7 +1288,7 @@ main { min-height: calc(100vh - 60px); }
   border-color: rgba(52,211,153,0.35);
   box-shadow: 0 0 0 1px rgba(52,211,153,0.15);
 }
-/* keep prod-icon sizing inside btn */
+/* keep prod icon sizing inside btn */
 .sidebar-product-btn .prod-icon {
   width: 20px;
   height: 20px;
@@ -1305,9 +1302,9 @@ main { min-height: calc(100vh - 60px); }
   flex-shrink: 0;
 }
 
-/* ── Collapsed sidebar: semi-transparent icons only, overlay on hover ── */
+/* collapsed sidebar - semi transparent icons only, overlay on hover */
 
-/* Hide text labels when collapsed */
+/* hide text labels when collapsed */
 .left-sidebar .btn-label,
 .left-sidebar .link-label {
   display: none;
@@ -1321,7 +1318,7 @@ main { min-height: calc(100vh - 60px); }
   opacity: 1;
 }
 
-/* Icons semi-transparent when collapsed */
+/* icons semi transparent when collapsed */
 .left-sidebar:not(.expanded) .sidebar-link svg,
 .left-sidebar:not(.expanded) .sidebar-topnav-link svg,
 .left-sidebar:not(.expanded) .sidebar-product-btn svg {
@@ -1337,7 +1334,7 @@ main { min-height: calc(100vh - 60px); }
   opacity: 1;
 }
 
-/* Product buttons: column when collapsed, row when expanded */
+/* product buttons - column when collapsed, row when expanded */
 .left-sidebar .sidebar-product-btns {
   flex-direction: column;
   padding: 10px 6px;
@@ -1349,7 +1346,7 @@ main { min-height: calc(100vh - 60px); }
   gap: 8px;
 }
 
-/* Center icons when collapsed */
+/* center icons when collapsed */
 .left-sidebar .sidebar-product-btn {
   justify-content: center;
   gap: 0;
@@ -1359,7 +1356,7 @@ main { min-height: calc(100vh - 60px); }
   gap: 7px;
 }
 
-/* Nav links: center icon when collapsed */
+/* nav links - center icon when collapsed */
 .left-sidebar .sidebar-topnav-link {
   justify-content: center;
   padding: 10px 0;
@@ -1373,7 +1370,7 @@ main { min-height: calc(100vh - 60px); }
   gap: 8px;
 }
 
-/* Nav section */
+/* nav section */
 .sidebar-nav {
   flex: 1;
   padding: 8px 0;
@@ -1403,7 +1400,7 @@ main { min-height: calc(100vh - 60px); }
   white-space: nowrap;
 }
 
-/* Hide section header text when collapsed */
+/* hide section header text when collapsed */
 .left-sidebar:not(.expanded) .sidebar-section-header span {
   display: none;
 }
@@ -1417,7 +1414,7 @@ main { min-height: calc(100vh - 60px); }
   pointer-events: none;
 }
 
-/* Center icons in links when collapsed */
+/* center icons in links when collapsed */
 .left-sidebar:not(.expanded) .sidebar-link {
   justify-content: center;
   padding: 8px 0;
@@ -1475,7 +1472,7 @@ main { min-height: calc(100vh - 60px); }
 }
 .sidebar-link.active::before { background: var(--accent); }
 
-/* Sub-sub items */
+/* sub sub items */
 .sidebar-sub-section { }
 .sidebar-sub-header {
   display: flex;
@@ -1505,7 +1502,7 @@ main { min-height: calc(100vh - 60px); }
 .sidebar-sublink:hover { color: var(--text-secondary); background: var(--surface); }
 .sidebar-sublink.active { color: var(--accent); font-weight: 500; }
 
-/* Proof top nav links inside sidebar */
+/* proof top nav links inside sidebar */
 .sidebar-topnav-link {
   display: flex;
   align-items: center;
@@ -1527,8 +1524,8 @@ main { min-height: calc(100vh - 60px); }
   margin: 8px 0;
 }
 
-/* main content area (right of sidebar) */
-/* Sidebar now OVERLAYS content — no margin shift needed */
+/* main content area - right of sidebar */
+/* sidebar now overlays content, no margin shift needed */
 .sidebar-main {
   flex: 1;
   min-width: 0;
@@ -1537,23 +1534,23 @@ main { min-height: calc(100vh - 60px); }
   position: relative;
   contain: layout style;
 }
-/* Disable contain during sidebar animation for smooth width transition */
+/* disable contain during sidebar animation for smooth width transition */
 .left-sidebar.expanded ~ .sidebar-main,
 .app-layout:has(.left-sidebar.expanded) .sidebar-main {
   contain: none;
 }
 
-/* When sidebar is expanded it overlays — no margin change */
-/* Sidebar overlays — sidebar-main margin stays fixed at 52px always */
+/* when sidebar is expanded it overlays, no margin change */
+/* sidebar overlays, sidebar main margin stays fixed at 52px always */
 .app-layout.sidebar-expanded .sidebar-main {
   margin-left: 52px;
 }
 
-/* Lab accent color overrides */
+/* lab accent color overrides */
 .lab-accent { color: #34d399 !important; }
 .lab-accent-bg { background: rgba(16,185,129,0.12) !important; border-color: rgba(16,185,129,0.25) !important; }
 
-/* Lab hero title */
+/* lab hero title */
 .lab-hero-badge {
   display: inline-flex;
   align-items: center;
@@ -1571,9 +1568,7 @@ main { min-height: calc(100vh - 60px); }
   margin-bottom: 12px;
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   MOBILE: collapse sidebar into top drawer on small screens
-   ═══════════════════════════════════════════════════════════════════════════ */
+/* mobile - collapse sidebar into top drawer on small screens */
 @media (max-width: 768px) {
   body {
     font-size: 13px;

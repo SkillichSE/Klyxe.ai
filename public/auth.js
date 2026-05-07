@@ -1,18 +1,14 @@
-// Klyxe Authentication with Supabase
-// Handles email/password and GitHub OAuth sign-in
+// klyxe authentication with supabase
+// handles email password and github oauth sign in
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// SUPABASE CONFIGURATION - Replace with your actual values from Supabase Dashboard
-// ═══════════════════════════════════════════════════════════════════════════════
-const SUPABASE_URL = 'https://your-project.supabase.co';  // Your Supabase project URL
-const SUPABASE_ANON_KEY = 'your-anon-key';              // Your Supabase anon/public key
+// supabase configuration - replace with your actual values from supabase dashboard
+const SUPABASE_URL = 'https://your-project.supabase.co';  // your supabase project url
+const SUPABASE_ANON_KEY = 'your-anon-key';                // your supabase anon public key
 
-// Initialize Supabase client
+// initialize supabase client
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// DOM Elements
-// ═══════════════════════════════════════════════════════════════════════════════
+// dom elements
 const els = {
   error: document.getElementById('auth-error'),
   success: document.getElementById('auth-success'),
@@ -30,9 +26,7 @@ const els = {
   logoutBtn: document.getElementById('logout-btn'),
 };
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// UI Helpers
-// ═══════════════════════════════════════════════════════════════════════════════
+// ui helpers
 function showError(msg) {
   els.error.textContent = msg;
   els.error.classList.add('visible');
@@ -59,12 +53,12 @@ function showLoggedIn(user) {
   els.authForms.style.display = 'none';
   els.userInfo.classList.add('visible');
   
-  // Set avatar initial
+  // set avatar initial
   const initial = user.email ? user.email[0].toUpperCase() : 'U';
   els.userAvatar.textContent = initial;
   els.userEmail.textContent = user.email || user.user_metadata?.user_name || 'Signed in';
   
-  // Update sidebar link
+  // update sidebar link
   updateSidebarForAuth(true);
 }
 
@@ -75,7 +69,7 @@ function showLoggedOut() {
 }
 
 function updateSidebarForAuth(isLoggedIn) {
-  // Find the Sign In link in sidebar and update text
+  // find the sign in link in sidebar and update text
   const sidebarLinks = document.querySelectorAll('.sidebar-footer-links a');
   sidebarLinks.forEach(link => {
     if (link.href.includes('auth.html')) {
@@ -87,18 +81,16 @@ function updateSidebarForAuth(isLoggedIn) {
   });
 }
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// Tab Switching
-// ═══════════════════════════════════════════════════════════════════════════════
+// tab switching
 els.tabs.forEach(tab => {
   tab.addEventListener('click', () => {
     const target = tab.dataset.tab;
     
-    // Update tabs
+    // update tabs
     els.tabs.forEach(t => t.classList.remove('active'));
     tab.classList.add('active');
     
-    // Update forms
+    // update forms
     els.forms.forEach(f => f.classList.remove('active'));
     document.getElementById(`${target}-form`).classList.add('active');
     
@@ -106,13 +98,11 @@ els.tabs.forEach(tab => {
   });
 });
 
-// Save original button text for loading states
+// save original button text for loading states
 els.signinBtn.dataset.originalText = els.signinBtn.textContent;
 els.signupBtn.dataset.originalText = els.signupBtn.textContent;
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// Email/Password Sign In
-// ═══════════════════════════════════════════════════════════════════════════════
+// email password sign in
 els.signinForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   clearMessages();
@@ -138,9 +128,7 @@ els.signinForm.addEventListener('submit', async (e) => {
   showLoggedIn(data.user);
 });
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// Email/Password Sign Up
-// ═══════════════════════════════════════════════════════════════════════════════
+// email password sign up
 els.signupForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   clearMessages();
@@ -173,9 +161,7 @@ els.signupForm.addEventListener('submit', async (e) => {
   showSuccess('Check your email to confirm your account!');
 });
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// GitHub OAuth Sign In
-// ═══════════════════════════════════════════════════════════════════════════════
+// github oauth sign in
 els.githubBtn.addEventListener('click', async () => {
   clearMessages();
   els.githubBtn.disabled = true;
@@ -198,12 +184,10 @@ els.githubBtn.addEventListener('click', async () => {
       GitHub
     `;
   }
-  // If successful, user is redirected to GitHub
+  // if successful user is redirected to github
 });
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// Sign Out
-// ═══════════════════════════════════════════════════════════════════════════════
+// sign out
 els.logoutBtn.addEventListener('click', async () => {
   const { error } = await supabase.auth.signOut();
   
@@ -217,9 +201,7 @@ els.logoutBtn.addEventListener('click', async () => {
   showSuccess('Signed out successfully');
 });
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// Check Session on Load (Handle OAuth callback)
-// ═══════════════════════════════════════════════════════════════════════════════
+// check session on load and handle oauth callback
 async function checkSession() {
   const { data: { session }, error } = await supabase.auth.getSession();
   
@@ -235,7 +217,7 @@ async function checkSession() {
   }
 }
 
-// Listen for auth state changes
+// listen for auth state changes
 supabase.auth.onAuthStateChange((event, session) => {
   if (event === 'SIGNED_IN' && session?.user) {
     showLoggedIn(session.user);
@@ -244,5 +226,5 @@ supabase.auth.onAuthStateChange((event, session) => {
   }
 });
 
-// Initialize
+// initialize
 checkSession();
