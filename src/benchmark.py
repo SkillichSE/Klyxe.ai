@@ -504,9 +504,10 @@ class ModelBenchmark:
                 success_calls += 1
                 code_raw.append({"test": name, **self.eval_code(name, r["content"], tier_tests)})
             else:
-                print(f"\n    [{name}] {r['error']}", end="")
+                err_detail = r.get('error', 'Unknown error')
+                print(f"\n    ⚠️  [{name}] ERROR: {err_detail}")
                 code_raw.append({"test": name, "pass_rate": 0.0, "passed": 0,
-                                 "total": len(tier_tests["code"][name]["expected"]), "error": r["error"]})
+                                 "total": len(tier_tests["code"][name]["expected"]), "error": err_detail})
             time.sleep(delay)
         avg_code = round(sum(x["pass_rate"] for x in code_raw) / len(code_raw) * 100, 1) if code_raw else 0
         result["tests"]["code"] = {"avg_score": avg_code, "details": code_raw}
@@ -520,8 +521,9 @@ class ModelBenchmark:
                 success_calls += 1
                 reasoning_raw.append({"test": name, **self.eval_reasoning(name, r["content"])})
             else:
-                print(f"\n    [{name}] {r['error']}", end="")
-                reasoning_raw.append({"test": name, "correct": False, "score": 0})
+                err_detail = r.get('error', 'Unknown error')
+                print(f"\n    ⚠️  [{name}] ERROR: {err_detail}")
+                reasoning_raw.append({"test": name, "correct": False, "score": 0, "error": err_detail})
             time.sleep(delay)
         correct_count = sum(1 for x in reasoning_raw if x.get("correct"))
         reasoning_score = round(correct_count / len(reasoning_raw) * 100, 1) if reasoning_raw else 0
@@ -537,8 +539,9 @@ class ModelBenchmark:
                 success_calls += 1
                 instr_raw.append({"test": name, **self.eval_instruction(name, r["content"], tier_tests)})
             else:
-                print(f"\n    [{name}] {r['error']}", end="")
-                instr_raw.append({"test": name, "score": 0, "error": r["error"]})
+                err_detail = r.get('error', 'Unknown error')
+                print(f"\n    ⚠️  [{name}] ERROR: {err_detail}")
+                instr_raw.append({"test": name, "score": 0, "error": err_detail})
             time.sleep(delay)
         avg_instr = round(sum(x["score"] for x in instr_raw) / len(instr_raw), 1) if instr_raw else 0
         result["tests"]["instruction"] = {"avg_score": avg_instr, "details": instr_raw}
@@ -552,8 +555,9 @@ class ModelBenchmark:
                 success_calls += 1
                 trans_raw.append({"test": name, **self.eval_translation(name, r["content"], tier_tests)})
             else:
-                print(f"\n    [{name}] {r['error']}", end="")
-                trans_raw.append({"test": name, "score": 0})
+                err_detail = r.get('error', 'Unknown error')
+                print(f"\n    ⚠️  [{name}] ERROR: {err_detail}")
+                trans_raw.append({"test": name, "score": 0, "error": err_detail})
             time.sleep(delay)
         avg_trans = round(sum(x["score"] for x in trans_raw) / len(trans_raw), 1) if trans_raw else 0
         result["tests"]["translation"] = {"avg_score": avg_trans, "details": trans_raw}

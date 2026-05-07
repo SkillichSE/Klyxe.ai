@@ -28,56 +28,20 @@ jobs:
 
       - run: pip install requests feedparser
 
-      - name: Groq — llama-3.1-8b
+      # ═══════════════════════════════════════════════════════════════════════════
+      # Interleaved provider testing — each step hits a different provider
+      # to avoid rate limits without artificial delays
+      # ═══════════════════════════════════════════════════════════════════════════
+
+      # ROUND 1 — First batch from each provider
+      - name: "[1] Groq — llama-3.1-8b"
         continue-on-error: true
         timeout-minutes: 12
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: cd src && python benchmark.py --providers groq --models llama-3.1-8b --merge
 
-      - name: Groq — llama-3.3-70b
-        continue-on-error: true
-        timeout-minutes: 12
-        env:
-          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-        run: cd src && python benchmark.py --providers groq --models llama-3.3-70b --merge
-
-      - name: Groq — gpt-oss-120b
-        continue-on-error: true
-        timeout-minutes: 12
-        env:
-          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-        run: cd src && python benchmark.py --providers groq --models gpt-oss-120b --merge
-
-      - name: Groq — gpt-oss-20b
-        continue-on-error: true
-        timeout-minutes: 12
-        env:
-          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-        run: cd src && python benchmark.py --providers groq --models gpt-oss-20b --merge
-
-      - name: Groq — llama-4-scout
-        continue-on-error: true
-        timeout-minutes: 12
-        env:
-          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-        run: cd src && python benchmark.py --providers groq --models llama-4-scout --merge
-
-      - name: Groq — qwen3-32b
-        continue-on-error: true
-        timeout-minutes: 12
-        env:
-          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-        run: cd src && python benchmark.py --providers groq --models qwen3-32b --merge
-
-      - name: Groq — kimi-k2
-        continue-on-error: true
-        timeout-minutes: 12
-        env:
-          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-        run: cd src && python benchmark.py --providers groq --models kimi-k2 --merge
-
-      - name: OpenRouter — batch 1 (nemotron, trinity)
+      - name: "[1] OpenRouter — batch 1 (nemotron, trinity)"
         continue-on-error: true
         timeout-minutes: 45
         env:
@@ -93,7 +57,43 @@ jobs:
           OPENROUTER_API_KEY_10: ${{ secrets.OPENROUTER_API_KEY_10 }}
         run: cd src && python benchmark.py --providers openrouter --models nemotron-super-120b,nemotron-nano-30b,nemotron-nano-12b,nemotron-nano-9b,trinity-large,trinity-mini --merge
 
-      - name: OpenRouter — batch 2 (step, gemma-3)
+      - name: "[1] Google — gemini-2.5-flash"
+        continue-on-error: true
+        timeout-minutes: 20
+        env:
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+        run: cd src && python benchmark.py --providers google --models gemini-2.5-flash --merge
+
+      - name: "[1] SambaNova — llama-4-maverick"
+        continue-on-error: true
+        timeout-minutes: 20
+        env:
+          SAMBANOVA_API_KEY: ${{ secrets.SAMBANOVA_API_KEY }}
+        run: cd src && python benchmark.py --providers sambanova --models llama-4-maverick --merge
+
+      - name: "[1] Cerebras — llama-3.1-8b"
+        continue-on-error: true
+        timeout-minutes: 16
+        env:
+          CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_API_KEY }}
+        run: cd src && python benchmark.py --providers cerebras --models llama-3.1-8b --merge
+
+      - name: "[1] Together — llama-3.3-70b"
+        continue-on-error: true
+        timeout-minutes: 16
+        env:
+          TOGETHER_API_KEY: ${{ secrets.TOGETHER_API_KEY }}
+        run: cd src && python benchmark.py --providers together --models llama-3.3-70b --merge
+
+      # ROUND 2 — Second batch from each provider
+      - name: "[2] Groq — llama-3.3-70b"
+        continue-on-error: true
+        timeout-minutes: 12
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: cd src && python benchmark.py --providers groq --models llama-3.3-70b --merge
+
+      - name: "[2] OpenRouter — batch 2 (step, gemma-3)"
         continue-on-error: true
         timeout-minutes: 45
         env:
@@ -109,7 +109,43 @@ jobs:
           OPENROUTER_API_KEY_10: ${{ secrets.OPENROUTER_API_KEY_10 }}
         run: cd src && python benchmark.py --providers openrouter --models step-3.5-flash,gemma-3-27b,gemma-3-12b,gemma-3-4b,gemma-3n-e4b,gemma-3n-e2b --merge
 
-      - name: OpenRouter — batch 3 (lfm, llama-3.3, llama-3.2-3b, qwen3)
+      - name: "[2] Google — gemini-2.5-flash-lite"
+        continue-on-error: true
+        timeout-minutes: 20
+        env:
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+        run: cd src && python benchmark.py --providers google --models gemini-2.5-flash-lite --merge
+
+      - name: "[2] SambaNova — llama-4-scout-sn"
+        continue-on-error: true
+        timeout-minutes: 20
+        env:
+          SAMBANOVA_API_KEY: ${{ secrets.SAMBANOVA_API_KEY }}
+        run: cd src && python benchmark.py --providers sambanova --models llama-4-scout-sn --merge
+
+      - name: "[2] Cerebras — llama-3.3-70b"
+        continue-on-error: true
+        timeout-minutes: 16
+        env:
+          CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_API_KEY }}
+        run: cd src && python benchmark.py --providers cerebras --models llama-3.3-70b --merge
+
+      - name: "[2] Together — llama-3.2-3b"
+        continue-on-error: true
+        timeout-minutes: 16
+        env:
+          TOGETHER_API_KEY: ${{ secrets.TOGETHER_API_KEY }}
+        run: cd src && python benchmark.py --providers together --models llama-3.2-3b --merge
+
+      # ROUND 3 — Third batch from each provider
+      - name: "[3] Groq — gpt-oss-120b"
+        continue-on-error: true
+        timeout-minutes: 12
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: cd src && python benchmark.py --providers groq --models gpt-oss-120b --merge
+
+      - name: "[3] OpenRouter — batch 3 (lfm, llama-3.3, llama-3.2-3b, qwen3)"
         continue-on-error: true
         timeout-minutes: 45
         env:
@@ -125,7 +161,43 @@ jobs:
           OPENROUTER_API_KEY_10: ${{ secrets.OPENROUTER_API_KEY_10 }}
         run: cd src && python benchmark.py --providers openrouter --models lfm-2.5-instruct,lfm-2.5-thinking,llama-3.3-70b,llama-3.2-3b,qwen3-coder,qwen3-next-80b --merge
 
-      - name: OpenRouter — batch 4 (qwen3-4b, mistral, hermes, dolphin, glm, gpt-oss)
+      - name: "[3] Google — gemma-3-27b-google"
+        continue-on-error: true
+        timeout-minutes: 20
+        env:
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+        run: cd src && python benchmark.py --providers google --models gemma-3-27b-google --merge
+
+      - name: "[3] SambaNova — llama-3.3-70b-sn"
+        continue-on-error: true
+        timeout-minutes: 20
+        env:
+          SAMBANOVA_API_KEY: ${{ secrets.SAMBANOVA_API_KEY }}
+        run: cd src && python benchmark.py --providers sambanova --models llama-3.3-70b-sn --merge
+
+      - name: "[3] Cerebras — qwen3-32b"
+        continue-on-error: true
+        timeout-minutes: 16
+        env:
+          CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_API_KEY }}
+        run: cd src && python benchmark.py --providers cerebras --models qwen3-32b --merge
+
+      - name: "[3] Together — deepseek-r1-free"
+        continue-on-error: true
+        timeout-minutes: 16
+        env:
+          TOGETHER_API_KEY: ${{ secrets.TOGETHER_API_KEY }}
+        run: cd src && python benchmark.py --providers together --models deepseek-r1-free --merge
+
+      # ROUND 4 — Fourth batch
+      - name: "[4] Groq — gpt-oss-20b"
+        continue-on-error: true
+        timeout-minutes: 12
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: cd src && python benchmark.py --providers groq --models gpt-oss-20b --merge
+
+      - name: "[4] OpenRouter — batch 4 (qwen3-4b, mistral, hermes, dolphin, glm, gpt-oss)"
         continue-on-error: true
         timeout-minutes: 45
         env:
@@ -141,7 +213,29 @@ jobs:
           OPENROUTER_API_KEY_10: ${{ secrets.OPENROUTER_API_KEY_10 }}
         run: cd src && python benchmark.py --providers openrouter --models qwen3-4b,mistral-small-3.1,hermes-405b,dolphin-mistral-24b,glm-4.5-air,gpt-oss-120b-openrouter --merge
 
-      - name: OpenRouter — batch 5 (gpt-oss-20b, minimax, llama-3.1 series)
+      - name: "[4] SambaNova — llama-3.1-405b-sn"
+        continue-on-error: true
+        timeout-minutes: 20
+        env:
+          SAMBANOVA_API_KEY: ${{ secrets.SAMBANOVA_API_KEY }}
+        run: cd src && python benchmark.py --providers sambanova --models llama-3.1-405b-sn --merge
+
+      - name: "[4] Cerebras — gpt-oss-120b"
+        continue-on-error: true
+        timeout-minutes: 16
+        env:
+          CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_API_KEY }}
+        run: cd src && python benchmark.py --providers cerebras --models gpt-oss-120b --merge
+
+      # ROUND 5 — Fifth batch
+      - name: "[5] Groq — llama-4-scout"
+        continue-on-error: true
+        timeout-minutes: 12
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: cd src && python benchmark.py --providers groq --models llama-4-scout --merge
+
+      - name: "[5] OpenRouter — batch 5 (gpt-oss-20b, minimax, llama-3.1 series)"
         continue-on-error: true
         timeout-minutes: 45
         env:
@@ -157,7 +251,29 @@ jobs:
           OPENROUTER_API_KEY_10: ${{ secrets.OPENROUTER_API_KEY_10 }}
         run: cd src && python benchmark.py --providers openrouter --models gpt-oss-20b-openrouter,minimax-m2.5,llama-3.1-405b-or,llama-3.1-70b-or,llama-3.1-8b-or --merge
 
-      - name: OpenRouter — batch 6 (llama-3.2 vision, deepseek, qwen2.5, qwq)
+      - name: "[5] SambaNova — llama-3.1-70b-sn"
+        continue-on-error: true
+        timeout-minutes: 20
+        env:
+          SAMBANOVA_API_KEY: ${{ secrets.SAMBANOVA_API_KEY }}
+        run: cd src && python benchmark.py --providers sambanova --models llama-3.1-70b-sn --merge
+
+      - name: "[5] Cerebras — zai-glm-4.7"
+        continue-on-error: true
+        timeout-minutes: 16
+        env:
+          CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_API_KEY }}
+        run: cd src && python benchmark.py --providers cerebras --models zai-glm-4.7 --merge
+
+      # ROUND 6 — Sixth batch
+      - name: "[6] Groq — qwen3-32b"
+        continue-on-error: true
+        timeout-minutes: 12
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: cd src && python benchmark.py --providers groq --models qwen3-32b --merge
+
+      - name: "[6] OpenRouter — batch 6 (llama-3.2 vision, deepseek, qwen2.5, qwq)"
         continue-on-error: true
         timeout-minutes: 45
         env:
@@ -173,168 +289,68 @@ jobs:
           OPENROUTER_API_KEY_10: ${{ secrets.OPENROUTER_API_KEY_10 }}
         run: cd src && python benchmark.py --providers openrouter --models llama-3.2-90b-or,llama-3.2-11b-or,llama-3.2-1b-or,deepseek-r1-or,deepseek-v3-or,qwen2.5-72b-or,qwen2.5-coder-32b-or,qwq-32b-or --merge
 
-      - name: Google — gemini-2.5-flash
-        continue-on-error: true
-        timeout-minutes: 20
-        env:
-          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
-        run: cd src && python benchmark.py --providers google --models gemini-2.5-flash --merge
-
-      - name: Google — gemini-2.5-flash-lite
-        continue-on-error: true
-        timeout-minutes: 20
-        env:
-          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
-        run: cd src && python benchmark.py --providers google --models gemini-2.5-flash-lite --merge
-
-      - name: Google — gemma-3-27b-google
-        continue-on-error: true
-        timeout-minutes: 20
-        env:
-          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
-        run: cd src && python benchmark.py --providers google --models gemma-3-27b-google --merge
-
-      - name: SambaNova — llama-4-maverick
-        continue-on-error: true
-        timeout-minutes: 20
-        env:
-          SAMBANOVA_API_KEY: ${{ secrets.SAMBANOVA_API_KEY }}
-        run: cd src && python benchmark.py --providers sambanova --models llama-4-maverick --merge
-
-      - name: SambaNova — llama-4-scout-sn
-        continue-on-error: true
-        timeout-minutes: 20
-        env:
-          SAMBANOVA_API_KEY: ${{ secrets.SAMBANOVA_API_KEY }}
-        run: cd src && python benchmark.py --providers sambanova --models llama-4-scout-sn --merge
-
-      - name: SambaNova — llama-3.3-70b-sn
-        continue-on-error: true
-        timeout-minutes: 20
-        env:
-          SAMBANOVA_API_KEY: ${{ secrets.SAMBANOVA_API_KEY }}
-        run: cd src && python benchmark.py --providers sambanova --models llama-3.3-70b-sn --merge
-
-      - name: SambaNova — llama-3.1-405b-sn
-        continue-on-error: true
-        timeout-minutes: 20
-        env:
-          SAMBANOVA_API_KEY: ${{ secrets.SAMBANOVA_API_KEY }}
-        run: cd src && python benchmark.py --providers sambanova --models llama-3.1-405b-sn --merge
-
-      - name: SambaNova — llama-3.1-70b-sn
-        continue-on-error: true
-        timeout-minutes: 20
-        env:
-          SAMBANOVA_API_KEY: ${{ secrets.SAMBANOVA_API_KEY }}
-        run: cd src && python benchmark.py --providers sambanova --models llama-3.1-70b-sn --merge
-
-      - name: SambaNova — llama-3.1-8b-sn
+      - name: "[6] SambaNova — llama-3.1-8b-sn"
         continue-on-error: true
         timeout-minutes: 20
         env:
           SAMBANOVA_API_KEY: ${{ secrets.SAMBANOVA_API_KEY }}
         run: cd src && python benchmark.py --providers sambanova --models llama-3.1-8b-sn --merge
 
-      - name: SambaNova — deepseek-r1-sn
-        continue-on-error: true
-        timeout-minutes: 20
-        env:
-          SAMBANOVA_API_KEY: ${{ secrets.SAMBANOVA_API_KEY }}
-        run: cd src && python benchmark.py --providers sambanova --models deepseek-r1-sn --merge
-
-      - name: SambaNova — deepseek-v3-sn
-        continue-on-error: true
-        timeout-minutes: 20
-        env:
-          SAMBANOVA_API_KEY: ${{ secrets.SAMBANOVA_API_KEY }}
-        run: cd src && python benchmark.py --providers sambanova --models deepseek-v3-sn --merge
-
-      - name: SambaNova — qwen3-32b-sn
-        continue-on-error: true
-        timeout-minutes: 20
-        env:
-          SAMBANOVA_API_KEY: ${{ secrets.SAMBANOVA_API_KEY }}
-        run: cd src && python benchmark.py --providers sambanova --models qwen3-32b-sn --merge
-
-      - name: SambaNova — qwen2.5-72b-sn
-        continue-on-error: true
-        timeout-minutes: 20
-        env:
-          SAMBANOVA_API_KEY: ${{ secrets.SAMBANOVA_API_KEY }}
-        run: cd src && python benchmark.py --providers sambanova --models qwen2.5-72b-sn --merge
-
-      - name: SambaNova — qwen2.5-coder-32b-sn
-        continue-on-error: true
-        timeout-minutes: 20
-        env:
-          SAMBANOVA_API_KEY: ${{ secrets.SAMBANOVA_API_KEY }}
-        run: cd src && python benchmark.py --providers sambanova --models qwen2.5-coder-32b-sn --merge
-
-      - name: Cerebras — llama-3.1-8b
-        continue-on-error: true
-        timeout-minutes: 16
-        env:
-          CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_API_KEY }}
-        run: cd src && python benchmark.py --providers cerebras --models llama-3.1-8b --merge
-
-      - name: Cerebras — llama-3.3-70b
-        continue-on-error: true
-        timeout-minutes: 16
-        env:
-          CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_API_KEY }}
-        run: cd src && python benchmark.py --providers cerebras --models llama-3.3-70b --merge
-
-      - name: Cerebras — qwen3-32b
-        continue-on-error: true
-        timeout-minutes: 16
-        env:
-          CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_API_KEY }}
-        run: cd src && python benchmark.py --providers cerebras --models qwen3-32b --merge
-
-      - name: Cerebras — gpt-oss-120b
-        continue-on-error: true
-        timeout-minutes: 16
-        env:
-          CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_API_KEY }}
-        run: cd src && python benchmark.py --providers cerebras --models gpt-oss-120b --merge
-
-      - name: Cerebras — zai-glm-4.7
-        continue-on-error: true
-        timeout-minutes: 16
-        env:
-          CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_API_KEY }}
-        run: cd src && python benchmark.py --providers cerebras --models zai-glm-4.7 --merge
-
-      - name: Cerebras — qwen3-235b
+      - name: "[6] Cerebras — qwen3-235b"
         continue-on-error: true
         timeout-minutes: 16
         env:
           CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_API_KEY }}
         run: cd src && python benchmark.py --providers cerebras --models qwen3-235b --merge
 
-      - name: Together — llama-3.3-70b
+      # ROUND 7 — Remaining SambaNova models
+      - name: "[7] Groq — kimi-k2"
         continue-on-error: true
-        timeout-minutes: 16
+        timeout-minutes: 12
         env:
-          TOGETHER_API_KEY: ${{ secrets.TOGETHER_API_KEY }}
-        run: cd src && python benchmark.py --providers together --models llama-3.3-70b --merge
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: cd src && python benchmark.py --providers groq --models kimi-k2 --merge
 
-      - name: Together — llama-3.2-3b
+      - name: "[7] SambaNova — deepseek-r1-sn"
         continue-on-error: true
-        timeout-minutes: 16
+        timeout-minutes: 20
         env:
-          TOGETHER_API_KEY: ${{ secrets.TOGETHER_API_KEY }}
-        run: cd src && python benchmark.py --providers together --models llama-3.2-3b --merge
+          SAMBANOVA_API_KEY: ${{ secrets.SAMBANOVA_API_KEY }}
+        run: cd src && python benchmark.py --providers sambanova --models deepseek-r1-sn --merge
 
-      - name: Together — deepseek-r1-free
+      # ROUND 8 — Final SambaNova models
+      - name: "[8] SambaNova — deepseek-v3-sn"
         continue-on-error: true
-        timeout-minutes: 16
+        timeout-minutes: 20
         env:
-          TOGETHER_API_KEY: ${{ secrets.TOGETHER_API_KEY }}
-        run: cd src && python benchmark.py --providers together --models deepseek-r1-free --merge
+          SAMBANOVA_API_KEY: ${{ secrets.SAMBANOVA_API_KEY }}
+        run: cd src && python benchmark.py --providers sambanova --models deepseek-v3-sn --merge
 
+      # ROUND 9 — More SambaNova
+      - name: "[9] SambaNova — qwen3-32b-sn"
+        continue-on-error: true
+        timeout-minutes: 20
+        env:
+          SAMBANOVA_API_KEY: ${{ secrets.SAMBANOVA_API_KEY }}
+        run: cd src && python benchmark.py --providers sambanova --models qwen3-32b-sn --merge
 
+      # ROUND 10 — More SambaNova
+      - name: "[10] SambaNova — qwen2.5-72b-sn"
+        continue-on-error: true
+        timeout-minutes: 20
+        env:
+          SAMBANOVA_API_KEY: ${{ secrets.SAMBANOVA_API_KEY }}
+        run: cd src && python benchmark.py --providers sambanova --models qwen2.5-72b-sn --merge
+
+      # ROUND 11 — Final SambaNova
+      - name: "[11] SambaNova — qwen2.5-coder-32b-sn"
+        continue-on-error: true
+        timeout-minutes: 20
+        env:
+          SAMBANOVA_API_KEY: ${{ secrets.SAMBANOVA_API_KEY }}
+        run: cd src && python benchmark.py --providers sambanova --models qwen2.5-coder-32b-sn --merge
+
+      # Post-processing
       - name: News
         continue-on-error: true
         run: cd src && python news_parser.py
@@ -343,7 +359,7 @@ jobs:
         continue-on-error: true
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python src/notify_telegram.py
 
       - name: Commit
