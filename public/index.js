@@ -3,6 +3,19 @@ const compareMap = new Map();
 let allResults = [];
 let activeTier = 'all';
 
+// Count completed tests (5 categories: code, reasoning, instruction, translation, speed)
+function countTests(m) {
+  const t = m.tests || {};
+  let n = 0;
+  if (t.code?.avg_score) n++;
+  if (t.reasoning?.score) n++;
+  if (t.instruction?.avg_score) n++;
+  if (t.translation?.avg_score) n++;
+  const spd = m.raw_speed || t.speed?.avg_tokens_per_sec || 0;
+  if (spd > 0) n++;
+  return n;
+}
+
 const scalePct = (val) => val <= 0 ? 0 : 50 + (val / 100) * 50;
 
 const rankMeta = (i) => {
@@ -258,7 +271,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       quality_score: m.quality_score ?? m.overall_score ?? 0,
       raw_speed: m.raw_speed ?? m.tests?.speed?.avg_tokens_per_sec ?? 0,
       size_category: m.size_category ?? 'unknown',
-    })).filter(m => m.quality_score > 0 || m.raw_speed > 0);
+      tests_completed: countTests(m),
+    })).filter(m => (m.quality_score > 0 || m.raw_speed > 0) && m.tests_completed >= 3);
 
     const ts = new Date(data.timestamp);
     document.getElementById('last-update').innerHTML = `<span class="live-dot"></span>last updated ${ts.toLocaleString()}`;
