@@ -68,8 +68,8 @@ def get_alerts(today_list: list, yesterday_list: list) -> list:
                 "type":     "rate_limit",
                 "name":     t["model_name"],
                 "provider": t["provider"],
-                "msg":      "fully unavailable (all requests returned 429)" if rl == 1.0
-                            else f"rate limited: {int(rl*100)}% of tests blocked",
+                "msg":      "unavailable (429)" if rl == 1.0
+                            else f"rate limit {int(rl*100)}%",
             })
             continue  # skip other checks for this model
 
@@ -82,13 +82,13 @@ def get_alerts(today_list: list, yesterday_list: list) -> list:
             alerts.append({
                 "level": "critical", "type": "score_drop",
                 "name": t["model_name"], "provider": t["provider"],
-                "msg": f"score dropped by {drop:.0f} pts ({p['overall_score']:.0f} to {t['overall_score']:.0f})",
+                "msg": f"↓ {drop:.0f} pts ({t['overall_score']:.0f})",
             })
         elif drop >= SCORE_DROP_WARN:
             alerts.append({
                 "level": "warning", "type": "score_drop",
                 "name": t["model_name"], "provider": t["provider"],
-                "msg": f"score dropped by {drop:.0f} pts ({p['overall_score']:.0f} to {t['overall_score']:.0f})",
+                "msg": f"↓ {drop:.0f} pts ({t['overall_score']:.0f})",
             })
 
         # check recovery after previous degradation
@@ -97,7 +97,7 @@ def get_alerts(today_list: list, yesterday_list: list) -> list:
             alerts.append({
                 "level": "good", "type": "recovery",
                 "name": t["model_name"], "provider": t["provider"],
-                "msg": f"recovered +{gain:.0f} pts ({p['overall_score']:.0f} to {t['overall_score']:.0f})",
+                "msg": f"↑ {gain:.0f} pts ({t['overall_score']:.0f})",
             })
 
         # check speed drop
@@ -109,7 +109,7 @@ def get_alerts(today_list: list, yesterday_list: list) -> list:
                 alerts.append({
                     "level": "warning", "type": "speed_drop",
                     "name": t["model_name"], "provider": t["provider"],
-                    "msg": f"speed dropped {speed_drop:.0f}% ({ps:.0f} to {ts:.0f} tok/s)",
+                    "msg": f"speed ↓ {speed_drop:.0f}% ({ts:.0f} tok/s)",
                 })
 
     # sort: critical first, then warning, then good news
@@ -142,21 +142,18 @@ def format_message(today: list, alerts: list, date: str) -> str:
         for i, m in enumerate(top):
             speed = f" · {m['raw_speed']:.0f} tok/s" if m.get("raw_speed") else ""
             lines.append(
-                f"{medals[i]} {m['model_name']} ({m['provider']}) — "
-                f"<b>{m['overall_score']:.0f}/100</b>{speed}"
+                f"{medals[i]} {m['model_name']}: <b>{m['overall_score']:.0f}</b>{speed}"
             )
-        lines.append("")
 
     # alerts section
     if alerts:
         lines.append("⚠️ <b>Changes since yesterday</b>")
         for a in alerts:
-            lines.append(f"{EMOJI[a['level']]} <b>{a['name']}</b> ({a['provider']}) — {a['msg']}")
-        lines.append("")
+            lines.append(f"{EMOJI[a['level']]} {a['name']}: {a['msg']}")
     else:
-        lines.append("✅ All models running stable\n")
+        lines.append("✅ Stable")
 
-    lines.append(f"→ <a href='{SITE_URL}'>Full ranking on Klyxe</a>")
+    lines.append(f"<a href='{SITE_URL}'>klyxe.ai</a>")
     return "\n".join(lines)
 
 
