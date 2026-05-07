@@ -206,7 +206,7 @@ function initSidebar() {
 document.addEventListener('DOMContentLoaded', () => {
   initNavIndicator();
   initHamburger();
-  initSidebar();
+  // initSidebar removed — handled by sidebar.js
 });
 
 // Export for use in other scripts

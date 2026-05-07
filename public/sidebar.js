@@ -107,4 +107,38 @@ class LexSidebar extends HTMLElement {
   }
 }
 
+// Global toggle function for sections
+window.toggleSection = (id) => {
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('open');
+};
+
+// Sidebar hover expand/collapse
+const initSidebarHover = () => {
+  const sidebar = document.getElementById('left-sidebar');
+  if (!sidebar) return;
+
+  const isMobile = () => window.innerWidth <= 768;
+  let enterTimer, leaveTimer;
+
+  sidebar.addEventListener('mouseenter', () => {
+    if (isMobile()) return;
+    clearTimeout(leaveTimer);
+    enterTimer = setTimeout(() => sidebar.classList.add('expanded'), 80);
+  });
+
+  sidebar.addEventListener('mouseleave', () => {
+    if (isMobile()) return;
+    clearTimeout(enterTimer);
+    leaveTimer = setTimeout(() => sidebar.classList.remove('expanded'), 150);
+  });
+};
+
+// Init after DOM ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initSidebarHover);
+} else {
+  initSidebarHover();
+}
+
 customElements.define('lex-sidebar', LexSidebar);
