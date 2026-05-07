@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>(function(){var t=localStorage.getItem('theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — Klyxe</title>
+  <link rel="icon" href="media/L_Logo.png" type="image/png">
+  <meta name="description" content="Sign in to Klyxe to save your preferences and track AI model performance.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style-spacing.css">
+  <link rel="stylesheet" href="animations.css">
+  <style>
+    .auth-container {
+      max-width: 420px;
+      margin: 0 auto;
+      padding: 48px 24px;
+    }
+
+    .auth-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .auth-header h1 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .auth-header p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .auth-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 32px;
+    }
+
+    .auth-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .auth-tab {
+      flex: 1;
+      padding: 10px 16px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .auth-tab:hover {
+      border-color: var(--border-strong);
+      color: var(--text-primary);
+    }
+
+    .auth-tab.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+    }
+
+    .auth-form {
+      display: none;
+    }
+
+    .auth-form.active {
+      display: block;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    .form-input {
+      width: 100%;
+      height: 44px;
+      padding: 0 14px;
+      background: var(--glass-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-size: 0.9rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-dim);
+    }
+
+    .form-input::placeholder {
+      color: var(--text-tertiary);
+    }
+
+    .auth-btn {
+      width: 100%;
+      height: 44px;
+      background: var(--accent);
+      border: none;
+      border-radius: var(--radius-sm);
+      color: white;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 8px;
+    }
+
+    .auth-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .auth-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .auth-divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 24px 0;
+      color: var(--text-tertiary);
+      font-size: 0.8rem;
+    }
+
+    .auth-divider::before,
+    .auth-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .github-btn {
+      width: 100%;
+      height: 44px;
+      background: var(--glass-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.2s;
+    }
+
+    .github-btn:hover {
+      background: var(--surface-raised);
+      border-color: var(--border-strong);
+    }
+
+    .github-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .auth-error {
+      background: rgba(248, 113, 113, 0.1);
+      border: 1px solid rgba(248, 113, 113, 0.3);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      color: #f87171;
+      font-size: 0.85rem;
+      display: none;
+    }
+
+    .auth-error.visible {
+      display: block;
+    }
+
+    .auth-success {
+      background: rgba(52, 211, 153, 0.1);
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      color: #34d399;
+      font-size: 0.85rem;
+      display: none;
+    }
+
+    .auth-success.visible {
+      display: block;
+    }
+
+    .auth-footer {
+      text-align: center;
+      margin-top: 24px;
+      color: var(--text-tertiary);
+      font-size: 0.8rem;
+    }
+
+    .auth-footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .auth-footer a:hover {
+      text-decoration: underline;
+    }
+
+    .user-info {
+      display: none;
+      text-align: center;
+    }
+
+    .user-info.visible {
+      display: block;
+    }
+
+    .user-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: white;
+    }
+
+    .user-email {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-bottom: 24px;
+    }
+
+    .logout-btn {
+      width: 100%;
+      height: 44px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .logout-btn:hover {
+      border-color: #f87171;
+      color: #f87171;
+    }
+
+    .loading-spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <!-- App layout -->
+  <div class="app-layout">
+    <lex-sidebar></lex-sidebar>
+    <script src="sidebar.js"></script>
+
+    <div class="sidebar-main">
+      <!-- Top header -->
+      <header class="header" id="top-header">
+        <div class="header-glass">
+          <div class="header-inner">
+            <button class="hamburger" id="menu-toggle" aria-label="Open menu">
+              <span></span><span></span><span></span>
+            </button>
+            <a href="index.html" class="header-logo" aria-label="Klyxe home">
+              <img src="media/L_Logo.png" alt="">
+              <span>Klyxe</span>
+            </a>
+            <nav class="header-nav">
+              <a href="index.html">Rankings</a>
+              <a href="trends.html">Trends</a>
+              <a href="providers.html">Providers</a>
+              <a href="search.html">Search</a>
+            </nav>
+            <div class="header-cta">
+              <a href="https://github.com/SkillichSE/Klyxe.ai" class="btn" target="_blank" rel="noopener">GitHub</a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="main page-fade" id="main-content">
+        <div class="page-spacer"></div>
+
+        <div class="auth-container">
+          <div class="auth-header">
+            <h1>Welcome to Klyxe</h1>
+            <p>Sign in to save preferences and track AI benchmarks</p>
+          </div>
+
+          <div class="auth-card">
+            <!-- Error/Success messages -->
+            <div class="auth-error" id="auth-error"></div>
+            <div class="auth-success" id="auth-success"></div>
+
+            <!-- Logged out state -->
+            <div id="auth-forms">
+              <!-- Tabs -->
+              <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="signin">Sign In</button>
+                <button class="auth-tab" data-tab="signup">Create Account</button>
+              </div>
+
+              <!-- Sign In Form -->
+              <form class="auth-form active" id="signin-form">
+                <div class="form-group">
+                  <label class="form-label" for="signin-email">Email</label>
+                  <input type="email" id="signin-email" class="form-input" placeholder="you@example.com" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="signin-password">Password</label>
+                  <input type="password" id="signin-password" class="form-input" placeholder="••••••••" required minlength="6">
+                </div>
+                <button type="submit" class="auth-btn" id="signin-btn">Sign In</button>
+              </form>
+
+              <!-- Sign Up Form -->
+              <form class="auth-form" id="signup-form">
+                <div class="form-group">
+                  <label class="form-label" for="signup-email">Email</label>
+                  <input type="email" id="signup-email" class="form-input" placeholder="you@example.com" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="signup-password">Password</label>
+                  <input type="password" id="signup-password" class="form-input" placeholder="••••••••" required minlength="6">
+                </div>
+                <button type="submit" class="auth-btn" id="signup-btn">Create Account</button>
+              </form>
+
+              <div class="auth-divider">or continue with</div>
+
+              <button class="github-btn" id="github-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+                GitHub
+              </button>
+            </div>
+
+            <!-- Logged in state -->
+            <div class="user-info" id="user-info">
+              <div class="user-avatar" id="user-avatar">U</div>
+              <div class="user-email" id="user-email"></div>
+              <button class="logout-btn" id="logout-btn">Sign Out</button>
+            </div>
+          </div>
+
+          <div class="auth-footer">
+            By signing in, you agree to our <a href="about.html">Terms of Service</a>
+          </div>
+        </div>
+
+        <div class="page-spacer"></div>
+      </main>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="auth.js"></script>
+</body>
+</html>

@@ -67,11 +67,16 @@ class LexSidebar extends HTMLElement {
     }
 
     const aboutActive = page === 'about.html' ? ' active' : '';
+    const authActive = page === 'auth.html' ? ' active' : '';
     html += `
       <div class="sidebar-footer-links">
         <a href="about.html" class="sidebar-link${aboutActive}">
           ${icon('<circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 7v5M8 5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>')}
           <span class="link-label">About</span>
+        </a>
+        <a href="auth.html" class="sidebar-link${authActive}">
+          ${icon('<circle cx="8" cy="6" r="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 13c0-2.76 2.24-5 5-5s5 2.24 5 5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/>')}
+          <span class="link-label">Sign In</span>
         </a>
       </div>
     `;
