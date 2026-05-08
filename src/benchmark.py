@@ -16,7 +16,10 @@ CEREBRAS_API = "https://api.cerebras.ai/v1/chat/completions"
 TOGETHER_API = "https://api.together.xyz/v1/chat/completions"
 SAMBANOVA_API = "https://api.sambanova.ai/v1/chat/completions"
 
-REQUEST_DELAY = {"groq": 2, "google": 6, "openrouter": 4, "cerebras": 1, "together": 2}
+# Reduced delays - smart rate limiting handles the rest
+REQUEST_DELAY = {"groq": 0.5, "google": 3, "openrouter": 0.5, "cerebras": 0.5, "together": 1}
+# Parallel test workers per category
+PARALLEL_WORKERS = {"groq": 3, "google": 2, "openrouter": 4, "cerebras": 3, "together": 2}
 
 import random
 
@@ -35,7 +38,8 @@ REASONING_ANSWERS = {
 
 _OR_ROTATE_STATUSES = {429, 402}
 
-_OR_KEY_COOLDOWN = 62
+_OR_KEY_COOLDOWN = 15  # seconds before retrying a rate-limited key
+_OR_MAX_RETRIES = 3    # retries per key with exponential backoff
 _FATAL_MODEL_PATTERNS = (
     "decommissioned",
     "no longer supported",
@@ -90,17 +94,32 @@ def _load_openrouter_keys():
     return keys
 
 
+def _load_google_keys():
+    keys = []
+    i = 1
+    while True:
+        k = os.getenv(f"GOOGLE_API_KEY_{i}", "").strip()
+        if not k:
+            break
+        keys.append(k)
+        i += 1
+    plain = os.getenv("GOOGLE_API_KEY", "").strip()
+    if plain and plain not in keys:
+        keys.append(plain)
+    return keys
+
+
 class ModelBenchmark:
     def __init__(self, active_providers=None, active_models=None, merge=False):
         self.groq_key = os.getenv("GROQ_API_KEY")
-        self.google_key = os.getenv("GOOGLE_API_KEY")
         self.cerebras_key = os.getenv("CEREBRAS_API_KEY")
-        self.together_key = os.getenv("TOGETHER_API_KEY")
         self.sambanova_key = os.getenv("SAMBANOVA_API_KEY")
         self._openrouter_keys = _load_openrouter_keys()
         self._or_key_index = 0
-
         self._or_key_limited_until = {}
+        # Google key rotation
+        self._google_keys = _load_google_keys()
+        self._google_key_index = 0
         self.active_providers = active_providers
         self.active_models = active_models
         self.merge = merge
@@ -207,36 +226,43 @@ class ModelBenchmark:
                                  model_id, prompt)
 
     def call_google(self, model_id, prompt):
-        if not self.google_key:
+        if not self._google_keys:
             return {"success": False, "error": "GOOGLE_API_KEY not set"}
-        url = (f"https://generativelanguage.googleapis.com/v1beta/models/"
-               f"{model_id}:generateContent?key={self.google_key}")
-        data = {
-            "contents": [{"parts": [{"text": prompt}]}],
-            "generationConfig": {"temperature": 0.1, "maxOutputTokens": 300},
-        }
-        start = time.time()
-        try:
-            r = requests.post(url, json=data, timeout=20)
-            elapsed = time.time() - start
-            if r.status_code == 200:
-                body = r.json()
-                if not body.get("candidates"):
-                    return {"success": False, "error": "no candidates"}
-                content = body["candidates"][0]["content"]["parts"][0].get("text") or ""
-                tokens = body.get("usageMetadata", {}).get("candidatesTokenCount", 0) or body.get("usageMetadata", {}).get("totalTokenCount", 0)
-                return {"success": True, "content": content,
-                        "total_time": round(elapsed, 3), "tokens": tokens,
-                        "tokens_per_sec": round(tokens / elapsed, 2) if elapsed > 0 else 0}
-            err = f"Status {r.status_code}"
+        # Try each Google key in rotation
+        for idx, key in enumerate(self._google_keys):
+            url = (f"https://generativelanguage.googleapis.com/v1beta/models/"
+                   f"{model_id}:generateContent?key={key}")
+            data = {
+                "contents": [{"parts": [{"text": prompt}]}],
+                "generationConfig": {"temperature": 0.1, "maxOutputTokens": 300},
+            }
+            start = time.time()
             try:
-                msg = r.json().get("error", {}).get("message", "")
-                if msg: err += f" - {msg[:120]}"
-            except Exception:
-                pass
-            return {"success": False, "error": err}
-        except Exception as e:
-            return {"success": False, "error": str(e)[:120]}
+                r = requests.post(url, json=data, timeout=20)
+                elapsed = time.time() - start
+                if r.status_code == 200:
+                    body = r.json()
+                    if not body.get("candidates"):
+                        return {"success": False, "error": "no candidates"}
+                    content = body["candidates"][0]["content"]["parts"][0].get("text") or ""
+                    tokens = body.get("usageMetadata", {}).get("candidatesTokenCount", 0) or body.get("usageMetadata", {}).get("totalTokenCount", 0)
+                    return {"success": True, "content": content,
+                            "total_time": round(elapsed, 3), "tokens": tokens,
+                            "tokens_per_sec": round(tokens / elapsed, 2) if elapsed > 0 else 0}
+                # On 429, try next key
+                if r.status_code == 429 and idx < len(self._google_keys) - 1:
+                    print(f"\n    [google] key {idx+1} rate limited, trying next...", end="", flush=True)
+                    continue
+                err = f"Status {r.status_code}"
+                try:
+                    msg = r.json().get("error", {}).get("message", "")
+                    if msg: err += f" - {msg[:120]}"
+                except Exception:
+                    pass
+                return {"success": False, "error": err}
+            except Exception as e:
+                return {"success": False, "error": str(e)[:120]}
+        return {"success": False, "error": "all google keys exhausted"}
 
     def call_openrouter(self, model_id, prompt):
         if not self._openrouter_keys:
@@ -247,36 +273,57 @@ class ModelBenchmark:
             return {"success": False, "error": "all keys at limit (skipped)"}
         self._or_key_index = start_idx
         tried = set()
+
         while True:
             idx = self._or_key_index
             if idx in tried:
-                print(f"\n    [openrouter] all {len(self._openrouter_keys)} keys at limit, skipping", flush=True)
-                return {"success": False, "error": "all keys at limit (skipped)"}
+                print(f"\n    [openrouter] all {len(self._openrouter_keys)} keys exhausted", flush=True)
+                return {"success": False, "error": "all keys exhausted"}
             tried.add(idx)
-            hint = self._openrouter_keys[idx][:12] + "..."
-            if idx > 0:
-                print(f"\n    [openrouter] key #{idx + 1}/{len(self._openrouter_keys)} ({hint})", end="", flush=True)
-            result = self._openai_post(OPENROUTER_API, {
-                "Authorization": f"Bearer {self._openrouter_keys[idx]}",
-                "Content-Type": "application/json",
-                "HTTP-Referer": "https://modellens.ai",
-                "X-Title": "Lexentia Proof",
-            }, model_id, prompt, timeout=45)
-            if result["success"]:
-                return result
-            err = result.get("error", "")
-            m = re.search(r"Status (\d+)", err)
-            status = int(m.group(1)) if m else 0
-            if status in _OR_ROTATE_STATUSES:
-                self._mark_or_key_limited(idx)
-                next_idx = self._next_available_or_key()
-                if next_idx is not None and next_idx not in tried:
-                    self._or_key_index = next_idx
-                    continue
 
-                print(f"\n    [openrouter] all {len(self._openrouter_keys)} keys at limit, skipping", flush=True)
-                return {"success": False, "error": "all keys at limit (skipped)"}
-            return result
+            # Try current key with exponential backoff retries
+            key = self._openrouter_keys[idx]
+            for attempt in range(_OR_MAX_RETRIES + 1):
+                if attempt > 0:
+                    backoff = 2 ** attempt  # 2, 4, 8 seconds
+                    print(f"\n    [openrouter] retry #{attempt} in {backoff}s...", end="", flush=True)
+                    time.sleep(backoff)
+
+                hint = key[:12] + "..." if len(key) > 12 else key[:8]
+                if idx > 0 or attempt > 0:
+                    print(f"\n    [openrouter] key #{idx + 1} ({hint}) attempt {attempt + 1}", end="", flush=True)
+
+                result = self._openai_post(OPENROUTER_API, {
+                    "Authorization": f"Bearer {key}",
+                    "Content-Type": "application/json",
+                    "HTTP-Referer": "https://modellens.ai",
+                    "X-Title": "Lexentia Proof",
+                }, model_id, prompt, timeout=45)
+
+                if result["success"]:
+                    return result
+
+                err = result.get("error", "")
+                m = re.search(r"Status (\d+)", err)
+                status = int(m.group(1)) if m else 0
+
+                # If rate limited, mark key and stop retrying this key
+                if status in _OR_ROTATE_STATUSES:
+                    self._mark_or_key_limited(idx)
+                    break  # Move to next key
+
+                # For other errors, don't retry
+                if status >= 400:
+                    return result
+
+            # After retries exhausted, try next available key
+            next_idx = self._next_available_or_key()
+            if next_idx is not None and next_idx not in tried:
+                self._or_key_index = next_idx
+                continue
+
+            print(f"\n    [openrouter] all {len(self._openrouter_keys)} keys exhausted", flush=True)
+            return {"success": False, "error": "all keys exhausted"}
 
     def call_cerebras(self, model_id, prompt):
         if not self.cerebras_key:
@@ -575,43 +622,205 @@ class ModelBenchmark:
             return None
         return result
 
+    def run_model_cross(self, provider, mkey, minfo, cat):
+        """Cross-provider model testing - each request can go to any provider."""
+        mid = minfo["id"]
+        self._current_model_info = minfo
+        delay = REQUEST_DELAY.get(provider, 0.5)
+
+        # display_provider is human-readable label from config
+        display_provider = minfo.get("provider") or provider.capitalize()
+
+        result = {
+            "model_id":       minfo.get("key", mid),
+            "model_name":     minfo["name"],
+            "provider":       display_provider,
+            "api_provider":   provider,
+            "is_open_source": minfo.get("is_open_source", False),
+            "size":           minfo["size"],
+            "size_category":  cat,
+            "tier":           cat,
+            "context":        minfo.get("context", "N/A"),
+            "timestamp":      datetime.utcnow().isoformat(),
+            "tests":          {},
+        }
+
+        tier_tests = TESTS_BY_TIER[cat]
+        success_calls = 0
+
+        print(f"  speed...", end=" ", flush=True)
+        speed_raw = []
+        for name, prompt in tier_tests["speed"].items():
+            r = self._call(provider, mid, prompt)
+            if r["success"]:
+                success_calls += 1
+                speed_raw.append({"test": name, "time": r["total_time"],
+                                  "tokens_per_sec": r["tokens_per_sec"], "tokens": r["tokens"]})
+            else:
+                print(f"\n    [{name}] {r['error']}", end="")
+                if self._is_fatal_model_error(r.get("error")):
+                    print("\n  [skip] fatal model error")
+                    return None
+            time.sleep(delay)
+
+        avg_tps = round(sum(x["tokens_per_sec"] for x in speed_raw) / len(speed_raw), 2) if speed_raw else 0
+        result["tests"]["speed"] = {"avg_tokens_per_sec": avg_tps, "details": speed_raw}
+        print(f"done ({avg_tps} tok/s)")
+
+        print("  code...", end=" ", flush=True)
+        code_raw = []
+        for name in tier_tests["code"]:
+            r = self._call(provider, mid, tier_tests["code"][name]["prompt"])
+            if r["success"]:
+                success_calls += 1
+                code_raw.append({"test": name, **self.eval_code(name, r["content"], tier_tests)})
+            else:
+                err_detail = r.get('error', 'Unknown error')
+                print(f"\n    ⚠️  [{name}] ERROR: {err_detail}")
+                code_raw.append({"test": name, "pass_rate": 0.0, "passed": 0,
+                                 "total": len(tier_tests["code"][name]["expected"]), "error": err_detail})
+
+        avg_code = round(sum(x["pass_rate"] for x in code_raw) / len(code_raw) * 100, 1) if code_raw else 0
+        result["tests"]["code"] = {"avg_score": avg_code, "details": code_raw}
+        print(f"done ({sum(x.get('passed', 0) for x in code_raw)}/{sum(x.get('total', 0) for x in code_raw)} passed)")
+
+        print("  reasoning...", end=" ", flush=True)
+        reasoning_raw = []
+        for name, cfg in tier_tests["reasoning"].items():
+            r = self._call(provider, mid, cfg["prompt"])
+            if r["success"]:
+                success_calls += 1
+                reasoning_raw.append({"test": name, **self.eval_reasoning(name, r["content"])})
+            else:
+                err_detail = r.get('error', 'Unknown error')
+                print(f"\n    ⚠️  [{name}] ERROR: {err_detail}")
+                reasoning_raw.append({"test": name, "correct": False, "score": 0, "error": err_detail})
+
+        correct_count = sum(1 for x in reasoning_raw if x.get("correct"))
+        reasoning_score = round(correct_count / len(reasoning_raw) * 100, 1) if reasoning_raw else 0
+        result["tests"]["reasoning"] = {"score": reasoning_score, "correct": correct_count,
+                                        "total": len(reasoning_raw), "details": reasoning_raw}
+        print(f"done ({correct_count}/{len(reasoning_raw)} correct)")
+
+        print("  instructions...", end=" ", flush=True)
+        instr_raw = []
+        for name, cfg in tier_tests["instruction"].items():
+            r = self._call(provider, mid, cfg["prompt"])
+            if r["success"]:
+                success_calls += 1
+                instr_raw.append({"test": name, **self.eval_instruction(name, r["content"], tier_tests)})
+            else:
+                err_detail = r.get('error', 'Unknown error')
+                print(f"\n    ⚠️  [{name}] ERROR: {err_detail}")
+                instr_raw.append({"test": name, "score": 0, "error": err_detail})
+
+        avg_instr = round(sum(x["score"] for x in instr_raw) / len(instr_raw), 1) if instr_raw else 0
+        result["tests"]["instruction"] = {"avg_score": avg_instr, "details": instr_raw}
+        print(f"done ({avg_instr}/100)")
+
+        print("  translation...", end=" ", flush=True)
+        trans_raw = []
+        for name, cfg in tier_tests["translation"].items():
+            r = self._call(provider, mid, cfg["prompt"])
+            if r["success"]:
+                success_calls += 1
+                trans_raw.append({"test": name, **self.eval_translation(name, r["content"], tier_tests)})
+            else:
+                err_detail = r.get('error', 'Unknown error')
+                print(f"\n    ⚠️  [{name}] ERROR: {err_detail}")
+                trans_raw.append({"test": name, "score": 0, "error": err_detail})
+
+        avg_trans = round(sum(x["score"] for x in trans_raw) / len(trans_raw), 1) if trans_raw else 0
+        result["tests"]["translation"] = {"avg_score": avg_trans, "details": trans_raw}
+        print(f"done ({avg_trans}/100)")
+
+        quality = round(avg_code * SCORE_WEIGHTS['code'] + reasoning_score * SCORE_WEIGHTS['reasoning'] + avg_instr * SCORE_WEIGHTS['instruction'] + avg_trans * SCORE_WEIGHTS['translation'], 1)
+        result["quality_score"] = quality
+        result["raw_speed"] = avg_tps
+        result["overall_score"] = quality
+        if success_calls == 0:
+            print("  [skip] no successful API responses")
+            return None
+        if quality == 0 and avg_tps == 0:
+            print("  [skip] model returned only zero metrics")
+            return None
+        return result
+
     def run_benchmark(self):
-        print("Lexentia Proof Benchmark")
+        print("Lexentia Proof Benchmark - Cross-Provider Parallel")
         print(f"Date: {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')}")
 
-        key_map = {"groq": self.groq_key, "google": self.google_key,
-                   "openrouter": bool(self._openrouter_keys),
-                   "cerebras": self.cerebras_key, "together": self.together_key,
-                   "sambanova": self.sambanova_key}
-        active = []
-        if self.groq_key: active.append("Groq")
-        if self.google_key: active.append("Google")
-        if self._openrouter_keys:
-            n = len(self._openrouter_keys)
-            active.append(f"Openrouter ({n} key{'s' if n > 1 else ''})")
-        if self.cerebras_key: active.append("Cerebras")
-        if self.together_key: active.append("Together")
-        if self.sambanova_key: active.append("SambaNova")
-        print(f"Providers: {', '.join(active) or 'none'}")
-
+        # Create global task queue of all (provider, model) pairs
+        task_queue = []
         for provider, models in MODELS.items():
             if self.active_providers and provider not in self.active_providers:
-                print(f"Skip {provider} (not in --providers)")
                 continue
-            if not key_map.get(provider):
-                print(f"Skip {provider} (no API key)")
+            if provider == "together":  # Skip Together (no key)
                 continue
+            if provider == "groq" and not self.groq_key:
+                continue
+            if provider == "google" and not self._google_keys:
+                continue
+            if provider == "cerebras" and not self.cerebras_key:
+                continue
+            if provider == "sambanova" and not self.sambanova_key:
+                continue
+            if provider == "openrouter" and not self._openrouter_keys:
+                continue
+
             for mkey, minfo in models.items():
                 if self.active_models and mkey not in self.active_models:
                     continue
                 minfo = dict(minfo, key=mkey)
                 cat = size_category(minfo["size"], minfo.get("size_category"))
-                print(f"\n{minfo['name']} [{cat}] via {provider}")
-                r = self.run_model(provider, minfo)
-                if r:
-                    self.results.append(r)
-                    print(f"  -> quality={r['quality_score']}  speed={r['raw_speed']} tok/s")
+                task_queue.append((provider, mkey, minfo, cat))
 
+        print(f"Total models to test: {len(task_queue)}")
+
+        # Shuffle to ensure good mixing across providers
+        import random
+        random.shuffle(task_queue)
+
+        # Process tasks with cross-provider parallelism
+        from concurrent.futures import ThreadPoolExecutor, as_completed
+        MAX_CONCURRENT = 15  # Total concurrent requests across all providers
+        
+        with ThreadPoolExecutor(max_workers=MAX_CONCURRENT) as ex:
+            # Submit first batch
+            futures = {}
+            submitted = 0
+            
+            while task_queue:
+                # Fill up to max concurrent
+                while len(futures) < MAX_CONCURRENT and task_queue:
+                    provider, mkey, minfo, cat = task_queue.pop()
+                    future = ex.submit(self.run_model_cross, provider, mkey, minfo, cat)
+                    futures[future] = (provider, mkey, minfo)
+                    submitted += 1
+                    print(f"  [submit] {minfo['name']} ({provider}) - {len(task_queue)} remaining")
+
+                # Wait for any task to complete
+                if futures:
+                    completed = next(as_completed(futures), None)
+                    provider, mkey, minfo = futures.pop(completed)
+                    result = completed.result()
+                    if result:
+                        self.results.append(result)
+                        print(f"  [done] {minfo['name']} ({provider}) → quality={result['quality_score']} speed={result['raw_speed']}")
+                    else:
+                        print(f"  [fail] {minfo['name']} ({provider})")
+
+            # Wait for remaining tasks
+            for future in as_completed(futures):
+                provider, mkey, minfo = futures[future]
+                result = future.result()
+                if result:
+                    self.results.append(result)
+                    print(f"  [done] {minfo['name']} ({provider}) → quality={result['quality_score']} speed={result['raw_speed']}")
+                else:
+                    print(f"  [fail] {minfo['name']} ({provider})")
+
+        print(f"\nCompleted: {len(self.results)}/{submitted} models benchmarked")
         self.save_results()
 
     def save_results(self):

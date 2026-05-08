@@ -311,28 +311,6 @@ MODELS = {
         },
     },
 
-    "together": {
-
-        "llama-3.3-70b": {
-            "id": "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free",
-            "name": "Llama 3.3 70B",
-            "provider": "Together", "size": "70B",
-            "size_category": "large", "context": "131k"
-        },
-        "llama-3.2-3b": {
-            "id": "meta-llama/Llama-3.2-3B-Instruct-Turbo-Free",
-            "name": "Llama 3.2 3B",
-            "provider": "Together", "size": "3B",
-            "size_category": "small", "context": "131k"
-        },
-        "deepseek-r1-free": {
-            "id": "deepseek-ai/DeepSeek-R1-Free",
-            "name": "DeepSeek R1",
-            "provider": "Together", "size": "671B",
-            "size_category": "large", "context": "32k"
-        },
-    },
-
     "google": {
 
         "gemini-2.5-flash": {
@@ -356,19 +334,8 @@ MODELS = {
     },
 
     "sambanova": {
-
-        "llama-4-maverick": {
-            "id": "Meta-Llama-4-Maverick-17B-128E-Instruct",
-            "name": "Llama 4 Maverick 17B",
-            "provider": "SambaNova", "size": "17B",
-            "size_category": "medium", "context": "131k"
-        },
-        "llama-4-scout-sn": {
-            "id": "Meta-Llama-4-Scout-17B-16E-Instruct",
-            "name": "Llama 4 Scout 17B",
-            "provider": "SambaNova", "size": "17B",
-            "size_category": "medium", "context": "131k"
-        },
+        # NOTE: Most SambaNova models return 404/410 - disabled until fixed
+        # Only keeping models that have shown recent success
         "llama-3.3-70b-sn": {
             "id": "Meta-Llama-3.3-70B-Instruct",
             "name": "Llama 3.3 70B",
@@ -386,42 +353,6 @@ MODELS = {
             "name": "Llama 3.1 70B",
             "provider": "SambaNova", "size": "70B",
             "size_category": "large", "context": "16k"
-        },
-        "llama-3.1-8b-sn": {
-            "id": "Meta-Llama-3.1-8B-Instruct",
-            "name": "Llama 3.1 8B",
-            "provider": "SambaNova", "size": "8B",
-            "size_category": "small", "context": "16k"
-        },
-        "deepseek-r1-sn": {
-            "id": "DeepSeek-R1",
-            "name": "DeepSeek R1",
-            "provider": "SambaNova", "size": "671B",
-            "size_category": "large", "context": "32k"
-        },
-        "deepseek-v3-sn": {
-            "id": "DeepSeek-V3-0324",
-            "name": "DeepSeek V3",
-            "provider": "SambaNova", "size": "671B",
-            "size_category": "large", "context": "128k"
-        },
-        "qwen3-32b-sn": {
-            "id": "Qwen3-32B",
-            "name": "Qwen 3 32B",
-            "provider": "SambaNova", "size": "32B",
-            "size_category": "medium", "context": "131k"
-        },
-        "qwen2.5-72b-sn": {
-            "id": "Qwen2.5-72B-Instruct",
-            "name": "Qwen 2.5 72B",
-            "provider": "SambaNova", "size": "72B",
-            "size_category": "large", "context": "131k"
-        },
-        "qwen2.5-coder-32b-sn": {
-            "id": "Qwen2.5-Coder-32B-Instruct",
-            "name": "Qwen 2.5 Coder 32B",
-            "provider": "SambaNova", "size": "32B",
-            "size_category": "medium", "context": "131k"
         },
     },
 }
