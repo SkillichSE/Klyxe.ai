@@ -5,30 +5,62 @@ console.log('Auth loading...');
 
 // initialize supabase client
 let supabase;
+let authInitialized = false;
+
+// ui helpers (defined early so they can be used during init)
+function showError(msg) {
+  const errorEl = document.getElementById('auth-error');
+  if (errorEl) {
+    errorEl.textContent = msg;
+    errorEl.classList.add('visible');
+    const successEl = document.getElementById('auth-success');
+    if (successEl) successEl.classList.remove('visible');
+  }
+  console.error('Auth error:', msg);
+}
+
+function showSuccess(msg) {
+  const successEl = document.getElementById('auth-success');
+  if (successEl) {
+    successEl.textContent = msg;
+    successEl.classList.add('visible');
+    const errorEl = document.getElementById('auth-error');
+    if (errorEl) errorEl.classList.remove('visible');
+  }
+}
 
 // fetch config from API
 async function initializeAuth() {
   try {
+    console.log('Starting auth initialization...');
+    
     const response = await fetch('/api/config');
+    if (!response.ok) {
+      throw new Error(`API returned ${response.status}: ${response.statusText}`);
+    }
+    
     const config = await response.json();
+    console.log('Config fetched:', { url: !!config.SUPABASE_URL, key: !!config.SUPABASE_ANON_KEY });
     
     const SUPABASE_URL = config.SUPABASE_URL;
     const SUPABASE_ANON_KEY = config.SUPABASE_ANON_KEY;
     
-    console.log('SUPABASE_URL:', SUPABASE_URL ? 'SET' : 'EMPTY');
-    console.log('SUPABASE_ANON_KEY:', SUPABASE_ANON_KEY ? 'SET' : 'EMPTY');
-    
     if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-      throw new Error('Supabase credentials not found in environment variables');
+      throw new Error('Supabase credentials are empty');
+    }
+    
+    if (!window.supabase) {
+      throw new Error('Supabase library not loaded');
     }
     
     supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    console.log('Supabase client initialized');
+    authInitialized = true;
+    console.log('✓ Supabase client initialized successfully');
     
     // setup all handlers after successful init
     setupAllHandlers();
   } catch (e) {
-    console.error('Auth initialization failed:', e);
+    console.error('❌ Auth initialization failed:', e);
     showError('Authentication failed: ' + e.message);
   }
 }
@@ -52,56 +84,66 @@ const els = {
 };
 
 // validate DOM elements
-console.log('DOM elements found:', {
+console.log('DOM elements:', {
+  error: !!els.error,
+  success: !!els.success,
+  authForms: !!els.authForms,
+  userInfo: !!els.userInfo,
+  tabs: els.tabs.length,
+  forms: els.forms.length,
+  signinForm: !!els.signinForm,
   signupForm: !!els.signupForm,
+  signinBtn: !!els.signinBtn,
   signupBtn: !!els.signupBtn,
   githubBtn: !!els.githubBtn,
-  tabs: els.tabs.length
+  logoutBtn: !!els.logoutBtn
 });
 
-if (!els.signupForm) console.error('signup-form not found');
-if (!els.signupBtn) console.error('signup-btn not found');
-if (!els.githubBtn) console.error('github-btn not found');
-
-// ui helpers
+// update showError and showSuccess to use els
 function showError(msg) {
-  els.error.textContent = msg;
-  els.error.classList.add('visible');
-  els.success.classList.remove('visible');
+  if (els.error) {
+    els.error.textContent = msg;
+    els.error.classList.add('visible');
+  }
+  if (els.success) els.success.classList.remove('visible');
+  console.error('Auth error:', msg);
 }
 
 function showSuccess(msg) {
-  els.success.textContent = msg;
-  els.success.classList.add('visible');
-  els.error.classList.remove('visible');
+  if (els.success) {
+    els.success.textContent = msg;
+    els.success.classList.add('visible');
+  }
+  if (els.error) els.error.classList.remove('visible');
 }
 
 function clearMessages() {
-  els.error.classList.remove('visible');
-  els.success.classList.remove('visible');
+  if (els.error) els.error.classList.remove('visible');
+  if (els.success) els.success.classList.remove('visible');
 }
 
 function setLoading(btn, loading) {
+  if (!btn) return;
   btn.disabled = loading;
   btn.innerHTML = loading ? '<span class="loading-spinner"></span>' : btn.dataset.originalText;
 }
 
 function showLoggedIn(user) {
-  els.authForms.style.display = 'none';
-  els.userInfo.classList.add('visible');
+  if (els.authForms) els.authForms.style.display = 'none';
+  if (els.userInfo) els.userInfo.classList.add('visible');
   
   // set avatar initial
   const initial = user.email ? user.email[0].toUpperCase() : 'U';
-  els.userAvatar.textContent = initial;
-  els.userEmail.textContent = user.email || user.user_metadata?.user_name || 'Signed in';
+  if (els.userAvatar) els.userAvatar.textContent = initial;
+  if (els.userEmail) els.userEmail.textContent = user.email || user.user_metadata?.user_name || 'Signed in';
   
   // update sidebar link
   updateSidebarForAuth(true);
 }
 
 function showLoggedOut() {
-  els.authForms.style.display = 'block';
-  els.userInfo.classList.remove('visible');
+  if (els.authForms) els.authForms.style.display = 'block';
+  if (els.userInfo) els.userInfo.classList.remove('visible');
   updateSidebarForAuth(false);
 }
 
@@ -125,30 +167,38 @@ function updateSidebarForAuth(isLoggedIn) {
 }
 
 // tab switching
-els.tabs.forEach(tab => {
-  tab.addEventListener('click', () => {
-    const target = tab.dataset.tab;
-    
-    // update tabs
-    els.tabs.forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-    
-    // update forms
-    els.forms.forEach(f => f.classList.remove('active'));
-    document.getElementById(`${target}-form`).classList.add('active');
-    
-    clearMessages();
+function setupTabs() {
+  els.tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.dataset.tab;
+      
+      // update tabs
+      els.tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      
+      // update forms
+      els.forms.forEach(f => f.classList.remove('active'));
+      const formEl = document.getElementById(`${target}-form`);
+      if (formEl) formEl.classList.add('active');
+      
+      clearMessages();
+    });
   });
-});
+}
 
 // save original button text for loading states
-els.signinBtn.dataset.originalText = els.signinBtn.textContent;
-els.signupBtn.dataset.originalText = els.signupBtn.textContent;
+function saveButtonText() {
+  if (els.signinBtn) els.signinBtn.dataset.originalText = els.signinBtn.textContent;
+  if (els.signupBtn) els.signupBtn.dataset.originalText = els.signupBtn.textContent;
+  if (els.githubBtn) els.githubBtn.dataset.originalText = els.githubBtn.innerHTML;
+  if (els.logoutBtn) els.logoutBtn.dataset.originalText = els.logoutBtn.textContent;
+}
 
 // setup form handlers
 function setupFormHandlers() {
   // email password sign in
-  els.signinForm.addEventListener('submit', async (e) => {
+  if (els.signinForm) {
+    els.signinForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     clearMessages();
     
@@ -172,9 +222,11 @@ function setupFormHandlers() {
     showSuccess('Signed in successfully!');
     showLoggedIn(data.user);
   });
+  }
 
   // email password sign up
-  els.signupForm.addEventListener('submit', async (e) => {
+  if (els.signupForm) {
+    els.signupForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     clearMessages();
     console.log('Sign up clicked');
@@ -219,9 +271,11 @@ function setupFormHandlers() {
       showError('Sign up failed: ' + err.message);
     }
   });
+  }
 
   // github oauth sign in
-  els.githubBtn.addEventListener('click', async () => {
+  if (els.githubBtn) {
+    els.githubBtn.addEventListener('click', async () => {
     console.log('GitHub sign in clicked');
     clearMessages();
     
@@ -259,20 +313,23 @@ function setupFormHandlers() {
       els.githubBtn.disabled = false;
     }
   });
+  }
 
   // sign out
-  els.logoutBtn.addEventListener('click', async () => {
-    const { error } = await supabase.auth.signOut();
-    
-    if (error) {
-      showError(error.message);
-      return;
-    }
-    
-    clearMessages();
-    showLoggedOut();
-    showSuccess('Signed out successfully');
-  });
+  if (els.logoutBtn) {
+    els.logoutBtn.addEventListener('click', async () => {
+      const { error } = await supabase.auth.signOut();
+      
+      if (error) {
+        showError(error.message);
+        return;
+      }
+      
+      clearMessages();
+      showLoggedOut();
+      showSuccess('Signed out successfully');
+    });
+  }
 }
 
 // check session on load and handle oauth callback
@@ -308,7 +365,20 @@ function setupAllHandlers() {
   checkSession();
 }
 
-// initialize auth and setup
-if (window.supabase) {
-  initializeAuth();
-}
+// initialize on page load
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('DOM Content Loaded');
+  
+  // Set up tabs and buttons immediately (they don't need supabase)
+  setupTabs();
+  saveButtonText();
+  
+  // Initialize auth when supabase is available
+  if (window.supabase) {
+    console.log('Supabase library detected, initializing auth...');
+    initializeAuth();
+  } else {
+    console.error('Supabase library not found');
+    showError('Supabase library failed to load');
+  }
+});
