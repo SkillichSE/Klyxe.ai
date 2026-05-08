@@ -20,7 +20,10 @@ const signupBtn = document.getElementById('signup-btn');
 const githubBtn = document.getElementById('github-btn');
 const logoutBtn = document.getElementById('logout-btn');
 
-const AUTH_REDIRECT_URL = `${window.location.origin}/auth/`;
+const AUTH_REDIRECT_URL = (() => {
+  const pathname = window.location.pathname;
+  return `${window.location.origin}${pathname.replace(/\/?(auth(?:\.html|\/index\.html)?)$/, '/auth/')}`;
+})();
 
 // ui helpers
 function showError(msg) {
