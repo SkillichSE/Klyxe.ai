@@ -260,24 +260,34 @@ function setupFormHandlers() {
   }
 }
 
-// fetch config from API
+// fetch config from API or local fallback
 async function initializeAuth() {
   try {
     console.log('Starting auth initialization...');
 
-    const response = await fetch('/api/config');
-    if (!response.ok) {
-      throw new Error(`API returned ${response.status}: ${response.statusText}`);
+    let config = null;
+    try {
+      const response = await fetch('/api/config');
+      if (response.ok) {
+        config = await response.json();
+        console.log('Config fetched from /api/config:', { url: !!config?.SUPABASE_URL, key: !!config?.SUPABASE_ANON_KEY });
+      } else {
+        console.warn(`/api/config returned ${response.status}. Falling back to local config.js if available.`);
+      }
+    } catch (fetchError) {
+      console.warn('Could not fetch /api/config. Falling back to local config.js if available.', fetchError);
     }
 
-    const config = await response.json();
-    console.log('Config fetched:', { url: !!config.SUPABASE_URL, key: !!config.SUPABASE_ANON_KEY });
+    if ((!config?.SUPABASE_URL || !config?.SUPABASE_ANON_KEY) && typeof CONFIG !== 'undefined') {
+      config = CONFIG;
+      console.log('Config loaded from local config.js:', { url: !!config?.SUPABASE_URL, key: !!config?.SUPABASE_ANON_KEY });
+    }
 
-    const SUPABASE_URL = config.SUPABASE_URL;
-    const SUPABASE_ANON_KEY = config.SUPABASE_ANON_KEY;
+    const SUPABASE_URL = config?.SUPABASE_URL;
+    const SUPABASE_ANON_KEY = config?.SUPABASE_ANON_KEY;
 
     if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-      throw new Error('Supabase credentials are empty');
+      throw new Error('Supabase credentials are missing. Set NEXT_PUBLIC_SUPABASE_URL/NEXT_PUBLIC_SUPABASE_ANON_KEY or create public/config.js.');
     }
 
     if (!window.supabase) {
@@ -287,8 +297,15 @@ async function initializeAuth() {
     supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     console.log('✓ Supabase client initialized successfully');
 
-    // setup all handlers after successful init
+    // setup handlers after successful init
     setupFormHandlers();
+    supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN' && session?.user) {
+        showLoggedIn(session.user);
+      } else if (event === 'SIGNED_OUT') {
+        showLoggedOut();
+      }
+    });
     checkSession();
   } catch (e) {
     console.error('❌ Auth initialization failed:', e);
@@ -312,23 +329,6 @@ async function checkSession() {
   } else {
     showLoggedOut();
   }
-}
-
-// setup event listeners and form handlers (only after supabase is initialized)
-function setupAllHandlers() {
-  setupFormHandlers();
-
-  // listen for auth state changes
-  supabase.auth.onAuthStateChange((event, session) => {
-    if (event === 'SIGNED_IN' && session?.user) {
-      showLoggedIn(session.user);
-    } else if (event === 'SIGNED_OUT') {
-      showLoggedOut();
-    }
-  });
-
-  // check session on load
-  checkSession();
 }
 
 // initialize on page load
