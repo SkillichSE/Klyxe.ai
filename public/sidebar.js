@@ -94,6 +94,14 @@ class LexSidebar extends HTMLElement {
       </div>
     `;
 
+    const signupActive = page === 'auth.html' ? ' active' : '';
+    html += `
+      <a href="auth.html" class="sidebar-signup-btn${signupActive}">
+        ${icon('<circle cx="8" cy="6" r="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 13c0-2.76 2.24-5 5-5s5 2.24 5 5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/>')}
+        <span class="link-label">Sign Up</span>
+      </a>
+    `;
+
     html += '</nav>';
 
     this.innerHTML = html;

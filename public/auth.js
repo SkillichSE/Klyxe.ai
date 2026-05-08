@@ -1,9 +1,10 @@
 // klyxe authentication with supabase
 // handles email password and github oauth sign in
 
-// supabase configuration - replace with your actual values from supabase dashboard
-const SUPABASE_URL = 'https://your-project.supabase.co';  // your supabase project url
-const SUPABASE_ANON_KEY = 'your-anon-key';                // your supabase anon public key
+// supabase configuration loaded from config.js (gitignored)
+// copy config.template.js to config.js and fill in your credentials
+const SUPABASE_URL = typeof CONFIG !== 'undefined' ? CONFIG.SUPABASE_URL : 'https://your-project.supabase.co';
+const SUPABASE_ANON_KEY = typeof CONFIG !== 'undefined' ? CONFIG.SUPABASE_ANON_KEY : 'your-anon-key';
 
 // initialize supabase client
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -79,6 +80,12 @@ function updateSidebarForAuth(isLoggedIn) {
       }
     }
   });
+  
+  // update sign up button text
+  const signupBtn = document.querySelector('.sidebar-signup-btn .link-label');
+  if (signupBtn) {
+    signupBtn.textContent = isLoggedIn ? 'Account' : 'Sign Up';
+  }
 }
 
 // tab switching

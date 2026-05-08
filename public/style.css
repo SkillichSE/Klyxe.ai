@@ -1473,7 +1473,6 @@ main { min-height: calc(100vh - 60px); }
 .sidebar-link.active::before { background: var(--accent); }
 
 /* sub sub items */
-.sidebar-sub-section { }
 .sidebar-sub-header {
   display: flex;
   align-items: center;
@@ -1664,6 +1663,41 @@ main { min-height: calc(100vh - 60px); }
   padding: 10px 0;
 }
 .left-sidebar:not(.expanded) .sidebar-theme .theme-switch-label {
+  display: none;
+}
+
+/* sidebar sign up button */
+.sidebar-signup-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  margin: 8px 12px 12px;
+  background: var(--accent);
+  border-radius: var(--radius-sm);
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.sidebar-signup-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+.sidebar-signup-btn svg {
+  flex-shrink: 0;
+  color: white;
+}
+.sidebar-signup-btn .link-label {
+  color: white;
+}
+.left-sidebar:not(.expanded) .sidebar-signup-btn {
+  justify-content: center;
+  padding: 10px 0;
+  margin: 8px 8px 12px;
+}
+.left-sidebar:not(.expanded) .sidebar-signup-btn .link-label {
   display: none;
 }
 
