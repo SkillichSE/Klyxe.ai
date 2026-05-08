@@ -20,6 +20,8 @@ const signupBtn = document.getElementById('signup-btn');
 const githubBtn = document.getElementById('github-btn');
 const logoutBtn = document.getElementById('logout-btn');
 
+const AUTH_REDIRECT_URL = `${window.location.origin}/auth/`;
+
 // ui helpers
 function showError(msg) {
   if (authError) {
@@ -72,7 +74,7 @@ function updateSidebarForAuth(isLoggedIn) {
   // find the sign in link in sidebar and update text
   const sidebarLinks = document.querySelectorAll('.sidebar-footer-links a');
   sidebarLinks.forEach(link => {
-    if (link.href.includes('auth.html')) {
+    if (link.href.includes('/auth')) {
       const label = link.querySelector('.link-label');
       if (label) {
         label.textContent = isLoggedIn ? 'Account' : 'Sign In';
@@ -175,7 +177,7 @@ function setupFormHandlers() {
           email,
           password,
           options: {
-            emailRedirectTo: `${window.location.origin}/auth.html`,
+            emailRedirectTo: AUTH_REDIRECT_URL,
           },
         });
 
@@ -219,7 +221,7 @@ function setupFormHandlers() {
         const { error } = await supabase.auth.signInWithOAuth({
           provider: 'github',
           options: {
-            redirectTo: `${window.location.origin}/auth.html`,
+            redirectTo: AUTH_REDIRECT_URL,
           },
         });
 
