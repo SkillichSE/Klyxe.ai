@@ -43,6 +43,18 @@ const els = {
   logoutBtn: document.getElementById('logout-btn'),
 };
 
+// validate DOM elements
+console.log('DOM elements found:', {
+  signupForm: !!els.signupForm,
+  signupBtn: !!els.signupBtn,
+  githubBtn: !!els.githubBtn,
+  tabs: els.tabs.length
+});
+
+if (!els.signupForm) console.error('signup-form not found');
+if (!els.signupBtn) console.error('signup-btn not found');
+if (!els.githubBtn) console.error('github-btn not found');
+
 // ui helpers
 function showError(msg) {
   els.error.textContent = msg;
