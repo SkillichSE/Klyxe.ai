@@ -1,38 +1,300 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script>(function(){
-    var t = localStorage.getItem('theme') || 'dark';
-    document.documentElement.setAttribute('data-theme', t);
-  })();</script>
+  <script>(function(){var t=localStorage.getItem('theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Klyxe — Lab Article</title>
+  <title>Sign In — Klyxe</title>
   <link rel="icon" href="media/L_Logo.png" type="image/png">
+  <meta name="description" content="Sign in to Klyxe to save preferences and track AI benchmarks.">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="style-spacing.css">
   <link rel="stylesheet" href="animations.css">
-  <link rel="stylesheet" href="lab.css">
-  <!-- Chart.js нужен только для статьи 5 (Token Tracker), Three.js — для статьи 3 (Word 3D).
-       Оба подключены глобально, чтобы lab-article.js не управлял динамической загрузкой. -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    .auth-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: calc(100vh - 60px);
+      padding: 40px 20px;
+    }
+    .auth-card {
+      width: 100%;
+      max-width: 400px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg, 16px);
+      padding: 36px 32px;
+    }
+    .auth-logo {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .auth-logo h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+    .auth-logo p {
+      font-size: 0.825rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+    .auth-message {
+      display: none;
+      padding: 10px 14px;
+      border-radius: var(--radius-md, 8px);
+      font-size: 0.825rem;
+      margin-bottom: 16px;
+      line-height: 1.4;
+    }
+    .auth-message.visible { display: block; }
+    .auth-message.error {
+      background: rgba(239,68,68,0.1);
+      border: 1px solid rgba(239,68,68,0.25);
+      color: #f87171;
+    }
+    .auth-message.success {
+      background: rgba(16,185,129,0.1);
+      border: 1px solid rgba(16,185,129,0.25);
+      color: #34d399;
+    }
+    .auth-tabs {
+      display: flex;
+      gap: 4px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md, 8px);
+      padding: 4px;
+      margin-bottom: 24px;
+    }
+    .auth-tab {
+      flex: 1;
+      padding: 8px 12px;
+      border: none;
+      border-radius: calc(var(--radius-md, 8px) - 2px);
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .auth-tab.active {
+      background: var(--accent);
+      color: #fff;
+      font-weight: 600;
+    }
+    .auth-tab:not(.active):hover {
+      color: var(--text-primary);
+      background: var(--accent-hover);
+    }
+    .auth-form {
+      display: none;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .auth-form.active { display: flex; }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-group label {
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .form-group input {
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md, 8px);
+      background: var(--bg);
+      color: var(--text-primary);
+      font-size: 0.875rem;
+      outline: none;
+      transition: border-color 0.15s;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .form-group input:focus { border-color: var(--accent); }
+    .form-group input::placeholder { color: var(--text-tertiary); }
+    .auth-submit-btn {
+      width: 100%;
+      padding: 11px;
+      border: none;
+      border-radius: var(--radius-md, 8px);
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.15s;
+      margin-top: 4px;
+    }
+    .auth-submit-btn:hover { opacity: 0.88; }
+    .auth-submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .auth-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 20px 0;
+      color: var(--text-tertiary);
+      font-size: 0.75rem;
+    }
+    .auth-divider::before,
+    .auth-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .github-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 11px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md, 8px);
+      background: var(--surface);
+      color: var(--text-primary);
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .github-btn:hover {
+      background: var(--accent-hover);
+      border-color: var(--accent);
+    }
+    .github-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .github-btn svg { width: 18px; height: 18px; flex-shrink: 0; }
+    .user-info {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 0;
+    }
+    .user-info.visible { display: flex; }
+    .user-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-size: 1.4rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .user-email { font-size: 0.875rem; color: var(--text-secondary); }
+    .loading-spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      vertical-align: middle;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .auth-footer-note {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-tertiary);
+    }
+    .auth-footer-note a { color: var(--accent); text-decoration: none; }
+    .auth-footer-note a:hover { text-decoration: underline; }
+  </style>
+  <script src="app.js"></script>
 </head>
 <body>
 
-<!-- Sidebar overlay for mobile -->
 <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
 <div class="app-layout">
   <lex-sidebar></lex-sidebar>
+
   <div class="sidebar-main">
-    <main class="container" style="padding-top:32px;">
-      <div id="article-container"></div>
-    </main>
+    <div class="auth-wrap">
+      <div class="auth-card">
+
+        <div class="auth-logo">
+          <h1>Welcome to Klyxe</h1>
+          <p>Sign in to save preferences and track AI benchmarks</p>
+        </div>
+
+        <div id="auth-error" class="auth-message error"></div>
+        <div id="auth-success" class="auth-message success"></div>
+
+        <div id="auth-forms">
+          <div class="auth-tabs">
+            <button class="auth-tab active" data-tab="signin">Sign In</button>
+            <button class="auth-tab" data-tab="signup">Create Account</button>
+          </div>
+
+          <form id="signin-form" class="auth-form active">
+            <div class="form-group">
+              <label for="signin-email">Email</label>
+              <input type="email" id="signin-email" placeholder="you@example.com" required>
+            </div>
+            <div class="form-group">
+              <label for="signin-password">Password</label>
+              <input type="password" id="signin-password" placeholder="••••••••" required>
+            </div>
+            <button type="submit" id="signin-btn" class="auth-submit-btn">Sign In</button>
+          </form>
+
+          <form id="signup-form" class="auth-form">
+            <div class="form-group">
+              <label for="signup-email">Email</label>
+              <input type="email" id="signup-email" placeholder="you@example.com" required>
+            </div>
+            <div class="form-group">
+              <label for="signup-password">Password</label>
+              <input type="password" id="signup-password" placeholder="••••••••" required>
+            </div>
+            <button type="submit" id="signup-btn" class="auth-submit-btn">Create Account</button>
+          </form>
+
+          <div class="auth-divider"><span>or continue with</span></div>
+
+          <button id="github-btn" class="github-btn">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+            GitHub
+          </button>
+        </div>
+
+        <div id="user-info" class="user-info">
+          <div id="user-avatar" class="user-avatar"></div>
+          <div id="user-email" class="user-email"></div>
+          <button id="logout-btn" class="auth-submit-btn" style="max-width:160px;margin:0 auto;">Sign Out</button>
+        </div>
+
+        <div class="auth-footer-note">
+          By signing in you agree to our <a href="about.html">Terms of Service</a>
+        </div>
+
+      </div>
+    </div>
   </div>
 </div>
 
-<script src="lab-article.js"></script>
 <script src="sidebar.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>window._supabaseLib = supabase;</script>
+<script src="config.js"></script>
+<script src="auth.js"></script>
 </body>
 </html>
