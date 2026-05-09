@@ -1,8 +1,6 @@
 // klyxe authentication with supabase
 // handles email password and github oauth sign in
 
-console.log('Auth loading...');
-
 // global variables
 let supabase = null;
 
@@ -58,12 +56,10 @@ function showLoggedIn(user) {
   if (authForms) authForms.style.display = 'none';
   if (userInfo) userInfo.classList.add('visible');
 
-  // set avatar initial
   const initial = user.email ? user.email[0].toUpperCase() : 'U';
   if (userAvatar) userAvatar.textContent = initial;
   if (userEmail) userEmail.textContent = user.email || user.user_metadata?.user_name || 'Signed in';
 
-  // update sidebar link
   updateSidebarForAuth(true);
 }
 
@@ -74,7 +70,6 @@ function showLoggedOut() {
 }
 
 function updateSidebarForAuth(isLoggedIn) {
-  // find the sign in link in sidebar and update text
   const sidebarLinks = document.querySelectorAll('.sidebar-footer-links a');
   sidebarLinks.forEach(link => {
     if (link.href.includes('/auth')) {
@@ -85,10 +80,9 @@ function updateSidebarForAuth(isLoggedIn) {
     }
   });
 
-  // update sign up button text
-  const signupBtn = document.querySelector('.sidebar-signup-btn .link-label');
-  if (signupBtn) {
-    signupBtn.textContent = isLoggedIn ? 'Account' : 'Sign Up';
+  const signupSideBtn = document.querySelector('.sidebar-signup-btn .link-label');
+  if (signupSideBtn) {
+    signupSideBtn.textContent = isLoggedIn ? 'Account' : 'Sign Up';
   }
 }
 
@@ -99,11 +93,9 @@ function setupTabs() {
     tab.addEventListener('click', () => {
       const target = tab.dataset.tab;
 
-      // update tabs
       tabs.forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
 
-      // update forms
       const forms = document.querySelectorAll('.auth-form');
       forms.forEach(f => f.classList.remove('active'));
       const formEl = document.getElementById(`${target}-form`);
@@ -130,16 +122,18 @@ function setupFormHandlers() {
       e.preventDefault();
       clearMessages();
 
+      if (!supabase) {
+        showError('Auth not initialized. Check console for errors.');
+        return;
+      }
+
       const email = document.getElementById('signin-email').value;
       const password = document.getElementById('signin-password').value;
 
       setLoading(signinBtn, true);
 
       try {
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
         setLoading(signinBtn, false);
 
@@ -162,7 +156,6 @@ function setupFormHandlers() {
     signupForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       clearMessages();
-      console.log('Sign up clicked');
 
       if (!supabase) {
         showError('Auth not initialized. Check console for errors.');
@@ -171,7 +164,6 @@ function setupFormHandlers() {
 
       const email = document.getElementById('signup-email').value;
       const password = document.getElementById('signup-password').value;
-      console.log('Signing up with email:', email);
 
       setLoading(signupBtn, true);
 
@@ -187,7 +179,6 @@ function setupFormHandlers() {
         setLoading(signupBtn, false);
 
         if (error) {
-          console.error('Sign up error:', error);
           showError(error.message);
           return;
         }
@@ -199,7 +190,6 @@ function setupFormHandlers() {
 
         showSuccess('Check your email to confirm your account!');
       } catch (err) {
-        console.error('Sign up exception:', err);
         setLoading(signupBtn, false);
         showError('Sign up failed: ' + err.message);
       }
@@ -209,7 +199,6 @@ function setupFormHandlers() {
   // github oauth sign in
   if (githubBtn) {
     githubBtn.addEventListener('click', async () => {
-      console.log('GitHub sign in clicked');
       clearMessages();
 
       if (!supabase) {
@@ -229,23 +218,19 @@ function setupFormHandlers() {
         });
 
         if (error) {
-          console.error('GitHub auth error:', error);
           showError(error.message);
           githubBtn.disabled = false;
-          githubBtn.innerHTML = `
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-            </svg>
-            GitHub
-          `;
+          githubBtn.innerHTML = githubBtn.dataset.originalText;
         }
-        // if successful user is redirected to github
+        // if successful, user is redirected to github
       } catch (err) {
-        console.error('GitHub auth exception:', err);
         showError('GitHub sign in failed: ' + err.message);
         githubBtn.disabled = false;
+        githubBtn.innerHTML = githubBtn.dataset.originalText;
       }
     });
+  } else {
+    console.error('GitHub button element not found in DOM');
   }
 
   // sign out
@@ -265,7 +250,7 @@ function setupFormHandlers() {
   }
 }
 
-// fetch config from API or local fallback
+// fetch config from /api/config (Next.js route)
 async function initializeAuth() {
   try {
     console.log('Starting auth initialization...');
@@ -275,24 +260,25 @@ async function initializeAuth() {
       const response = await fetch('/api/config');
       if (response.ok) {
         config = await response.json();
-        console.log('Config fetched from /api/config:', { url: !!config?.SUPABASE_URL, key: !!config?.SUPABASE_ANON_KEY });
+        console.log('Config fetched from /api/config');
       } else {
-        console.warn(`/api/config returned ${response.status}. Falling back to local config.js if available.`);
+        console.warn(`/api/config returned ${response.status}`);
       }
     } catch (fetchError) {
-      console.warn('Could not fetch /api/config. Falling back to local config.js if available.', fetchError);
+      console.warn('Could not fetch /api/config:', fetchError);
     }
 
+    // fallback to local config.js if available
     if ((!config?.SUPABASE_URL || !config?.SUPABASE_ANON_KEY) && typeof CONFIG !== 'undefined') {
       config = CONFIG;
-      console.log('Config loaded from local config.js:', { url: !!config?.SUPABASE_URL, key: !!config?.SUPABASE_ANON_KEY });
+      console.log('Using local config.js fallback');
     }
 
     const SUPABASE_URL = config?.SUPABASE_URL;
     const SUPABASE_ANON_KEY = config?.SUPABASE_ANON_KEY;
 
     if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-      throw new Error('Supabase credentials are missing. Set NEXT_PUBLIC_SUPABASE_URL/NEXT_PUBLIC_SUPABASE_ANON_KEY or create public/config.js.');
+      throw new Error('Supabase credentials are missing. Make sure /api/config returns SUPABASE_URL and SUPABASE_ANON_KEY.');
     }
 
     if (!window.supabase) {
@@ -300,10 +286,8 @@ async function initializeAuth() {
     }
 
     supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    console.log('✓ Supabase client initialized successfully');
+    console.log('✓ Supabase client initialized');
 
-    // setup handlers after successful init
-    setupFormHandlers();
     supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN' && session?.user) {
         showLoggedIn(session.user);
@@ -311,6 +295,7 @@ async function initializeAuth() {
         showLoggedOut();
       }
     });
+
     checkSession();
   } catch (e) {
     console.error('❌ Auth initialization failed:', e);
@@ -338,18 +323,14 @@ async function checkSession() {
 
 // initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('DOM Content Loaded');
-
-  // Set up tabs and buttons immediately (they don't need supabase)
   setupTabs();
   saveButtonText();
+  setupFormHandlers();
 
-  // Initialize auth when supabase is available
   if (window.supabase) {
-    console.log('Supabase library detected, initializing auth...');
     initializeAuth();
   } else {
-    console.error('Supabase library not found');
+    console.error('Supabase library not found on window');
     showError('Supabase library failed to load');
   }
 });
