@@ -54,7 +54,7 @@ class LexSidebar extends HTMLElement {
     // Logo header at the very top
     html += `
       <a href="/" class="sidebar-logo-header">
-        <img src="media/L_Logo.png" alt="Klyxe" class="sidebar-logo-img">
+        <img src="/media/L_logo.png" alt="Klyxe" class="sidebar-logo-img">
         <span class="sidebar-logo-text">Klyxe</span>
       </a>
     `;
