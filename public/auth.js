@@ -20,7 +20,7 @@ const logoutBtn = document.getElementById('logout-btn');
 
 const AUTH_REDIRECT_URL = (() => {
   const pathname = window.location.pathname;
-  return `${window.location.origin}${pathname.replace(/\/?(auth(?:\.html|\/index\.html)?)$/, '/auth/')}`;
+  return `${window.location.origin}/auth`;
 })();
 
 // ui helpers
