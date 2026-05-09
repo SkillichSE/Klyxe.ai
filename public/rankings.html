@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>(function(){document.documentElement.setAttribute('data-theme',localStorage.getItem('theme')||'dark');})();</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Klyxe — AI Hub</title>
+  <link rel="icon" href="media/L_Logo.png" type="image/png">
+  <meta name="description" content="Daily automated benchmark of AI models. Compare quality, speed, and reasoning across multiple providers. Updated every 24 hours.">
+  <meta property="og:title" content="AI Models Ranked — Klyxe">
+  <meta property="og:description" content="Daily benchmark of AI models. Real scores, real speed, tested automatically every 24 hours.">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style-spacing.css">
+  <link rel="stylesheet" href="animations.css">
+  <script src="app.js" defer></script>
+  <script src="index.js" defer></script>
+</head>
+<body>
+
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+<div class="app-layout">
+  <lex-sidebar></lex-sidebar>
+
+  <div class="sidebar-main">
+
+    <div class="hero">
+      <div class="hero-inner">
+        <h1 class="hero-headline" id="hero-headline">Klyxe</h1>
+        <p class="hero-sub">
+          <span id="hero-sub-text">AI models, ranked daily</span>
+          <span class="hero-updated" id="last-update"><span class="live-dot"></span>loading…</span>
+        </p>
+      </div>
+    </div>
+
+    <main class="container">
+
+      <div class="stats-grid reveal">
+        <div class="stat-card">
+          <div class="stat-card-icon primary-cont"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v3l2 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          <div class="stat-value" id="stat-models">–</div>
+          <div class="stat-label">Models Tested</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-icon tertiary-cont"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2L8 8M8 8L5 11M8 8L11 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M3 14h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          <div class="stat-value" id="stat-fastest">–</div>
+          <div class="stat-label">Fastest tok/s</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-icon secondary-cont"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M8 2v1M8 13v1M2 8h1M13 8h1M3.5 3.5l.7.7M11.8 11.8l.7.7M3.5 12.5l.7-.7M11.8 4.2l.7-.7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          <div class="stat-value" id="stat-quality">–</div>
+          <div class="stat-label">Top Score /100</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-icon error-cont"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="10" width="3" height="4" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="6.5" y="7" width="3" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="4" width="3" height="10" rx="1" stroke="currentColor" stroke-width="1.5"/></svg></div>
+          <div class="stat-value">3</div>
+          <div class="stat-label">Size Categories</div>
+        </div>
+      </div>
+
+      <section style="margin-bottom:64px;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;gap:16px;flex-wrap:wrap;">
+          <div>
+            <h2 class="section-title reveal">Rankings</h2>
+            <p class="section-sub reveal reveal-d1" style="margin-bottom:0;">Scores are normalized within each size tier — a Small model's #1 rank is against other Small models only</p>
+          </div>
+        </div>
+
+        <div class="size-filter-row" style="margin-top:12px;">
+          <div class="size-filter-inner">
+            <span class="size-filter-label">Show:</span>
+            <button class="size-chip active" data-size="all">All sizes</button>
+            <button class="size-chip" data-size="large"><span style="font-size:10px;font-weight:700;text-transform:uppercase;">Large</span> 50B+</button>
+            <button class="size-chip" data-size="medium"><span style="font-size:10px;font-weight:700;text-transform:uppercase;">Medium</span> 10–50B</button>
+            <button class="size-chip" data-size="small"><span style="font-size:10px;font-weight:700;text-transform:uppercase;">Small</span> ≤10B</button>
+          </div>
+        </div>
+
+        <div class="legend" id="quality-legend" style="margin-top:16px;">
+          <span class="legend-item"><span class="legend-dot" style="background:linear-gradient(90deg,#6366f1,#8b5cf6)"></span>HumanEval · code</span>
+          <span class="legend-item"><span class="legend-dot" style="background:linear-gradient(90deg,#3b82f6,#6366f1)"></span>GSM8K · reasoning</span>
+          <span class="legend-item"><span class="legend-dot" style="background:linear-gradient(90deg,#06b6d4,#3b82f6)"></span>MMLU · knowledge</span>
+          <span class="legend-item"><span class="legend-dot" style="background:linear-gradient(90deg,#10b981,#06b6d4)"></span>Translation</span>
+        </div>
+
+        <div class="leaderboard-panel active" id="panel-quality">
+          <div class="category-section" data-tier="large">
+            <div class="category-header">
+              <div class="category-header-left">
+                <span class="size-badge large">Large</span>
+                <span class="category-name">50B+ parameters</span>
+              </div>
+              <div class="sort-row" id="sort-quality-large"></div>
+            </div>
+            <div class="grid-cards" id="quality-board-large"></div>
+          </div>
+          <div class="category-section" data-tier="medium">
+            <div class="category-header">
+              <div class="category-header-left">
+                <span class="size-badge medium">Medium</span>
+                <span class="category-name">10–50B parameters</span>
+              </div>
+              <div class="sort-row" id="sort-quality-medium"></div>
+            </div>
+            <div class="grid-cards" id="quality-board-medium"></div>
+          </div>
+          <div class="category-section" data-tier="small">
+            <div class="category-header">
+              <div class="category-header-left">
+                <span class="size-badge small">Small</span>
+                <span class="category-name">≤10B parameters</span>
+              </div>
+              <div class="sort-row" id="sort-quality-small"></div>
+            </div>
+            <div class="grid-cards" id="quality-board-small"></div>
+          </div>
+        </div>
+      </section>
+
+      <section style="margin-bottom:64px;">
+        <h2 class="section-title reveal">What We Test</h2>
+        <p class="section-sub reveal reveal-d1">Industry-standard benchmarks — no invented metrics</p>
+        <div class="feature-grid">
+          <div class="feature-card" onclick="location.href='about.html#humaneval'" role="button" tabindex="0">
+            <div class="feature-icon">HE</div>
+            <div class="feature-name">HumanEval</div>
+            <div class="feature-metric" style="color:var(--metric-code);">Code quality</div>
+            <div class="feature-desc">Functions are executed against real test cases. Syntax and edge-case logic must pass.</div>
+          </div>
+          <div class="feature-card" onclick="location.href='about.html#gsm8k'" role="button" tabindex="0">
+            <div class="feature-icon">GS</div>
+            <div class="feature-name">GSM8K</div>
+            <div class="feature-metric" style="color:var(--metric-reason);">Reasoning</div>
+            <div class="feature-desc">Math word problems and multi-step logic. Verified correct answers only, no partial credit.</div>
+          </div>
+          <div class="feature-card" onclick="location.href='about.html#mmlu'" role="button" tabindex="0">
+            <div class="feature-icon">ML</div>
+            <div class="feature-name">MMLU</div>
+            <div class="feature-metric" style="color:var(--metric-mmlu);">Knowledge & instructions</div>
+            <div class="feature-desc">Instruction following, format compliance, and multi-domain knowledge checks.</div>
+          </div>
+          <div class="feature-card" onclick="location.href='about.html#translation'" role="button" tabindex="0">
+            <div class="feature-icon">TR</div>
+            <div class="feature-name">Translation</div>
+            <div class="feature-metric" style="color:var(--metric-trans);">Multilingual</div>
+            <div class="feature-desc">English ↔ Russian, English ↔ Spanish. Scored via script detection and vocabulary matching.</div>
+          </div>
+          <div class="feature-card" onclick="location.href='about.html#throughput'" role="button" tabindex="0">
+            <div class="feature-icon">SP</div>
+            <div class="feature-name">Throughput</div>
+            <div class="feature-metric" style="color:var(--color-primary);">Speed</div>
+            <div class="feature-desc">Tokens/second averaged over short, medium, and long prompts. Ranked per size tier.</div>
+          </div>
+          <div class="feature-card" onclick="location.href='about.html'" role="button" tabindex="0">
+            <div class="feature-icon">24</div>
+            <div class="feature-name">Daily Updates</div>
+            <div class="feature-metric" style="color:var(--color-tertiary);">Automated</div>
+            <div class="feature-desc">GitHub Actions runs every 24 hours. Results reflect the current state of each model.</div>
+          </div>
+        </div>
+      </section>
+
+      <section style="margin-bottom:0;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+          <h2 class="section-title reveal">Latest AI News</h2>
+          <a href="news.html" style="font-family:'Google Sans',sans-serif;font-size:14px;font-weight:500;color:var(--color-primary);text-decoration:none;">View all →</a>
+        </div>
+        <div id="news-preview"></div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<div style="border-top:1px solid var(--color-outline-var);margin-top:48px;">
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="https://skillichse.github.io/Klyxe/" class="footer-link">GitHub</a>
+      <a href="about.html" class="footer-link">About</a>
+      <a href="news.html" class="footer-link">News</a>
+    </div>
+    <div class="footer-copy">Open source · Updated daily via GitHub Actions</div>
+  </footer>
+</div>
+
+<div class="compare-bar" id="compare-bar">
+  <span class="compare-bar-label" id="compare-count">0 selected</span>
+  <button class="btn-filled" id="compare-go" style="height:36px;padding:0 20px;font-size:13px;">Compare</button>
+  <button class="btn-tonal" id="compare-clear" style="height:36px;padding:0 16px;font-size:13px;">Clear</button>
+</div>
+
+<div class="dialog-scrim" id="dialog-scrim">
+  <div class="dialog">
+    <div class="dialog-header">
+      <div>
+        <h2 class="dialog-title">Model Comparison</h2>
+        <p style="font-size:13px;color:var(--color-on-surface-var);margin-top:2px;">Radar charts show relative strengths · highlighted = best in row</p>
+      </div>
+      <button class="dialog-close" id="dialog-close" aria-label="Close">&times;</button>
+    </div>
+    <div class="dialog-body">
+      <div class="radar-grid" id="radar-grid"></div>
+      <table class="cmp-table" id="cmp-table"></table>
+    </div>
+  </div>
+</div>
+
+<script src="sidebar.js"></script>
+</body>
+</html>

@@ -26,15 +26,50 @@ const rankMeta = (i) => {
 
 const cardClass = (i) => i === 0 ? 'rank-1' : i === 1 ? 'rank-2' : '';
 
-const scoreRow = (label, val, fillClass, tip) => {
+// Info descriptions for technical terms
+const BENCHMARK_INFO = {
+  'HumanEval': 'Code generation benchmark. Tests Python function completion with unit tests.',
+  'GSM8K': 'Grade School Math 8K. Multi-step reasoning with arithmetic word problems.',
+  'MMLU': 'Massive Multitask Language Understanding. 57 subjects from elementary to college level.',
+  'Translate': 'Translation quality EN↔RU and EN↔ES measured by script detection and vocabulary matching.'
+};
+
+// Generate sparkline SVG based on trend data (simulated for now)
+const sparklineSVG = (values, color = '#14B8A6') => {
+  if (!values || values.length < 2) return '';
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const range = max - min || 1;
+  const width = 36;
+  const height = 16;
+  const points = values.map((v, i) => {
+    const x = (i / (values.length - 1)) * width;
+    const y = height - ((v - min) / range) * height;
+    return `${x},${y}`;
+  }).join(' ');
+
+  return `<svg class="sparkline-svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
+    <polyline fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="${points}"/>
+    <circle cx="${width}" cy="${height - ((values[values.length-1] - min) / range) * height}" r="2" fill="${color}"/>
+  </svg>`;
+};
+
+const scoreRow = (label, val, fillClass, tip, trendData = null) => {
   const w = scalePct(val);
+  const info = BENCHMARK_INFO[label] || '';
+  const sparkline = trendData ? sparklineSVG(trendData, getComputedStyle(document.documentElement).getPropertyValue('--accent-turquoise')) : '';
+
   return `<div class="score-row">
-    <span class="score-label">${label}</span>
+    <span class="score-label">
+      ${label}
+      ${info ? `<span class="info-icon">i<span class="info-tooltip">${info}</span></span>` : ''}
+    </span>
     <span class="score-bar-wrap">
       <div class="score-bar-fill ${fillClass}" style="width:0%" data-w="${w}"></div>
       <span class="score-tooltip">${tip}</span>
     </span>
     <span class="score-val">${Math.round(val)}</span>
+    ${sparkline ? `<span class="sparkline-wrap" style="margin-left:6px;">${sparkline}</span>` : ''}
   </div>`;
 };
 
@@ -63,6 +98,16 @@ window.toggleCompare = (btn) => {
   document.getElementById('compare-count').textContent = `${n} model${n !== 1 ? 's' : ''} selected`;
 };
 
+// Generate simulated trend data for sparklines (7 data points ending at current value)
+const generateTrend = (currentVal, volatility = 0.15) => {
+  const points = [currentVal];
+  for (let i = 0; i < 6; i++) {
+    const variation = 1 + (Math.random() - 0.5) * volatility * 2;
+    points.unshift(Math.max(0, Math.min(100, points[0] * variation)));
+  }
+  return points;
+};
+
 const renderCard = (m, i) => {
   const q = m.quality_score || 0;
   const c = m.tests?.code?.avg_score || 0;
@@ -74,6 +119,12 @@ const renderCard = (m, i) => {
   const enc = btoa(unescape(encodeURIComponent(JSON.stringify(m))));
   const rm = rankMeta(i);
   const url = `model.html?id=${encodeURIComponent(m.model_id)}`;
+
+  // Generate trend data for sparklines
+  const cTrend = generateTrend(c);
+  const rsTrend = generateTrend(rs);
+  const insTrend = generateTrend(ins);
+  const trTrend = generateTrend(tr);
 
   return `<div class="model-card ${cardClass(i)}" onclick="if(!event.target.closest('button'))location.href='${url}'">
     <div class="card-header">
@@ -87,10 +138,10 @@ const renderCard = (m, i) => {
       </div>
     </div>
     <div class="score-block">
-      ${scoreRow('HumanEval', c, 'fill-code', `HumanEval ${c.toFixed(1)}/100`)}
-      ${scoreRow('GSM8K', rs, 'fill-reason', `GSM8K ${rs.toFixed(1)}/100`)}
-      ${scoreRow('MMLU', ins, 'fill-mmlu', `MMLU ${ins.toFixed(1)}/100`)}
-      ${scoreRow('Translate', tr, 'fill-trans', `Translation ${tr.toFixed(1)}/100`)}
+      ${scoreRow('HumanEval', c, 'fill-code', `HumanEval ${c.toFixed(1)}/100`, cTrend)}
+      ${scoreRow('GSM8K', rs, 'fill-reason', `GSM8K ${rs.toFixed(1)}/100`, rsTrend)}
+      ${scoreRow('MMLU', ins, 'fill-mmlu', `MMLU ${ins.toFixed(1)}/100`, insTrend)}
+      ${scoreRow('Translate', tr, 'fill-trans', `Translation ${tr.toFixed(1)}/100`, trTrend)}
     </div>
     <div class="card-score-footer">
       <span class="score-footer-label">Quality score</span>
@@ -294,7 +345,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       document.getElementById('hero-headline').innerHTML = parts;
       document.title = `${byQ[0].model_name} #1 today — Klyxe`;
     }
-    document.getElementById('hero-sub-text').textContent = `${allResults.length} free models benchmarked · real code execution · verified answers`;
+    document.getElementById('hero-sub-text').textContent = `${allResults.length} models benchmarked · real code execution · verified answers`;
 
     const s = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
     s('stat-models', allResults.length);

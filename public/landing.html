@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Klyxe — AI should be free. All of it.</title>
+  <link rel="icon" href="media/L_Logo.png" type="image/png">
+  <meta name="description" content="Every major AI model, benchmarked daily. No subscriptions, no API keys, no hidden costs.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #0a0a0a;
+      --text-secondary: #666666;
+      --text-muted: #999999;
+      --accent: #dc2626;
+      --border: #e5e5e5;
+      --grid: #f0f0f0;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'IBM Plex Mono', monospace;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-sans);
+      font-size: 15px;
+      line-height: 1.55;
+      color: var(--text);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    /* ── grid overlay ── */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      z-index: 0;
+      background:
+        linear-gradient(to right, var(--grid) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: 0.6;
+    }
+
+    /* ── header ── */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      height: 72px;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 24px;
+      padding: 0 48px;
+      align-items: center;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      grid-column: 1 / 3;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+    .logo img { height: 24px; width: 24px; object-fit: contain; }
+
+    .header-nav {
+      grid-column: 9 / 13;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 32px;
+    }
+    .header-nav a {
+      font-size: 13px;
+      font-weight: 500;
+      text-decoration: none;
+      color: var(--text-secondary);
+      letter-spacing: 0.01em;
+      transition: color 0.15s;
+    }
+    .header-nav a:hover { color: var(--text); }
+    .header-nav .btn-signin {
+      color: var(--accent);
+    }
+
+    /* ── layout grid ── */
+    main {
+      padding-top: 72px;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-left: 48px;
+      padding-right: 48px;
+    }
+
+    /* ── hero ── */
+    .hero {
+      grid-column: 1 / 13;
+      padding: 120px 0 100px;
+      position: relative;
+    }
+
+    .hero-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+    }
+
+    .hero-title {
+      font-size: clamp(48px, 8vw, 96px);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 0.95;
+      margin-bottom: 40px;
+      max-width: 900px;
+    }
+    .hero-title em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      max-width: 480px;
+      margin-bottom: 48px;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 32px;
+      background: var(--text);
+      color: var(--bg);
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: background 0.15s;
+    }
+    .btn-primary:hover { background: var(--accent); }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 24px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: border-color 0.15s;
+    }
+    .btn-secondary:hover { border-color: var(--text); }
+
+    /* ── manifesto ── */
+    .manifesto {
+      grid-column: 1 / 13;
+      padding: 80px 0 120px;
+      border-top: 1px solid var(--border);
+    }
+
+    .manifesto-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 48px 24px;
+    }
+
+    .manifesto-item {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .manifesto-n {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+    }
+
+    .manifesto-main {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.01em;
+      line-height: 1.35;
+    }
+
+    .manifesto-sub {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ── products ── */
+    .products {
+      grid-column: 1 / 13;
+      padding: 80px 0 120px;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 48px;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 24px;
+    }
+
+    .product-card {
+      border: 1px solid var(--border);
+      padding: 32px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      transition: border-color 0.15s;
+      position: relative;
+    }
+    .product-card:hover { border-color: var(--text); }
+
+    .product-card.featured {
+      border-color: var(--text);
+    }
+    .product-card.featured:hover { border-color: var(--accent); }
+
+    .product-card.featured::before {
+      content: '';
+      position: absolute;
+      top: -1px; left: -1px; right: -1px; bottom: -1px;
+      border: 1px solid var(--accent);
+      opacity: 0;
+      transition: opacity 0.15s;
+      pointer-events: none;
+    }
+    .product-card.featured:hover::before { opacity: 1; }
+
+    .product-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .product-card.featured .product-tag {
+      color: var(--accent);
+    }
+
+    .product-title {
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin: 0;
+    }
+
+    .product-card.featured .product-title {
+      font-size: 32px;
+    }
+
+    .product-desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .product-arrow {
+      font-size: 20px;
+      color: var(--text-muted);
+      margin-top: auto;
+      transition: color 0.15s, transform 0.15s;
+    }
+    .product-card:hover .product-arrow {
+      color: var(--accent);
+      transform: translate(4px, -4px);
+    }
+
+    /* ── footer ── */
+    footer {
+      grid-column: 1 / 13;
+      padding: 48px 0;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-copy {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.02em;
+    }
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+    .footer-links a {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .footer-links a:hover { color: var(--text); }
+
+    /* ── responsive ── */
+    @media (max-width: 960px) {
+      header {
+        padding: 0 24px;
+        grid-template-columns: 1fr auto;
+      }
+      .logo { grid-column: 1 / 2; }
+      .header-nav {
+        grid-column: 2 / 3;
+        gap: 20px;
+      }
+      main { padding-left: 24px; padding-right: 24px; }
+      .hero { padding: 80px 0 60px; }
+      .manifesto-grid { grid-template-columns: repeat(2, 1fr); }
+      .products-grid { grid-template-columns: 1fr; }
+      .product-card.featured { grid-column: 1; }
+    }
+
+    @media (max-width: 640px) {
+      header { height: 64px; }
+      .header-nav { display: none; }
+      main { padding-top: 64px; }
+      .hero-title { font-size: 40px; }
+      .manifesto-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 16px; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="logo">
+    <img src="media/L_Logo.png" alt="Klyxe">
+    Klyxe
+  </a>
+  <nav class="header-nav">
+    <a href="about.html">About</a>
+    <a href="index.html">Rankings</a>
+    <a href="lab.html">Lab</a>
+    <a href="auth.html" class="btn-signin">Sign In</a>
+  </nav>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div class="hero-label">Klyxe — 2025</div>
+    <h1 class="hero-title">AI should be <em>free.</em><br>All of it.</h1>
+    <p class="hero-sub">Benchmarks, chat, and living articles — open to everyone. No subscriptions, no API keys, no hidden costs.</p>
+    <div class="hero-actions">
+      <a href="lab.html" class="btn-primary">Explore the Lab</a>
+      <a href="index.html" class="btn-secondary">See Rankings →</a>
+    </div>
+  </section>
+
+  <section class="products">
+    <div class="section-label">Products</div>
+    <div class="products-grid">
+
+      <a href="lab.html" class="product-card featured">
+        <div class="product-tag">The Product</div>
+        <h2 class="product-title">Lab</h2>
+        <p class="product-desc">Write articles with live AI calls embedded directly in the text. Connect your own backends, run small local models mid-article, share your findings with the world. Not a blog. Not a notebook. Something new.</p>
+        <span class="product-arrow">↗</span>
+      </a>
+
+      <a href="index.html" class="product-card">
+        <div class="product-tag">Tool</div>
+        <h2 class="product-title">Rankings</h2>
+        <p class="product-desc">See which free AI models actually perform. Daily automated benchmarks.</p>
+        <span class="product-arrow">↗</span>
+      </a>
+
+      <a href="chat.html" class="product-card">
+        <div class="product-tag">Tool</div>
+        <h2 class="product-title">Chat</h2>
+        <p class="product-desc">Talk to 50+ models in one window. Compare responses side by side.</p>
+        <span class="product-arrow">↗</span>
+      </a>
+
+    </div>
+  </section>
+
+  <section class="manifesto">
+    <div class="manifesto-grid">
+
+      <div class="manifesto-item">
+        <span class="manifesto-n">01</span>
+        <div class="manifesto-main">AI should be free. All of it.</div>
+        <div class="manifesto-sub">Not "free tier with 10 messages." Actually free, for everyone, forever.</div>
+      </div>
+
+      <div class="manifesto-item">
+        <span class="manifesto-n">02</span>
+        <div class="manifesto-main">Benchmarks should be reproducible.</div>
+        <div class="manifesto-sub">Every score comes from code that actually runs. Fork it, verify it yourself.</div>
+      </div>
+
+      <div class="manifesto-item">
+        <span class="manifesto-n">03</span>
+        <div class="manifesto-main">No sponsored rankings.</div>
+        <div class="manifesto-sub">No vendor money. If a model ranks #1, it's because it scored #1. Simple.</div>
+      </div>
+
+      <div class="manifesto-item">
+        <span class="manifesto-n">04</span>
+        <div class="manifesto-main">Knowledge compounds when open.</div>
+        <div class="manifesto-sub">Lab lets anyone publish AI-powered articles. Share what you find.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <span class="footer-copy">No ads · No paywalls · Just code</span>
+    <div class="footer-links">
+      <a href="https://github.com/SkillichSE/Klyxe.ai" target="_blank" rel="noopener">GitHub</a>
+      <a href="about.html">About</a>
+      <a href="index.html">Rankings</a>
+    </div>
+  </footer>
+
+</main>
+
+</body>
+</html>

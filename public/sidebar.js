@@ -6,7 +6,7 @@ const SIDEBAR_LINKS = [
   {
     section: 'Data', id: 'sec-data',
     links: [
-      { href: 'index.html',     label: 'Rankings',  icon: '<rect x="2" y="10" width="3" height="4" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="6.5" y="7" width="3" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="4" width="3" height="10" rx="1" stroke="currentColor" stroke-width="1.5"/>' },
+      { href: 'rankings.html',     label: 'Rankings',  icon: '<rect x="2" y="10" width="3" height="4" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="6.5" y="7" width="3" height="7" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="4" width="3" height="10" rx="1" stroke="currentColor" stroke-width="1.5"/>' },
       { href: 'trends.html',    label: 'Trends',    icon: '<path d="M2 12L6 8L9 10L14 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>' },
       { href: 'providers.html', label: 'Providers', icon: '<circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M2 8h12M8 2c-2 1.5-3 3.5-3 6s1 4.5 3 6" stroke="currentColor" stroke-width="1.2" fill="none"/>' },
       { href: 'search.html',    label: 'Search',    icon: '<circle cx="7" cy="7" r="4.5" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 10.5L13 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>' },
@@ -49,7 +49,17 @@ class LexSidebar extends HTMLElement {
     this.id = 'left-sidebar';
     const page = currentPage();
 
-    let html = '<nav class="sidebar-nav">';
+    let html = '';
+
+    // Logo header at the very top
+    html += `
+      <a href="/" class="sidebar-logo-header">
+        <img src="media/L_Logo.png" alt="Klyxe" class="sidebar-logo-img">
+        <span class="sidebar-logo-text">Klyxe</span>
+      </a>
+    `;
+
+    html += '<nav class="sidebar-nav">';
 
     for (const { section, id, links } of SIDEBAR_LINKS) {
       const items = links.map(({ href, label, icon: ic }) => {
@@ -67,16 +77,11 @@ class LexSidebar extends HTMLElement {
     }
 
     const aboutActive = page === 'about.html' ? ' active' : '';
-    const authActive = page === 'auth.html' ? ' active' : '';
     html += `
       <div class="sidebar-footer-links">
         <a href="about.html" class="sidebar-link${aboutActive}">
           ${icon('<circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 7v5M8 5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>')}
           <span class="link-label">About</span>
-        </a>
-        <a href="auth.html" class="sidebar-link${authActive}">
-          ${icon('<circle cx="8" cy="6" r="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 13c0-2.76 2.24-5 5-5s5 2.24 5 5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/>')}
-          <span class="link-label">Sign In</span>
         </a>
       </div>
     `;
