@@ -281,11 +281,11 @@ async function initializeAuth() {
       throw new Error('Supabase credentials are missing. Make sure /api/config returns SUPABASE_URL and SUPABASE_ANON_KEY.');
     }
 
-    if (!window.supabase) {
+    if (!window._supabaseLib) {
       throw new Error('Supabase library not loaded');
     }
 
-    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    supabase = window._supabaseLib.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     console.log('✓ Supabase client initialized');
 
     supabase.auth.onAuthStateChange((event, session) => {
@@ -327,7 +327,7 @@ document.addEventListener('DOMContentLoaded', () => {
   saveButtonText();
   setupFormHandlers();
 
-  if (window.supabase) {
+  if (window._supabaseLib) {
     initializeAuth();
   } else {
     console.error('Supabase library not found on window');
