@@ -282,13 +282,21 @@
     });
   }
 
-  // Check auth
-  if (window.labauth && !window.labauth.isLoggedIn()) {
-    window.labtoast?.warning?.('please sign in to write articles', 4000);
-    setTimeout(() => {
-      window.labauth?.redirectToAuth?.();
-    }, 2000);
+  // Check auth after initialization
+  function checkAuth() {
+    if (window.labauth && window.labauth.initialized) {
+      if (!window.labauth.isLoggedIn()) {
+        window.labtoast?.warning?.('please sign in to write articles', 4000);
+        setTimeout(() => {
+          window.labauth?.redirectToAuth?.();
+        }, 2000);
+      }
+    } else {
+      // Wait for auth to initialize
+      setTimeout(checkAuth, 100);
+    }
   }
+  checkAuth();
 })();
 </script>
 </body>
