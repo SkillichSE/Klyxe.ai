@@ -28,7 +28,10 @@
     async checkSession() {
       if (!window._supabaseClient) return;
 
-      const { data: { session } } = await window._supabaseClient.auth.getSession();
+      console.log('lab-auth: checking session...');
+      const { data: { session }, error } = await window._supabaseClient.auth.getSession();
+      if (error) console.error('lab-auth: getSession error:', error);
+      console.log('lab-auth: session found:', !!session);
       this.user = session?.user || null;
       this.notifyListeners();
     },
