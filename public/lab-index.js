@@ -436,7 +436,7 @@ function renderCards() {
     const patternSvg = COVER_PATTERNS[a.coverPattern]?.(a.id) || '';
 
     return `
-      <a href="articles.html?article=${a.id}" class="lab-card-link">
+      <a href="/articles.html?article=${a.id}" class="lab-card-link">
         <article class="lab-card">
           <div class="lab-card-cover">
             <div class="lab-card-cover-bg" style="background:${a.coverGradient};width:100%;height:100%;position:absolute;inset:0;"></div>
