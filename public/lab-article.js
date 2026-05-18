@@ -21,15 +21,19 @@ function applyTheme(t) {
   document.documentElement.setAttribute('data-theme', t);
   localStorage.setItem('theme', t);
   const l = t === 'light';
-  themeToggle.checked = l;
-  themeLabel.textContent = l ? 'Light' : 'Dark';
+  if (themeToggle) themeToggle.checked = l;
+  if (themeLabel) themeLabel.textContent = l ? 'Light' : 'Dark';
 }
 applyTheme(localStorage.getItem('theme') || 'dark');
-themeToggle.addEventListener('change', () =>
-  applyTheme(themeToggle.checked ? 'light' : 'dark'));
+if (themeToggle) {
+  themeToggle.addEventListener('change', () =>
+    applyTheme(themeToggle.checked ? 'light' : 'dark'));
+}
 
-window.addEventListener('scroll', () =>
-  document.getElementById('app-bar').classList.toggle('scrolled', window.scrollY > 0));
+window.addEventListener('scroll', () => {
+  const appBar = document.getElementById('app-bar');
+  if (appBar) appBar.classList.toggle('scrolled', window.scrollY > 0);
+});
 
 // sidebar
 (function () {
@@ -830,4 +834,9 @@ window.runHumanEval = async function () {
   showStatus(status, 'ok', 'Done for ' + models.length + ' model' + (models.length > 1 ? 's' : ''));
 };
 
-mountArticle();
+// Mount article when DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', mountArticle);
+} else {
+  mountArticle();
+}
