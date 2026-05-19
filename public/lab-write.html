@@ -15,6 +15,7 @@
   <script>window._supabaseLib = supabase;</script>
   <script src="/config.js"></script>
   <script src="/auth.js"></script>
+  <script src="/article-store.js"></script>
   <style>
     
     .lw-root {
@@ -783,7 +784,7 @@
     interactive: true,
     tags: [],
     autosaveTimer: null,
-    draftKey: 'lw_drafts',
+    draftKey: window.KlyxeArticleStore?.DRAFT_KEY || 'lw_drafts',
   };
 
   
@@ -904,6 +905,21 @@
     $('lw-line-col').textContent = stat;
   }
 
+  function getAuthorMeta() {
+    const user = window.labauth?.getUser?.();
+    const rawName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'You';
+    const name = String(rawName).trim() || 'You';
+    return {
+      name,
+      avatar: String(name)
+        .split(/\s+/)
+        .filter(Boolean)
+        .map((part) => part[0].toUpperCase())
+        .slice(0, 2)
+        .join('') || 'Y',
+    };
+  }
+
   // ── Format actions ────────────────────────────────────────────────────────
   function applyFormat(action) {
     const start = textarea.selectionStart;
@@ -984,28 +1000,36 @@
     const content = textarea.value;
     if (!title && !content) return;
 
-    const drafts = getDrafts();
-    const existing = drafts.findIndex(d => d.id === state.draftId);
+    const readMinOverride = Number($('lw-readtime-override')?.value);
     const draft = {
       id: state.draftId || Date.now(),
       title: title || 'Untitled draft',
       content,
+      desc: $('lw-desc')?.value.trim() || '',
+      cover: $('lw-cover')?.value.trim() || '',
       difficulty: state.difficulty,
       tags: state.tags,
+      interactive: state.interactive,
+      readMin: readMinOverride > 0 ? readMinOverride : undefined,
       updatedAt: new Date().toISOString(),
     };
 
     state.draftId = draft.id;
 
-    if (existing >= 0) {
-      drafts[existing] = draft;
-    } else {
-      drafts.unshift(draft);
-      if (drafts.length > 20) drafts.pop(); // keep last 20
-    }
-
     try {
-      localStorage.setItem(state.draftKey, JSON.stringify(drafts));
+      if (window.KlyxeArticleStore?.saveDraft) {
+        window.KlyxeArticleStore.saveDraft(draft);
+      } else {
+        const drafts = getDrafts();
+        const existing = drafts.findIndex(d => d.id === state.draftId);
+        if (existing >= 0) {
+          drafts[existing] = draft;
+        } else {
+          drafts.unshift(draft);
+          if (drafts.length > 20) drafts.pop();
+        }
+        localStorage.setItem(state.draftKey, JSON.stringify(drafts));
+      }
       showAutosaveIndicator();
       renderDraftsList();
     } catch(e) {
@@ -1014,6 +1038,9 @@
   }
 
   function getDrafts() {
+    if (window.KlyxeArticleStore?.getDrafts) {
+      return window.KlyxeArticleStore.getDrafts();
+    }
     try { return JSON.parse(localStorage.getItem(state.draftKey) || '[]'); } catch { return []; }
   }
 
@@ -1059,14 +1086,22 @@
   function loadDraft(draft) {
     titleInput.value = draft.title;
     textarea.value = draft.content;
+    $('lw-desc').value = draft.desc || '';
+    $('lw-cover').value = draft.cover || '';
+    $('lw-readtime-override').value = draft.readMin || '';
     state.draftId = draft.id;
     state.difficulty = draft.difficulty || 'middle';
     state.tags = draft.tags || [];
+    state.interactive = draft.interactive !== false;
 
     // update difficulty buttons
-    document.querySelectorAll('.lw-diff-btn').forEach(b => {
+    document.querySelectorAll('.lw-diff-btn[data-level]').forEach(b => {
       b.classList.toggle('active', b.dataset.level === state.difficulty);
     });
+
+    // update interactive buttons
+    $('lw-interactive-yes').classList.toggle('active', state.interactive);
+    $('lw-interactive-no').classList.toggle('active', !state.interactive);
 
     renderTags();
     updatePreview();
@@ -1208,7 +1243,7 @@
   titleInput.addEventListener('input', scheduleAutosave);
 
   // publish button
-  $('lw-publish-btn').addEventListener('click', () => {
+  $('lw-publish-btn').addEventListener('click', async () => {
     const title = titleInput.value.trim();
     const content = textarea.value.trim();
 
@@ -1224,18 +1259,36 @@
       return;
     }
 
-    // TODO: implement actual publish
-    saveDraft();
-    toast('Article saved as draft ✓', 'success');
-    console.log({
+    const article = {
+      id: state.draftId,
       title,
+      desc: $('lw-desc')?.value.trim() || title,
       content,
       difficulty: state.difficulty,
       tags: state.tags,
       interactive: state.interactive,
-      cover: $('lw-cover')?.value,
-      desc: $('lw-desc')?.value,
-    });
+      cover: $('lw-cover')?.value.trim() || null,
+      readMin: Number($('lw-readtime-override')?.value) || undefined,
+      author: getAuthorMeta(),
+    };
+
+    try {
+      const published = await window.KlyxeArticleStore?.publishArticle?.(article);
+      saveDraft();
+
+      if (published) {
+        toast('Article published ✓', 'success');
+        setTimeout(() => {
+          window.location.href = `/articles.html?article=${published.id}`;
+        }, 600);
+      } else {
+        toast('Article saved as draft ✓', 'success');
+      }
+    } catch (err) {
+      console.warn('Publish failed', err);
+      saveDraft();
+      toast(`Publish failed: ${err.message || 'check console'}`, 'warning', 5000);
+    }
   });
 
   // ── Auth check ─────────────────────────────────────────────────────────────

@@ -225,6 +225,10 @@ const DIFFICULTY = {
   senior: { label: 'Senior', color: '#f97316', bg: 'rgba(249,115,22,0.1)', border: 'rgba(249,115,22,0.25)' },
 };
 
+async function getAllArticles() {
+  const published = await window.KlyxeArticleStore?.getPublishedArticles?.() || [];
+  return [...ARTICLES, ...published];
+}
 
 (function injectStyles() {
   if (document.getElementById('lab-cards-styles')) return;
@@ -271,6 +275,8 @@ const DIFFICULTY = {
       position: absolute;
       inset: 0;
       transition: transform 0.4s ease;
+      background-size: cover;
+      background-position: center;
     }
 
     .lab-card:hover .lab-card-cover-bg {
@@ -421,25 +427,28 @@ const DIFFICULTY = {
     @keyframes cardReveal {
       to { opacity: 1; transform: translateY(0); }
     }
-    ${ARTICLES.map((_, i) => `.lab-card:nth-child(${i+1}) { animation-delay: ${i * 60}ms; }`).join('\n')}
   `;
   document.head.appendChild(style);
 })();
 
-
-function renderCards() {
+async function renderCards() {
   const grid = document.getElementById('lab-cards');
   if (!grid) return;
 
-  grid.innerHTML = ARTICLES.map(a => {
-    const diff = DIFFICULTY[a.difficulty];
+  const articles = await getAllArticles();
+  grid.innerHTML = articles.map((a, idx) => {
+    const diff = DIFFICULTY[a.difficulty] || DIFFICULTY.middle;
     const patternSvg = COVER_PATTERNS[a.coverPattern]?.(a.id) || '';
+    const coverStyle = a.cover
+      ? `background-image:url("${a.cover}");background-size:cover;background-position:center;`
+      : `background:${a.coverGradient || 'linear-gradient(135deg, rgba(31,41,55,0.9), rgba(15,23,42,0.95))'};`;
+    const author = a.author || { name: 'Klyxe Lab', avatar: 'KL' };
 
     return `
       <a href="/articles.html?article=${a.id}" class="lab-card-link">
-        <article class="lab-card">
+        <article class="lab-card" style="animation-delay:${idx * 60}ms;">
           <div class="lab-card-cover">
-            <div class="lab-card-cover-bg" style="background:${a.coverGradient};width:100%;height:100%;position:absolute;inset:0;"></div>
+            <div class="lab-card-cover-bg" style="${coverStyle}width:100%;height:100%;position:absolute;inset:0;"></div>
             ${patternSvg}
             <div class="lab-card-cover-overlay"></div>
             <div class="lab-card-id">${String(a.id).padStart(2, '0')}</div>
@@ -452,8 +461,8 @@ function renderCards() {
           </div>
 
           <div class="lab-card-author">
-            <div class="lab-card-avatar">${a.author.avatar}</div>
-            <span class="lab-card-author-name">${a.author.name}</span>
+            <div class="lab-card-avatar">${author.avatar}</div>
+            <span class="lab-card-author-name">${author.name}</span>
           </div>
 
           <div class="lab-card-footer">
@@ -482,4 +491,4 @@ function renderCards() {
   }).join('');
 }
 
-renderCards();
+renderCards().catch((error) => console.warn('Failed to render article cards', error));

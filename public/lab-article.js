@@ -60,6 +60,53 @@ function showStatus(el, type, html) {
   el.innerHTML = html;
 }
 
+function parseMarkdown(text) {
+  if (!text) return '<p style="color:var(--text-secondary);font-family:var(--font-mono);font-size:12px;">No article content available.</p>';
+  let h = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+  h = h.replace(/```(\w*)\n?([\s\S]*?)```/g, (_, lang, code) =>
+    `<pre><code class="lang-${lang}">${code.trim()}</code></pre>`);
+
+  h = h.replace(/`([^`\n]+)`/g, '<code>$1</code>');
+  h = h.replace(/^#{6} (.+)$/gm, '<h6>$1</h6>');
+  h = h.replace(/^#{5} (.+)$/gm, '<h5>$1</h5>');
+  h = h.replace(/^#{4} (.+)$/gm, '<h4>$1</h4>');
+  h = h.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+  h = h.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+  h = h.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+  h = h.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
+  h = h.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  h = h.replace(/\*(.+?)\*/g, '<em>$1</em>');
+  h = h.replace(/~~(.+?)~~/g, '<del>$1</del>');
+  h = h.replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>');
+  h = h.replace(/^---+$/gm, '<hr>');
+  h = h.replace(/^\|(.+)\|\n\|[-| :]+\|\n((?:\|.+\|\n?)+)/gm, (_, header, rows) => {
+    const ths = header.split('|').filter(Boolean).map(c => `<th>${c.trim()}</th>`).join('');
+    const trs = rows.trim().split('\n').map(row => {
+      const tds = row.split('|').filter(Boolean).map(c => `<td>${c.trim()}</td>`).join('');
+      return `<tr>${tds}</tr>`;
+    }).join('');
+    return `<table><thead><tr>${ths}</tr></thead><tbody>${trs}</tbody></table>`;
+  });
+  h = h.replace(/^(\s*)-\s+(.+)$/gm, (_, sp, item) => `<li data-indent="${sp.length}">${item}</li>`);
+  h = h.replace(/(<li[^>]*>.*<\/li>\n?)+/g, m => `<ul>${m}</ul>`);
+  h = h.replace(/^(\s*)\d+\.\s+(.+)$/gm, '<li>$2</li>');
+  h = h.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1">');
+  h = h.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+  h = h.replace(/\n{2,}/g, '</p><p>');
+  h = h.replace(/\n/g, '<br>');
+  if (!h.startsWith('<')) h = `<p>${h}</p>`;
+  return h;
+}
+
+async function getArticleById(id) {
+  if (window.KlyxeArticleStore?.getPublishedArticleById) {
+    const art = await window.KlyxeArticleStore.getPublishedArticleById(id);
+    if (art) return art;
+  }
+  return ARTICLES[id];
+}
+
 async function callAPI(apiKey, messages, model, maxTokens, temperature) {
   const r = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
@@ -244,10 +291,10 @@ const ARTICLES = {
 };
 
 // mountarticle - reads article id from url, inserts template, calls init
-function mountArticle() {
+async function mountArticle() {
   const params = new URLSearchParams(window.location.search);
-  const id  = parseInt(params.get('article'), 10) || 1;
-  const art = ARTICLES[id];
+  const id = params.get('article') || '1';
+  const art = await getArticleById(id);
   const container = document.getElementById('article-container');
 
   if (!art) {
@@ -257,6 +304,8 @@ function mountArticle() {
   }
 
   document.title = `Klyxe — ${art.title}`;
+  const bodyContent = art.content ? parseMarkdown(art.content) : art.html || '<p style="color:var(--text-secondary);font-family:var(--font-mono);">No content available.</p>';
+  const coverHtml = art.cover ? `<div style="margin-bottom:24px;overflow:hidden;border-radius:18px;"><img src="${art.cover}" alt="${art.title}" style="width:100%;display:block;object-fit:cover;max-height:360px;"/></div>` : '';
 
   const wrapper = document.createElement('div');
   wrapper.className = 'lab-article reveal';
@@ -267,9 +316,15 @@ function mountArticle() {
         <div class="lab-article-tag">${art.tag}</div>
         <div class="lab-article-title">${art.title}</div>
         <div class="lab-article-desc">${art.desc}</div>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;font-size:12px;color:var(--text-tertiary);">
+          <span>${art.author?.name || 'Klyxe Lab'}</span>
+          <span>${art.readMin || 1} min read</span>
+          <span>${art.interactive ? 'Interactive' : 'Read-only'}</span>
+        </div>
       </div>
     </div>
-    <div class="lab-article-body">${art.html}</div>
+    ${coverHtml}
+    <div class="lab-article-body">${bodyContent}</div>
   `;
   container.appendChild(wrapper);
 
