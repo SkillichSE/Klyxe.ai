@@ -1,7 +1,21 @@
 {
-  "buildCommand": "node build-config.js",
-  "outputDirectory": "public",
+  "framework": "nextjs",
+  "buildCommand": "node build-config.js && next build",
+  "installCommand": "npm install",
   "rewrites": [
-    { "source": "/auth", "destination": "/auth.html" }
+    { "source": "/auth", "destination": "/auth.html" },
+    { "source": "/search", "destination": "/search.html" },
+    { "source": "/about", "destination": "/about.html" },
+    { "source": "/playground", "destination": "/playground.html" },
+    { "source": "/lab", "destination": "/lab.html" },
+    { "source": "/lab/write", "destination": "/lab-write.html" },
+    { "source": "/news", "destination": "/news.html" },
+    { "source": "/trends", "destination": "/trends.html" },
+    { "source": "/chat", "destination": "/chat.html" },
+    { "source": "/rankings", "destination": "/rankings.html" },
+    { "source": "/providers", "destination": "/providers.html" },
+    { "source": "/model", "destination": "/model.html" },
+    { "source": "/articles", "destination": "/articles.html" },
+    { "source": "/landing", "destination": "/landing.html" }
   ]
 }

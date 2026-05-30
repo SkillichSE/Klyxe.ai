@@ -703,6 +703,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
 </head>
 <body>
 
@@ -1106,11 +1107,13 @@ function updateStatusDot(side, state) {
 
 // ─── Key management ───────────────────────────────────────────────────────────
 function loadKey() {
-  const k = localStorage.getItem('or_api_key') || '';
-  const inp = document.getElementById('api-key');
-  inp.value = k;
-  inp.classList.toggle('has-key', k.length > 0);
-}
+  const k = sessionStorage.getItem('or_api_key') || localStorage.getItem('or_api_key') || '';
+
+  function handleApiKeyChange(val) {
+    const trimmed = val.trim();
+    sessionStorage.setItem('or_api_key', trimmed);
+    localStorage.setItem('or_api_key', trimmed);
+  }
 
 function saveKey(val) {
   localStorage.setItem('or_api_key', val.trim());
@@ -1372,7 +1375,7 @@ function renderMarkdown(side, text) {
 
   if (window.marked) {
     respEl.classList.add('rendered');
-    respEl.innerHTML = marked.parse(text);
+    respEl.innerHTML = window.DOMPurify ? DOMPurify.sanitize(marked.parse(text)) : marked.parse(text);
     // Add copy button to each pre>code block
     respEl.querySelectorAll('pre').forEach(pre => {
       const btn = document.createElement('button');

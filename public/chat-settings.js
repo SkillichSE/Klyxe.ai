@@ -79,6 +79,7 @@ function clearAllData() {
   const gate = prompt('type CLEAR to remove saved key and settings');
   if (gate !== 'CLEAR') return;
   localStorage.removeItem('or_api_key');
+  sessionStorage.removeItem('or_api_key');
   localStorage.removeItem('chat_settings');
   localStorage.removeItem('chat_model_selected');
   const inp = document.getElementById('api-key-input');
@@ -88,8 +89,10 @@ function clearAllData() {
 }
 
 function handleKeyInput(val) {
-  localStorage.setItem('or_api_key', val.trim());
-  updateKeyUI(val.trim());
+  const trimmed = val.trim();
+  sessionStorage.setItem('or_api_key', trimmed);
+  localStorage.setItem('or_api_key', trimmed);
+  updateKeyUI(trimmed);
 }
 
 function updateKeyUI(val) {
@@ -108,7 +111,7 @@ function toggleKeyVis() {
 }
 
 function loadKey() {
-  const k = localStorage.getItem('or_api_key') || '';
+  const k = sessionStorage.getItem('or_api_key') || localStorage.getItem('or_api_key') || '';
   const inp = document.getElementById('api-key-input');
   if (inp) inp.value = k;
   updateKeyUI(k);

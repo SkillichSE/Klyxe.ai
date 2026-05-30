@@ -5,138 +5,165 @@
 > **Free AI models. Real benchmarks. Zero gatekeeping.**  
 > The open source portal for people who refuse to pay $20/month for intelligence.
 
-[![Enter Klyxe](https://img.shields.io/badge/Enter%20Klyxe-6366f1?style=for-the-badge&logo=google-chrome&logoColor=white)](https://klyxe-ai.vercel.app/)
+[![Vercel](https://img.shields.io/badge/deployed%20on-Vercel-000?style=flat-square&logo=vercel)](https://klyxe.ai)
+[![Next.js](https://img.shields.io/badge/Next.js-14-000?style=flat-square&logo=next.js)](https://nextjs.org)
+[![FastAPI](https://img.shields.io/badge/API-FastAPI-009688?style=flat-square&logo=fastapi)](https://fastapi.tiangolo.com)
+[![Railway](https://img.shields.io/badge/deployed%20on-Railway-0B0D0E?style=flat-square&logo=railway)](https://railway.app)
+[![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
 
 ---
+
+## Architecture
+
+```
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│   Vercel     │    │   Railway    │    │    Neon      │
+│  (Frontend)  │───▶│  (Backend)   │───▶│ (PostgreSQL) │
+│  Next.js 14  │    │  FastAPI     │    │  + pgvector  │
+│  App Router  │    │  /chat, /auth│    │              │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
+
+- **17 static pages** via Next.js App Router (SEO: OG, Twitter, sitemap, JSON-LD)
+- **15 legacy HTML pages** served via rewrites during migration
+- **RAG chat backend** with PostgreSQL + pgvector embeddings
+- **Daily benchmark** pipeline (Python) tests 50+ models across 6 providers
+
+## Tech Stack
+
+| Layer | Tech |
+|-------|------|
+| Frontend | Next.js 14 (App Router), TypeScript, CSS custom properties |
+| Backend | FastAPI, SQLAlchemy, pgvector, JWT auth |
+| Database | PostgreSQL via Neon, Alembic migrations |
+| CI/CD | GitHub Actions, Vercel auto-deploy, Railway auto-deploy |
+| Security | CSP headers, rate limiting (120 req/min), DOMPurify, AST sandbox |
+| Monitoring | Health endpoint, structured error responses |
+
+## Quick Start
+
+```bash
+# Prerequisites: Node 20+, Python 3.12+, Docker
+
+# 1. Start database
+docker compose up -d
+
+# 2. Run migrations
+cd backend && alembic upgrade head && cd ..
+
+# 3. Start frontend
+npm install
+npm run dev        # → http://localhost:3000
+
+# 4. Start backend (separate terminal)
+cd backend
+python -m venv venv && source venv/bin/activate
+pip install -r requirements.txt
+uvicorn app.main:app --reload  # → http://localhost:8000
+```
+
+## Environment Variables
+
+### Frontend (`/app`, `.env.local`)
+| Variable | Required | Default |
+|----------|----------|---------|
+| `NEXT_PUBLIC_SITE_URL` | Yes | `https://klyxe.ai` |
+| `NEXT_PUBLIC_GOOGLE_VERIFICATION` | No | — |
+
+### Backend (`/backend`, `.env`)
+| Variable | Required | Default |
+|----------|----------|---------|
+| `DATABASE_URL` | Yes | — |
+| `JWT_SECRET` | Yes | — |
+| `ENVIRONMENT` | No | `development` |
+| `FRONTEND_ORIGIN` | No | `http://localhost:5173` |
+| `LLM_API_KEY` | No | — |
+| `LLM_API_BASE` | No | `https://openrouter.ai/api/v1` |
+| `LLM_DEFAULT_MODEL` | No | `openai/gpt-4o-mini` |
 
 ## What You Get
 
 ### Discover — Don't Guess
-Not sure which model to use? We benchmark **15+ free-tier models daily** — from Llama and Mistral to Gemini and Qwen. Real code execution, no marketing fluff.
+Daily benchmarks of **50+ models** across Groq, OpenRouter, Cerebras, Together AI, Google, and SambaNova. Real code execution, not marketing fluff.
 
-- **Quality Score** (0–100) — code, reasoning, knowledge, translation
-- **Speed Metrics** — tokens per second, ranked separately
-- **Fair Tiers** — Small, Medium, Large compete within their class
+- **Quality Score** (0–100) — code, reasoning, instruction, translation
+- **Speed Metrics** — tokens per second, ranked within size tiers
+- **Fair Tiers** — Small (≤10B), Medium (11–50B), Large (>50B)
 
 ### Chat — All Models, One Window
-Stop juggling browser tabs. Access models from OpenRouter, Groq, Google, Cerebras, SambaNova, and more — dozens of free-tier models, both open source and commercial — in one clean interface.
-
-Your API key stays in your browser. No account needed. No data harvesting.
+Access models from every major provider in one clean interface. Your API key stays in your browser. No account needed.
 
 ### Compare — Let Them Fight
-The Playground lets you prompt multiple models simultaneously. Watch 4 AIs compete for the best answer. Perfect for finding hidden gems among smaller open source models.
+Side-by-side playground. Prompt 2–4 models simultaneously. Spot hidden gems among small open source models.
 
 ### Experiment — Full Control
-The Lab is your sandbox. Tweak system prompts, temperature, max tokens. Test what actually works for your use case, not what vendors claim.
+The Lab lets you tweak system prompts, temperature, max tokens. Find what actually works.
 
-### Stay Ahead — News & Trends
-Track which open source models are rising. Get AI industry updates without the hype. Spot tomorrow's champions while others read press releases.
+## Deploy
 
----
+See [CLAUDE.md](./CLAUDE.md) for full deployment guide.
 
-## Our Open Source Promise
+```bash
+# Vercel (frontend)
+# Connect repo → framework: Next.js → build: node build-config.js && next build
 
-| Big Tech | Klyxe |
-|----------|-------|
-| $20/month subscriptions | **100% free to use** |
-| Black-box models | **Open source weights** |
-| Vendor lock-in | **Your API key, your control** |
-| Marketing benchmarks | **Real code execution** |
-| Proprietary scoring | **Fully transparent tests** |
+# Railway (backend)
+# Deploy /backend directory → set env vars → run: alembic upgrade head
 
-We don't sell AI. We don't gatekeep it. We just help you find the best open source models that rival the paid ones.
+# Neon (database)
+# Create Postgres + pgvector → copy DATABASE_URL to Railway
+```
 
----
+## Project Structure
 
-## Get Started in 30 Seconds
+```
+├── app/                  # Next.js App Router (17 pages)
+│   ├── about/            # Static content, no JS deps
+│   ├── chat/             # RAG chat interface (loads legacy JS)
+│   ├── model/            # Model detail page
+│   ├── playground/       # Side-by-side model comparison
+│   ├── rankings/         # Leaderboard (loads legacy JS)
+│   ├── components/       # Shared React components (Sidebar)
+│   ├── sitemap.ts        # Dynamic sitemap
+│   └── robots.ts         # Robots.txt
+├── backend/              # FastAPI backend (deployable to Railway)
+│   ├── app/              # Python application code
+│   ├── alembic/          # Database migrations
+│   └── Dockerfile        # Container build
+├── public/               # Static assets + legacy HTML/JS
+│   ├── data/             # Daily benchmark results (JSON)
+│   ├── backend/          # Legacy backend reference (deprecated)
+│   └── media/            # Images, favicon
+├── src/                  # Benchmark engine (Python CLI)
+│   ├── benchmark.py      # Test runner + reporting
+│   └── config.py         # Model definitions, test suites
+├── docker-compose.yml    # Local dev environment
+└── vercel.json           # Vercel routing + rewrites
+```
 
-### Just Look (Zero Setup)
-[**Open Klyxe →**](https://skillichse.github.io/Klyxe/)  
-No signup. No cookies. No "create account to view". Just data.
+## Security
 
-### Chat Like a Pro (2 Minutes)
-1. Get a free API key from [OpenRouter](https://openrouter.ai/) (or Groq, Google, etc.)
-2. Open [Klyxe Chat](https://skillichse.github.io/Klyxe/chat.html)
-3. Paste your key — it stays in your browser, never our servers
-4. Start talking to any model
+| Fix | Status |
+|-----|--------|
+| RCE prevention in benchmark.py (AST sandbox) | ✅ |
+| Hardcoded secrets removed (env-only) | ✅ |
+| XSS protection (DOMPurify + CSP) | ✅ |
+| SSRF guard (private IP blocking) | ✅ |
+| JWT auth on all API routes | ✅ |
+| API key migration to sessionStorage | ✅ |
+| Rate limiting (120 req/min per IP) | ✅ |
+| Security headers (nosniff, deny framing, strict CSP) | ✅ |
 
-### Make Them Compete
-1. Go to [Playground](https://skillichse.github.io/Klyxe/playground.html)
-2. Pick 2–4 models from the sidebar
-3. Type your prompt
-4. See all responses at once
+## License
 
----
-
-## What's Under the Hood
-
-| Test | What We Check | Why It Matters |
-|------|---------------|----------------|
-| **Code** | Python functions run against test cases | Real coding ability, not just syntax |
-| **Reasoning** | Logic puzzles with known answers | Multi-step thinking, not pattern matching |
-| **Instructions** | Exact format compliance | Following specs without hand-holding |
-| **Translation** | EN↔RU, EN↔ES accuracy | Working with non-English content |
-| **Speed** | Tokens per second | Latency for real-time applications |
-
----
-
-## Who It's For
-
-- **Developers** — Ship faster with capable open source coding models (free)
-- **Bootstrappers** — Run AI features without burning runway on API bills
-- **Students** — Access GPT-4 class intelligence without a credit card
-- **Privacy Hawks** — Self-hostable, no data sent to us, ever
-- **AI Rebels** — Believe intelligence should be open, not walled gardens
-
----
-
-## FAQ
-
-**Q: Is it really free?**  
-A: Yes. The rankings are free to view. Chat requires your own API key from providers (many offer generous free tiers).
-
-**Q: Do you sell my data?**  
-A: No. API keys stay in your browser. We don't track, store, or sell anything.
-
-**Q: How often are rankings updated?**  
-A: Every 24 hours via automated testing.
-
-**Q: Can I suggest a model to test?**  
-A: Open an issue on GitHub — we add popular free models regularly.
-
-**Q: Why isn't [Paid Model] here?**  
-A: We focus on free tiers. If it has a free API or trial, it's eligible.
-
----
-
-## Stay Updated
-
-- [**News**](https://skillichse.github.io/Klyxe/news.html) — AI industry updates, new models, provider changes
-- [**Trends**](https://skillichse.github.io/Klyxe/trends.html) — See scores evolve over time
-
----
-
-## The Klyxe Manifesto
-
-AI shouldn't cost $20/month. Intelligence is becoming a commodity, not a luxury product.
-
-Klyxe is **100% open source**. Every benchmark, every line of code, every score is public. No investors to please. No vendors to appease. No "partnership" bias.
-
-If we messed up a test — you'll see it. If you think our weights are wrong — change them. This is a community tool for people who believe **AI access is a right, not a privilege**.
+MIT — use it, fork it, ship it.
 
 ---
 
 <p align="center">
-  <a href="https://skillichse.github.io/Klyxe/">
-    <img src="https://img.shields.io/badge/Start%20Testing%20Now-8b5cf6?style=for-the-badge&logo=rocket&logoColor=white" alt="Start Testing Now">
-  </a>
-</p>
-
-<p align="center">
-  <a href="https://skillichse.github.io/Klyxe/chat.html">💬 Chat</a> ·
-  <a href="https://skillichse.github.io/Klyxe/playground.html">⚔️ Playground</a> ·
-  <a href="https://skillichse.github.io/Klyxe/trends.html">📈 Trends</a> ·
+  <a href="https://klyxe.ai">klyxe.ai</a> ·
+  <a href="https://klyxe.ai/chat">💬 Chat</a> ·
+  <a href="https://klyxe.ai/playground">⚔️ Playground</a> ·
+  <a href="https://klyxe.ai/trends">📈 Trends</a> ·
   <a href="https://github.com/SkillichSE/Klyxe">⭐ Star on GitHub</a>
 </p>
-
-<p align="center"><i>Open source intelligence for open minds.</i></p>

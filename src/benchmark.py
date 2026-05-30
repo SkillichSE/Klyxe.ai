@@ -1,4 +1,4 @@
-import os, re, json, time, subprocess, argparse
+import os, re, json, time, subprocess, argparse, ast
 from datetime import datetime
 from pathlib import Path
 import requests
@@ -377,6 +377,57 @@ class ModelBenchmark:
         low = err.lower()
         return any(p in low for p in _FATAL_MODEL_PATTERNS)
 
+    @staticmethod
+    def _is_safe_code(code: str, max_len: int = 5000) -> bool:
+        """Reject generated code with dangerous ops (RCE prevention)."""
+        if len(code) > max_len:
+            return False
+        DANGEROUS = {
+            'exec', 'eval', 'compile', '__import__', 'open',
+            'breakpoint', 'globals', 'locals', 'vars',
+        }
+        DANGEROUS_MODS = {'os', 'sys', 'subprocess', 'shutil', 'socket',
+                          'ctypes', 'signal', 'multiprocessing', 'threading',
+                          'importlib', 'builtins', 'inspect', 'code', 'codeop',
+                          'platform', 'resource'}
+        ALLOWED_IMPORTS = {'math', 'random', 'json', 'typing', 'collections',
+                           'itertools', 'functools', 'operator', 're', 'string',
+                           'datetime', 'decimal', 'fractions', 'statistics'}
+        try:
+            tree = ast.parse(code)
+        except SyntaxError:
+            return False
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Call):
+                fn = node.func
+                if isinstance(fn, ast.Name) and fn.id in DANGEROUS:
+                    return False
+                if isinstance(fn, ast.Attribute):
+                    if isinstance(fn.value, ast.Name) and fn.value.id in DANGEROUS_MODS:
+                        return False
+                    if fn.attr in ('__subclasses__', '__bases__', '__globals__',
+                                   '__code__', '__closure__'):
+                        return False
+            if isinstance(node, (ast.Import, ast.ImportFrom)):
+                for alias in node.names:
+                    top = alias.name.split('.')[0]
+                    if top not in ALLOWED_IMPORTS:
+                        return False
+            if isinstance(node, ast.Attribute):
+                if node.attr.startswith('__') and node.attr.endswith('__'):
+                    SAFE_DUNDERS = {
+                        '__init__', '__str__', '__repr__', '__eq__', '__ne__',
+                        '__lt__', '__le__', '__gt__', '__ge__',
+                        '__add__', '__sub__', '__mul__', '__truediv__',
+                        '__floordiv__', '__mod__', '__pow__',
+                        '__len__', '__getitem__', '__setitem__', '__delitem__',
+                        '__contains__', '__iter__', '__next__',
+                        '__enter__', '__exit__',
+                    }
+                    if node.attr not in SAFE_DUNDERS:
+                        return False
+        return True
+
     def eval_code(self, test_name, response, tier_tests=None):
         if tier_tests is None:
             tier_tests = TESTS
@@ -393,13 +444,17 @@ class ModelBenchmark:
                 code_lines.append(line)
         if code_lines:
             code = "\n".join(code_lines)
+        # SECURITY: reject unsafe generated code (RCE prevention)
+        if not self._is_safe_code(code):
+            return {"pass_rate": 0.0, "passed": 0, "total": len(cfg["expected"]),
+                    "error": "unsafe code rejected"}
         results = []
         for inp, expected in zip(cfg["test_input"], cfg["expected"]):
             # Support tuple inputs for multi-argument functions (e.g. binary_search(arr, target))
             call_expr = f"{fn_name}(*{repr(inp)})" if isinstance(inp, tuple) else f"{fn_name}({repr(inp)})"
             try:
                 proc = subprocess.run(
-                    ["python3", "-c", f"{code}\nprint(repr({call_expr}))"],
+                    ["python3", "-I", "-c", f"{code}\nprint(repr({call_expr}))"],
                     capture_output=True, text=True, timeout=5)
                 if proc.returncode == 0:
                     output = proc.stdout.strip()

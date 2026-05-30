@@ -20,7 +20,7 @@ async function sendRagQuery() {
 
   if (provider) {
     baseUrl = provider.url;
-    const inputKey = (document.getElementById('api-key-input')?.value || localStorage.getItem('or_api_key') || '').trim();
+    const inputKey = (document.getElementById('api-key-input')?.value || sessionStorage.getItem('or_api_key') || localStorage.getItem('or_api_key') || '').trim();
     const providerKey = (provider.key || '').trim();
     apiKeys = Array.from(new Set([providerKey, inputKey].filter(Boolean)));
     model = document.getElementById('model-select').value || provider.model;
