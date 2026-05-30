@@ -5,7 +5,7 @@
 > **Free AI models. Real benchmarks. Zero gatekeeping.**  
 > The open source portal for people who refuse to pay $20/month for intelligence.
 
-[![Vercel](https://img.shields.io/badge/deployed%20on-Vercel-000?style=flat-square&logo=vercel)](https://klyxe.ai)
+[![Vercel](https://img.shields.io/badge/deployed%20on-Vercel-000?style=flat-square&logo=vercel)](https://klyxe.ai.vercel.app/)
 [![Next.js](https://img.shields.io/badge/Next.js-14-000?style=flat-square&logo=next.js)](https://nextjs.org)
 [![FastAPI](https://img.shields.io/badge/API-FastAPI-009688?style=flat-square&logo=fastapi)](https://fastapi.tiangolo.com)
 [![Railway](https://img.shields.io/badge/deployed%20on-Railway-0B0D0E?style=flat-square&logo=railway)](https://railway.app)
