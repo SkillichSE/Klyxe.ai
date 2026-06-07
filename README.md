@@ -5,7 +5,11 @@
 > **Free AI models. Real benchmarks. Zero gatekeeping.**  
 > The open source portal for people who refuse to pay $20/month for intelligence.
 
-[![Enter Klyxe](https://img.shields.io/badge/Enter%20Klyxe-6366f1?style=for-the-badge&logo=google-chrome&logoColor=white)](https://klyxe-ai.vercel.app/)
+[
+
+![Enter Klyxe](https://img.shields.io/badge/Enter%20Klyxe-6366f1?style=for-the-badge&logo=google-chrome&logoColor=white)
+
+](https://klyxe-ai.vercel.app/)
 
 ---
 
@@ -51,17 +55,17 @@ We don't sell AI. We don't gatekeep it. We just help you find the best open sour
 ## Get Started in 30 Seconds
 
 ### Just Look (Zero Setup)
-[**Open Klyxe →**](https://skillichse.github.io/Klyxe/)  
+[**Open Klyxe →**](https://klyxe-ai.vercel.app/)  
 No signup. No cookies. No "create account to view". Just data.
 
 ### Chat Like a Pro (2 Minutes)
 1. Get a free API key from [OpenRouter](https://openrouter.ai/) (or Groq, Google, etc.)
-2. Open [Klyxe Chat](https://skillichse.github.io/Klyxe/chat.html)
+2. Open [Klyxe Chat](https://klyxe-ai.vercel.app/chat.html)
 3. Paste your key — it stays in your browser, never our servers
 4. Start talking to any model
 
 ### Make Them Compete
-1. Go to [Playground](https://skillichse.github.io/Klyxe/playground.html)
+1. Go to [Playground](https://klyxe-ai.vercel.app/playground.html)
 2. Pick 2–4 models from the sidebar
 3. Type your prompt
 4. See all responses at once
@@ -111,8 +115,8 @@ A: We focus on free tiers. If it has a free API or trial, it's eligible.
 
 ## Stay Updated
 
-- [**News**](https://skillichse.github.io/Klyxe/news.html) — AI industry updates, new models, provider changes
-- [**Trends**](https://skillichse.github.io/Klyxe/trends.html) — See scores evolve over time
+- [**News**](https://klyxe-ai.vercel.app/news.html) — AI industry updates, new models, provider changes
+- [**Trends**](https://klyxe-ai.vercel.app/trends.html) — See scores evolve over time
 
 ---
 
@@ -127,15 +131,15 @@ If we messed up a test — you'll see it. If you think our weights are wrong —
 ---
 
 <p align="center">
-  <a href="https://skillichse.github.io/Klyxe/">
+  <a href="https://klyxe-ai.vercel.app/">
     <img src="https://img.shields.io/badge/Start%20Testing%20Now-8b5cf6?style=for-the-badge&logo=rocket&logoColor=white" alt="Start Testing Now">
   </a>
 </p>
 
 <p align="center">
-  <a href="https://skillichse.github.io/Klyxe/chat.html">💬 Chat</a> ·
-  <a href="https://skillichse.github.io/Klyxe/playground.html">⚔️ Playground</a> ·
-  <a href="https://skillichse.github.io/Klyxe/trends.html">📈 Trends</a> ·
+  <a href="https://klyxe-ai.vercel.app/chat.html">💬 Chat</a> ·
+  <a href="https://klyxe-ai.vercel.app/playground.html">⚔️ Playground</a> ·
+  <a href="https://klyxe-ai.vercel.app/trends.html">📈 Trends</a> ·
   <a href="https://github.com/SkillichSE/Klyxe">⭐ Star on GitHub</a>
 </p>
 
