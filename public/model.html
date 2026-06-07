@@ -8,10 +8,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title id="page-title">Model Details — Klyxe</title>
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="style-spacing.css">
-  <link rel="stylesheet" href="animations.css">
+  <link rel="icon" href="/media/L_Logo.png" type="image/png">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/style-spacing.css">
+  <link rel="stylesheet" href="/animations.css">
   <style>
     
     .model-hero {
@@ -205,12 +205,19 @@
       border-radius: 20px;
       flex-shrink: 0;
     }
-    .pass-badge.pass   { background: #e6f4ea; color: #137333; }
-    .pass-badge.fail   { background: #fce8e6; color: #c5221f; }
-    .pass-badge.partial{ background: #fef3e2; color: #b06000; }
-    [data-theme="dark"] .pass-badge.pass    { background: #0d3320; color: #81c995; }
-    [data-theme="dark"] .pass-badge.fail    { background: #370c0b; color: #f28b82; }
-    [data-theme="dark"] .pass-badge.partial { background: #3e2400; color: #ffb74d; }
+    /* Score-based rating colors: 0-30 red, 31-70 orange, 71-100 green */
+    .pass-badge.score-low    { background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); }
+    .pass-badge.score-medium { background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .pass-badge.score-high   { background: rgba(34, 197, 94, 0.15); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.3); }
+    /* Legacy pass/fail for backward compatibility */
+    .pass-badge.pass   { background: rgba(34, 197, 94, 0.15); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.3); }
+    .pass-badge.fail   { background: rgba(239, 68, 68, 0.15); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); }
+    .pass-badge.partial{ background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); }
+
+    /* Category score pill colors */
+    .cat-score-pill.score-low    { color: #ef4444; }
+    .cat-score-pill.score-medium { color: #f59e0b; }
+    .cat-score-pill.score-high   { color: #22c55e; }
 
     
     .qa-block { margin-top: 10px; }
@@ -444,7 +451,6 @@
       grid-template-columns: 1fr 1fr;
       gap: 8px 16px;
     }
-    .bench-item { }
     .bench-name { font-size: 11px; color: var(--text-secondary); margin-bottom: 2px; }
     .bench-val  { font-size: 15px; font-weight: 700; color: var(--color-primary); font-variant-numeric: tabular-nums; }
     .bench-val.na { font-size: 13px; color: var(--text-tertiary); font-weight: 400; }
@@ -501,24 +507,6 @@
 </head>
 <body>
 
-<header class="header" id="app-bar">
-  <div class="header-content">
-    <a href="index.html" class="logo" style="padding-left:0;margin-left:0;">
-      <img src="media/L_logo.png" alt="Klyxe logo" class="logo-icon" style="margin-left:0;">
-      <span style="font-size:17px;font-weight:700;letter-spacing:-0.02em;">Klyxe</span>
-    </a>
-    <div style="flex:1;"></div>
-    <div class="theme-switch-wrap">
-      <span class="theme-switch-label" id="theme-label">Dark</span>
-      <label class="theme-switch" aria-label="Toggle theme">
-        <input type="checkbox" id="theme-toggle">
-        <span class="theme-switch-track"></span>
-        <span class="theme-switch-thumb" id="thumb-icon"></span>
-      </label>
-    </div>
-  </div>
-</header>
-
 <!-- Sidebar overlay for mobile -->
 <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
@@ -531,20 +519,6 @@
 </div>
 
 <script>
-
-const themeToggle = document.getElementById('theme-toggle');
-const themeLabel  = document.getElementById('theme-label');
-function applyTheme(t) {
-  document.documentElement.setAttribute('data-theme', t);
-  localStorage.setItem('theme', t);
-  const isLight = t === 'light';
-  themeToggle.checked = isLight;
-  themeLabel.textContent = isLight ? 'Light' : 'Dark';
-}
-applyTheme(localStorage.getItem('theme') || 'dark');
-themeToggle.addEventListener('change', () => { applyTheme(themeToggle.checked ? 'light' : 'dark'); });
-window.addEventListener('scroll', () =>
-  document.getElementById('app-bar').classList.toggle('scrolled', window.scrollY > 0));
 
 // Mobile sidebar toggle
 (function() {
@@ -560,14 +534,21 @@ window.addEventListener('scroll', () =>
 function esc(str) {
   return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
+// Score-based rating: 0-30 red (low), 31-70 orange (medium), 71-100 green (high)
 function scoreClass(score) {
-  if (score >= 80) return '';
-  if (score >= 40) return 'partial';
-  return 'fail';
+  if (score >= 71) return 'score-high';
+  if (score >= 31) return 'score-medium';
+  return 'score-low';
+}
+// Get CSS class based on numeric score for pass-badge
+function scoreBadgeClass(score) {
+  if (score >= 71) return 'score-high';
+  if (score >= 31) return 'score-medium';
+  return 'score-low';
 }
 function passBadge(passed, total) {
   var pct = total > 0 ? passed / total * 100 : 0;
-  var cls = pct === 100 ? 'pass' : pct > 0 ? 'partial' : 'fail';
+  var cls = scoreBadgeClass(pct);
   return '<span class="pass-badge ' + cls + '">' + passed + '/' + total + ' passed</span>';
 }
 
@@ -651,13 +632,14 @@ function renderCodeSection(tests) {
 
   var body = details.map(function(t) {
     var rows = (t.details || []).map(function(c){
+      var bc = scoreBadgeClass(c.passed ? 100 : 0);
       return '<tr><td><code>' + esc(c.input) + '</code></td>' +
              '<td><code>' + esc(c.expected) + '</code></td>' +
              '<td><code>' + esc(c.got) + '</code></td>' +
-             '<td class="case-status">' + (c.passed ? '✅' : '❌') + '</td></tr>';
+             '<td class="case-status"><span class="pass-badge ' + bc + '">' + (c.passed ? '✅' : '❌') + '</span></td></tr>';
     }).join('');
     var pct = t.total > 0 ? t.passed / t.total * 100 : 0;
-    var bc = pct === 100 ? 'pass' : pct > 0 ? 'partial' : 'fail';
+    var bc = scoreBadgeClass(pct);
     return '<div class="test-item">' +
       '<div class="test-item-header">' +
         '<div>' +
@@ -685,7 +667,7 @@ function renderReasoningSection(tests) {
 
   var body = d.details.map(function(t) {
     var correct = t.correct;
-    var bc = correct ? 'pass' : 'fail';
+    var bc = scoreBadgeClass(correct ? 100 : 0);
     return '<div class="test-item">' +
       '<div class="test-item-header">' +
         '<div class="test-item-name">' + esc(t.test.replace('_', ' ')) + '</div>' +
@@ -712,7 +694,7 @@ function renderInstructionSection(tests) {
   var cls = scoreClass(avg);
 
   var body = d.details.map(function(t) {
-    var bc = t.score === 100 ? 'pass' : t.score > 0 ? 'partial' : 'fail';
+    var bc = scoreBadgeClass(t.score);
     var checkText = INSTR_CHECK[t.test] ? INSTR_CHECK[t.test](t) : 'Score: ' + t.score;
     return '<div class="test-item">' +
       '<div class="test-item-header">' +
@@ -739,7 +721,7 @@ function renderTranslationSection(tests) {
 
   var body = '<div class="test-item">' +
     d.details.map(function(t) {
-      var bc = t.score === 100 ? 'pass' : t.score > 0 ? 'partial' : 'fail';
+      var bc = scoreBadgeClass(t.score);
       var checkText = TRANSLATION_CHECKS[t.test] ? TRANSLATION_CHECKS[t.test](t) : 'Score: ' + t.score;
       return '<div class="trans-item">' +
         '<div>' +

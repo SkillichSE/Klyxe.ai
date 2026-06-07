@@ -1,21 +1,19 @@
-// ══════════════════════════════════════════════════════════════════════════════
-// lab-article.js  —  страница articles.html?article=ID
-//
-// ИСПРАВЛЕНИЯ:
-//   • Удалён весь дублирующий код из lab.js (theme, sidebar, callAPI, showStatus,
-//     HE_TASKS, init*) — теперь он живёт только здесь.
-//   • mountArticle() вызывается в самом конце файла (был вызов до определения).
-//   • ARTICLES[4].init и ARTICLES[5].init были null — функции runTemp/sendToken
-//     уже global через window.*, поэтому init: null корректен; комментарии уточнены.
-//   • VECS в initWord3D: lab.js содержал русские слова, lab-article.js — только
-//     английские. Объединены в один словарь с обоими языками.
-//   • Статус initMnist был на русском ("Нарисуйте цифру") — переведён на английский
-//     для единообразия с остальным UI.
-//   • tokChart: Chart.js доступен через глобальный <script> в articles.html.
-//     Добавлена проверка наличия typeof Chart перед вызовом.
-// ══════════════════════════════════════════════════════════════════════════════
+// lab-article.js - articles.html article page
 
-// ── Тема ─────────────────────────────────────────────────────────────────────
+// fixes:
+//   - removed duplicate code from lab.js (theme, sidebar, callapi, showstatus,
+//     he_tasks, init) now it lives only here.
+//   - mountarticle is called at the end of the file (was called before definition).
+//   - articles[4].init and articles[5].init were null, functions runtemp/sendtoken
+//     are already global through window, so init null is correct, comments clarified.
+//   - vecs in initword3d: lab.js contained russian words, lab-article.js only
+//     english. combined into one dictionary with both languages.
+//   - initmnist status was in russian (draw a digit) translated to english
+//     for consistency with the rest of the ui.
+//   - tokchart: chart.js is available through a global script in articles.html.
+//     added a check for typeof chart before calling.
+
+// theme
 const themeToggle = document.getElementById('theme-toggle');
 const themeLabel  = document.getElementById('theme-label');
 
@@ -23,17 +21,21 @@ function applyTheme(t) {
   document.documentElement.setAttribute('data-theme', t);
   localStorage.setItem('theme', t);
   const l = t === 'light';
-  themeToggle.checked = l;
-  themeLabel.textContent = l ? 'Light' : 'Dark';
+  if (themeToggle) themeToggle.checked = l;
+  if (themeLabel) themeLabel.textContent = l ? 'Light' : 'Dark';
 }
 applyTheme(localStorage.getItem('theme') || 'dark');
-themeToggle.addEventListener('change', () =>
-  applyTheme(themeToggle.checked ? 'light' : 'dark'));
+if (themeToggle) {
+  themeToggle.addEventListener('change', () =>
+    applyTheme(themeToggle.checked ? 'light' : 'dark'));
+}
 
-window.addEventListener('scroll', () =>
-  document.getElementById('app-bar').classList.toggle('scrolled', window.scrollY > 0));
+window.addEventListener('scroll', () => {
+  const appBar = document.getElementById('app-bar');
+  if (appBar) appBar.classList.toggle('scrolled', window.scrollY > 0);
+});
 
-// ── Sidebar ───────────────────────────────────────────────────────────────────
+// sidebar
 (function () {
   const sidebar   = document.getElementById('left-sidebar');
   const overlay   = document.getElementById('sidebar-overlay');
@@ -51,11 +53,58 @@ window.addEventListener('scroll', () =>
   window.addEventListener('resize', check);
 })();
 
-// ── Утилиты ───────────────────────────────────────────────────────────────────
+// utilities
 function showStatus(el, type, html) {
   el.style.display = 'flex';
   el.className = 'status-msg' + (type ? ' ' + type : '');
   el.innerHTML = html;
+}
+
+function parseMarkdown(text) {
+  if (!text) return '<p style="color:var(--text-secondary);font-family:var(--font-mono);font-size:12px;">No article content available.</p>';
+  let h = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+  h = h.replace(/```(\w*)\n?([\s\S]*?)```/g, (_, lang, code) =>
+    `<pre><code class="lang-${lang}">${code.trim()}</code></pre>`);
+
+  h = h.replace(/`([^`\n]+)`/g, '<code>$1</code>');
+  h = h.replace(/^#{6} (.+)$/gm, '<h6>$1</h6>');
+  h = h.replace(/^#{5} (.+)$/gm, '<h5>$1</h5>');
+  h = h.replace(/^#{4} (.+)$/gm, '<h4>$1</h4>');
+  h = h.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+  h = h.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+  h = h.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+  h = h.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
+  h = h.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  h = h.replace(/\*(.+?)\*/g, '<em>$1</em>');
+  h = h.replace(/~~(.+?)~~/g, '<del>$1</del>');
+  h = h.replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>');
+  h = h.replace(/^---+$/gm, '<hr>');
+  h = h.replace(/^\|(.+)\|\n\|[-| :]+\|\n((?:\|.+\|\n?)+)/gm, (_, header, rows) => {
+    const ths = header.split('|').filter(Boolean).map(c => `<th>${c.trim()}</th>`).join('');
+    const trs = rows.trim().split('\n').map(row => {
+      const tds = row.split('|').filter(Boolean).map(c => `<td>${c.trim()}</td>`).join('');
+      return `<tr>${tds}</tr>`;
+    }).join('');
+    return `<table><thead><tr>${ths}</tr></thead><tbody>${trs}</tbody></table>`;
+  });
+  h = h.replace(/^(\s*)-\s+(.+)$/gm, (_, sp, item) => `<li data-indent="${sp.length}">${item}</li>`);
+  h = h.replace(/(<li[^>]*>.*<\/li>\n?)+/g, m => `<ul>${m}</ul>`);
+  h = h.replace(/^(\s*)\d+\.\s+(.+)$/gm, '<li>$2</li>');
+  h = h.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1">');
+  h = h.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+  h = h.replace(/\n{2,}/g, '</p><p>');
+  h = h.replace(/\n/g, '<br>');
+  if (!h.startsWith('<')) h = `<p>${h}</p>`;
+  return h;
+}
+
+async function getArticleById(id) {
+  if (window.KlyxeArticleStore?.getPublishedArticleById) {
+    const art = await window.KlyxeArticleStore.getPublishedArticleById(id);
+    if (art) return art;
+  }
+  return ARTICLES[id];
 }
 
 async function callAPI(apiKey, messages, model, maxTokens, temperature) {
@@ -81,9 +130,7 @@ async function callAPI(apiKey, messages, model, maxTokens, temperature) {
   return { text: d.content?.[0]?.text || '', usage: d.usage || {} };
 }
 
-// ══════════════════════════════════════════════════════════════════════════════
-// Шаблоны статей
-// ══════════════════════════════════════════════════════════════════════════════
+// article templates
 const ARTICLES = {
   1: {
     title: 'Digit Recognizer — Model Parameter Visualization',
@@ -177,8 +224,8 @@ const ARTICLES = {
       <textarea class="temp-prompt-input" id="temp-prompt">Come up with an original name for a small café</textarea>
       <div id="temp-results" style="margin-top:14px;"></div>
       <div id="temp-status" class="status-msg" style="margin-top:10px;display:none;"></div>`,
-    // ИСПРАВЛЕНИЕ: init: null — runTemp() назначен через window.runTemp ниже,
-    // DOM-элементы доступны сразу после вставки HTML, никакой инициализации не нужно.
+    // fix: init null - runtemp is assigned via window.runtemp below,
+    // dom elements are available right after html insertion, no initialization needed.
     init: null,
   },
   5: {
@@ -210,8 +257,8 @@ const ARTICLES = {
         <div id="tok-log-body"></div>
       </div>
       <div id="tok-status" class="status-msg" style="margin-top:10px;display:none;"></div>`,
-    // ИСПРАВЛЕНИЕ: tokChart инициализируется лениво при первом sendToken(),
-    // init: null — нет смысла строить пустой Chart до первого запроса.
+    // fix: tokchart is initialized lazily on first sendtoken call,
+    // init: null — no point building empty chart before first request.
     init: null,
   },
   6: {
@@ -243,13 +290,11 @@ const ARTICLES = {
   },
 };
 
-// ══════════════════════════════════════════════════════════════════════════════
-// mountArticle — читает ?article=ID, вставляет нужный шаблон, вызывает init()
-// ══════════════════════════════════════════════════════════════════════════════
-function mountArticle() {
+// mountarticle - reads article id from url, inserts template, calls init
+async function mountArticle() {
   const params = new URLSearchParams(window.location.search);
-  const id  = parseInt(params.get('article'), 10) || 1;
-  const art = ARTICLES[id];
+  const id = params.get('article') || '1';
+  const art = await getArticleById(id);
   const container = document.getElementById('article-container');
 
   if (!art) {
@@ -259,6 +304,8 @@ function mountArticle() {
   }
 
   document.title = `Klyxe — ${art.title}`;
+  const bodyContent = art.content ? parseMarkdown(art.content) : art.html || '<p style="color:var(--text-secondary);font-family:var(--font-mono);">No content available.</p>';
+  const coverHtml = art.cover ? `<div style="margin-bottom:24px;overflow:hidden;border-radius:18px;"><img src="${art.cover}" alt="${art.title}" style="width:100%;display:block;object-fit:cover;max-height:360px;"/></div>` : '';
 
   const wrapper = document.createElement('div');
   wrapper.className = 'lab-article reveal';
@@ -269,22 +316,26 @@ function mountArticle() {
         <div class="lab-article-tag">${art.tag}</div>
         <div class="lab-article-title">${art.title}</div>
         <div class="lab-article-desc">${art.desc}</div>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;font-size:12px;color:var(--text-tertiary);">
+          <span>${art.author?.name || 'Klyxe Lab'}</span>
+          <span>${art.readMin || 1} min read</span>
+          <span>${art.interactive ? 'Interactive' : 'Read-only'}</span>
+        </div>
       </div>
     </div>
-    <div class="lab-article-body">${art.html}</div>
+    ${coverHtml}
+    <div class="lab-article-body">${bodyContent}</div>
   `;
   container.appendChild(wrapper);
 
-  // Reveal-анимация
+  // reveal animation
   requestAnimationFrame(() => wrapper.classList.add('visible'));
 
-  // Запуск article-specific логики
+  // run article specific logic
   if (art.init) art.init();
 }
 
-// ══════════════════════════════════════════════════════════════════════════════
-// Статья 1 — MNIST Digit Recognizer
-// ══════════════════════════════════════════════════════════════════════════════
+// article 1 - mnist digit recognizer
 function initMnist() {
   const canvas = document.getElementById('draw-canvas');
   const ctx    = canvas.getContext('2d');
@@ -404,9 +455,7 @@ function initMnist() {
   st.innerHTML = '✓ Ready — draw a digit on the canvas';
 }
 
-// ══════════════════════════════════════════════════════════════════════════════
-// Статья 2 — VAE Latent Space
-// ══════════════════════════════════════════════════════════════════════════════
+// article 2 - vae latent space
 function initVae() {
   const latC = document.getElementById('vae-latent');
   const latX = latC.getContext('2d');
@@ -445,15 +494,15 @@ function initVae() {
   function getPattern(d) {
     const W = 28, px = new Float32Array(W * W), cx = 14, cy = 14;
     if (d===0){for(let y=0;y<W;y++)for(let x=0;x<W;x++){const v=Math.pow((x-cx)/8,2)+Math.pow((y-cy)/10,2);px[y*W+x]=Math.exp(-Math.pow(Math.abs(v-1)*4,2));}}
-    else if(d===1){for(let y=3;y<25;y++)for(let x=0;x<W;x++)px[y*W+x]=Math.exp(-Math.pow((x-cx)/1.5,2));}
-    else if(d===2){for(let y=0;y<W;y++)for(let x=0;x<W;x++){const t=y/W,tx=t<0.4?cx+7*Math.cos(Math.PI*(1-t/0.4)):t<0.6?cx+7*(1-2*(t-0.4)/0.2)-7:cx-7+14*(t-0.6)/0.4,ty=t<0.4?cy-8+8*t/0.4:t<0.6?cy:cy+(W-cy)*(t-0.6)/0.4;px[y*W+x]=Math.max(px[y*W+x],Math.exp(-Math.pow(x-tx,2)/4-Math.pow(y-ty,2)/4));}}
-    else if(d===3){for(let y=0;y<W;y++)for(let x=0;x<W;x++){px[y*W+x]=Math.min(1,Math.exp(-Math.pow((x-cx-4)/3,2)-Math.pow((y-cy+6)/4,2))+Math.exp(-Math.pow((x-cx-4)/3,2)-Math.pow((y-cy-6)/4,2)));}}
-    else if(d===4){for(let y=0;y<W;y++)for(let x=0;x<W;x++){px[y*W+x]=Math.min(1,Math.exp(-Math.pow(x-cx,2)/2)*(y>8?1:0)+Math.exp(-Math.pow((y-cy+2)/2,2))*(x<cx?1:0)+Math.exp(-Math.pow(x-(cx-4),2)/3)*(y<cy?1:0));}}
-    else if(d===5){for(let y=0;y<W;y++)for(let x=0;x<W;x++){px[y*W+x]=Math.min(1,(y<8?Math.exp(-Math.pow((y-3)/2,2)):0)+Math.exp(-Math.pow((y-cy)/2,2)-Math.pow((x-cx)/6,2))*0.5+Math.exp(-Math.pow((x-cx)/6,2)-Math.pow((y-cy-5)/4,2)));}}
-    else if(d===6){for(let y=0;y<W;y++)for(let x=0;x<W;x++){px[y*W+x]=Math.min(1,Math.exp(-Math.pow(Math.hypot(x-cx,y-cy-3)-7,2)/2)+Math.exp(-Math.pow(x-(cx-3),2)/2)*(y<cy?0.8:0));}}
-    else if(d===7){for(let y=0;y<W;y++)for(let x=0;x<W;x++){px[y*W+x]=Math.min(1,Math.exp(-Math.pow((y-4)/2,2)-Math.pow((x-cx)/7,2))+Math.exp(-Math.pow((x-cx)+(y-4)/1.5,2)/3)*(y>4?1:0));}}
-    else if(d===8){for(let y=0;y<W;y++)for(let x=0;x<W;x++){px[y*W+x]=Math.min(1,Math.exp(-Math.pow(Math.hypot(x-cx,y-cy+5)-5,2)/2)+Math.exp(-Math.pow(Math.hypot(x-cx,y-cy-5)-5,2)/2));}}
-    else if(d===9){for(let y=0;y<W;y++)for(let x=0;x<W;x++){px[y*W+x]=Math.min(1,Math.exp(-Math.pow(Math.hypot(x-cx,y-cy+3)-6,2)/2)+Math.exp(-Math.pow(x-(cx+4),2)/2)*(y>cy?0.8:0));}}
+    else if (d===1){for(let y=3;y<25;y++)for(let x=0;x<W;x++)px[y*W+x]=Math.exp(-Math.pow((x-cx)/1.5,2));}
+    else if (d===2){for(let y=0;y<W;y++)for(let x=0;x<W;x++){const t=y/W,tx=t<0.4?cx+7*Math.cos(Math.PI*(1-t/0.4)):t<0.6?cx+7*(1-2*(t-0.4)/0.2)-7:cx-7+14*(t-0.6)/0.4,ty=t<0.4?cy-8+8*t/0.4:t<0.6?cy:cy+(W-cy)*(t-0.6)/0.4;px[y*W+x]=Math.max(px[y*W+x],Math.exp(-Math.pow(x-tx,2)/4-Math.pow(y-ty,2)/4));}}
+    else if (d===3){for(let y=0;y<W;y++)for(let x=0;x<W;x++){px[y*W+x]=Math.min(1,Math.exp(-Math.pow((x-cx-4)/3,2)-Math.pow((y-cy+6)/4,2))+Math.exp(-Math.pow((x-cx-4)/3,2)-Math.pow((y-cy-6)/4,2)));}}
+    else if (d===4){for(let y=0;y<W;y++)for(let x=0;x<W;x++){px[y*W+x]=Math.min(1,Math.exp(-Math.pow(x-cx,2)/2)*(y>8?1:0)+Math.exp(-Math.pow((y-cy+2)/2,2))*(x<cx?1:0)+Math.exp(-Math.pow(x-(cx-4),2)/3)*(y<cy?1:0));}}
+    else if (d===5){for(let y=0;y<W;y++)for(let x=0;x<W;x++){px[y*W+x]=Math.min(1,(y<8?Math.exp(-Math.pow((y-3)/2,2)):0)+Math.exp(-Math.pow((y-cy)/2,2)-Math.pow((x-cx)/6,2))*0.5+Math.exp(-Math.pow((x-cx)/6,2)-Math.pow((y-cy-5)/4,2)));}}
+    else if (d===6){for(let y=0;y<W;y++)for(let x=0;x<W;x++){px[y*W+x]=Math.min(1,Math.exp(-Math.pow(Math.hypot(x-cx,y-cy-3)-7,2)/2)+Math.exp(-Math.pow(x-(cx-3),2)/2)*(y<cy?0.8:0));}}
+    else if (d===7){for(let y=0;y<W;y++)for(let x=0;x<W;x++){px[y*W+x]=Math.min(1,Math.exp(-Math.pow((y-4)/2,2)-Math.pow((x-cx)/7,2))+Math.exp(-Math.pow((x-cx)+(y-4)/1.5,2)/3)*(y>4?1:0));}}
+    else if (d===8){for(let y=0;y<W;y++)for(let x=0;x<W;x++){px[y*W+x]=Math.min(1,Math.exp(-Math.pow(Math.hypot(x-cx,y-cy+5)-5,2)/2)+Math.exp(-Math.pow(Math.hypot(x-cx,y-cy-5)-5,2)/2));}}
+    else if (d===9){for(let y=0;y<W;y++)for(let x=0;x<W;x++){px[y*W+x]=Math.min(1,Math.exp(-Math.pow(Math.hypot(x-cx,y-cy+3)-6,2)/2)+Math.exp(-Math.pow(x-(cx+4),2)/2)*(y>cy?0.8:0));}}
     return px;
   }
 
@@ -513,10 +562,8 @@ function initVae() {
   update(0, 0);
 }
 
-// ══════════════════════════════════════════════════════════════════════════════
-// Статья 3 — Semantically Similar Words in 3-D
-// ИСПРАВЛЕНИЕ: VECS объединён — lab.js имел русский словарь, lab-article.js — английский.
-// ══════════════════════════════════════════════════════════════════════════════
+// article 3 - semantically similar words in 3d
+// vecs combined - lab.js had russian dictionary, lab-article.js had english.
 function initWord3D() {
   const VECS = {
     // English
@@ -621,7 +668,7 @@ function initWord3D() {
     });
 
     showStatus(document.getElementById('w3d-status'), 'ok',
-      'Found ' + similar.length + ' similar words for "' + word + '" — drag to rotate');
+      'found ' + similar.length + ' similar words for "' + word + '" — drag to rotate');
     euler = { x: 0.3, y: 0.5 };
 
     function animate() {
@@ -646,9 +693,7 @@ function initWord3D() {
   };
 }
 
-// ══════════════════════════════════════════════════════════════════════════════
-// Статья 4 — Temperature (глобальный обработчик, init не нужен)
-// ══════════════════════════════════════════════════════════════════════════════
+// article 4 - temperature (global handler, init not needed)
 window.runTemp = async function () {
   const apiKey   = document.getElementById('temp-apikey').value.trim();
   const prompt   = document.getElementById('temp-prompt').value.trim();
@@ -677,10 +722,8 @@ window.runTemp = async function () {
   showStatus(status, 'ok', 'Compare how diversity changes across temperatures');
 };
 
-// ══════════════════════════════════════════════════════════════════════════════
-// Статья 5 — Token Tracker
-// ИСПРАВЛЕНИЕ: добавлена проверка typeof Chart (на случай сбоя CDN).
-// ══════════════════════════════════════════════════════════════════════════════
+// article 5 - token tracker
+// fix: added check for typeof chart (in case of cdn failure).
 let tokChart = null, totalIn = 0, totalOut = 0, reqCount = 0;
 
 function initTokChart() {
@@ -756,9 +799,7 @@ window.clearTokenLog = function () {
   }
 };
 
-// ══════════════════════════════════════════════════════════════════════════════
-// Статья 6 — HumanEval Benchmark
-// ══════════════════════════════════════════════════════════════════════════════
+// article 6 - humaneval multi model benchmark
 const HE_TASKS = [
   {
     name: 'has_close_elements',
@@ -848,4 +889,9 @@ window.runHumanEval = async function () {
   showStatus(status, 'ok', 'Done for ' + models.length + ' model' + (models.length > 1 ? 's' : ''));
 };
 
-mountArticle();
+// Mount article when DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', mountArticle);
+} else {
+  mountArticle();
+}

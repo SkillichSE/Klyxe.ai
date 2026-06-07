@@ -194,11 +194,12 @@ function updateStatusDot(side, state) {
 
 async function renderMarkdown(text) {
   if (!window.marked) return escHtml(text || '');
+  let html;
   if (typeof marked.parseSync === 'function') {
-    return marked.parseSync(text || '');
+    html = marked.parseSync(text || '');
+  } else {
+    const maybe = marked.parse(text || '');
+    html = (typeof maybe === 'string') ? maybe : (maybe && typeof maybe.then === 'function' ? await maybe : escHtml(text || ''));
   }
-  const maybe = marked.parse(text || '');
-  if (typeof maybe === 'string') return maybe;
-  if (maybe && typeof maybe.then === 'function') return await maybe;
-  return escHtml(text || '');
+  return window.DOMPurify ? DOMPurify.sanitize(html) : html;
 }

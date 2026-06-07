@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>(function(){document.documentElement.setAttribute('data-theme',localStorage.getItem('theme')||'dark');})();</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Klyxe — Free AI Benchmarks, Chat & Lab</title>
+  <link rel="icon" href="/media/L_logo.png" type="image/png">
+  <meta name="description" content="Every major AI model, benchmarked daily. Chat with 50+ models. No subscriptions, no API keys, no hidden costs.">
+  <meta property="og:title" content="Klyxe — AI should be free. All of it.">
+  <meta property="og:description" content="Daily AI benchmarks, multi-model chat, and prompt lab. Open source. No paywalls.">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style-spacing.css">
+  <link rel="stylesheet" href="animations.css">
+  <style>
+    .landing-page { min-height: 100vh; display: flex; flex-direction: column; }
+
+    .landing-header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      height: 56px;
+      background: rgba(11,14,20,0.8);
+      border-bottom: 1px solid var(--border-subtle);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .landing-header-logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; color: var(--text-primary);
+      font-size: 17px; font-weight: 700; letter-spacing: -0.02em;
+    }
+    .landing-header-logo img { height: 30px; width: auto; }
+    .landing-header-links { display: flex; align-items: center; gap: 4px; }
+    .landing-header-link {
+      padding: 6px 12px;
+      font-size: 13px; color: var(--text-secondary);
+      text-decoration: none; border-radius: var(--radius-sm);
+      transition: color 0.2s, background 0.2s;
+    }
+    .landing-header-link:hover { color: var(--text-primary); background: var(--glass-bg); }
+    .landing-header-link.cta {
+      background: var(--accent);
+      color: #fff;
+      font-weight: 500;
+      margin-left: 8px;
+    }
+    .landing-header-link.cta:hover { background: #2563eb; }
+
+    .landing-hero {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 64px;
+      position: relative;
+    }
+    .landing-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 30%, rgba(99,102,241,0.1) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .landing-logo {
+      font-size: clamp(72px, 15vw, 128px);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      background: linear-gradient(135deg, var(--text-primary) 0%, #a5b4fc 50%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 20px;
+      line-height: 1;
+    }
+    .landing-tagline {
+      font-size: clamp(18px, 3.5vw, 28px);
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 14px;
+      letter-spacing: -0.02em;
+    }
+    .landing-subtitle {
+      font-size: 15px;
+      color: var(--text-secondary);
+      max-width: 440px;
+      margin-bottom: 36px;
+      line-height: 1.65;
+    }
+
+    .landing-btns {
+      display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;
+      margin-bottom: 56px;
+    }
+    .btn-main {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 11px 24px;
+      background: var(--accent); color: #fff;
+      font-size: 14px; font-weight: 500;
+      text-decoration: none; border-radius: var(--radius-sm);
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+    .btn-main:hover { background: #2563eb; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(59,130,246,0.3); }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 11px 20px;
+      border: 1px solid var(--border-strong); color: var(--text-secondary);
+      font-size: 14px; font-weight: 400;
+      text-decoration: none; border-radius: var(--radius-sm);
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+    }
+    .btn-outline:hover { color: var(--text-primary); border-color: rgba(255,255,255,0.25); background: var(--glass-bg); }
+
+    .landing-cards {
+      display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;
+      margin-bottom: 56px;
+    }
+    .landing-card {
+      display: flex; flex-direction: column; align-items: flex-start;
+      width: 230px; padding: 22px;
+      background: var(--glass-bg); border: 1px solid var(--glass-border);
+      border-radius: var(--radius); text-decoration: none; color: inherit;
+      transition: transform 0.25s cubic-bezier(0.4,0,0.2,1), box-shadow 0.25s, background 0.2s, border-color 0.2s;
+    }
+    .landing-card:hover {
+      transform: translateY(-4px);
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(99,102,241,0.3);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(99,102,241,0.12);
+    }
+    .landing-card-icon {
+      width: 42px; height: 42px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: var(--radius-sm);
+      background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.22);
+      color: #a5b4fc; margin-bottom: 16px;
+    }
+    .landing-card-title { font-size: 17px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; }
+    .landing-card-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.55; }
+
+    .landing-stats {
+      display: flex; gap: 0;
+      margin-bottom: 64px;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius);
+      background: var(--glass-bg);
+      overflow: hidden;
+    }
+    .landing-stat {
+      text-align: center;
+      padding: 24px 36px;
+      flex: 1;
+      border-right: 1px solid var(--border-subtle);
+    }
+    .landing-stat:last-child { border-right: none; }
+    .landing-stat-value {
+      font-family: var(--font-mono);
+      font-size: 26px; font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 5px; line-height: 1.2;
+    }
+    .landing-stat-sub { font-size: 12px; color: var(--text-secondary); margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 120px; margin-left: auto; margin-right: auto; }
+    .landing-stat-label { font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.09em; }
+
+    .landing-why {
+      width: 100%; max-width: 720px;
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 12px; margin-bottom: 64px;
+    }
+    .why-item {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 18px 20px;
+      background: var(--glass-bg); border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+    }
+    .why-icon { color: #a5b4fc; flex-shrink: 0; margin-top: 1px; }
+    .why-title { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
+    .why-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+
+    .landing-footer {
+      width: 100%;
+      padding: 20px 24px;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .landing-footer-left {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 13px; color: var(--text-tertiary);
+    }
+    .landing-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--dot-online);
+      box-shadow: 0 0 8px var(--dot-online);
+      flex-shrink: 0;
+    }
+    .landing-footer-links {
+      display: flex; align-items: center; gap: 20px;
+    }
+    .landing-footer-links a {
+      font-size: 12px; color: var(--text-tertiary);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .landing-footer-links a:hover { color: var(--text-secondary); }
+
+    .landing-theme-toggle {
+      position: fixed; bottom: 24px; right: 24px;
+      width: 42px; height: 42px; border-radius: 50%;
+      background: var(--glass-bg); border: 1px solid var(--glass-border);
+      color: var(--text-secondary); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s; z-index: 100;
+    }
+    .landing-theme-toggle:hover {
+      background: rgba(255,255,255,0.10); border-color: rgba(99,102,241,0.35);
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 768px) {
+      .landing-cards { flex-direction: column; align-items: center; }
+      .landing-card { width: 100%; max-width: 300px; }
+      .landing-stats { flex-direction: column; }
+      .landing-stat { border-right: none; border-bottom: 1px solid var(--border-subtle); }
+      .landing-stat:last-child { border-bottom: none; }
+      .landing-why { grid-template-columns: 1fr; }
+      .landing-footer { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body class="landing-page">
+
+  <header class="landing-header">
+    <a href="/" class="landing-header-logo">
+      <img src="/media/L_logo.png" alt="Klyxe">
+      <span>Klyxe</span>
+    </a>
+    <nav class="landing-header-links">
+      <a href="about.html" class="landing-header-link">About</a>
+      <a href="index.html" class="landing-header-link">Rankings</a>
+      <a href="lab.html" class="landing-header-link">Lab</a>
+      <a href="auth.html" class="landing-header-link cta">Sign in</a>
+    </nav>
+  </header>
+
+  <main class="landing-hero">
+    <h1 class="landing-logo">Klyxe</h1>
+    <p class="landing-tagline">AI should be free. All of it.</p>
+    <p class="landing-subtitle">50+ models, benchmarked every day. Chat, compare, experiment — no account, no API key, no paywall.</p>
+
+    <div class="landing-btns">
+      <a href="index.html" class="btn-main">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="12" width="4" height="9" rx="1"/><rect x="10" y="7" width="4" height="14" rx="1"/><rect x="17" y="3" width="4" height="18" rx="1"/></svg>
+        See today's rankings
+      </a>
+      <a href="chat.html" class="btn-outline">Try the chat →</a>
+    </div>
+
+    <div class="landing-cards">
+      <a href="rankings.html" class="landing-card">
+        <div class="landing-card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="12" width="4" height="9" rx="1"/><rect x="10" y="7" width="4" height="14" rx="1"/><rect x="17" y="3" width="4" height="18" rx="1"/></svg>
+        </div>
+        <div class="landing-card-title">Rankings</div>
+        <div class="landing-card-desc">Daily automated benchmarks across code, reasoning, instruction following, and speed. Real scores, no vendor money.</div>
+      </a>
+
+      <a href="chat.html" class="landing-card">
+        <div class="landing-card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        </div>
+        <div class="landing-card-title">Chat</div>
+        <div class="landing-card-desc">Talk to 50+ models in one window. Compare side by side. Bring your own key or use free providers directly.</div>
+      </a>
+
+      <a href="lab.html" class="landing-card">
+        <div class="landing-card-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M12 3v6M8 15l-4 6h16l-4-6M8 15h8"/></svg>
+        </div>
+        <div class="landing-card-title">Lab</div>
+        <div class="landing-card-desc">Write articles with live AI calls embedded directly in the text. Not a blog. Not a notebook. Something new.</div>
+      </a>
+    </div>
+
+    <div class="landing-stats" id="landing-stats" style="display:none;">
+      <div class="landing-stat">
+        <div class="landing-stat-value" id="stat-top-score">–</div>
+        <div class="landing-stat-sub" id="stat-top-name">–</div>
+        <div class="landing-stat-label">Top Score Today</div>
+      </div>
+      <div class="landing-stat">
+        <div class="landing-stat-value" id="stat-count">–</div>
+        <div class="landing-stat-sub" id="stat-providers">– providers</div>
+        <div class="landing-stat-label">Models Tested</div>
+      </div>
+      <div class="landing-stat">
+        <div class="landing-stat-value" id="stat-speed">–</div>
+        <div class="landing-stat-sub" id="stat-speed-model">fastest model</div>
+        <div class="landing-stat-label">Top Speed</div>
+      </div>
+      <div class="landing-stat">
+        <div class="landing-stat-value" id="stat-date">–</div>
+        <div class="landing-stat-sub">daily update</div>
+        <div class="landing-stat-label">Last Updated</div>
+      </div>
+    </div>
+
+    <div class="landing-why">
+      <div class="why-item">
+        <svg class="why-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <div>
+          <div class="why-title">No sponsored rankings</div>
+          <div class="why-desc">Zero vendor money. If a model ranks #1 it's because it scored #1.</div>
+        </div>
+      </div>
+      <div class="why-item">
+        <svg class="why-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        <div>
+          <div class="why-title">Fully open source</div>
+          <div class="why-desc">Fork it, verify the benchmarks yourself. Every score comes from code that runs.</div>
+        </div>
+      </div>
+      <div class="why-item">
+        <svg class="why-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <div>
+          <div class="why-title">Updated every 24h</div>
+          <div class="why-desc">Automated daily runs. Models that drop in quality get caught immediately.</div>
+        </div>
+      </div>
+      <div class="why-item">
+        <svg class="why-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        <div>
+          <div class="why-title">No account needed</div>
+          <div class="why-desc">Open the site, start using it. Nothing to install, no signup wall.</div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="landing-footer">
+    <div class="landing-footer-left">
+      <span class="landing-dot"></span>
+      <span>No ads · No paywalls · Open source</span>
+    </div>
+    <nav class="landing-footer-links">
+      <a href="https://github.com/SkillichSE/Klyxe.ai" target="_blank" rel="noopener">GitHub</a>
+      <a href="about.html">About</a>
+      <a href="index.html">Rankings</a>
+      <a href="chat.html">Chat</a>
+      <a href="lab.html">Lab</a>
+    </nav>
+  </footer>
+
+  <button class="landing-theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+  </button>
+
+  <script>
+    (function() {
+      const toggle = document.getElementById('theme-toggle');
+      const root = document.documentElement;
+      function updateIcon() {
+        const isDark = root.getAttribute('data-theme') === 'dark';
+        toggle.innerHTML = isDark
+          ? '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
+          : '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+      }
+      toggle.addEventListener('click', function() {
+        const next = (root.getAttribute('data-theme') || 'dark') === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+        updateIcon();
+      });
+      updateIcon();
+    })();
+
+    (function() {
+      fetch('data/results/summary.json')
+        .then(r => r.json())
+        .then(data => {
+          if (!data.models || !data.models.length) return;
+          const models = data.models;
+          const top = models[0];
+          const fastest = models.reduce((a, b) => (a.speed || 0) > (b.speed || 0) ? a : b);
+          const providers = [...new Set(models.map(m => m.provider).filter(Boolean))];
+          document.getElementById('stat-top-score').textContent = top.quality ? top.quality.toFixed(1) : '–';
+          document.getElementById('stat-top-name').textContent = top.name || '–';
+          document.getElementById('stat-count').textContent = data.count || models.length;
+          document.getElementById('stat-providers').textContent = providers.length + ' providers';
+          document.getElementById('stat-speed').textContent = fastest.speed ? Math.round(fastest.speed) + ' t/s' : '–';
+          document.getElementById('stat-speed-model').textContent = fastest.name || '–';
+          if (data.date) {
+            const d = new Date(data.date);
+            document.getElementById('stat-date').textContent = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+          }
+          document.getElementById('landing-stats').style.display = 'flex';
+        })
+        .catch(() => {});
+    })();
+  </script>
+
+</body>
+</html>

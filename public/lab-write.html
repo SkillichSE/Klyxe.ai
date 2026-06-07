@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script>(function(){var t=localStorage.getItem('theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Write Article — Klyxe Lab</title>
+  <link rel="icon" href="/media/L_logo.png" type="image/png">
+  <meta name="description" content="Write and preview articles in markdown.">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/style-spacing.css">
+  <link rel="stylesheet" href="/lab.css">
+  <script src="/app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>window._supabaseLib = supabase;</script>
+  <script src="/config.js"></script>
+  <script src="/auth.js"></script>
+  <script src="/article-store.js"></script>
+  <style>
+    
+    .lw-root {
+      display: flex;
+      flex-direction: column;
+      height: calc(100vh - 0px);
+      background: var(--bg);
+      overflow: hidden;
+    }
+
+    
+    .lw-topbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      height: 52px;
+      padding: 0 20px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(11,14,20,0.95);
+      backdrop-filter: blur(12px);
+      flex-shrink: 0;
+      position: relative;
+      z-index: 10;
+    }
+
+    .lw-topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+    }
+
+    .lw-back-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .lw-back-btn:hover { border-color: var(--border-strong); color: var(--text-primary); }
+
+    .lw-title-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      font-family: var(--font-sans);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      min-width: 0;
+    }
+    .lw-title-input::placeholder { color: var(--text-tertiary); font-weight: 400; }
+
+    .lw-topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .lw-autosave {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-tertiary);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .lw-autosave.visible { opacity: 1; }
+    .lw-autosave-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: #22c55e;
+      animation: savedPulse 2s ease-in-out 1;
+    }
+    @keyframes savedPulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    .lw-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+      border: 1px solid;
+    }
+    .lw-btn-ghost {
+      background: transparent;
+      border-color: var(--border);
+      color: var(--text-secondary);
+    }
+    .lw-btn-ghost:hover { border-color: var(--border-strong); color: var(--text-primary); }
+    .lw-btn-primary {
+      background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(99,102,241,0.15));
+      border-color: rgba(59,130,246,0.4);
+      color: #3b82f6;
+    }
+    .lw-btn-primary:hover {
+      background: linear-gradient(135deg, rgba(59,130,246,0.3), rgba(99,102,241,0.2));
+      border-color: rgba(59,130,246,0.65);
+    }
+    .lw-btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    
+    .lw-tabs {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      padding: 0 20px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.015);
+      flex-shrink: 0;
+    }
+
+    .lw-tab {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--text-tertiary);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: -1px;
+    }
+    .lw-tab:hover { color: var(--text-secondary); }
+    .lw-tab.active { color: #3b82f6; border-bottom-color: #3b82f6; }
+
+    
+    .lw-main {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    @media (max-width: 900px) {
+      .lw-main { grid-template-columns: 1fr; }
+      .lw-preview-panel { display: none; }
+      .lw-main.preview-mode .lw-editor-panel { display: none; }
+      .lw-main.preview-mode .lw-preview-panel { display: flex; }
+    }
+
+    
+    .lw-editor-panel {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-right: 1px solid var(--border);
+    }
+
+    .lw-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      padding: 6px 12px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(0,0,0,0.2);
+      flex-wrap: wrap;
+    }
+
+    .lw-toolbar-sep {
+      width: 1px;
+      height: 18px;
+      background: var(--border);
+      margin: 0 4px;
+    }
+
+    .lw-tbtn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 30px;
+      height: 26px;
+      padding: 0 6px;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 5px;
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .lw-tbtn:hover { background: rgba(255,255,255,0.06); border-color: var(--border); color: var(--text-primary); }
+    .lw-tbtn:active { background: rgba(59,130,246,0.1); border-color: rgba(59,130,246,0.3); color: #3b82f6; }
+    .lw-tbtn svg { pointer-events: none; }
+
+    .lw-textarea {
+      flex: 1;
+      width: 100%;
+      padding: 20px 24px;
+      background: transparent;
+      border: none;
+      resize: none;
+      font-family: var(--font-mono);
+      font-size: 13.5px;
+      line-height: 1.75;
+      color: var(--text-primary);
+      outline: none;
+      tab-size: 2;
+    }
+    .lw-textarea::placeholder { color: var(--text-tertiary); }
+
+    .lw-editor-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 16px;
+      border-top: 1px solid var(--border);
+      background: rgba(0,0,0,0.15);
+    }
+
+    .lw-stats {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .lw-stat {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-tertiary);
+    }
+
+    .lw-stat span { color: var(--text-secondary); }
+
+    
+    .lw-preview-panel {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: rgba(255,255,255,0.01);
+    }
+
+    .lw-preview-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 16px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(0,0,0,0.2);
+    }
+
+    .lw-preview-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-tertiary);
+    }
+
+    .lw-preview-mode-btns {
+      display: flex;
+      gap: 4px;
+    }
+
+    .lw-mode-btn {
+      padding: 3px 8px;
+      border-radius: 4px;
+      border: 1px solid transparent;
+      background: transparent;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-tertiary);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .lw-mode-btn.active { background: rgba(59,130,246,0.1); border-color: rgba(59,130,246,0.25); color: #3b82f6; }
+    .lw-mode-btn:not(.active):hover { color: var(--text-secondary); }
+
+    .lw-preview-content {
+      flex: 1;
+      padding: 24px 32px;
+      overflow-y: auto;
+      font-family: var(--font-sans);
+      font-size: 14.5px;
+      line-height: 1.85;
+      color: var(--text-secondary);
+    }
+
+    
+    .lw-preview-content h1 { font-size: 24px; font-weight: 700; color: var(--text-primary); margin: 28px 0 14px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+    .lw-preview-content h2 { font-size: 19px; font-weight: 600; color: var(--text-primary); margin: 24px 0 10px; }
+    .lw-preview-content h3 { font-size: 16px; font-weight: 600; color: var(--text-primary); margin: 18px 0 8px; }
+    .lw-preview-content p { margin: 0 0 14px; }
+    .lw-preview-content strong { color: var(--text-primary); font-weight: 600; }
+    .lw-preview-content em { font-style: italic; }
+    .lw-preview-content a { color: #3b82f6; text-decoration: none; border-bottom: 1px solid rgba(59,130,246,0.3); transition: border-color 0.2s; }
+    .lw-preview-content a:hover { border-color: #3b82f6; }
+    .lw-preview-content ul, .lw-preview-content ol { margin: 12px 0; padding-left: 24px; }
+    .lw-preview-content li { margin: 5px 0; }
+    .lw-preview-content blockquote { margin: 16px 0; padding: 12px 18px; border-left: 3px solid rgba(59,130,246,0.5); background: rgba(59,130,246,0.05); border-radius: 0 8px 8px 0; font-style: italic; color: var(--text-secondary); }
+    .lw-preview-content code { font-family: var(--font-mono); font-size: 12px; padding: 2px 6px; background: rgba(0,0,0,0.35); border-radius: 4px; color: #00d4ff; }
+    .lw-preview-content pre { margin: 16px 0; padding: 16px; background: rgba(0,0,0,0.35); border-radius: 10px; border: 1px solid var(--border); overflow-x: auto; }
+    .lw-preview-content pre code { background: transparent; padding: 0; color: var(--text-secondary); font-size: 13px; }
+    .lw-preview-content img { max-width: 100%; border-radius: 10px; margin: 16px 0; border: 1px solid var(--border); }
+    .lw-preview-content hr { margin: 28px 0; border: none; height: 1px; background: var(--border); }
+    .lw-preview-content del { opacity: 0.5; text-decoration: line-through; }
+    .lw-preview-content table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; }
+    .lw-preview-content th { padding: 8px 12px; border-bottom: 2px solid var(--border); color: var(--text-primary); font-weight: 600; text-align: left; }
+    .lw-preview-content td { padding: 7px 12px; border-bottom: 1px solid var(--border-subtle); }
+    .lw-preview-content tr:last-child td { border-bottom: none; }
+
+    
+    .lw-meta-panel {
+      display: none;
+      padding: 24px;
+      overflow-y: auto;
+      flex: 1;
+      gap: 20px;
+      flex-direction: column;
+    }
+    .lw-meta-panel.active { display: flex; }
+
+    .lw-meta-row {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .lw-meta-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-tertiary);
+    }
+
+    .lw-meta-input {
+      padding: 9px 12px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+    .lw-meta-input:focus { border-color: rgba(59,130,246,0.5); background: rgba(59,130,246,0.03); }
+    .lw-meta-input::placeholder { color: var(--text-tertiary); }
+
+    .lw-meta-select {
+      padding: 9px 12px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      outline: none;
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%236B7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 28px;
+      width: 100%;
+    }
+    .lw-meta-select:focus { border-color: rgba(59,130,246,0.5); }
+
+    .lw-diff-btns {
+      display: flex;
+      gap: 8px;
+    }
+
+    .lw-diff-btn {
+      flex: 1;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: transparent;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: var(--text-tertiary);
+    }
+    .lw-diff-btn[data-level="junior"].active { background: rgba(34,197,94,0.1); border-color: rgba(34,197,94,0.3); color: #22c55e; }
+    .lw-diff-btn[data-level="middle"].active { background: rgba(59,130,246,0.1); border-color: rgba(59,130,246,0.3); color: #3b82f6; }
+    .lw-diff-btn[data-level="senior"].active { background: rgba(249,115,22,0.1); border-color: rgba(249,115,22,0.3); color: #f97316; }
+    .lw-diff-btn:not(.active):hover { border-color: var(--border-strong); color: var(--text-secondary); }
+
+    .lw-tags-input-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 8px 10px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      min-height: 40px;
+      align-items: center;
+      cursor: text;
+      transition: border-color 0.2s;
+    }
+    .lw-tags-input-wrap:focus-within { border-color: rgba(59,130,246,0.5); }
+
+    .lw-tag-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      background: rgba(59,130,246,0.1);
+      border: 1px solid rgba(59,130,246,0.25);
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: #3b82f6;
+    }
+    .lw-tag-remove {
+      background: none; border: none; cursor: pointer;
+      color: rgba(59,130,246,0.6); font-size: 13px; line-height: 1;
+      padding: 0 1px; transition: color 0.15s;
+    }
+    .lw-tag-remove:hover { color: #3b82f6; }
+
+    .lw-tags-real-input {
+      background: transparent; border: none; outline: none;
+      font-family: var(--font-mono); font-size: 12px;
+      color: var(--text-primary); min-width: 80px; flex: 1;
+    }
+    .lw-tags-real-input::placeholder { color: var(--text-tertiary); }
+
+    
+    .lw-drafts-panel {
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .lw-drafts-panel.active { display: flex; }
+
+    .lw-drafts-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .lw-draft-item {
+      padding: 12px 14px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .lw-draft-item:hover { border-color: rgba(59,130,246,0.3); background: rgba(59,130,246,0.04); }
+
+    .lw-draft-title { font-size: 13px; font-weight: 500; color: var(--text-primary); margin-bottom: 4px; }
+    .lw-draft-meta { font-family: var(--font-mono); font-size: 10px; color: var(--text-tertiary); }
+
+    .lw-empty-drafts {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 8px; color: var(--text-tertiary);
+      font-family: var(--font-mono); font-size: 11px; text-align: center;
+      padding: 40px;
+    }
+
+    
+    .lw-split-handle {
+      width: 4px;
+      background: transparent;
+      cursor: col-resize;
+      transition: background 0.2s;
+      position: relative;
+    }
+    .lw-split-handle:hover { background: rgba(59,130,246,0.2); }
+
+    
+    .lw-bottom-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      height: 38px;
+      border-top: 1px solid var(--border);
+      background: rgba(11,14,20,0.9);
+      flex-shrink: 0;
+    }
+
+    .lw-bottom-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .lw-bottom-stat {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-tertiary);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .lw-bottom-stat span { color: var(--text-secondary); }
+
+    .lw-cursor-pos { font-family: var(--font-mono); font-size: 10px; color: var(--text-tertiary); }
+
+    
+    .lw-toast-wrap {
+      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+      z-index: 200; display: flex; flex-direction: column; gap: 8px;
+      pointer-events: none; align-items: center;
+    }
+    .lw-toast {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 16px; border-radius: 10px;
+      background: rgba(11,14,20,0.97); border: 1px solid var(--border);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+      font-size: 12.5px; color: var(--text-primary);
+      pointer-events: auto; opacity: 0; transform: translateY(12px);
+      transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+      max-width: 360px; white-space: nowrap;
+    }
+    .lw-toast.show { opacity: 1; transform: translateY(0); }
+    .lw-toast-success { border-color: rgba(34,197,94,0.3); }
+    .lw-toast-warning { border-color: rgba(245,158,11,0.3); }
+    .lw-toast-error   { border-color: rgba(239,68,68,0.3); }
+  </style>
+</head>
+<body>
+
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+<div class="app-layout">
+  <lex-sidebar></lex-sidebar>
+  <div class="sidebar-main" style="overflow:hidden;display:flex;flex-direction:column;">
+
+    <div class="lw-root">
+
+      
+      <div class="lw-topbar">
+        <div class="lw-topbar-left">
+          <a href="/lab.html" class="lw-back-btn">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+              <path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Lab
+          </a>
+          <input type="text" class="lw-title-input" id="lw-title" placeholder="Article title..." maxlength="120" autocomplete="off">
+        </div>
+        <div class="lw-topbar-right">
+          <div class="lw-autosave" id="lw-autosave">
+            <div class="lw-autosave-dot"></div>
+            saved
+          </div>
+          <button class="lw-btn lw-btn-ghost" id="lw-draft-btn">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+              <path d="M2 4h12M2 8h8M2 12h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            Drafts
+          </button>
+          <button class="lw-btn lw-btn-primary" id="lw-publish-btn">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+              <path d="M8 2v9M4 7l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Publish
+          </button>
+        </div>
+      </div>
+
+      
+      <div class="lw-tabs">
+        <button class="lw-tab active" data-tab="write">
+          <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
+            <path d="m12.2 2.5 1.3 1.3m-9.5 9.5-2 2 2.8-.7 8.5-8.5-2.8-2.8-8.5 8.5-.7 2.8z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Write
+        </button>
+        <button class="lw-tab" data-tab="meta">
+          <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
+            <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M8 7v5M8 5v.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          Metadata
+        </button>
+        <button class="lw-tab" data-tab="drafts" id="lw-drafts-tab">
+          <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
+            <path d="M3 2h10a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M5 6h6M5 9h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          Drafts
+          <span id="lw-drafts-count" style="display:none;background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.25);border-radius:999px;padding:0 5px;font-size:9px;color:#3b82f6;"></span>
+        </button>
+      </div>
+
+      
+      <div class="lw-main" id="lw-write-panel">
+        
+        <div class="lw-editor-panel">
+          
+          <div class="lw-toolbar" id="lw-toolbar">
+            <button class="lw-tbtn" data-action="bold" title="Bold (Ctrl+B)"><b>B</b></button>
+            <button class="lw-tbtn" data-action="italic" title="Italic (Ctrl+I)"><i>I</i></button>
+            <button class="lw-tbtn" data-action="strikethrough" title="Strikethrough">
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M4 8h8M6 5c0-1.1.9-2 2-2s2 .9 2 2M6 11c0 1.1.9 2 2 2s2-.9 2-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </button>
+            <div class="lw-toolbar-sep"></div>
+            <button class="lw-tbtn" data-action="h1" title="Heading 1">H1</button>
+            <button class="lw-tbtn" data-action="h2" title="Heading 2">H2</button>
+            <button class="lw-tbtn" data-action="h3" title="Heading 3">H3</button>
+            <div class="lw-toolbar-sep"></div>
+            <button class="lw-tbtn" data-action="quote" title="Blockquote">
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 5h4v4H3l2 4M9 5h4v4H9l2 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="lw-tbtn" data-action="list" title="Unordered list">
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="3" cy="5" r="1" fill="currentColor"/><circle cx="3" cy="9" r="1" fill="currentColor"/><circle cx="3" cy="13" r="1" fill="currentColor"/><path d="M6 5h7M6 9h7M6 13h7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </button>
+            <button class="lw-tbtn" data-action="orderedlist" title="Ordered list">
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M2 4h1v4M2 8h2M2 12h2M2 14h2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M6 5h7M6 9h7M6 13h7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </button>
+            <button class="lw-tbtn" data-action="hr" title="Horizontal rule">—</button>
+            <div class="lw-toolbar-sep"></div>
+            <button class="lw-tbtn" data-action="code" title="Inline/block code">
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M5 4L1 8l4 4M11 4l4 4-4 4M9 3l-2 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="lw-tbtn" data-action="codeblock" title="Code block">```</button>
+            <div class="lw-toolbar-sep"></div>
+            <button class="lw-tbtn" data-action="link" title="Insert link (Ctrl+K)">
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M6 9a3 3 0 004.5.5l2-2A3 3 0 108.5 3.5l-1 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M10 7a3 3 0 00-4.5-.5l-2 2A3 3 0 007.5 12.5l1-1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </button>
+            <button class="lw-tbtn" data-action="image" title="Insert image">
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><rect x="1" y="3" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="5.5" cy="6.5" r="1" fill="currentColor"/><path d="M1 11l3.5-3 3 3 2.5-2.5 4 5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="lw-tbtn" data-action="table" title="Insert table">
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><rect x="1" y="2" width="14" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M1 6h14M1 10h14M8 2v12" stroke="currentColor" stroke-width="1.2"/></svg>
+            </button>
+          </div>
+
+          
+          <textarea class="lw-textarea" id="lw-textarea" placeholder="# Your article title&#10;&#10;Start writing in markdown...&#10;&#10;## Introduction&#10;&#10;Write something interesting here.&#10;&#10;## Code example&#10;&#10;```python&#10;print('Hello, Klyxe Lab!')&#10;```" spellcheck="true"></textarea>
+
+          
+          <div class="lw-editor-footer">
+            <div class="lw-stats">
+              <span class="lw-stat"><span id="lw-words">0</span> words</span>
+              <span class="lw-stat"><span id="lw-chars">0</span> chars</span>
+              <span class="lw-stat"><span id="lw-readtime">0</span> min read</span>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <span class="lw-stat" id="lw-cursor-stat">Ln 1, Col 1</span>
+            </div>
+          </div>
+        </div>
+
+        
+        <div class="lw-preview-panel" id="lw-preview-panel">
+          <div class="lw-preview-header">
+            <span class="lw-preview-label">Preview</span>
+            <div class="lw-preview-mode-btns">
+              <button class="lw-mode-btn active" data-mode="rendered">Rendered</button>
+              <button class="lw-mode-btn" data-mode="raw">Raw HTML</button>
+            </div>
+          </div>
+          <div class="lw-preview-content" id="lw-preview"></div>
+        </div>
+      </div>
+
+      
+      <div class="lw-meta-panel" id="lw-meta-panel">
+        <div class="lw-meta-row">
+          <div class="lw-meta-label">Article description / excerpt</div>
+          <textarea class="lw-meta-input" id="lw-desc" rows="3" placeholder="A short description shown on the lab card..." style="resize:vertical;line-height:1.6;"></textarea>
+        </div>
+        <div class="lw-meta-row">
+          <div class="lw-meta-label">Difficulty level</div>
+          <div class="lw-diff-btns">
+            <button class="lw-diff-btn" data-level="junior">🟢 Junior</button>
+            <button class="lw-diff-btn active" data-level="middle">🔵 Middle</button>
+            <button class="lw-diff-btn" data-level="senior">🟠 Senior</button>
+          </div>
+        </div>
+        <div class="lw-meta-row">
+          <div class="lw-meta-label">Tags (press Enter or comma to add)</div>
+          <div class="lw-tags-input-wrap" id="lw-tags-wrap">
+            <input type="text" class="lw-tags-real-input" id="lw-tags-input" placeholder="API, On-device, Three.js...">
+          </div>
+        </div>
+        <div class="lw-meta-row">
+          <div class="lw-meta-label">Cover image URL (optional)</div>
+          <input type="text" class="lw-meta-input" id="lw-cover" placeholder="https://...">
+        </div>
+        <div class="lw-meta-row">
+          <div class="lw-meta-label">Interactive demo?</div>
+          <div style="display:flex;gap:8px;">
+            <button class="lw-diff-btn active" data-interactive="true" id="lw-interactive-yes" style="flex:none;padding:8px 18px;">✓ Yes, has interactive elements</button>
+            <button class="lw-diff-btn" data-interactive="false" id="lw-interactive-no" style="flex:none;padding:8px 18px;">✕ Read-only</button>
+          </div>
+        </div>
+        <div class="lw-meta-row">
+          <div class="lw-meta-label">Override read time (minutes, auto-calculated if empty)</div>
+          <input type="number" class="lw-meta-input" id="lw-readtime-override" placeholder="Auto" min="1" max="99" style="max-width:120px;">
+        </div>
+      </div>
+
+      
+      <div class="lw-drafts-panel" id="lw-drafts-panel">
+        <div class="lw-drafts-list" id="lw-drafts-list">
+          <div class="lw-empty-drafts" id="lw-empty-drafts">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" style="opacity:0.3;">
+              <path d="M9 12h6M9 16h4M7 3H4a1 1 0 00-1 1v16a1 1 0 001 1h16a1 1 0 001-1V8l-5-5z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            No saved drafts yet.<br>Your work autosaves as you type.
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="lw-bottom-bar">
+        <div class="lw-bottom-left">
+          <span class="lw-bottom-stat">
+            <svg width="10" height="10" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h8M2 12h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            Markdown
+          </span>
+          <span class="lw-bottom-stat" id="lw-bottom-words"><span id="lw-total-words">0</span> words</span>
+          <span class="lw-bottom-stat" id="lw-bottom-time">~<span id="lw-total-time">0</span> min read</span>
+        </div>
+        <span class="lw-bottom-stat" id="lw-line-col">Ln 1, Col 1</span>
+      </div>
+
+    </div>
+
+    
+    <div class="lw-toast-wrap" id="lw-toasts"></div>
+
+  </div>
+</div>
+
+<script src="/lab-auth.js"></script>
+<script src="/sidebar.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  
+  const state = {
+    currentTab: 'write',
+    previewMode: 'rendered',
+    difficulty: 'middle',
+    interactive: true,
+    tags: [],
+    autosaveTimer: null,
+    draftKey: window.KlyxeArticleStore?.DRAFT_KEY || 'lw_drafts',
+  };
+
+  
+  const $ = id => document.getElementById(id);
+  const textarea = $('lw-textarea');
+  const titleInput = $('lw-title');
+  const preview = $('lw-preview');
+
+  
+  function toast(msg, type = 'success', duration = 3000) {
+    const wrap = $('lw-toasts');
+    const el = document.createElement('div');
+    el.className = `lw-toast lw-toast-${type}`;
+    el.textContent = msg;
+    wrap.appendChild(el);
+    requestAnimationFrame(() => el.classList.add('show'));
+    setTimeout(() => {
+      el.classList.remove('show');
+      setTimeout(() => el.remove(), 300);
+    }, duration);
+  }
+
+  
+  function parseMarkdown(text) {
+    if (!text) return '<p style="color:var(--text-tertiary);font-family:var(--font-mono);font-size:12px;">Nothing to preview yet...</p>';
+
+    let h = text
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+    
+    h = h.replace(/```(\w*)\n?([\s\S]*?)```/g, (_, lang, code) =>
+      `<pre><code class="lang-${lang}">${code.trim()}</code></pre>`);
+
+    
+    h = h.replace(/`([^`\n]+)`/g, '<code>$1</code>');
+
+    // headings
+    h = h.replace(/^#{6} (.+)$/gm, '<h6>$1</h6>');
+    h = h.replace(/^#{5} (.+)$/gm, '<h5>$1</h5>');
+    h = h.replace(/^#{4} (.+)$/gm, '<h4>$1</h4>');
+    h = h.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+    h = h.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+    h = h.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+
+    // bold, italic, strikethrough
+    h = h.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
+    h = h.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    h = h.replace(/\*(.+?)\*/g, '<em>$1</em>');
+    h = h.replace(/~~(.+?)~~/g, '<del>$1</del>');
+
+    // blockquotes
+    h = h.replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>');
+
+    // hr
+    h = h.replace(/^---+$/gm, '<hr>');
+
+    // tables
+    h = h.replace(/^\|(.+)\|\n\|[-| :]+\|\n((?:\|.+\|\n?)+)/gm, (_, header, rows) => {
+      const ths = header.split('|').filter(Boolean).map(c => `<th>${c.trim()}</th>`).join('');
+      const trs = rows.trim().split('\n').map(row => {
+        const tds = row.split('|').filter(Boolean).map(c => `<td>${c.trim()}</td>`).join('');
+        return `<tr>${tds}</tr>`;
+      }).join('');
+      return `<table><thead><tr>${ths}</tr></thead><tbody>${trs}</tbody></table>`;
+    });
+
+    // lists
+    h = h.replace(/^(\s*)-\s+(.+)$/gm, (_, sp, item) => `<li data-indent="${sp.length}">${item}</li>`);
+    h = h.replace(/(<li[^>]*>.*<\/li>\n?)+/g, m => `<ul>${m}</ul>`);
+    h = h.replace(/^(\s*)\d+\.\s+(.+)$/gm, '<li>$2</li>');
+
+    // images before links
+    h = h.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1">');
+
+    // links
+    h = h.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+
+    // paragraphs
+    h = h.replace(/\n{2,}/g, '</p><p>');
+    h = h.replace(/\n/g, '<br>');
+    if (!h.startsWith('<')) h = `<p>${h}</p>`;
+
+    return h;
+  }
+
+  // ── Update preview ───────────────────────────────────────────────────────
+  function updatePreview() {
+    const md = textarea.value;
+    if (state.previewMode === 'rendered') {
+      preview.innerHTML = parseMarkdown(md);
+    } else {
+      preview.innerHTML = `<pre style="font-family:var(--font-mono);font-size:11px;line-height:1.6;color:var(--text-secondary);white-space:pre-wrap;word-break:break-all;">${parseMarkdown(md).replace(/</g,'&lt;')}</pre>`;
+    }
+  }
+
+  // ── Update stats ─────────────────────────────────────────────────────────
+  function updateStats() {
+    const text = textarea.value;
+    const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+    const chars = text.length;
+    const readMin = Math.max(1, Math.round(words / 200));
+
+    $('lw-words').textContent = words;
+    $('lw-chars').textContent = chars;
+    $('lw-readtime').textContent = readMin;
+    $('lw-total-words').textContent = words;
+    $('lw-total-time').textContent = readMin;
+  }
+
+  // ── Cursor position ───────────────────────────────────────────────────────
+  function updateCursor() {
+    const pos = textarea.selectionStart;
+    const lines = textarea.value.substring(0, pos).split('\n');
+    const ln = lines.length;
+    const col = lines[lines.length - 1].length + 1;
+    const stat = `Ln ${ln}, Col ${col}`;
+    $('lw-cursor-stat').textContent = stat;
+    $('lw-line-col').textContent = stat;
+  }
+
+  function getAuthorMeta() {
+    const user = window.labauth?.getUser?.();
+    const rawName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'You';
+    const name = String(rawName).trim() || 'You';
+    return {
+      name,
+      avatar: String(name)
+        .split(/\s+/)
+        .filter(Boolean)
+        .map((part) => part[0].toUpperCase())
+        .slice(0, 2)
+        .join('') || 'Y',
+    };
+  }
+
+  // ── Format actions ────────────────────────────────────────────────────────
+  function applyFormat(action) {
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const val = textarea.value;
+    const sel = val.substring(start, end);
+    let replacement = '';
+    let newCursorOffset = 0;
+
+    switch (action) {
+      case 'bold':
+        if (sel.startsWith('**') && sel.endsWith('**')) {
+          replacement = sel.slice(2,-2); newCursorOffset = -2;
+        } else {
+          replacement = `**${sel || 'bold text'}**`; newCursorOffset = 2;
+        }
+        break;
+      case 'italic':
+        if (sel.startsWith('*') && sel.endsWith('*') && !sel.startsWith('**')) {
+          replacement = sel.slice(1,-1); newCursorOffset = -1;
+        } else {
+          replacement = `*${sel || 'italic text'}*`; newCursorOffset = 1;
+        }
+        break;
+      case 'strikethrough':
+        replacement = `~~${sel || 'text'}~~`; newCursorOffset = 2; break;
+      case 'h1':
+        replacement = `# ${sel || 'Heading 1'}`; newCursorOffset = 2; break;
+      case 'h2':
+        replacement = `## ${sel || 'Heading 2'}`; newCursorOffset = 3; break;
+      case 'h3':
+        replacement = `### ${sel || 'Heading 3'}`; newCursorOffset = 4; break;
+      case 'quote':
+        replacement = sel.includes('\n')
+          ? sel.split('\n').map(l => `> ${l}`).join('\n')
+          : `> ${sel || 'Blockquote'}`; newCursorOffset = 2; break;
+      case 'list':
+        replacement = sel.includes('\n')
+          ? sel.split('\n').map(l => `- ${l}`).join('\n')
+          : `- ${sel || 'List item'}`; newCursorOffset = 2; break;
+      case 'orderedlist':
+        replacement = sel.includes('\n')
+          ? sel.split('\n').map((l,i) => `${i+1}. ${l}`).join('\n')
+          : `1. ${sel || 'List item'}`; newCursorOffset = 3; break;
+      case 'hr':
+        replacement = '\n---\n'; newCursorOffset = 5; break;
+      case 'code':
+        replacement = '`' + (sel || 'code') + '`'; newCursorOffset = 1; break;
+      case 'codeblock':
+        replacement = '```\n' + (sel || 'code here') + '\n```'; newCursorOffset = 4; break;
+      case 'link':
+        replacement = `[${sel || 'link text'}](url)`; newCursorOffset = 1; break;
+      case 'image':
+        replacement = `![${sel || 'alt text'}](image-url)`; newCursorOffset = 2; break;
+      case 'table':
+        replacement = `| Column 1 | Column 2 | Column 3 |\n|----------|----------|----------|\n| Cell     | Cell     | Cell     |\n| Cell     | Cell     | Cell     |`;
+        newCursorOffset = 0; break;
+      default: return;
+    }
+
+    textarea.value = val.substring(0, start) + replacement + val.substring(end);
+    const cur = sel ? start + replacement.length : start + newCursorOffset;
+    textarea.setSelectionRange(cur, cur);
+    textarea.focus();
+    updatePreview();
+    updateStats();
+    scheduleAutosave();
+  }
+
+  // ── Autosave / drafts ─────────────────────────────────────────────────────
+  function scheduleAutosave() {
+    clearTimeout(state.autosaveTimer);
+    state.autosaveTimer = setTimeout(saveDraft, 1500);
+  }
+
+  function saveDraft() {
+    const title = titleInput.value.trim();
+    const content = textarea.value;
+    if (!title && !content) return;
+
+    const readMinOverride = Number($('lw-readtime-override')?.value);
+    const draft = {
+      id: state.draftId || Date.now(),
+      title: title || 'Untitled draft',
+      content,
+      desc: $('lw-desc')?.value.trim() || '',
+      cover: $('lw-cover')?.value.trim() || '',
+      difficulty: state.difficulty,
+      tags: state.tags,
+      interactive: state.interactive,
+      readMin: readMinOverride > 0 ? readMinOverride : undefined,
+      updatedAt: new Date().toISOString(),
+    };
+
+    state.draftId = draft.id;
+
+    try {
+      if (window.KlyxeArticleStore?.saveDraft) {
+        window.KlyxeArticleStore.saveDraft(draft);
+      } else {
+        const drafts = getDrafts();
+        const existing = drafts.findIndex(d => d.id === state.draftId);
+        if (existing >= 0) {
+          drafts[existing] = draft;
+        } else {
+          drafts.unshift(draft);
+          if (drafts.length > 20) drafts.pop();
+        }
+        localStorage.setItem(state.draftKey, JSON.stringify(drafts));
+      }
+      showAutosaveIndicator();
+      renderDraftsList();
+    } catch(e) {
+      console.warn('autosave failed:', e);
+    }
+  }
+
+  function getDrafts() {
+    if (window.KlyxeArticleStore?.getDrafts) {
+      return window.KlyxeArticleStore.getDrafts();
+    }
+    try { return JSON.parse(localStorage.getItem(state.draftKey) || '[]'); } catch { return []; }
+  }
+
+  function showAutosaveIndicator() {
+    const el = $('lw-autosave');
+    el.classList.add('visible');
+    clearTimeout(state.autosaveHideTimer);
+    state.autosaveHideTimer = setTimeout(() => el.classList.remove('visible'), 3000);
+  }
+
+  function renderDraftsList() {
+    const drafts = getDrafts();
+    const list = $('lw-drafts-list');
+    const empty = $('lw-empty-drafts');
+    const count = $('lw-drafts-count');
+
+    if (drafts.length === 0) {
+      empty.style.display = '';
+      count.style.display = 'none';
+    } else {
+      empty.style.display = 'none';
+      count.style.display = '';
+      count.textContent = drafts.length;
+    }
+
+    // remove existing draft items
+    list.querySelectorAll('.lw-draft-item').forEach(el => el.remove());
+
+    drafts.forEach(d => {
+      const item = document.createElement('div');
+      item.className = 'lw-draft-item';
+      const date = new Date(d.updatedAt);
+      const dateStr = date.toLocaleDateString('en', {month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+      item.innerHTML = `
+        <div class="lw-draft-title">${d.title}</div>
+        <div class="lw-draft-meta">${dateStr} · ${d.content.split(/\s+/).filter(Boolean).length} words</div>
+      `;
+      item.addEventListener('click', () => loadDraft(d));
+      list.appendChild(item);
+    });
+  }
+
+  function loadDraft(draft) {
+    titleInput.value = draft.title;
+    textarea.value = draft.content;
+    $('lw-desc').value = draft.desc || '';
+    $('lw-cover').value = draft.cover || '';
+    $('lw-readtime-override').value = draft.readMin || '';
+    state.draftId = draft.id;
+    state.difficulty = draft.difficulty || 'middle';
+    state.tags = draft.tags || [];
+    state.interactive = draft.interactive !== false;
+
+    // update difficulty buttons
+    document.querySelectorAll('.lw-diff-btn[data-level]').forEach(b => {
+      b.classList.toggle('active', b.dataset.level === state.difficulty);
+    });
+
+    // update interactive buttons
+    $('lw-interactive-yes').classList.toggle('active', state.interactive);
+    $('lw-interactive-no').classList.toggle('active', !state.interactive);
+
+    renderTags();
+    updatePreview();
+    updateStats();
+    switchTab('write');
+    toast('Draft loaded', 'success');
+  }
+
+  // ── Tags ─────────────────────────────────────────────────────────────────
+  function renderTags() {
+    const wrap = $('lw-tags-wrap');
+    wrap.querySelectorAll('.lw-tag-pill').forEach(el => el.remove());
+    const input = $('lw-tags-input');
+
+    state.tags.forEach(tag => {
+      const pill = document.createElement('span');
+      pill.className = 'lw-tag-pill';
+      pill.innerHTML = `${tag}<button class="lw-tag-remove" data-tag="${tag}">×</button>`;
+      pill.querySelector('.lw-tag-remove').addEventListener('click', () => {
+        state.tags = state.tags.filter(t => t !== tag);
+        renderTags();
+      });
+      wrap.insertBefore(pill, input);
+    });
+  }
+
+  function addTag(value) {
+    const tag = value.trim().replace(/,/g, '');
+    if (tag && !state.tags.includes(tag) && state.tags.length < 8) {
+      state.tags.push(tag);
+      renderTags();
+      $('lw-tags-input').value = '';
+    }
+  }
+
+  // ── Tab switching ─────────────────────────────────────────────────────────
+  function switchTab(tab) {
+    state.currentTab = tab;
+
+    document.querySelectorAll('.lw-tab').forEach(t => {
+      t.classList.toggle('active', t.dataset.tab === tab);
+    });
+
+    $('lw-write-panel').style.display = tab === 'write' ? '' : 'none';
+    $('lw-meta-panel').classList.toggle('active', tab === 'meta');
+    $('lw-drafts-panel').classList.toggle('active', tab === 'drafts');
+
+    if (tab === 'meta') {
+      $('lw-meta-panel').style.display = 'flex';
+    }
+  }
+
+  // ── Keyboard shortcuts ────────────────────────────────────────────────────
+  textarea.addEventListener('keydown', (e) => {
+    if (e.ctrlKey || e.metaKey) {
+      if (e.key === 'b') { e.preventDefault(); applyFormat('bold'); }
+      if (e.key === 'i') { e.preventDefault(); applyFormat('italic'); }
+      if (e.key === 'k') { e.preventDefault(); applyFormat('link'); }
+      if (e.key === 's') { e.preventDefault(); saveDraft(); toast('Draft saved', 'success'); }
+    }
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      const s = textarea.selectionStart, end = textarea.selectionEnd;
+      textarea.value = textarea.value.substring(0,s) + '  ' + textarea.value.substring(end);
+      textarea.setSelectionRange(s+2, s+2);
+    }
+  });
+
+  // ── Event listeners ────────────────────────────────────────────────────────
+  textarea.addEventListener('input', () => {
+    updatePreview();
+    updateStats();
+    scheduleAutosave();
+  });
+
+  textarea.addEventListener('click', updateCursor);
+  textarea.addEventListener('keyup', updateCursor);
+
+  // toolbar
+  $('lw-toolbar').addEventListener('click', (e) => {
+    const btn = e.target.closest('.lw-tbtn');
+    if (btn) { e.preventDefault(); applyFormat(btn.dataset.action); }
+  });
+
+  // tabs
+  document.querySelectorAll('.lw-tab').forEach(tab => {
+    tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+  });
+
+  $('lw-draft-btn').addEventListener('click', () => switchTab('drafts'));
+
+  // preview mode toggle
+  document.querySelectorAll('.lw-mode-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      state.previewMode = btn.dataset.mode;
+      document.querySelectorAll('.lw-mode-btn').forEach(b => b.classList.toggle('active', b === btn));
+      updatePreview();
+    });
+  });
+
+  // difficulty
+  document.querySelectorAll('.lw-diff-btn[data-level]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.lw-diff-btn[data-level]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.difficulty = btn.dataset.level;
+    });
+  });
+
+  // interactive toggle
+  $('lw-interactive-yes').addEventListener('click', () => {
+    state.interactive = true;
+    $('lw-interactive-yes').classList.add('active');
+    $('lw-interactive-no').classList.remove('active');
+  });
+  $('lw-interactive-no').addEventListener('click', () => {
+    state.interactive = false;
+    $('lw-interactive-no').classList.add('active');
+    $('lw-interactive-yes').classList.remove('active');
+  });
+
+  // tags
+  const tagsInput = $('lw-tags-input');
+  tagsInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ',') {
+      e.preventDefault();
+      addTag(tagsInput.value);
+    } else if (e.key === 'Backspace' && !tagsInput.value && state.tags.length > 0) {
+      state.tags.pop();
+      renderTags();
+    }
+  });
+  tagsInput.addEventListener('blur', () => {
+    if (tagsInput.value.trim()) addTag(tagsInput.value);
+  });
+  $('lw-tags-wrap').addEventListener('click', () => tagsInput.focus());
+
+  // title autosave
+  titleInput.addEventListener('input', scheduleAutosave);
+
+  // publish button
+  $('lw-publish-btn').addEventListener('click', async () => {
+    const title = titleInput.value.trim();
+    const content = textarea.value.trim();
+
+    if (!title) {
+      toast('Please enter a title', 'warning');
+      titleInput.focus();
+      return;
+    }
+    if (!content) {
+      toast('Please write some content', 'warning');
+      switchTab('write');
+      textarea.focus();
+      return;
+    }
+
+    const article = {
+      id: state.draftId,
+      title,
+      desc: $('lw-desc')?.value.trim() || title,
+      content,
+      difficulty: state.difficulty,
+      tags: state.tags,
+      interactive: state.interactive,
+      cover: $('lw-cover')?.value.trim() || null,
+      readMin: Number($('lw-readtime-override')?.value) || undefined,
+      author: getAuthorMeta(),
+    };
+
+    try {
+      const published = await window.KlyxeArticleStore?.publishArticle?.(article);
+      saveDraft();
+
+      if (published) {
+        toast('Article published ✓', 'success');
+        setTimeout(() => {
+          window.location.href = `/articles.html?article=${published.id}`;
+        }, 600);
+      } else {
+        toast('Article saved as draft ✓', 'success');
+      }
+    } catch (err) {
+      console.warn('Publish failed', err);
+      saveDraft();
+      toast(`Publish failed: ${err.message || 'check console'}`, 'warning', 5000);
+    }
+  });
+
+  // ── Auth check ─────────────────────────────────────────────────────────────
+  function checkAuth() {
+    if (window.labauth && window.labauth.initialized) {
+      if (!window.labauth.isLoggedIn()) {
+        toast('Sign in to publish articles', 'warning', 4000);
+        setTimeout(() => window.labauth?.redirectToAuth?.(), 3000);
+      }
+    } else {
+      setTimeout(checkAuth, 200);
+    }
+  }
+  checkAuth();
+
+  // ── Init ────────────────────────────────────────────────────────────────────
+  updatePreview();
+  updateStats();
+  renderDraftsList();
+
+  // show meta panel initially hidden
+  $('lw-meta-panel').style.display = 'none';
+
+})();
+</script>
+</body>
+</html>

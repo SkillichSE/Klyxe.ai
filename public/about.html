@@ -5,8 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About — Klyxe</title>
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <meta name="description" content="How Klyxe works — daily automated benchmarks of free AI models. Real code execution, verified answers, no human grading.">
+  <link rel="icon" href="/media/L_logo.png" type="image/png">
+  <meta name="description" content="How Klyxe works — daily automated benchmarks of AI models. Real code execution, verified answers, no human grading.">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="style-spacing.css">
   <link rel="stylesheet" href="animations.css">
@@ -230,24 +230,7 @@
 </head>
 <body>
 
-<header class="header" id="app-bar">
-  <div class="header-content">
-    <a href="index.html" class="logo" style="padding-left:0;margin-left:0;">
-      <img src="media/L_logo.png" alt="Klyxe logo" class="logo-icon" style="margin-left:0;">
-      <span style="font-size:17px;font-weight:700;letter-spacing:-0.02em;">Klyxe</span>
-    </a>
-    <div style="flex:1;"></div>
-    <div class="theme-switch-wrap">
-      <span class="theme-switch-label" id="theme-label">Dark</span>
-      <label class="theme-switch" aria-label="Toggle theme">
-        <input type="checkbox" id="theme-toggle">
-        <span class="theme-switch-track"></span>
-        <span class="theme-switch-thumb" id="thumb-icon"></span>
-      </label>
-    </div>
-  </div>
-</header>
-
+<!-- Sidebar overlay for mobile -->
 <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
 <div class="app-layout">
@@ -260,7 +243,7 @@
 <div class="page-hero">
   <div class="page-hero-inner">
   <h1 class="page-hero-title">How Klyxe Works</h1>
-  <p class="page-hero-sub">Daily automated benchmarks of free AI models — no human grading, no sponsorships. Every score comes from code that actually runs, logic puzzles with known answers, and strict formatting checks.</p>
+  <p class="page-hero-sub">Daily automated benchmarks of AI models — no human grading, no sponsorships. Every score comes from code that actually runs, logic puzzles with known answers, and strict formatting checks.</p>
   </div>
 </div>
 
@@ -563,26 +546,9 @@
     <a href="about.html" class="footer-link">About</a>
     <a href="news.html" class="footer-link">News</a>
   </div>
-  <div class="footer-copy">Open source · Updated daily via GitHub Actions · All models are free to use</div>
+  <div class="footer-copy">Open source · Updated daily via GitHub Actions</div>
 </footer>
 
-<script>
-const themeToggle = document.getElementById('theme-toggle');
-const themeLabel  = document.getElementById('theme-label');
-
-function applyTheme(t) {
-  document.documentElement.setAttribute('data-theme', t);
-  localStorage.setItem('theme', t);
-  const dark = t === 'dark';
-  themeToggle.checked = isLight;
-  themeLabel.textContent = isLight ? 'Light' : 'Dark';
-}
-
-applyTheme(localStorage.getItem('theme') || 'dark');
-themeToggle.addEventListener('change', () => applyTheme(themeToggle.checked ? 'light' : 'dark'));
-window.addEventListener('scroll', () =>
-  document.getElementById('app-bar').classList.toggle('scrolled', window.scrollY > 0));
-</script>
 
   </div><!-- /.sidebar-main -->
 </div><!-- /.app-layout -->

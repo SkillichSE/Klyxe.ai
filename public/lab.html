@@ -8,34 +8,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Klyxe — Lab</title>
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/media/L_logo.png" type="image/png">
   <meta name="description" content="Klyxe Lab — interactive AI visualizations and experiments.">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="style-spacing.css">
-  <link rel="stylesheet" href="animations.css">
-  <link rel="stylesheet" href="lab.css">
-  <script src="app.js"></script>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/style-spacing.css">
+  <link rel="stylesheet" href="/lab.css">
+  <script src="/app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>window._supabaseLib = supabase;</script>
+  <script src="/config.js"></script>
+  <script src="/auth.js"></script>
+  <script src="/article-store.js"></script>
 </head>
 <body>
 
-<header class="header" id="app-bar">
-  <div class="header-content">
-    <a href="index.html" class="logo" style="padding-left:0;margin-left:0;">
-      <img src="media/L_logo.png" alt="Klyxe logo" class="logo-icon" style="margin-left:0;">
-      <span style="font-size:17px;font-weight:700;letter-spacing:-0.02em;">Klyxe</span>
-    </a>
-    <div style="flex:1;"></div>
-    <div class="theme-switch-wrap">
-      <span class="theme-switch-label" id="theme-label">Dark</span>
-      <label class="theme-switch" aria-label="Toggle theme">
-        <input type="checkbox" id="theme-toggle">
-        <span class="theme-switch-track"></span>
-        <span class="theme-switch-thumb" id="thumb-icon"></span>
-      </label>
-    </div>
-  </div>
-</header>
-
+<!-- Sidebar overlay for mobile -->
 <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
 <div class="app-layout">
@@ -64,6 +51,11 @@
   </div>
 </div>
 
+<script src="lab-auth.js"></script>
+<script src="lab-toast.js"></script>
+<script src="lab-write.js"></script>
+<script src="lab-editor.js"></script>
+<script src="lab-preview.js"></script>
 <script src="lab-index.js"></script>
 <script src="sidebar.js"></script>
 </body>

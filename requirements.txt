@@ -1,2 +1,4 @@
+# Python deps for the news aggregator script (src/ directory)
+# Backend deps are in backend/requirements.txt
 requests==2.31.0
 feedparser==6.0.10

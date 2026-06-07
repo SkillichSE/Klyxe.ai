@@ -8,12 +8,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Playground — Klyxe</title>
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="icon" href="/favicon.ico" sizes="32x32">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="style-spacing.css">
-  <link rel="stylesheet" href="animations.css">
-  <script src="app.js"></script>
+  <link rel="icon" href="/media/L_logo.png" type="image/png">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/style-spacing.css">
+  <link rel="stylesheet" href="/animations.css">
+  <script src="/app.js"></script>
   <style>
     /* ── API Key Banner (top, always visible) ── */
     .pg-key-banner {
@@ -703,34 +702,12 @@
   <!-- highlight.js for code syntax coloring -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <!-- marked for markdown parsing -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
 </head>
 <body>
 
-<header class="header" id="app-bar">
-  <div class="header-content">
-    <a href="index.html" class="logo" style="padding-left:0;margin-left:0;">
-      <img src="media/L_logo.png" alt="Klyxe logo" class="logo-icon" style="margin-left:0;">
-      <span style="font-size:17px;font-weight:700;letter-spacing:-0.02em;">Klyxe</span>
-    </a>
-    <div style="flex:1;"></div>
-    <div class="theme-switch-wrap">
-      <span class="theme-switch-label" id="theme-label">Dark</span>
-      <label class="theme-switch" aria-label="Toggle theme">
-        <input type="checkbox" id="theme-toggle">
-        <span class="theme-switch-track"></span>
-        <span class="theme-switch-thumb" id="thumb-icon"></span>
-      </label>
-    </div>
-    <button class="mobile-menu-btn" id="sidebar-mobile-toggle" aria-label="Open menu" style="display:none;">
-      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-        <path d="M2 4h14M2 9h14M2 14h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-      </svg>
-    </button>
-  </div>
-</header>
-
+<!-- sidebar overlay for mobile -->
 <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
 <div class="app-layout">
@@ -746,7 +723,7 @@
 
     <main class="container">
 
-      <!-- Step 1: API Key -->
+      <!-- step 1: api key -->
       <div class="pg-key-banner reveal">
         <div class="pg-key-banner-icon">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -786,19 +763,19 @@
             Your Prompt
           </div>
           <button class="pg-sys-toggle" id="sys-toggle-btn" onclick="toggleSysPrompt()">
-            <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 6h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 6h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M12 10l2 2-2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             System prompt
           </button>
         </div>
 
         <div class="pg-controls-body">
-          <!-- System prompt -->
+          <!-- system prompt -->
           <div class="pg-sys-wrap" id="sys-wrap">
             <div class="pg-sys-label">System prompt</div>
             <textarea class="pg-sys-input" id="sys-prompt" placeholder="You are a helpful assistant…" rows="3"></textarea>
           </div>
 
-          <!-- User prompt -->
+          <!-- user prompt -->
           <div class="pg-prompt-label">Message</div>
           <div class="pg-prompt-wrap">
             <textarea class="pg-prompt" id="user-prompt"
@@ -819,7 +796,7 @@
             <span class="pg-token-count" id="token-count">~0 tokens</span>
           </div>
 
-          <!-- LLM params -->
+          <!-- llm params -->
           <div class="pg-params-row">
             <div class="pg-param-group">
               <div class="pg-param-label">Temperature <span class="pg-param-val" id="temp-val">0.7</span></div>
@@ -846,10 +823,10 @@
         </div>
       </div>
 
-      <!-- Step 3: Side-by-side panels -->
+      <!-- step 3: side by side panels -->
       <div class="pg-layout">
 
-        <!-- Left panel -->
+        <!-- left panel -->
         <div class="pg-panel reveal" id="panel-left">
           <div class="pg-panel-header">
             <span class="pg-panel-label left">Model A</span>
@@ -886,7 +863,7 @@
           </div>
         </div>
 
-        <!-- Right panel -->
+        <!-- right panel -->
         <div class="pg-panel reveal" id="panel-right">
           <div class="pg-panel-header">
             <span class="pg-panel-label right">Model B</span>
@@ -939,23 +916,6 @@
 </div>
 
 <script src="sidebar.js"></script>
-<script>
-// ─── Theme toggle ─────────────────────────────────────────────────────────────
-(function() {
-  const themeToggle = document.getElementById('theme-toggle');
-  const themeLabel  = document.getElementById('theme-label');
-  function applyTheme(t) {
-    document.documentElement.setAttribute('data-theme', t);
-    localStorage.setItem('theme', t);
-    const isLight = t === 'light';
-    if (themeToggle) themeToggle.checked = isLight;
-    if (themeLabel)  themeLabel.textContent = isLight ? 'Light' : 'Dark';
-  }
-  applyTheme(localStorage.getItem('theme') || 'dark');
-  if (themeToggle) themeToggle.addEventListener('change', () => {
-    applyTheme(themeToggle.checked ? 'light' : 'dark');
-  });
-})();
 
 // ─── Mobile sidebar toggle ───────────────────────────────────────────────────
 (function() {
@@ -1147,11 +1107,13 @@ function updateStatusDot(side, state) {
 
 // ─── Key management ───────────────────────────────────────────────────────────
 function loadKey() {
-  const k = localStorage.getItem('or_api_key') || '';
-  const inp = document.getElementById('api-key');
-  inp.value = k;
-  inp.classList.toggle('has-key', k.length > 0);
-}
+  const k = sessionStorage.getItem('or_api_key') || localStorage.getItem('or_api_key') || '';
+
+  function handleApiKeyChange(val) {
+    const trimmed = val.trim();
+    sessionStorage.setItem('or_api_key', trimmed);
+    localStorage.setItem('or_api_key', trimmed);
+  }
 
 function saveKey(val) {
   localStorage.setItem('or_api_key', val.trim());
@@ -1413,7 +1375,7 @@ function renderMarkdown(side, text) {
 
   if (window.marked) {
     respEl.classList.add('rendered');
-    respEl.innerHTML = marked.parse(text);
+    respEl.innerHTML = window.DOMPurify ? DOMPurify.sanitize(marked.parse(text)) : marked.parse(text);
     // Add copy button to each pre>code block
     respEl.querySelectorAll('pre').forEach(pre => {
       const btn = document.createElement('button');
