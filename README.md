@@ -7,10 +7,11 @@
 
 [
 
+[
+
 ![Enter Klyxe](https://img.shields.io/badge/Enter%20Klyxe-6366f1?style=for-the-badge&logo=google-chrome&logoColor=white)
 
 ](https://klyxe-ai.vercel.app/)
-
 ---
 
 ## What You Get
