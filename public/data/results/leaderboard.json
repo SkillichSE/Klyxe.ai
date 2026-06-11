@@ -1,88 +1,88 @@
 [
   {
-    "id": "llama-3.3-70b",
-    "rank": 1,
-    "name": "Llama 3.3 70B",
-    "provider": "Groq",
-    "api_provider": "groq",
-    "size": "70B",
-    "tier": "large",
-    "score": 100.0,
-    "speed": 291.35,
-    "speed_score": 100.0,
-    "tier_score": 100.0,
-    "context": "131k",
-    "is_os": false,
-    "status": "online",
-    "updated": "2026-06-10T07:17:51.999027"
-  },
-  {
     "id": "nemotron-super-120b",
-    "rank": 2,
+    "rank": 1,
     "name": "Nemotron 3 Super 120B",
     "provider": "OpenRouter",
     "api_provider": "openrouter",
     "size": "120B",
     "tier": "large",
-    "score": 95.0,
-    "speed": 10.82,
+    "score": 100.0,
+    "speed": 40.02,
     "speed_score": 100.0,
     "tier_score": 100.0,
     "context": "262k",
     "is_os": false,
     "status": "online",
-    "updated": "2026-06-10T07:10:34.090369"
+    "updated": "2026-06-11T08:05:33.594748"
+  },
+  {
+    "id": "llama-3.3-70b-sn",
+    "rank": 2,
+    "name": "Llama 3.3 70B",
+    "provider": "SambaNova",
+    "api_provider": "sambanova",
+    "size": "70B",
+    "tier": "large",
+    "score": 95.0,
+    "speed": 184.95,
+    "speed_score": 100.0,
+    "tier_score": 100.0,
+    "context": "131k",
+    "is_os": false,
+    "status": "online",
+    "updated": "2026-06-11T08:11:39.485431"
+  },
+  {
+    "id": "gpt-oss-20b",
+    "rank": 3,
+    "name": "GPT-OSS 20B",
+    "provider": "Groq",
+    "api_provider": "groq",
+    "size": "20B",
+    "tier": "medium",
+    "score": 94.3,
+    "speed": 511.49,
+    "speed_score": 100.0,
+    "tier_score": 100.0,
+    "context": "131k",
+    "is_os": false,
+    "status": "online",
+    "updated": "2026-06-11T08:11:57.094837"
   },
   {
     "id": "nemotron-nano-12b",
-    "rank": 3,
+    "rank": 4,
     "name": "Nemotron Nano 12B",
     "provider": "OpenRouter",
     "api_provider": "openrouter",
     "size": "12B",
     "tier": "medium",
     "score": 91.7,
-    "speed": 31.42,
-    "speed_score": 17.8,
+    "speed": 32.12,
+    "speed_score": 25.6,
     "tier_score": 100.0,
     "context": "128k",
     "is_os": false,
     "status": "online",
-    "updated": "2026-06-10T07:10:34.089848"
+    "updated": "2026-06-11T08:05:33.596354"
   },
   {
     "id": "gpt-oss-20b-openrouter",
-    "rank": 4,
+    "rank": 5,
     "name": "GPT-OSS 20B (OpenRouter)",
     "provider": "OpenRouter",
     "api_provider": "openrouter",
     "size": "20B",
     "tier": "medium",
     "score": 91.7,
-    "speed": 30.1,
+    "speed": 29.33,
     "speed_score": 100.0,
     "tier_score": 100.0,
     "context": "131k",
     "is_os": false,
     "status": "online",
-    "updated": "2026-06-10T07:19:28.318110"
-  },
-  {
-    "id": "gpt-oss-20b",
-    "rank": 5,
-    "name": "GPT-OSS 20B",
-    "provider": "Groq",
-    "api_provider": "groq",
-    "size": "20B",
-    "tier": "medium",
-    "score": 91.0,
-    "speed": 522.11,
-    "speed_score": 100.0,
-    "tier_score": 100.0,
-    "context": "131k",
-    "is_os": false,
-    "status": "online",
-    "updated": "2026-06-10T07:18:56.824655"
+    "updated": "2026-06-11T08:12:29.010403"
   },
   {
     "id": "llama-3.1-8b",
@@ -93,13 +93,13 @@
     "size": "8B",
     "tier": "small",
     "score": 90.0,
-    "speed": 373.04,
+    "speed": 401.39,
     "speed_score": 100.0,
     "tier_score": 100.0,
     "context": "131k",
     "is_os": false,
     "status": "online",
-    "updated": "2026-06-10T07:10:28.980148"
+    "updated": "2026-06-11T08:05:29.033454"
   },
   {
     "id": "nemotron-nano-30b",
@@ -109,14 +109,14 @@
     "api_provider": "openrouter",
     "size": "30B",
     "tier": "medium",
-    "score": 86.7,
-    "speed": 176.12,
+    "score": 75.0,
+    "speed": 125.38,
     "speed_score": 100.0,
-    "tier_score": 94.5,
+    "tier_score": 81.8,
     "context": "256k",
     "is_os": false,
     "status": "online",
-    "updated": "2026-06-10T07:10:34.090767"
+    "updated": "2026-06-11T08:05:33.597270"
   },
   {
     "id": "llama-4-scout",
@@ -127,13 +127,13 @@
     "size": "17B",
     "tier": "medium",
     "score": 73.7,
-    "speed": 293.91,
+    "speed": 273.04,
     "speed_score": 100.0,
     "tier_score": 100.0,
     "context": "131k",
     "is_os": false,
     "status": "online",
-    "updated": "2026-06-10T07:19:19.405223"
+    "updated": "2026-06-11T08:12:19.396775"
   },
   {
     "id": "gemini-2.5-flash-lite",
@@ -143,14 +143,14 @@
     "api_provider": "google",
     "size": "N/A",
     "tier": "medium",
-    "score": 71.7,
-    "speed": 108.96,
+    "score": 61.6,
+    "speed": 108.78,
     "speed_score": 100.0,
     "tier_score": 100.0,
     "context": "1048k",
     "is_os": false,
     "status": "online",
-    "updated": "2026-06-10T07:18:01.708817"
+    "updated": "2026-06-11T08:10:59.138391"
   },
   {
     "id": "nemotron-nano-9b",
@@ -160,14 +160,14 @@
     "api_provider": "openrouter",
     "size": "9B",
     "tier": "small",
-    "score": 55.0,
-    "speed": 40.52,
+    "score": 47.5,
+    "speed": 46.28,
     "speed_score": 100.0,
     "tier_score": 100.0,
     "context": "128k",
     "is_os": false,
     "status": "online",
-    "updated": "2026-06-10T07:10:34.091081"
+    "updated": "2026-06-11T08:05:33.596928"
   },
   {
     "id": "qwen3-32b",
@@ -178,13 +178,13 @@
     "size": "32B",
     "tier": "medium",
     "score": 19.3,
-    "speed": 414.99,
+    "speed": 365.56,
     "speed_score": 100.0,
     "tier_score": 100.0,
     "context": "32k",
     "is_os": false,
     "status": "online",
-    "updated": "2026-06-10T07:20:50.339198"
+    "updated": "2026-06-11T08:13:48.869710"
   },
   {
     "id": "gpt-oss-120b",
@@ -194,14 +194,14 @@
     "api_provider": "cerebras",
     "size": "120B",
     "tier": "large",
-    "score": 17.5,
-    "speed": 737.01,
+    "score": 8.8,
+    "speed": 905.97,
     "speed_score": 100.0,
     "tier_score": 100.0,
     "context": "131k",
     "is_os": false,
     "status": "online",
-    "updated": "2026-06-10T07:19:13.710154"
+    "updated": "2026-06-11T08:12:15.167642"
   },
   {
     "id": "gemini-2.5-flash",
@@ -212,13 +212,13 @@
     "size": "N/A",
     "tier": "large",
     "score": 5.0,
-    "speed": 3.26,
+    "speed": 5.11,
     "speed_score": 100.0,
     "tier_score": 100.0,
     "context": "1048k",
     "is_os": false,
     "status": "online",
-    "updated": "2026-06-10T07:17:20.677796"
+    "updated": "2026-06-11T08:10:16.223094"
   },
   {
     "id": "zai-glm-4.7",
@@ -229,12 +229,12 @@
     "size": "N/A",
     "tier": "large",
     "score": 0.0,
-    "speed": 331.32,
+    "speed": 510.74,
     "speed_score": 100.0,
     "tier_score": 0.0,
     "context": "131k",
     "is_os": false,
     "status": "online",
-    "updated": "2026-06-10T07:20:40.652047"
+    "updated": "2026-06-11T08:13:43.234766"
   }
 ]
