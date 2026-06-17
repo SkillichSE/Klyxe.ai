@@ -1,17 +1,100 @@
 {
   "session_info": {
-    "id": "2026-05-17_test_31",
-    "date": "2026-05-17",
-    "timestamp": "2026-05-17T07:07:00.383803",
-    "model_count": 18
+    "id": "2026-06-17_test_31",
+    "date": "2026-06-17",
+    "timestamp": "2026-06-17T08:44:39.766826",
+    "model_count": 15
   },
   "results": {
+    "llama-3.1-8b": {
+      "model_name": "Llama 3.1 8B Instant",
+      "provider": "Groq",
+      "api_provider": "groq",
+      "quality_score": 90.0,
+      "speed_tps": 373.74,
+      "tests": {
+        "simple": {
+          "category": "speed",
+          "verdict": "failed",
+          "raw_output": "",
+          "token_count": 15
+        },
+        "medium": {
+          "category": "speed",
+          "verdict": "failed",
+          "raw_output": "",
+          "token_count": 281
+        },
+        "long": {
+          "category": "speed",
+          "verdict": "failed",
+          "raw_output": "",
+          "token_count": 300
+        },
+        "fibonacci": {
+          "category": "code",
+          "verdict": "passed",
+          "raw_output": "",
+          "token_count": 0,
+          "execution_log": "0 -> 0 (expected 0); 1 -> 1 (expected 1); 2 -> 1 (expected 1); 6 -> 8 (expected 8); 9 -> 34 (expected 34)"
+        },
+        "palindrome": {
+          "category": "code",
+          "verdict": "passed",
+          "raw_output": "",
+          "token_count": 0,
+          "execution_log": "'racecar' -> True (expected True); 'hello' -> False (expected False); 'A man a plan a canal Panama' -> True (expected True); 'world' -> False (expected False)"
+        },
+        "syllogism": {
+          "category": "reasoning",
+          "verdict": "passed",
+          "raw_output": "Yes.",
+          "token_count": 0
+        },
+        "speed_math": {
+          "category": "reasoning",
+          "verdict": "failed",
+          "raw_output": "To determine which train is faster, we need to calculate their speeds.\n\nThe first train travels 120 km in 2 hours, so its speed is:\n120 km / 2 hours = 60 km/h\n\nThe second train travels 180 km in 3 hours, so its speed is:\n180 km / 3 hours = 60 km/h\n\nSince both trains have the same speed, the answer is:\nSame",
+          "token_count": 0
+        },
+        "counting": {
+          "category": "reasoning",
+          "verdict": "passed",
+          "raw_output": "11",
+          "token_count": 0
+        },
+        "json": {
+          "category": "instruction",
+          "verdict": "passed",
+          "raw_output": "",
+          "token_count": 0
+        },
+        "list": {
+          "category": "instruction",
+          "verdict": "passed",
+          "raw_output": "",
+          "token_count": 0
+        },
+        "en_ru": {
+          "category": "translation",
+          "verdict": "passed",
+          "raw_output": "",
+          "token_count": 0
+        },
+        "ru_en": {
+          "category": "translation",
+          "verdict": "passed",
+          "raw_output": "",
+          "token_count": 0
+        }
+      }
+    },
     "nemotron-nano-30b": {
       "model_name": "Nemotron 3 Nano 30B",
       "provider": "OpenRouter",
       "api_provider": "openrouter",
       "quality_score": 71.7,
-      "speed_tps": 151.12,
+      "speed_tps": 201.56,
       "tests": {
         "simple": {
           "category": "speed",
@@ -60,7 +143,7 @@
         "coin_flip": {
           "category": "reasoning",
           "verdict": "failed",
-          "raw_output": "The outcome of each flip is independent of the others.  \nEven after seeing three heads in a row, the probability that the next flip is heads remains\n\n\\[\n\\frac{1}{2}.\n\\]",
+          "raw_output": "The probability of getting heads on the 4th flip is  \n\n\\[\n\\boxed{\\frac{1}{2}}\n\\]",
           "token_count": 0
         },
         "word_problem": {
@@ -123,8 +206,8 @@
       "model_name": "Nemotron Nano 9B",
       "provider": "OpenRouter",
       "api_provider": "openrouter",
-      "quality_score": 47.5,
-      "speed_tps": 33.72,
+      "quality_score": 42.5,
+      "speed_tps": 31.15,
       "tests": {
         "simple": {
           "category": "speed",
@@ -204,8 +287,8 @@
       "model_name": "Nemotron 3 Super 120B",
       "provider": "OpenRouter",
       "api_provider": "openrouter",
-      "quality_score": 95.0,
-      "speed_tps": 31.23,
+      "quality_score": 100.0,
+      "speed_tps": 59.88,
       "tests": {
         "simple": {
           "category": "speed",
@@ -255,8 +338,8 @@
         },
         "knights_knaves": {
           "category": "reasoning",
-          "verdict": "failed",
-          "raw_output": "We need to solve logic puzzle.\n\nLet A says: \"B is a knave.\" B says: \"A and I are both knights.\"\n\nWe need to determine A's type.\n\nLet\u2019s denote: A is Knight (truth-teller) or Knave (liar). Same for B.\n\nStatement of A: \"B is a knave.\" So if A is Knight, then statement true => B is Knave. If A is Knave, statement false => B is not a knave => B is Knight.\n\nStatement of B: \"A and I are both knights.\" So B claims both A and B are knights.\n\nIf B is Knight, then statement true => A is Knight and B is Knight (so both knights). If B is Knave, statement false => it's not the case that both A and B are knights. So at least one of A or B is not a knight (i.e., at least one is a knave). Since B is knave (assuming), then statement false automatically? Let's evaluate.\n\nWe need consistent assignment.\n\nCase 1: Assume A is Knight. Then A's statement true => B is Knave. So B is Knave. Then evaluate B's statement: B says \"A and I are both knights.\" Since B is Knave, his statement must be false. Is it false? A is Knight (true), B is Knave (false). So \"A and I are both knights\" is false",
+          "verdict": "passed",
+          "raw_output": "Knight",
           "token_count": 0
         },
         "scheduling": {
@@ -338,13 +421,19 @@
       "provider": "OpenRouter",
       "api_provider": "openrouter",
       "quality_score": 91.7,
-      "speed_tps": 24.48,
+      "speed_tps": 22.06,
       "tests": {
         "simple": {
           "category": "speed",
           "verdict": "failed",
           "raw_output": "",
-          "token_count": 19
+          "token_count": 17
+        },
+        "medium": {
+          "category": "speed",
+          "verdict": "failed",
+          "raw_output": "",
+          "token_count": 188
         },
         "long": {
           "category": "speed",
@@ -446,13 +535,19 @@
       "provider": "Google",
       "api_provider": "google",
       "quality_score": 5.0,
-      "speed_tps": 5.38,
+      "speed_tps": 5.56,
       "tests": {
         "simple": {
           "category": "speed",
           "verdict": "failed",
           "raw_output": "",
-          "token_count": 9
+          "token_count": 12
+        },
+        "medium": {
+          "category": "speed",
+          "verdict": "failed",
+          "raw_output": "",
+          "token_count": 12
         },
         "long": {
           "category": "speed",
@@ -479,7 +574,7 @@
           "verdict": "failed",
           "raw_output": "",
           "token_count": 0,
-          "execution_log": "['flower', 'flow', 'flight'] -> File \"<string>\", line 1\n    def longest_common_prefix(strs\n                             ^\nSyntaxErro (expected 'fl'); ['dog', 'racecar', 'car'] -> File \"<string>\", line 1\n    def longest_common_prefix(strs\n                             ^\nSyntaxErro (expected ''); ['interview', 'interact', 'interface'] -> File \"<string>\", line 1\n    def longest_common_prefix(strs\n                             ^\nSyntaxErro (expected 'inter'); [''] -> File \"<string>\", line 1\n    def longest_common_prefix(strs\n                             ^\nSyntaxErro (expected '')"
+          "execution_log": "['flower', 'flow', 'flight'] -> File \"<string>\", line 2\n    print(repr(longest_common_prefix(['flower', 'flow', 'flight'])))\n    ^\nI (expected 'fl'); ['dog', 'racecar', 'car'] -> File \"<string>\", line 2\n    print(repr(longest_common_prefix(['dog', 'racecar', 'car'])))\n    ^\nInde (expected ''); ['interview', 'interact', 'interface'] -> File \"<string>\", line 2\n    print(repr(longest_common_prefix(['interview', 'interact', 'interface']) (expected 'inter'); [''] -> File \"<string>\", line 2\n    print(repr(longest_common_prefix([''])))\n    ^\nIndentationError: expecte (expected '')"
         },
         "is_prime": {
           "category": "code",
@@ -491,13 +586,13 @@
         "knights_knaves": {
           "category": "reasoning",
           "verdict": "failed",
-          "raw_output": "Let's analyze the statements:\n\n*",
+          "raw_output": "",
           "token_count": 0
         },
         "scheduling": {
           "category": "reasoning",
-          "verdict": "passed",
-          "raw_output": "No",
+          "verdict": "failed",
+          "raw_output": "",
           "token_count": 0
         },
         "base_rate": {
@@ -515,7 +610,7 @@
         "coin_flip": {
           "category": "reasoning",
           "verdict": "failed",
-          "raw_output": "",
+          "raw_output": "The probability of getting heads on the 4th flip is **",
           "token_count": 0
         },
         "counting": {
@@ -562,90 +657,7 @@
         },
         "en_es": {
           "category": "translation",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 0
-        }
-      }
-    },
-    "llama-3.1-8b": {
-      "model_name": "Llama 3.1 8B",
-      "provider": "Cerebras",
-      "api_provider": "cerebras",
-      "quality_score": 35.0,
-      "speed_tps": 880.86,
-      "tests": {
-        "simple": {
-          "category": "speed",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 15
-        },
-        "medium": {
-          "category": "speed",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 248
-        },
-        "long": {
-          "category": "speed",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 300
-        },
-        "fibonacci": {
-          "category": "code",
           "verdict": "passed",
-          "raw_output": "",
-          "token_count": 0,
-          "execution_log": "0 -> 0 (expected 0); 1 -> 1 (expected 1); 2 -> 1 (expected 1); 6 -> 8 (expected 8); 9 -> 34 (expected 34)"
-        },
-        "palindrome": {
-          "category": "code",
-          "verdict": "passed",
-          "raw_output": "",
-          "token_count": 0,
-          "execution_log": "'racecar' -> True (expected True); 'hello' -> False (expected False); 'A man a plan a canal Panama' -> True (expected True); 'world' -> False (expected False)"
-        },
-        "syllogism": {
-          "category": "reasoning",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 0
-        },
-        "speed_math": {
-          "category": "reasoning",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 0
-        },
-        "counting": {
-          "category": "reasoning",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 0
-        },
-        "json": {
-          "category": "instruction",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 0
-        },
-        "list": {
-          "category": "instruction",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 0
-        },
-        "en_ru": {
-          "category": "translation",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 0
-        },
-        "ru_en": {
-          "category": "translation",
-          "verdict": "failed",
           "raw_output": "",
           "token_count": 0
         }
@@ -655,8 +667,8 @@
       "model_name": "Llama 3.3 70B",
       "provider": "Groq",
       "api_provider": "groq",
-      "quality_score": 95.0,
-      "speed_tps": 285.62,
+      "quality_score": 100.0,
+      "speed_tps": 250.21,
       "tests": {
         "simple": {
           "category": "speed",
@@ -668,7 +680,7 @@
           "category": "speed",
           "verdict": "failed",
           "raw_output": "",
-          "token_count": 232
+          "token_count": 261
         },
         "long": {
           "category": "speed",
@@ -712,8 +724,8 @@
         },
         "scheduling": {
           "category": "reasoning",
-          "verdict": "failed",
-          "raw_output": "Yes.",
+          "verdict": "passed",
+          "raw_output": "No.",
           "token_count": 0
         },
         "base_rate": {
@@ -731,7 +743,7 @@
         "coin_flip": {
           "category": "reasoning",
           "verdict": "passed",
-          "raw_output": "The probability of getting heads on the 4th flip is 1/2. \n\nSince the coin is fair, each flip is an independent event, and the outcome of the previous flips does not affect the outcome of the next flip. Therefore, the probability of getting heads on the 4th flip remains the same, which is 1/2.",
+          "raw_output": "The probability of getting heads on the 4th flip is 1/2. \n\nSince the coin is fair, each flip is an independent event, and the outcome of the previous flips does not affect the outcome of the next flip. Therefore, the probability of getting heads on the 4th flip remains the same as it was for the first 3 flips, which is 1/2.",
           "token_count": 0
         },
         "counting": {
@@ -788,8 +800,8 @@
       "model_name": "Gemini 2.5 Flash-Lite",
       "provider": "Google",
       "api_provider": "google",
-      "quality_score": 69.3,
-      "speed_tps": 153.8,
+      "quality_score": 69.0,
+      "speed_tps": 103.93,
       "tests": {
         "simple": {
           "category": "speed",
@@ -801,7 +813,7 @@
           "category": "speed",
           "verdict": "failed",
           "raw_output": "",
-          "token_count": 207
+          "token_count": 192
         },
         "long": {
           "category": "speed",
@@ -838,8 +850,8 @@
         },
         "coin_flip": {
           "category": "reasoning",
-          "verdict": "passed",
-          "raw_output": "The probability of getting heads on the 4th flip is **1/2**.\n\nHere's why:\n\nEach coin flip is an independent event. This means that the outcome of previous flips has absolutely no influence on the outcome of the next flip. A fair coin has two equally likely outcomes: heads or tails.\n\nTherefore, regardless of what happened in the first three flips, the probability of getting heads on the 4th flip remains the same as it always is for a fair coin.",
+          "verdict": "failed",
+          "raw_output": "",
           "token_count": 0
         },
         "word_problem": {
@@ -856,13 +868,13 @@
         },
         "counting": {
           "category": "reasoning",
-          "verdict": "passed",
-          "raw_output": "11",
+          "verdict": "failed",
+          "raw_output": "",
           "token_count": 0
         },
         "json": {
           "category": "instruction",
-          "verdict": "failed",
+          "verdict": "passed",
           "raw_output": "",
           "token_count": 0
         },
@@ -886,7 +898,7 @@
         },
         "ru_en": {
           "category": "translation",
-          "verdict": "failed",
+          "verdict": "passed",
           "raw_output": "",
           "token_count": 0
         },
@@ -902,8 +914,8 @@
       "model_name": "Llama 3.3 70B",
       "provider": "SambaNova",
       "api_provider": "sambanova",
-      "quality_score": 90.0,
-      "speed_tps": 133.39,
+      "quality_score": 95.0,
+      "speed_tps": 148.63,
       "tests": {
         "simple": {
           "category": "speed",
@@ -915,7 +927,7 @@
           "category": "speed",
           "verdict": "failed",
           "raw_output": "",
-          "token_count": 235
+          "token_count": 229
         },
         "long": {
           "category": "speed",
@@ -978,13 +990,13 @@
         "coin_flip": {
           "category": "reasoning",
           "verdict": "failed",
-          "raw_output": "## Step 1: Understand the problem\nThe problem involves flipping a fair coin 3 times and getting heads each time. We need to find the probability of getting heads on the 4th flip.\n\n## Step 2: Recall the properties of a fair coin\nA fair coin has two sides: heads and tails. The probability of getting heads or tails on a single flip is equal, which is 1/2.\n\n## Step 3: Analyze the given information\nWe are given that the coin is flipped 3 times and heads are obtained each time. However, this information does not affect the probability of getting heads on the 4th flip because each coin flip is an independent event.\n\n## Step 4: Determine the probability of getting heads on the 4th flip\nSince each coin flip is independent, the probability of getting heads on the 4th flip remains the same as any single flip, which is 1/2.\n\nThe final answer is: $\\boxed{\\frac{1}{2}}$",
+          "raw_output": "## Step 1: Understand the problem\nThe problem involves flipping a fair coin 3 times and getting heads each time. We need to find the probability of getting heads on the 4th flip.\n\n## Step 2: Recall the properties of a fair coin\nA fair coin has two sides, heads and tails, and each side has an equal probability of landing face up when the coin is flipped. The probability of getting heads on a single flip is 1/2.\n\n## Step 3: Determine the independence of events\nThe outcome of each coin flip is independent of the previous flips. This means that the probability of getting heads on the 4th flip is not affected by the results of the first 3 flips.\n\n## Step 4: Calculate the probability of getting heads on the 4th flip\nSince the coin is fair and the events are independent, the probability of getting heads on the 4th flip is the same as the probability of getting heads on any single flip, which is 1/2.\n\nThe final answer is: $\\boxed{\\frac{1}{2}}$",
           "token_count": 0
         },
         "counting": {
           "category": "reasoning",
-          "verdict": "failed",
-          "raw_output": "",
+          "verdict": "passed",
+          "raw_output": "11",
           "token_count": 0
         },
         "json_nested": {
@@ -1035,14 +1047,14 @@
       "model_name": "GPT-OSS 20B",
       "provider": "Groq",
       "api_provider": "groq",
-      "quality_score": 94.3,
-      "speed_tps": 686.01,
+      "quality_score": 97.7,
+      "speed_tps": 509.71,
       "tests": {
         "simple": {
           "category": "speed",
           "verdict": "failed",
           "raw_output": "",
-          "token_count": 300
+          "token_count": 265
         },
         "medium": {
           "category": "speed",
@@ -1145,131 +1157,18 @@
         }
       }
     },
-    "glm-4.5-air": {
-      "model_name": "GLM 4.5 Air",
-      "provider": "OpenRouter",
-      "api_provider": "openrouter",
-      "quality_score": 28.3,
-      "speed_tps": 16.46,
-      "tests": {
-        "simple": {
-          "category": "speed",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 300
-        },
-        "medium": {
-          "category": "speed",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 300
-        },
-        "long": {
-          "category": "speed",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 300
-        },
-        "is_prime": {
-          "category": "code",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 0,
-          "execution_log": "1 -> File \"<string>\", line 1\n    To solve this problem, we need to determine if a given integer `n` is a  (expected False); 2 -> File \"<string>\", line 1\n    To solve this problem, we need to determine if a given integer `n` is a  (expected True); 3 -> File \"<string>\", line 1\n    To solve this problem, we need to determine if a given integer `n` is a  (expected True); 4 -> File \"<string>\", line 1\n    To solve this problem, we need to determine if a given integer `n` is a  (expected False); 17 -> File \"<string>\", line 1\n    To solve this problem, we need to determine if a given integer `n` is a  (expected True); 100 -> File \"<string>\", line 1\n    To solve this problem, we need to determine if a given integer `n` is a  (expected False)"
-        },
-        "bubble_sort": {
-          "category": "code",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 0
-        },
-        "count_vowels": {
-          "category": "code",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 0,
-          "execution_log": "'hello' -> File \"<string>\", line 1\n    def count_vow\n                 ^\nSyntaxError: expected '(' (expected 2); 'AEIOU' -> File \"<string>\", line 1\n    def count_vow\n                 ^\nSyntaxError: expected '(' (expected 5); 'rhythm' -> File \"<string>\", line 1\n    def count_vow\n                 ^\nSyntaxError: expected '(' (expected 0); 'Python is great' -> File \"<string>\", line 1\n    def count_vow\n                 ^\nSyntaxError: expected '(' (expected 5); '' -> File \"<string>\", line 1\n    def count_vow\n                 ^\nSyntaxError: expected '(' (expected 0)"
-        },
-        "river_crossing": {
-          "category": "reasoning",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 0
-        },
-        "coin_flip": {
-          "category": "reasoning",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 0
-        },
-        "word_problem": {
-          "category": "reasoning",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 0
-        },
-        "deduction": {
-          "category": "reasoning",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 0
-        },
-        "counting": {
-          "category": "reasoning",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 0
-        },
-        "json": {
-          "category": "instruction",
-          "verdict": "passed",
-          "raw_output": "",
-          "token_count": 0
-        },
-        "list": {
-          "category": "instruction",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 0
-        },
-        "sentence_count": {
-          "category": "instruction",
-          "verdict": "passed",
-          "raw_output": "",
-          "token_count": 0
-        },
-        "en_ru": {
-          "category": "translation",
-          "verdict": "passed",
-          "raw_output": "",
-          "token_count": 0
-        },
-        "ru_en": {
-          "category": "translation",
-          "verdict": "passed",
-          "raw_output": "",
-          "token_count": 0
-        },
-        "en_es": {
-          "category": "translation",
-          "verdict": "passed",
-          "raw_output": "",
-          "token_count": 0
-        }
-      }
-    },
     "gpt-oss-120b": {
       "model_name": "GPT-OSS 120B",
       "provider": "Cerebras",
       "api_provider": "cerebras",
       "quality_score": 17.5,
-      "speed_tps": 824.01,
+      "speed_tps": 1034.79,
       "tests": {
         "simple": {
           "category": "speed",
           "verdict": "failed",
           "raw_output": "",
-          "token_count": 247
+          "token_count": 206
         },
         "medium": {
           "category": "speed",
@@ -1394,7 +1293,7 @@
       "provider": "Groq",
       "api_provider": "groq",
       "quality_score": 73.7,
-      "speed_tps": 226.39,
+      "speed_tps": 220.28,
       "tests": {
         "simple": {
           "category": "speed",
@@ -1406,7 +1305,7 @@
           "category": "speed",
           "verdict": "failed",
           "raw_output": "",
-          "token_count": 258
+          "token_count": 252
         },
         "long": {
           "category": "speed",
@@ -1438,13 +1337,13 @@
         "river_crossing": {
           "category": "reasoning",
           "verdict": "failed",
-          "raw_output": "## Step 1: Understand the constraints of the problem\nThe farmer has a fox, a chicken, and a bag of grain. He needs to cross a river but can only take one item with him at a time, including himself.\n\n## 2: Identify the risks if items are left alone\nIf the fox is left alone with the chicken, the fox will eat the chicken. If the chicken is left alone with the grain, the chicken will eat the grain.\n\n## 3: Determine the safest first item to take\nTo minimize risk, the farmer should take the chicken first. This is because if he takes the fox or the grain first, he will be leaving the chicken with one of the other two items, which could result in the chicken being eaten or the grain being eaten.\n\n## 4: Conclusion based on the safest first step\nTaking the chicken first ensures that the farmer can then go back and forth to transport the other items without immediately risking the loss of the chicken or the grain.\n\nThe final answer is: Chicken",
+          "raw_output": "## Step 1: Understand the constraints of the problem\nThe farmer has a fox, a chicken, and a bag of grain. He needs to cross a river but can only take one item with him at a time, including himself.\n\n## 2: Identify the risks if items are left alone\nIf the fox is left alone with the chicken, the fox will eat the chicken. If the chicken is left alone with the grain, the chicken will eat the grain.\n\n## 3: Determine the safest first item to take\nTo minimize risk, the farmer should take the chicken first. This is because if he takes the fox or the grain first, he will be leaving the chicken with one of the other two items, which could result in the chicken being eaten or the grain being eaten.\n\n## 4: Conclusion based on the analysis\nThe farmer should take the chicken first to ensure that he does not leave the fox and chicken or the chicken and grain together unsupervised.\n\nThe final answer is: Chicken",
           "token_count": 0
         },
         "coin_flip": {
           "category": "reasoning",
           "verdict": "failed",
-          "raw_output": "## Step 1: Understanding the Problem\nThe problem involves flipping a fair coin 3 times and getting heads each time, and then finding the probability of getting heads on the 4th flip.\n\n## 2: Identifying Key Concepts\nEach flip of a fair coin has 2 possible outcomes: heads (H) or tails (T), and since the coin is fair, the probability of getting heads or tails on any given flip is 1/2.\n\n## 3: Analyzing the Sequence of Flips\nThe sequence of flips so far is HHH (heads, heads, heads). The outcome of previous flips does not affect the outcome of future flips in an independent event like a coin flip.\n\n## 4: Determining the Probability of the 4th Flip\nSince each coin flip is an independent event, the probability of getting heads on the 4th flip is the same as getting heads on any single flip of a fair coin, which is 1/2.\n\nThe final answer is: $\\boxed{1/2}$",
+          "raw_output": "## Step 1: Understanding the Problem\nThe problem involves flipping a fair coin 3 times and getting heads each time, and then finding the probability of getting heads on the 4th flip.\n\n## 2: Identifying Key Concepts\nEach flip of a fair coin has two possible outcomes: heads (H) or tails (T), each with a probability of 1/2 since the coin is fair.\n\n## 3: Analyzing the Sequence of Flips\nThe sequence of flips so far is HHH (heads, heads, heads). The outcome of previous flips does not affect the outcome of future flips in an independent event like this.\n\n## 4: Applying the Concept of Independence\nIn coin flipping, each flip is an independent event. This means that the probability of getting heads on the 4th flip is not influenced by the results of the first 3 flips.\n\n## 5: Calculating the Probability\nSince the coin is fair and each flip is independent, the probability of getting heads on any given flip is 1/2.\n\n## 6: Conclusion\nTherefore, regardless of the previous flips, the probability of getting heads on the 4th flip is 1/2.\n\nThe final answer is: $\\boxed{\\frac{1}{2}}$",
           "token_count": 0
         },
         "word_problem": {
@@ -1456,7 +1355,7 @@
         "deduction": {
           "category": "reasoning",
           "verdict": "failed",
-          "raw_output": "## Step 1: Understand the premises\nWe are given two premises: \"Some cats are black\" and \"All black things are visible at night\". We need to determine if it logically follows that \"some cats are visible at night\".\n\n## 2: Analyze the first premise\nThe first premise tells us that there is a subset of cats that are black. It does not tell us that all cats are black, just that some of them are.\n\n## 3: Analyze the second premise\nThe second premise states that anything that is black is visible at night. This implies that if something is black, it has the property of being visible at night.\n\n## 4: Apply logical deduction\nIf some cats are black (premise 1) and all black things are visible at night (premise 2), then it logically follows that the cats which are black are visible at night. Since the first premise establishes that there are black cats, and the second premise establishes that black things are visible at night, we can conclude that the black cats are visible at night.\n\n## 5: Conclude based on the premises\nGiven that we have established there are cats that are black and that these black cats are visible at night (because all black things are visible at night), it follows that some cats (specifically, the black ones) are visible at night.\n\nThe final answer is: $\\boxed{Yes}$",
+          "raw_output": "## Step 1: Understand the premises\nWe are given two premises: \"Some cats are black\" and \"All black things are visible at night\". We need to determine if it logically follows that \"some cats are visible at night\".\n\n## 2: Analyze the first premise\nThe first premise tells us that there is a subset of cats that are black. It does not tell us that all cats are black, just that some of them are.\n\n## 3: Analyze the second premise\nThe second premise states that anything that is black is visible at night. This implies that if something is black, it has the property of being visible at night.\n\n## 4: Apply logical deduction\nFrom the premises, we know that some cats are black (premise 1) and that all black things are visible at night (premise 2). Therefore, it logically follows that the black cats (which are a subset of all cats) are visible at night.\n\n## 5: Conclude based on the deduction\nSince some cats are black and all black things are visible at night, it must be true that some cats (specifically, the black ones) are visible at night.\n\nThe final answer is: $\\boxed{Yes}$",
           "token_count": 0
         },
         "counting": {
@@ -1508,25 +1407,25 @@
       "provider": "OpenRouter",
       "api_provider": "openrouter",
       "quality_score": 91.7,
-      "speed_tps": 30.39,
+      "speed_tps": 35.45,
       "tests": {
         "simple": {
           "category": "speed",
           "verdict": "failed",
           "raw_output": "",
-          "token_count": 36
+          "token_count": 40
         },
         "medium": {
           "category": "speed",
           "verdict": "failed",
           "raw_output": "",
-          "token_count": 346
+          "token_count": 348
         },
         "long": {
           "category": "speed",
           "verdict": "failed",
           "raw_output": "",
-          "token_count": 836
+          "token_count": 741
         },
         "is_prime": {
           "category": "code",
@@ -1558,7 +1457,7 @@
         "coin_flip": {
           "category": "reasoning",
           "verdict": "failed",
-          "raw_output": "\\(\\displaystyle \\frac12\\)",
+          "raw_output": "\\(\\displaystyle \\frac{1}{2}\\)",
           "token_count": 0
         },
         "word_problem": {
@@ -1612,120 +1511,6 @@
         "en_es": {
           "category": "translation",
           "verdict": "passed",
-          "raw_output": "",
-          "token_count": 0
-        }
-      }
-    },
-    "minimax-m2.5": {
-      "model_name": "MiniMax M2.5",
-      "provider": "OpenRouter",
-      "api_provider": "openrouter",
-      "quality_score": 60.7,
-      "speed_tps": 15.05,
-      "tests": {
-        "simple": {
-          "category": "speed",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 285
-        },
-        "medium": {
-          "category": "speed",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 3653
-        },
-        "long": {
-          "category": "speed",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 1070
-        },
-        "is_prime": {
-          "category": "code",
-          "verdict": "passed",
-          "raw_output": "",
-          "token_count": 0,
-          "execution_log": "1 -> False (expected False); 2 -> True (expected True); 3 -> True (expected True); 4 -> False (expected False); 17 -> Traceback (most recent call last):\n  File \"<string>\", line 13, in <module>\n  File \"<string>\", line 8 (expected True); 100 -> False (expected False)"
-        },
-        "bubble_sort": {
-          "category": "code",
-          "verdict": "passed",
-          "raw_output": "",
-          "token_count": 0,
-          "execution_log": "[3, 1, 4, 1, 5] -> [1, 1, 3, 4, 5] (expected [1, 1, 3, 4, 5]); [5, 4, 3, 2, 1] -> [1, 2, 3, 4, 5] (expected [1, 2, 3, 4, 5]); [] -> [] (expected []); [1] -> [1] (expected [1]); [2, 2, 2] -> [2, 2, 2] (expected [2, 2, 2])"
-        },
-        "count_vowels": {
-          "category": "code",
-          "verdict": "passed",
-          "raw_output": "",
-          "token_count": 0,
-          "execution_log": "'hello' -> 2 (expected 2); 'AEIOU' -> 5 (expected 5); 'rhythm' -> 0 (expected 0); 'Python is great' -> 4 (expected 5); '' -> 0 (expected 0)"
-        },
-        "river_crossing": {
-          "category": "reasoning",
-          "verdict": "passed",
-          "raw_output": "Chicken",
-          "token_count": 0
-        },
-        "coin_flip": {
-          "category": "reasoning",
-          "verdict": "passed",
-          "raw_output": "1/2",
-          "token_count": 0
-        },
-        "word_problem": {
-          "category": "reasoning",
-          "verdict": "passed",
-          "raw_output": "14",
-          "token_count": 0
-        },
-        "deduction": {
-          "category": "reasoning",
-          "verdict": "passed",
-          "raw_output": "Yes",
-          "token_count": 0
-        },
-        "counting": {
-          "category": "reasoning",
-          "verdict": "passed",
-          "raw_output": "11",
-          "token_count": 0
-        },
-        "json": {
-          "category": "instruction",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 0
-        },
-        "list": {
-          "category": "instruction",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 0
-        },
-        "sentence_count": {
-          "category": "instruction",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 0
-        },
-        "en_ru": {
-          "category": "translation",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 0
-        },
-        "ru_en": {
-          "category": "translation",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 0
-        },
-        "en_es": {
-          "category": "translation",
-          "verdict": "failed",
           "raw_output": "",
           "token_count": 0
         }
@@ -1735,8 +1520,8 @@
       "model_name": "GLM 4.7",
       "provider": "Cerebras",
       "api_provider": "cerebras",
-      "quality_score": 3.5,
-      "speed_tps": 540.35,
+      "quality_score": 0.0,
+      "speed_tps": 574.03,
       "tests": {
         "simple": {
           "category": "speed",
@@ -1758,10 +1543,10 @@
         },
         "binary_search": {
           "category": "code",
-          "verdict": "passed",
+          "verdict": "failed",
           "raw_output": "",
           "token_count": 0,
-          "execution_log": "([1, 3, 5, 7, 9], 5) -> 2 (expected 2); ([1, 3, 5, 7, 9], 6) -> timeout (expected -1); ([2, 4, 6], 2) -> timeout (expected 0); ([], 1) -> None (expected -1); ([42], 42) -> 0 (expected 0)"
+          "execution_log": "([1, 3, 5, 7, 9], 5) -> None (expected 2); ([1, 3, 5, 7, 9], 6) -> None (expected -1); ([2, 4, 6], 2) -> None (expected 0); ([], 1) -> None (expected -1); ([42], 42) -> None (expected 0)"
         },
         "flatten": {
           "category": "code",
@@ -1865,8 +1650,8 @@
       "model_name": "Qwen 3 32B",
       "provider": "Groq",
       "api_provider": "groq",
-      "quality_score": 29.3,
-      "speed_tps": 363.67,
+      "quality_score": 22.7,
+      "speed_tps": 279.2,
       "tests": {
         "simple": {
           "category": "speed",
@@ -1891,7 +1676,7 @@
           "verdict": "failed",
           "raw_output": "",
           "token_count": 0,
-          "execution_log": "1 -> File \"<string>\", line 4\n    First, what's a prime number? A prime is a number greater than 1 that ha (expected False); 2 -> File \"<string>\", line 4\n    First, what's a prime number? A prime is a number greater than 1 that ha (expected True); 3 -> File \"<string>\", line 4\n    First, what's a prime number? A prime is a number greater than 1 that ha (expected True); 4 -> File \"<string>\", line 4\n    First, what's a prime number? A prime is a number greater than 1 that ha (expected False); 17 -> File \"<string>\", line 4\n    First, what's a prime number? A prime is a number greater than 1 that ha (expected True); 100 -> File \"<string>\", line 4\n    First, what's a prime number? A prime is a number greater than 1 that ha (expected False)"
+          "execution_log": "1 -> File \"<string>\", line 2\n    Okay, I need to write a Python function called is_prime(n) that returns  (expected False); 2 -> File \"<string>\", line 2\n    Okay, I need to write a Python function called is_prime(n) that returns  (expected True); 3 -> File \"<string>\", line 2\n    Okay, I need to write a Python function called is_prime(n) that returns  (expected True); 4 -> File \"<string>\", line 2\n    Okay, I need to write a Python function called is_prime(n) that returns  (expected False); 17 -> File \"<string>\", line 2\n    Okay, I need to write a Python function called is_prime(n) that returns  (expected True); 100 -> File \"<string>\", line 2\n    Okay, I need to write a Python function called is_prime(n) that returns  (expected False)"
         },
         "bubble_sort": {
           "category": "code",
@@ -1905,41 +1690,41 @@
           "verdict": "failed",
           "raw_output": "",
           "token_count": 0,
-          "execution_log": "'hello' -> File \"<string>\", line 1\n    <think>\n    ^\nSyntaxError: invalid syntax (expected 2); 'AEIOU' -> File \"<string>\", line 1\n    <think>\n    ^\nSyntaxError: invalid syntax (expected 5); 'rhythm' -> File \"<string>\", line 1\n    <think>\n    ^\nSyntaxError: invalid syntax (expected 0); 'Python is great' -> File \"<string>\", line 1\n    <think>\n    ^\nSyntaxError: invalid syntax (expected 5); '' -> File \"<string>\", line 1\n    <think>\n    ^\nSyntaxError: invalid syntax (expected 0)"
+          "execution_log": "'hello' -> File \"<string>\", line 3\n    vowels = {'a', 'e', 'i', 'o', '\n                                  ^\nSynt (expected 2); 'AEIOU' -> File \"<string>\", line 3\n    vowels = {'a', 'e', 'i', 'o', '\n                                  ^\nSynt (expected 5); 'rhythm' -> File \"<string>\", line 3\n    vowels = {'a', 'e', 'i', 'o', '\n                                  ^\nSynt (expected 0); 'Python is great' -> File \"<string>\", line 3\n    vowels = {'a', 'e', 'i', 'o', '\n                                  ^\nSynt (expected 5); '' -> File \"<string>\", line 3\n    vowels = {'a', 'e', 'i', 'o', '\n                                  ^\nSynt (expected 0)"
         },
         "river_crossing": {
           "category": "reasoning",
           "verdict": "passed",
-          "raw_output": "<think>\nOkay, let's see. The farmer has a fox, a chicken, and a bag of grain. He needs to get all of them across the river using a boat that can only carry him and one item at a time. The problem is that if he leaves the fox with the chicken, the fox will eat the chicken. Similarly, if he leaves the chicken with the grain, the chicken will eat the grain. So he can't leave those two pairs together unsupervised.\n\nFirst, I need to figure out the order in which he should take the items across. The key is to make sure that when he's on one side of the river, the remaining items on the other side aren't left in a dangerous combination.\n\nLet me start by considering the first move. If he takes the fox first, then he leaves the chicken and the grain on the original side. But the chicken and grain are together, so the chicken would eat the grain. That's a problem. So taking the fox first isn't a good idea.\n\nIf he takes the grain first, then he leaves the fox and the chicken on the original side. The fox and chicken together would result in the fox eating the chicken. That's also bad. So taking the grain first is out.\n\nSo maybe he should take the chicken first. Let's test that. He takes the chicken across, leaving the fox and grain on the original side. That's safe because the fox and grain can be left together without",
+          "raw_output": "<think>\nOkay, let's see. The farmer has a fox, a chicken, and a bag of grain. He needs to get all of them across the river using a boat that can only carry him and one item at a time. The problem is that if he leaves the fox with the chicken, the fox will eat the chicken. Similarly, if he leaves the chicken with the grain, the chicken will eat the grain. So he can't leave those two pairs together unsupervised.\n\nFirst, I need to figure out the order in which he should take the items across. The key is to make sure that when he's on one side of the river, the remaining items on the other side aren't left in a dangerous combination.\n\nLet me start by considering the first move. If he takes the fox first, then he leaves the chicken and the grain on the original side. But the chicken and grain can't be left together because the chicken will eat the grain. So that's a problem. So taking the fox first isn't a good idea.\n\nIf he takes the grain first, then he leaves the fox and the chicken on the original side. The fox and chicken can't be left together either because the fox will eat the chicken. So that's also a bad move.\n\nSo maybe he should take the chicken first. Let's test that. He takes the chicken across, leaving the fox and grain on the original side. That's safe because the fox and grain can be left",
           "token_count": 0
         },
         "coin_flip": {
           "category": "reasoning",
           "verdict": "failed",
-          "raw_output": "<think>\nOkay, so I need to figure out the probability of getting heads on the fourth flip of a fair coin, given that the first three flips were all heads. Hmm, let me think. \n\nFirst, I remember that a fair coin has two sides, heads and tails, each with an equal chance of landing face up. So, for any single flip, the probability of getting heads is 1/2, right? But wait, the question is about the fourth flip after getting three heads in a row. Does that affect the probability?\n\nHmm, maybe some people think that after getting several heads in a row, the probability of getting another head decreases because it's \"due\" for a tail. But is that actually true? I think that's called the gambler's fallacy. The idea that past events affect future outcomes in independent events. But if each coin flip is independent, then the previous outcomes shouldn't influence the next one. \n\nSo, if the coin is fair and each flip is independent, the probability of getting heads on the fourth flip should still be 1/2, regardless of the previous results. Let me verify that. \n\nLet's break it down. Each flip is an independent event. The coin doesn't have a memory, so it doesn't know that it came up heads three times before. Therefore, each time you flip it, there's always a 50% chance for heads and 50% for tails. \n\nBut wait",
+          "raw_output": "<think>\nOkay, so I need to figure out the probability of getting heads on the 4th flip of a fair coin, given that the first three flips were all heads. Hmm, let me think. \n\nFirst, I remember that a fair coin has two sides, heads and tails, each with an equal chance of landing face up. So normally, the probability of getting heads on any single flip is 1/2. But wait, the question is asking about the probability after three consecutive heads. Does that affect the fourth flip?\n\nI think each coin flip is an independent event. That means the outcome of one flip doesn't influence the outcome of another. So even if I got heads three times in a row, the fourth flip should still have a 50-50 chance of being heads or tails. But maybe I'm missing something here. \n\nLet me double-check. If the coin is fair, then yes, each flip is independent. The coin doesn't have a memory, right? So no matter what happened before, each flip is a fresh 1/2 chance. But sometimes people think that after getting several heads in a row, tails is \"due\" to come up next. That's called the gambler's fallacy. So I need to make sure I'm not falling into that trap.\n\nAlternatively, could there be a different probability if we consider the previous outcomes? For example, if someone told me that in three flips there were three heads,",
           "token_count": 0
         },
         "word_problem": {
           "category": "reasoning",
           "verdict": "failed",
-          "raw_output": "<think>\nOkay, let's see. The problem says Alice has twice as many apples as Bob. Bob has 3 more than Carol. Carol has 4 apples. I need to find out how many apples Alice has.\n\nFirst, let me break it down step by step. Carol has 4 apples. That's straightforward. Then Bob has 3 more than Carol. So if Carol has 4, Bob must have 4 + 3. Let me calculate that: 4 + 3 is 7. So Bob has 7 apples.\n\nNow, Alice has twice as many as Bob. Since Bob has 7, Alice's number of apples would be 2 times 7. Let me do that multiplication: 2 * 7 equals 14. So Alice should have 14 apples.\n\nWait, let me check again to make sure I didn't make a mistake. Carol has 4, Bob has 3 more than Carol, so 4 + 3 is indeed 7. Then Alice has twice Bob's amount, so 2 * 7 is 14. Yeah, that seems right. No steps skipped here. The problem didn't mention any other numbers or conditions, so I think that's all there is to it. So the answer should be 14.\n</think>\n\n14",
+          "raw_output": "<think>\nOkay, let's see. The problem says Alice has twice as many apples as Bob. Bob has 3 more than Carol. Carol has 4 apples. I need to find out how many apples Alice has.\n\nFirst, let me break it down step by step. Carol has 4 apples. That's straightforward. Then Bob has 3 more than Carol. So if Carol has 4, Bob must have 4 + 3. Let me calculate that: 4 + 3 is 7. So Bob has 7 apples.\n\nNow, Alice has twice as many as Bob. Since Bob has 7, Alice would have 2 times 7. Let me do that multiplication: 2 * 7 equals 14. So Alice should have 14 apples.\n\nWait, let me check again to make sure I didn't make a mistake. Carol's apples are given directly as 4. Bob is 3 more than Carol, so 4 + 3 is definitely 7. Then Alice is twice Bob, so 2 * 7 is 14. Yeah, that seems right. No steps skipped here. The problem is pretty linear. Each person's apples depend on the next. So the answer should be 14. Let me just write that down.\n</think>\n\n14",
           "token_count": 0
         },
         "deduction": {
           "category": "reasoning",
           "verdict": "failed",
-          "raw_output": "<think>\nOkay, let's try to figure this out. The question is about logical reasoning using syllogisms. Let me break down the premises first.\n\nFirst premise: Some cats are black. So, there's at least a few cats that are black. That means the set of cats and the set of black things have some overlap.\n\nSecond premise: All black things are visible at night. So, anything that is black can be seen at night. That's a universal statement\u2014every member of the black set has the property of being visible at night.\n\nNow, the conclusion we need to check is: Does it follow that some cats are visible at night?\n\nHmm. Let's visualize this. If some cats are black (let's say a subset of cats), and all those black things (including those cats) are visible at night, then those particular cats (the black ones) must be visible at night. Since \"some\" in logic means at least one, if there's at least one cat that's black, and all black things are visible at night, then that cat is visible at night. Therefore, there exists at least some cats (the black ones) that are visible at night. \n\nWait, but is there a possibility that the black cats aren't visible? No, because the second premise says all black things are visible. So the black cats, being part of the black things, must be visible. Therefore, since some cats are black and those are visible,",
+          "raw_output": "<think>\nOkay, let's try to figure this out. The problem says some cats are black, and all black things are visible at night. The question is whether it follows that some cats are visible at night.\n\nFirst, let's break down the premises. The first statement is \"Some cats are black.\" In logic terms, that means there exists at least one cat that is black. The second premise is \"All black things are visible at night.\" So, if something is black, then it's visible at night.\n\nNow, I need to see if these two premises lead to the conclusion that \"some cats are visible at night.\" Let's think step by step. If some cats are black, then those particular cats are part of the group that is black. Since all black things are visible at night, those black cats must be visible at night. Therefore, there are some cats (the black ones) that are visible at night. \n\nWait, but is there a possibility that the black cats aren't visible? No, because the second premise says all black things are visible. So the black cats, being black, must be visible. Therefore, since there are some cats that are black and those are visible, the conclusion should hold.\n\nBut maybe there's a trick here. Sometimes in logic problems, the wording can be tricky. Let me check again. The first premise is existential (\"some\"), and the second is universal (\"all\"). Combining them, if some cats are in the",
           "token_count": 0
         },
         "counting": {
           "category": "reasoning",
           "verdict": "failed",
-          "raw_output": "<think>\nOkay, let's see. The question is asking how many letters are in the word \"MISSISSIPPI\". Hmm, I need to count each letter one by one. Let me start by writing out the word so I can visualize it better: M-I-S-S-I-S-S-I-P-P-I.\n\nWait, maybe I should break it down letter by letter. Let's go step by step. The word is M-I-S-S-I-S-S-I-P-P-I. Let me count each letter as I go. \n\nFirst letter: M (1)\nSecond: I (2)\nThird: S (3)\nFourth: S (4)\nFifth: I (5)\nSixth: S (6)\nSeventh: S (7)\nEighth: I (8)\nNinth: P (9)\nTenth: P (10)\nEleventh: I (11)\n\nSo that's 11 letters in total. Let me double-check to make sure I didn't skip any or count any extra. Let's write them out again with numbers:\n\n1. M\n2. I\n3. S\n4. S\n5. I\n6. S\n7. S\n8. I\n9. P\n10. P\n11. I\n\nYep, that's 11 letters. I remember sometimes when there are repeated letters, people might get confused, but here I just need the total count regardless of repetition",
+          "raw_output": "<think>\nOkay, let's see. The question is asking how many letters are in the word \"MISSISSIPPI\". Hmm, I need to count each letter one by one. Let me start by writing out the word again to make sure I have it right: M-I-S-S-I-S-S-I-P-P-I. Wait, is that correct? Let me check again. M-I-S-S-I-S-S-I-P-P-I. Yeah, that's right. Now, let me count each letter step by step.\n\nStarting with the first letter, M. That's 1. Then I, that's 2. Next is S, 3. Another S, 4. Then I, 5. S, 6. Another S, 7. I, 8. P, 9. Another P, 10. And finally, I, 11. So that's 11 letters in total. Wait, but maybe I should double-check because sometimes when there are repeated letters, it's easy to miscount. Let me try another approach. Let's break down the word into its components. \n\nThe word MISSISSIPPI can be broken down into M, I, S, S, I, S, S, I, P, P, I. Let me count each part again. M (1), I (2), S (3), S (4), I (5), S (6), S (7",
           "token_count": 0
         },
         "json": {
           "category": "instruction",
-          "verdict": "passed",
+          "verdict": "failed",
           "raw_output": "",
           "token_count": 0
         },
@@ -1970,137 +1755,6 @@
         "en_es": {
           "category": "translation",
           "verdict": "passed",
-          "raw_output": "",
-          "token_count": 0
-        }
-      }
-    },
-    "qwen3-235b": {
-      "model_name": "Qwen 3 235B",
-      "provider": "Cerebras",
-      "api_provider": "cerebras",
-      "quality_score": 17.5,
-      "speed_tps": 575.03,
-      "tests": {
-        "simple": {
-          "category": "speed",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 20
-        },
-        "medium": {
-          "category": "speed",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 264
-        },
-        "long": {
-          "category": "speed",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 300
-        },
-        "binary_search": {
-          "category": "code",
-          "verdict": "passed",
-          "raw_output": "",
-          "token_count": 0,
-          "execution_log": "([1, 3, 5, 7, 9], 5) -> 2 (expected 2); ([1, 3, 5, 7, 9], 6) -> -1 (expected -1); ([2, 4, 6], 2) -> 0 (expected 0); ([], 1) -> -1 (expected -1); ([42], 42) -> 0 (expected 0)"
-        },
-        "flatten": {
-          "category": "code",
-          "verdict": "passed",
-          "raw_output": "",
-          "token_count": 0,
-          "execution_log": "[1, [2, [3, 4]], 5] -> [1, 2, 3, 4, 5] (expected [1, 2, 3, 4, 5]); [[[]]] -> [] (expected []); [1, 2, 3] -> [1, 2, 3] (expected [1, 2, 3]); [[[1]], [[2]], [[3]]] -> [1, 2, 3] (expected [1, 2, 3])"
-        },
-        "longest_common_prefix": {
-          "category": "code",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 0
-        },
-        "is_prime": {
-          "category": "code",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 0
-        },
-        "knights_knaves": {
-          "category": "reasoning",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 0
-        },
-        "scheduling": {
-          "category": "reasoning",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 0
-        },
-        "base_rate": {
-          "category": "reasoning",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 0
-        },
-        "river_crossing": {
-          "category": "reasoning",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 0
-        },
-        "coin_flip": {
-          "category": "reasoning",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 0
-        },
-        "counting": {
-          "category": "reasoning",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 0
-        },
-        "json_nested": {
-          "category": "instruction",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 0
-        },
-        "sentence_count": {
-          "category": "instruction",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 0
-        },
-        "list": {
-          "category": "instruction",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 0
-        },
-        "json": {
-          "category": "instruction",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 0
-        },
-        "en_ru": {
-          "category": "translation",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 0
-        },
-        "ru_en": {
-          "category": "translation",
-          "verdict": "failed",
-          "raw_output": "",
-          "token_count": 0
-        },
-        "en_es": {
-          "category": "translation",
-          "verdict": "failed",
           "raw_output": "",
           "token_count": 0
         }
