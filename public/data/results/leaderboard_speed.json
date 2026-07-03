@@ -9,27 +9,27 @@
     "size_category": "large",
     "tier": "large",
     "context": "131k",
-    "timestamp": "2026-07-02T06:59:17.377582",
+    "timestamp": "2026-07-03T06:58:43.908570",
     "tests": {
       "speed": {
-        "avg_tokens_per_sec": 815.91,
+        "avg_tokens_per_sec": 696.37,
         "details": [
           {
             "test": "simple",
-            "time": 0.443,
-            "tokens_per_sec": 539.51,
-            "tokens": 239
+            "time": 1.073,
+            "tokens_per_sec": 227.31,
+            "tokens": 244
           },
           {
             "test": "medium",
-            "time": 0.313,
-            "tokens_per_sec": 959.98,
+            "time": 0.329,
+            "tokens_per_sec": 910.74,
             "tokens": 300
           },
           {
             "test": "long",
-            "time": 0.316,
-            "tokens_per_sec": 948.25,
+            "time": 0.315,
+            "tokens_per_sec": 951.07,
             "tokens": 300
           }
         ]
@@ -213,181 +213,8 @@
       }
     },
     "quality_score": 17.5,
-    "raw_speed": 815.91,
+    "raw_speed": 696.37,
     "overall_score": 17.5,
-    "speed_score": 100.0,
-    "tier_quality_score": 100.0
-  },
-  {
-    "model_id": "llama-3.1-8b",
-    "model_name": "Llama 3.1 8B Instant",
-    "provider": "Groq",
-    "api_provider": "groq",
-    "is_open_source": false,
-    "size": "8B",
-    "size_category": "small",
-    "tier": "small",
-    "context": "131k",
-    "timestamp": "2026-07-02T06:42:17.949351",
-    "tests": {
-      "speed": {
-        "avg_tokens_per_sec": 407.4,
-        "details": [
-          {
-            "test": "simple",
-            "time": 0.195,
-            "tokens_per_sec": 77.02,
-            "tokens": 15
-          },
-          {
-            "test": "medium",
-            "time": 0.498,
-            "tokens_per_sec": 508.07,
-            "tokens": 253
-          },
-          {
-            "test": "long",
-            "time": 0.471,
-            "tokens_per_sec": 637.1,
-            "tokens": 300
-          }
-        ]
-      },
-      "code": {
-        "avg_score": 100.0,
-        "details": [
-          {
-            "test": "fibonacci",
-            "pass_rate": 1.0,
-            "passed": 5,
-            "total": 5,
-            "details": [
-              {
-                "input": "0",
-                "expected": "0",
-                "got": "0",
-                "passed": true
-              },
-              {
-                "input": "1",
-                "expected": "1",
-                "got": "1",
-                "passed": true
-              },
-              {
-                "input": "2",
-                "expected": "1",
-                "got": "1",
-                "passed": true
-              },
-              {
-                "input": "6",
-                "expected": "8",
-                "got": "8",
-                "passed": true
-              },
-              {
-                "input": "9",
-                "expected": "34",
-                "got": "34",
-                "passed": true
-              }
-            ]
-          },
-          {
-            "test": "palindrome",
-            "pass_rate": 1.0,
-            "passed": 4,
-            "total": 4,
-            "details": [
-              {
-                "input": "'racecar'",
-                "expected": "True",
-                "got": "True",
-                "passed": true
-              },
-              {
-                "input": "'hello'",
-                "expected": "False",
-                "got": "False",
-                "passed": true
-              },
-              {
-                "input": "'A man a plan a canal Panama'",
-                "expected": "True",
-                "got": "True",
-                "passed": true
-              },
-              {
-                "input": "'world'",
-                "expected": "False",
-                "got": "False",
-                "passed": true
-              }
-            ]
-          }
-        ]
-      },
-      "reasoning": {
-        "score": 66.7,
-        "correct": 2,
-        "total": 3,
-        "details": [
-          {
-            "test": "syllogism",
-            "correct": true,
-            "score": 100,
-            "answer_given": "Yes."
-          },
-          {
-            "test": "speed_math",
-            "correct": false,
-            "score": 0,
-            "answer_given": "To determine which train is faster, we need to calculate their speeds.\n\nThe first train travels 120 km in 2 hours, so its speed is:\n120 km / 2 hours = 60 km/h\n\nThe second train travels 180 km in 3 hours, so its speed is:\n180 km / 3 hours = 60 km/h\n\nSince both trains have the same speed, the answer is:\nSame"
-          },
-          {
-            "test": "counting",
-            "correct": true,
-            "score": 100,
-            "answer_given": "11"
-          }
-        ]
-      },
-      "instruction": {
-        "avg_score": 100.0,
-        "details": [
-          {
-            "test": "json",
-            "score": 100,
-            "reason": "ok"
-          },
-          {
-            "test": "list",
-            "score": 100,
-            "found": 5,
-            "expected": 5
-          }
-        ]
-      },
-      "translation": {
-        "avg_score": 100.0,
-        "details": [
-          {
-            "test": "en_ru",
-            "score": 100,
-            "cyrillic_ratio": 0.84
-          },
-          {
-            "test": "ru_en",
-            "score": 100,
-            "latin_ratio": 0.83
-          }
-        ]
-      }
-    },
-    "quality_score": 90.0,
-    "raw_speed": 407.4,
-    "overall_score": 90.0,
     "speed_score": 100.0,
     "tier_quality_score": 100.0
   },
@@ -401,38 +228,38 @@
     "size_category": "medium",
     "tier": "medium",
     "context": "131k",
-    "timestamp": "2026-07-02T06:59:01.806043",
+    "timestamp": "2026-07-03T06:58:26.996972",
     "tests": {
       "speed": {
-        "avg_tokens_per_sec": 363.76,
+        "avg_tokens_per_sec": 614.71,
         "details": [
           {
             "test": "simple",
-            "time": 0.587,
-            "tokens_per_sec": 270.84,
-            "tokens": 159
+            "time": 0.415,
+            "tokens_per_sec": 527.85,
+            "tokens": 219
           },
           {
             "test": "medium",
-            "time": 0.604,
-            "tokens_per_sec": 496.37,
+            "time": 0.473,
+            "tokens_per_sec": 634.23,
             "tokens": 300
           },
           {
             "test": "long",
-            "time": 0.926,
-            "tokens_per_sec": 324.06,
+            "time": 0.44,
+            "tokens_per_sec": 682.06,
             "tokens": 300
           }
         ]
       },
       "code": {
-        "avg_score": 93.3,
+        "avg_score": 87.7,
         "details": [
           {
             "test": "is_prime",
-            "pass_rate": 1.0,
-            "passed": 6,
+            "pass_rate": 0.83,
+            "passed": 5,
             "total": 6,
             "details": [
               {
@@ -462,8 +289,8 @@
               {
                 "input": "17",
                 "expected": "True",
-                "got": "True",
-                "passed": true
+                "got": "None",
+                "passed": false
               },
               {
                 "input": "100",
@@ -589,7 +416,7 @@
         ]
       },
       "instruction": {
-        "avg_score": 66.7,
+        "avg_score": 100.0,
         "details": [
           {
             "test": "json",
@@ -604,8 +431,8 @@
           },
           {
             "test": "sentence_count",
-            "score": 0,
-            "found": 1,
+            "score": 100,
+            "found": 3,
             "expected": 3
           }
         ]
@@ -631,9 +458,9 @@
         ]
       }
     },
-    "quality_score": 91.0,
-    "raw_speed": 363.76,
-    "overall_score": 91.0,
+    "quality_score": 95.7,
+    "raw_speed": 614.71,
+    "overall_score": 95.7,
     "speed_score": 100.0,
     "tier_quality_score": 100.0
   },
@@ -647,27 +474,27 @@
     "size_category": "medium",
     "tier": "medium",
     "context": "32k",
-    "timestamp": "2026-07-02T07:01:05.086375",
+    "timestamp": "2026-07-03T07:00:33.914688",
     "tests": {
       "speed": {
-        "avg_tokens_per_sec": 344.74,
+        "avg_tokens_per_sec": 417.31,
         "details": [
           {
             "test": "simple",
-            "time": 0.926,
-            "tokens_per_sec": 323.92,
+            "time": 0.792,
+            "tokens_per_sec": 378.98,
             "tokens": 300
           },
           {
             "test": "medium",
-            "time": 0.728,
-            "tokens_per_sec": 412.35,
+            "time": 0.628,
+            "tokens_per_sec": 478.08,
             "tokens": 300
           },
           {
             "test": "long",
-            "time": 1.007,
-            "tokens_per_sec": 297.94,
+            "time": 0.76,
+            "tokens_per_sec": 394.87,
             "tokens": 300
           }
         ]
@@ -806,36 +633,220 @@
             "test": "river_crossing",
             "correct": true,
             "score": 100,
-            "answer_given": "<think>\nOkay, let's see. The farmer has a fox, a chicken, and a bag of grain. He needs to get all of them across the river using a boat that can only carry him and one item at a time. The problem is that if he leaves the fox with the chicken, the fox will eat the chicken. Similarly, if he leaves the chicken with the grain, the chicken will eat the grain. So he can't leave those two pairs together unsupervised.\n\nFirst, he needs to figure out the order in which to transport them. Let me think step by step. The key is to make sure that when he's moving items, the remaining ones on either side of the river don't end up in a dangerous situation.\n\nLet's start by considering the first trip. If he takes the fox first, then he leaves the chicken and grain on the original side. But the chicken and grain can't be left together, so that's a problem. So taking the fox first might not work because when he comes back, he can't leave the chicken and grain alone. Wait, but if he takes the fox across first, then he leaves the chicken and grain on the original side. But he can't leave them there because the chicken will eat the grain. So that's not allowed. Therefore, taking the fox first is a bad idea.\n\nWhat if he takes the chicken first? Then he leaves the fox and grain on the original side. The fox and grain"
+            "answer_given": "<think>\nOkay, let's see. The farmer has a fox, a chicken, and a bag of grain. He needs to get all of them across the river using a boat that can only carry him and one item at a time. The problem is that if he leaves the fox with the chicken, the fox will eat the chicken. Similarly, if he leaves the chicken with the grain, the chicken will eat the grain. So he can't leave those two pairs together unsupervised.\n\nFirst, I need to figure out the order in which he should transport them. The key is to make sure that after each trip, the remaining items on either side of the river are safe. Let me break it down step by step.\n\nHe starts on the original side with all three items. The boat can only carry him and one item. So his first move is to take one of the three across. The question is, which one should he take first?\n\nIf he takes the fox first, then he leaves the chicken and the grain on the original side. But the chicken and grain can't be left together because the chicken will eat the grain. So that's a problem. Therefore, taking the fox first is not a good idea.\n\nIf he takes the grain first, then he leaves the fox and the chicken on the original side. The fox and chicken can't be left together either because the fox will eat the chicken. So that's also a problem. So taking the grain first isn't"
           },
           {
             "test": "coin_flip",
             "correct": false,
             "score": 0,
-            "answer_given": "<think>\nOkay, so I need to figure out the probability of getting heads on the fourth flip of a fair coin, given that the first three flips were all heads. Hmm, let me think. \n\nFirst, I remember that a fair coin has two sides, heads and tails, each with an equal chance of landing face up. That means for any single flip, the probability of getting heads is 1/2, right? But wait, the question is about the fourth flip after getting three heads in a row. Does that affect the probability?\n\nHmm, maybe some people think that after getting several heads in a row, the probability of getting another head decreases because it's \"due\" for a tail. But is that actually true? I think that's called the gambler's fallacy. The idea that past events affect future outcomes in independent events. But if each coin flip is independent, then the previous results shouldn't influence the next one. \n\nSo, if the coin is fair and each flip is independent, then the probability of getting heads on the fourth flip should still be 1/2. But let me verify this. \n\nLet me recall the definition of independent events. Two events are independent if the occurrence of one does not affect the probability of the other. Since each coin flip is an independent event, the outcome of the first three flips doesn't influence the fourth. Therefore, regardless of what happened before, each flip has a 1/2 chance of being heads"
+            "answer_given": "<think>\nOkay, so I need to figure out the probability of getting heads on the fourth flip of a fair coin, given that the first three flips were all heads. Hmm, let me think. \n\nFirst, I remember that a fair coin has two sides, heads and tails, each with an equal chance of landing face up. So, for any single flip, the probability of getting heads is 1/2, right? But wait, the question is about the fourth flip after getting three heads in a row. Does that affect the probability?\n\nHmm, maybe some people think that after getting several heads in a row, the probability of getting another head decreases because it's \"due\" for a tail. But is that actually true? I think that's called the gambler's fallacy. The idea that past events affect future outcomes in independent events. But if each coin flip is independent, then the previous outcomes shouldn't influence the next one. \n\nLet me verify. If the coin is fair and each flip is independent, then the result of the fourth flip doesn't depend on the first three. So even if I got three heads in a row, the probability of getting heads on the next flip is still 1/2. \n\nBut wait, let me think again. What if someone argues that the probability of getting four heads in a row is 1/16, since each flip is 1/2 and (1/2)^4 is 1/1"
           },
           {
             "test": "word_problem",
             "correct": false,
             "score": 0,
-            "answer_given": "<think>\nOkay, let's see. The problem says Alice has twice as many apples as Bob. Bob has 3 more than Carol. Carol has 4 apples. I need to find out how many apples Alice has.\n\nFirst, let me break it down step by step. Carol has 4 apples. That's straightforward. Then Bob has 3 more than Carol. So if Carol has 4, Bob must have 4 + 3. Let me calculate that: 4 + 3 is 7. So Bob has 7 apples.\n\nNow, Alice has twice as many as Bob. Since Bob has 7, Alice would have 2 times 7. Let me do that multiplication: 2 * 7 equals 14. So Alice should have 14 apples.\n\nWait, let me check again to make sure I didn't make a mistake. Carol's apples are given directly as 4. Bob is 3 more than Carol, so 4 + 3 is definitely 7. Then Alice is twice Bob, so 2 * 7 is 14. Yeah, that seems right. No steps skipped here. The answer should be 14.\n</think>\n\n14"
+            "answer_given": "<think>\nOkay, let's see. The problem says Alice has twice as many apples as Bob. Bob has 3 more than Carol. Carol has 4 apples. I need to find out how many apples Alice has.\n\nFirst, let me break it down step by step. Carol has 4 apples. That's straightforward. Then Bob has 3 more than Carol. So if Carol has 4, Bob must have 4 + 3. Let me calculate that: 4 + 3 is 7. So Bob has 7 apples.\n\nNow, Alice has twice as many as Bob. Since Bob has 7, Alice would have 2 times 7. Let me do that multiplication: 2 * 7 equals 14. So Alice should have 14 apples.\n\nWait, let me check again to make sure I didn't make a mistake. Carol's apples are given directly as 4. Bob is 3 more than Carol, so 4 + 3 is definitely 7. Then Alice is twice Bob, so 2 * 7 is 14. Yeah, that seems right. No steps skipped here. The problem is pretty straightforward. I don't think I missed anything. The answer should be 14.\n</think>\n\n14"
           },
           {
             "test": "deduction",
             "correct": false,
             "score": 0,
-            "answer_given": "<think>\nOkay, let's try to figure this out. The question is about logical reasoning using syllogisms. Let me break down the premises first.\n\nFirst premise: Some cats are black. So, there exists a group of cats that are black. In logical terms, this is an existential statement\u2014there's at least one cat that is black.\n\nSecond premise: All black things are visible at night. This is a universal statement. Every object that is black is visible at night. So, if something is black, then it must be visible at night.\n\nNow, the conclusion we need to evaluate is: Does it follow that some cats are visible at night?\n\nLet me think about how these statements connect. The first premise tells us that there's an overlap between cats and black things. The second premise says all black things are visible at night. So, if some cats are black, and all black things are visible at night, then those particular cats (the ones that are black) must be visible at night. Therefore, there must be some cats that are visible at night.\n\nWait, but is there a possibility that the black cats aren't visible? No, because the second premise says all black things are visible. So, if a cat is black, it's included in the category of black things, hence visible at night. Therefore, since some cats are black, those cats are visible at night. Therefore, the conclusion should hold.\n\nBut let me check for any possible fall"
+            "answer_given": "<think>\nOkay, let's try to figure this out. The problem says some cats are black, and all black things are visible at night. The question is whether it follows that some cats are visible at night.\n\nFirst, let's break down the premises. The first statement is \"Some cats are black.\" In logic terms, this is an existential statement. It means there exists at least one cat that is black. The second premise is \"All black things are visible at night.\" That's a universal statement; every object that is black is visible at night.\n\nSo, if some cats are black, and all black things are visible at night, then those particular cats (the ones that are black) must be visible at night. Because they are part of the black things, and all black things have that visibility trait. \n\nWait, but does this hold logically? Let me think. Using syllogistic logic, the first premise is \"Some S are P\" where S is cats and P is black. The second premise is \"All P are Q\" where Q is visible at night. So combining them, we can infer \"Some S are Q.\" That would mean some cats are visible at night. \n\nBut I need to make sure there's no fallacy here. The syllogism here is in the form of: Some A are B. All B are C. Therefore, some A are C. This is a valid syllogism known as the Darapt"
           },
           {
             "test": "counting",
             "correct": false,
             "score": 0,
-            "answer_given": "<think>\nOkay, let's see. The question is asking how many letters are in the word \"MISSISSIPPI\". Hmm, I need to count each letter one by one. Let me start by writing out the word so I can visualize it better: M-I-S-S-I-S-S-I-P-P-I.\n\nWait, maybe I should break it down into individual letters. Let's list them out:\n\n1. M\n2. I\n3. S\n4. S\n5. I\n6. S\n7. S\n8. I\n9. P\n10. P\n11. I\n\nNow, let me count each one. Starting from the first letter, M is 1. Then I is 2, S is 3, another S is 4, I is 5, S is 6, S is 7, I is 8, P is 9, another P is 10, and the last I is 11. So that's 11 letters in total. \n\nBut wait, maybe I should check again to make sure I didn't skip any letters or count any extra. Let me go through the word again: M (1), I (2), S (3), S (4), I (5), S (6), S (7), I (8), P (9), P (10), I (11). Yep, that's 11 letters"
+            "answer_given": "<think>\nOkay, let's see. The question is asking how many letters are in the word \"MISSISSIPPI\". Hmm, I need to count each letter. Let me start by writing out the word again to visualize it better: M-I-S-S-I-S-S-I-P-P-I.\n\nWait, maybe I should break it down letter by letter. Let's go step by step. The word is M-I-S-S-I-S-S-I-P-P-I. Let me count each letter one by one. \n\nStarting with the first letter: M (1). Then I (2). Next is S (3), followed by another S (4). Then I (5). Then another S (6), another S (7). Then I (8). Then P (9), another P (10). Finally, ending with I (11). So that's 11 letters in total. \n\nBut wait, maybe I should check again to make sure I didn't skip any letters or count any extra. Let me write them out with numbers:\n\n1. M\n2. I\n3. S\n4. S\n5. I\n6. S\n7. S\n8. I\n9. P\n10. P\n11. I\n\nYes, that's 11 letters. Alternatively, I can think about the letters and their frequencies. The word MISSISSIPPI has the letters M, I, S, S, I,"
           }
         ]
       },
       "instruction": {
-        "avg_score": 66.7,
+        "avg_score": 33.3,
+        "details": [
+          {
+            "test": "json",
+            "score": 100,
+            "reason": "ok"
+          },
+          {
+            "test": "list",
+            "score": 0,
+            "found": 0,
+            "expected": 5
+          },
+          {
+            "test": "sentence_count",
+            "score": 0,
+            "found": 20,
+            "expected": 3
+          }
+        ]
+      },
+      "translation": {
+        "avg_score": 0.0,
+        "details": [
+          {
+            "test": "en_ru",
+            "score": 0,
+            "error": "Status 429 - Rate limit reached for model `qwen/qwen3-32b` in organization `org_01km3vw11jfmc8pvm30fmszar2` service tier `on_demand` "
+          },
+          {
+            "test": "ru_en",
+            "score": 0,
+            "error": "Status 429 - Rate limit reached for model `qwen/qwen3-32b` in organization `org_01km3vw11jfmc8pvm30fmszar2` service tier `on_demand` "
+          },
+          {
+            "test": "en_es",
+            "score": 0,
+            "error": "Status 429 - Rate limit reached for model `qwen/qwen3-32b` in organization `org_01km3vw11jfmc8pvm30fmszar2` service tier `on_demand` "
+          }
+        ]
+      }
+    },
+    "quality_score": 12.7,
+    "raw_speed": 417.31,
+    "overall_score": 12.7,
+    "speed_score": 100.0,
+    "tier_quality_score": 100.0
+  },
+  {
+    "model_id": "llama-3.1-8b",
+    "model_name": "Llama 3.1 8B Instant",
+    "provider": "Groq",
+    "api_provider": "groq",
+    "is_open_source": false,
+    "size": "8B",
+    "size_category": "small",
+    "tier": "small",
+    "context": "131k",
+    "timestamp": "2026-07-03T06:34:11.057724",
+    "tests": {
+      "speed": {
+        "avg_tokens_per_sec": 400.0,
+        "details": [
+          {
+            "test": "simple",
+            "time": 0.219,
+            "tokens_per_sec": 68.37,
+            "tokens": 15
+          },
+          {
+            "test": "medium",
+            "time": 0.448,
+            "tokens_per_sec": 526.6,
+            "tokens": 236
+          },
+          {
+            "test": "long",
+            "time": 0.496,
+            "tokens_per_sec": 605.04,
+            "tokens": 300
+          }
+        ]
+      },
+      "code": {
+        "avg_score": 100.0,
+        "details": [
+          {
+            "test": "fibonacci",
+            "pass_rate": 1.0,
+            "passed": 5,
+            "total": 5,
+            "details": [
+              {
+                "input": "0",
+                "expected": "0",
+                "got": "0",
+                "passed": true
+              },
+              {
+                "input": "1",
+                "expected": "1",
+                "got": "1",
+                "passed": true
+              },
+              {
+                "input": "2",
+                "expected": "1",
+                "got": "1",
+                "passed": true
+              },
+              {
+                "input": "6",
+                "expected": "8",
+                "got": "8",
+                "passed": true
+              },
+              {
+                "input": "9",
+                "expected": "34",
+                "got": "34",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "test": "palindrome",
+            "pass_rate": 1.0,
+            "passed": 4,
+            "total": 4,
+            "details": [
+              {
+                "input": "'racecar'",
+                "expected": "True",
+                "got": "True",
+                "passed": true
+              },
+              {
+                "input": "'hello'",
+                "expected": "False",
+                "got": "False",
+                "passed": true
+              },
+              {
+                "input": "'A man a plan a canal Panama'",
+                "expected": "True",
+                "got": "True",
+                "passed": true
+              },
+              {
+                "input": "'world'",
+                "expected": "False",
+                "got": "False",
+                "passed": true
+              }
+            ]
+          }
+        ]
+      },
+      "reasoning": {
+        "score": 66.7,
+        "correct": 2,
+        "total": 3,
+        "details": [
+          {
+            "test": "syllogism",
+            "correct": true,
+            "score": 100,
+            "answer_given": "Yes."
+          },
+          {
+            "test": "speed_math",
+            "correct": false,
+            "score": 0,
+            "answer_given": "To determine which train is faster, we need to calculate their speeds.\n\nThe first train travels 120 km in 2 hours, so its speed is:\n120 km / 2 hours = 60 km/h\n\nThe second train travels 180 km in 3 hours, so its speed is:\n180 km / 3 hours = 60 km/h\n\nSince both trains have the same speed, the answer is:\nSame"
+          },
+          {
+            "test": "counting",
+            "correct": true,
+            "score": 100,
+            "answer_given": "11"
+          }
+        ]
+      },
+      "instruction": {
+        "avg_score": 100.0,
         "details": [
           {
             "test": "json",
@@ -847,41 +858,193 @@
             "score": 100,
             "found": 5,
             "expected": 5
-          },
-          {
-            "test": "sentence_count",
-            "score": 0,
-            "found": 16,
-            "expected": 3
           }
         ]
       },
       "translation": {
-        "avg_score": 66.7,
+        "avg_score": 100.0,
         "details": [
           {
             "test": "en_ru",
-            "score": 0,
-            "cyrillic_ratio": 0.1
+            "score": 100,
+            "cyrillic_ratio": 0.84
           },
           {
             "test": "ru_en",
             "score": 100,
-            "latin_ratio": 0.67
-          },
-          {
-            "test": "en_es",
-            "score": 100,
-            "keywords_found": 12
+            "latin_ratio": 0.83
           }
         ]
       }
     },
-    "quality_score": 29.3,
-    "raw_speed": 344.74,
-    "overall_score": 29.3,
+    "quality_score": 90.0,
+    "raw_speed": 400.0,
+    "overall_score": 90.0,
     "speed_score": 100.0,
     "tier_quality_score": 100.0
+  },
+  {
+    "model_id": "zai-glm-4.7",
+    "model_name": "GLM 4.7",
+    "provider": "Cerebras",
+    "api_provider": "cerebras",
+    "is_open_source": false,
+    "size": "N/A",
+    "size_category": "large",
+    "tier": "large",
+    "context": "131k",
+    "timestamp": "2026-07-03T07:00:26.751416",
+    "tests": {
+      "speed": {
+        "avg_tokens_per_sec": 394.56,
+        "details": [
+          {
+            "test": "simple",
+            "time": 0.75,
+            "tokens_per_sec": 399.89,
+            "tokens": 300
+          },
+          {
+            "test": "medium",
+            "time": 0.633,
+            "tokens_per_sec": 473.62,
+            "tokens": 300
+          },
+          {
+            "test": "long",
+            "time": 0.967,
+            "tokens_per_sec": 310.16,
+            "tokens": 300
+          }
+        ]
+      },
+      "code": {
+        "avg_score": 0.0,
+        "details": [
+          {
+            "test": "binary_search",
+            "pass_rate": 0.0,
+            "passed": 0,
+            "total": 5,
+            "error": "empty response"
+          },
+          {
+            "test": "flatten",
+            "pass_rate": 0.0,
+            "passed": 0,
+            "total": 4,
+            "error": "empty response"
+          },
+          {
+            "test": "longest_common_prefix",
+            "pass_rate": 0.0,
+            "passed": 0,
+            "total": 4,
+            "error": "Status 429"
+          },
+          {
+            "test": "is_prime",
+            "pass_rate": 0.0,
+            "passed": 0,
+            "total": 6,
+            "error": "Status 429"
+          }
+        ]
+      },
+      "reasoning": {
+        "score": 0.0,
+        "correct": 0,
+        "total": 6,
+        "details": [
+          {
+            "test": "knights_knaves",
+            "correct": false,
+            "score": 0,
+            "error": "Status 429"
+          },
+          {
+            "test": "scheduling",
+            "correct": false,
+            "score": 0,
+            "error": "Status 429"
+          },
+          {
+            "test": "base_rate",
+            "correct": false,
+            "score": 0,
+            "error": "Status 429"
+          },
+          {
+            "test": "river_crossing",
+            "correct": false,
+            "score": 0,
+            "error": "Status 429"
+          },
+          {
+            "test": "coin_flip",
+            "correct": false,
+            "score": 0,
+            "error": "Status 429"
+          },
+          {
+            "test": "counting",
+            "correct": false,
+            "score": 0,
+            "error": "Status 429"
+          }
+        ]
+      },
+      "instruction": {
+        "avg_score": 0.0,
+        "details": [
+          {
+            "test": "json_nested",
+            "score": 0,
+            "error": "Status 429"
+          },
+          {
+            "test": "sentence_count",
+            "score": 0,
+            "error": "Status 429"
+          },
+          {
+            "test": "list",
+            "score": 0,
+            "error": "Status 429"
+          },
+          {
+            "test": "json",
+            "score": 0,
+            "error": "Status 429"
+          }
+        ]
+      },
+      "translation": {
+        "avg_score": 0.0,
+        "details": [
+          {
+            "test": "en_ru",
+            "score": 0,
+            "error": "Status 429"
+          },
+          {
+            "test": "ru_en",
+            "score": 0,
+            "error": "Status 429"
+          },
+          {
+            "test": "en_es",
+            "score": 0,
+            "error": "Status 429"
+          }
+        ]
+      }
+    },
+    "quality_score": 0.0,
+    "raw_speed": 394.56,
+    "overall_score": 0.0,
+    "speed_score": 100.0,
+    "tier_quality_score": 0.0
   },
   {
     "model_id": "llama-3.3-70b",
@@ -893,27 +1056,27 @@
     "size_category": "large",
     "tier": "large",
     "context": "131k",
-    "timestamp": "2026-07-02T06:57:56.906133",
+    "timestamp": "2026-07-03T06:57:26.070400",
     "tests": {
       "speed": {
-        "avg_tokens_per_sec": 250.99,
+        "avg_tokens_per_sec": 240.09,
         "details": [
           {
             "test": "simple",
-            "time": 0.313,
-            "tokens_per_sec": 57.46,
+            "time": 0.315,
+            "tokens_per_sec": 57.18,
             "tokens": 18
           },
           {
             "test": "medium",
-            "time": 0.81,
-            "tokens_per_sec": 295.03,
-            "tokens": 239
+            "time": 0.739,
+            "tokens_per_sec": 288.25,
+            "tokens": 213
           },
           {
             "test": "long",
-            "time": 0.749,
-            "tokens_per_sec": 400.47,
+            "time": 0.8,
+            "tokens_per_sec": 374.85,
             "tokens": 300
           }
         ]
@@ -1070,8 +1233,8 @@
         ]
       },
       "reasoning": {
-        "score": 83.3,
-        "correct": 5,
+        "score": 66.7,
+        "correct": 4,
         "total": 6,
         "details": [
           {
@@ -1100,9 +1263,9 @@
           },
           {
             "test": "coin_flip",
-            "correct": true,
-            "score": 100,
-            "answer_given": "The probability of getting heads on the 4th flip is 1/2. \n\nSince the coin is fair, each flip is an independent event, and the outcome of the previous flips does not affect the outcome of the next flip. Therefore, the probability of getting heads on the 4th flip remains the same as it was for the first 3 flips, which is 1/2."
+            "correct": false,
+            "score": 0,
+            "answer_given": "Since the coin is fair, the outcome of each flip is independent of the previous flips. The probability of getting heads on any given flip is 1/2. \n\nSo, the probability of getting heads on the 4th flip is 1/2."
           },
           {
             "test": "counting",
@@ -1160,9 +1323,9 @@
         ]
       }
     },
-    "quality_score": 95.0,
-    "raw_speed": 250.99,
-    "overall_score": 95.0,
+    "quality_score": 90.0,
+    "raw_speed": 240.09,
+    "overall_score": 90.0,
     "speed_score": 100.0,
     "tier_quality_score": 100.0
   },
@@ -1176,27 +1339,27 @@
     "size_category": "medium",
     "tier": "medium",
     "context": "131k",
-    "timestamp": "2026-07-02T06:59:22.895118",
+    "timestamp": "2026-07-03T06:58:49.696172",
     "tests": {
       "speed": {
-        "avg_tokens_per_sec": 188.99,
+        "avg_tokens_per_sec": 204.83,
         "details": [
           {
             "test": "simple",
-            "time": 0.343,
-            "tokens_per_sec": 46.68,
-            "tokens": 16
+            "time": 0.452,
+            "tokens_per_sec": 37.61,
+            "tokens": 17
           },
           {
             "test": "medium",
-            "time": 1.469,
-            "tokens_per_sec": 193.98,
+            "time": 0.915,
+            "tokens_per_sec": 311.51,
             "tokens": 285
           },
           {
             "test": "long",
-            "time": 0.919,
-            "tokens_per_sec": 326.31,
+            "time": 1.13,
+            "tokens_per_sec": 265.37,
             "tokens": 300
           }
         ]
@@ -1335,25 +1498,25 @@
             "test": "river_crossing",
             "correct": false,
             "score": 0,
-            "answer_given": "## Step 1: Understand the constraints of the problem\nThe farmer has a fox, a chicken, and a bag of grain. He needs to cross a river but can only take one item with him at a time, including himself.\n\n## 2: Identify the risks if items are left alone\nIf the fox is left alone with the chicken, the fox will eat the chicken. If the chicken is left alone with the grain, the chicken will eat the grain.\n\n## 3: Determine the safest first item to take\nTo minimize risk, the farmer should take the chicken first. This is because if he takes the fox or the grain first, he would leave the chicken with one of them, which could result in the loss of an item.\n\n## 4: Conclusion based on logic\nTaking the chicken first ensures that the farmer can then go back and forth to transport the other items without immediately losing any due to the actions of the fox or the chicken.\n\nThe final answer is: Chicken"
+            "answer_given": "## Step 1: Understand the constraints of the problem\nThe farmer has a fox, a chicken, and a bag of grain. He needs to cross a river but can only take one item with him at a time, including himself.\n\n## 2: Identify the risks if items are left alone\nIf the fox is left alone with the chicken, the fox will eat the chicken. If the chicken is left alone with the grain, the chicken will eat the grain.\n\n## 3: Determine the safest first item to take\nTo minimize risk, the farmer should take the chicken first. This is because if he takes the fox or the grain first, he will leave the chicken alone with one of them, which poses a risk. Taking the chicken first allows him to leave the fox and the grain on their respective sides without immediate risk.\n\nThe final answer is: Chicken"
           },
           {
             "test": "coin_flip",
             "correct": false,
             "score": 0,
-            "answer_given": "## Step 1: Understanding the Problem\nThe problem involves flipping a fair coin 3 times and getting heads each time, and then finding the probability of getting heads on the 4th flip.\n\n## 2: Identifying Key Concepts\nEach flip of a fair coin has 2 possible outcomes: heads (H) or tails (T), each with a probability of 1/2.\n\n## 3: Analyzing the Sequence of Flips\nThe sequence of flips so far is HHH (heads, heads, heads). The outcome of previous flips does not affect the outcome of future flips in an independent event like coin flipping.\n\n## 4: Determining the Probability of the 4th Flip\nSince the coin is fair and each flip is an independent event, the probability of getting heads on the 4th flip is the same as getting heads on any single flip, which is 1/2.\n\n## 5: Conclusion\nThe probability of getting heads on the 4th flip, given that the first 3 flips were heads, remains 1/2 because each coin flip is an independent event.\n\nThe final answer is: $\\boxed{\\frac{1}{2}}$"
+            "answer_given": "## Step 1: Understanding the Problem\nThe problem involves flipping a fair coin 3 times and getting heads each time, and then finding the probability of getting heads on the 4th flip.\n\n## 2: Identifying Key Concepts\nEach flip of a fair coin has 2 possible outcomes: heads (H) or tails (T), and since the coin is fair, the probability of getting heads or tails on any given flip is 1/2.\n\n## 3: Analyzing the Sequence of Flips\nThe sequence of flips so far is HHH (heads, heads, heads). The outcome of previous flips does not affect the outcome of future flips in an independent event like a coin flip.\n\n## 4: Determining the Probability of the 4th Flip\nSince each coin flip is an independent event, the probability of getting heads on the 4th flip is the same as getting heads on any single flip of a fair coin, which is 1/2.\n\n## 5: Conclusion\nThe probability of getting heads on the 4th flip, given that the first 3 flips were heads, remains 1/2 because each flip is an independent event.\n\nThe final answer is: $\\boxed{\\frac{1}{2}}$"
           },
           {
             "test": "word_problem",
             "correct": false,
             "score": 0,
-            "answer_given": "## Step 1: Determine the number of apples Carol has.\nCarol has 4 apples.\n\n## Step 2: Calculate the number of apples Bob has.\nBob has 3 more apples than Carol. So, Bob has 4 + 3 = 7 apples.\n\n## 3: Calculate the number of apples Alice has.\nAlice has twice as many apples as Bob. So, Alice has 2 * 7 = 14 apples.\n\nThe final answer is: $\\boxed{14}$"
+            "answer_given": "## Step 1: Determine the number of apples Carol has.\nCarol has 4 apples.\n\n## 2: Calculate the number of apples Bob has.\nBob has 3 more apples than Carol. So, Bob has 4 + 3 = 7 apples.\n\n## 3: Calculate the number of apples Alice has.\nAlice has twice as many apples as Bob. So, Alice has 2 * 7 = 14 apples.\n\nThe final answer is: $\\boxed{14}$"
           },
           {
             "test": "deduction",
             "correct": false,
             "score": 0,
-            "answer_given": "## Step 1: Understand the premises\nWe are given two premises: \"Some cats are black\" and \"All black things are visible at night\". We need to determine if it logically follows that \"some cats are visible at night\".\n\n## 2: Analyze the first premise\nThe first premise tells us that there is a subset of cats that are black. It does not tell us that all cats are black, just that some of them are.\n\n## 3: Analyze the second premise\nThe second premise states that anything that is black is visible at night. This implies that if something is black, it has the property of being visible at night.\n\n## 4: Apply logical deduction\nIf some cats are black (premise 1) and all black things are visible at night (premise 2), then it logically follows that the cats which are black are visible at night. Since the first premise establishes that there are black cats, and the second premise establishes that black things are visible at night, we can conclude that the black cats are visible at night.\n\n## 5: Conclude based on the premises\nGiven that we have established there are cats that are black and that these black cats are visible at night (because all black things are visible at night), it directly follows that some cats are visible at night.\n\nThe final answer is: $\\boxed{Yes}$"
+            "answer_given": "## Step 1: Understand the premises\nWe are given two premises: \"Some cats are black\" and \"All black things are visible at night\". We need to determine if it logically follows that \"some cats are visible at night\".\n\n## 2: Analyze the first premise\nThe first premise tells us that there is a subset of cats that are black. It does not tell us that all cats are black, just that some of them are.\n\n## 3: Analyze the second premise\nThe second premise states that anything that is black is visible at night. This implies that if something is black, it has the property of being visible at night.\n\n## 4: Apply logical deduction\nFrom the premises, we know that some cats are black (premise 1) and that all black things are visible at night (premise 2). Therefore, it logically follows that the black cats (which are a subset of all cats) are visible at night.\n\n## 5: Conclude based on the deduction\nSince some cats are black and all black things are visible at night, it must be true that some cats (specifically, the black ones) are visible at night.\n\nThe final answer is: $\\boxed{Yes}$"
           },
           {
             "test": "counting",
@@ -1407,173 +1570,10 @@
       }
     },
     "quality_score": 73.7,
-    "raw_speed": 188.99,
+    "raw_speed": 204.83,
     "overall_score": 73.7,
     "speed_score": 100.0,
     "tier_quality_score": 100.0
-  },
-  {
-    "model_id": "zai-glm-4.7",
-    "model_name": "GLM 4.7",
-    "provider": "Cerebras",
-    "api_provider": "cerebras",
-    "is_open_source": false,
-    "size": "N/A",
-    "size_category": "large",
-    "tier": "large",
-    "context": "131k",
-    "timestamp": "2026-07-02T07:00:53.525356",
-    "tests": {
-      "speed": {
-        "avg_tokens_per_sec": 180.9,
-        "details": [
-          {
-            "test": "simple",
-            "time": 2.21,
-            "tokens_per_sec": 135.72,
-            "tokens": 300
-          },
-          {
-            "test": "medium",
-            "time": 1.074,
-            "tokens_per_sec": 279.39,
-            "tokens": 300
-          },
-          {
-            "test": "long",
-            "time": 2.351,
-            "tokens_per_sec": 127.6,
-            "tokens": 300
-          }
-        ]
-      },
-      "code": {
-        "avg_score": 0.0,
-        "details": [
-          {
-            "test": "binary_search",
-            "pass_rate": 0.0,
-            "passed": 0,
-            "total": 5,
-            "error": "empty response"
-          },
-          {
-            "test": "flatten",
-            "pass_rate": 0.0,
-            "passed": 0,
-            "total": 4,
-            "error": "empty response"
-          },
-          {
-            "test": "longest_common_prefix",
-            "pass_rate": 0.0,
-            "passed": 0,
-            "total": 4,
-            "error": "Status 429"
-          },
-          {
-            "test": "is_prime",
-            "pass_rate": 0.0,
-            "passed": 0,
-            "total": 6,
-            "error": "Status 429"
-          }
-        ]
-      },
-      "reasoning": {
-        "score": 0.0,
-        "correct": 0,
-        "total": 6,
-        "details": [
-          {
-            "test": "knights_knaves",
-            "correct": false,
-            "score": 0,
-            "error": "Status 429"
-          },
-          {
-            "test": "scheduling",
-            "correct": false,
-            "score": 0,
-            "error": "Status 429"
-          },
-          {
-            "test": "base_rate",
-            "correct": false,
-            "score": 0,
-            "error": "Status 429"
-          },
-          {
-            "test": "river_crossing",
-            "correct": false,
-            "score": 0,
-            "error": "Status 429"
-          },
-          {
-            "test": "coin_flip",
-            "correct": false,
-            "score": 0,
-            "error": "Status 429"
-          },
-          {
-            "test": "counting",
-            "correct": false,
-            "score": 0,
-            "error": "Status 429"
-          }
-        ]
-      },
-      "instruction": {
-        "avg_score": 0.0,
-        "details": [
-          {
-            "test": "json_nested",
-            "score": 0,
-            "error": "Status 429"
-          },
-          {
-            "test": "sentence_count",
-            "score": 0,
-            "error": "Status 429"
-          },
-          {
-            "test": "list",
-            "score": 0,
-            "error": "Status 429"
-          },
-          {
-            "test": "json",
-            "score": 0,
-            "error": "Status 429"
-          }
-        ]
-      },
-      "translation": {
-        "avg_score": 0.0,
-        "details": [
-          {
-            "test": "en_ru",
-            "score": 0,
-            "error": "Status 429"
-          },
-          {
-            "test": "ru_en",
-            "score": 0,
-            "error": "Status 429"
-          },
-          {
-            "test": "en_es",
-            "score": 0,
-            "error": "Status 429"
-          }
-        ]
-      }
-    },
-    "quality_score": 0.0,
-    "raw_speed": 180.9,
-    "overall_score": 0.0,
-    "speed_score": 100.0,
-    "tier_quality_score": 0.0
   },
   {
     "model_id": "nemotron-nano-30b",
@@ -1585,27 +1585,27 @@
     "size_category": "medium",
     "tier": "medium",
     "context": "256k",
-    "timestamp": "2026-07-02T06:42:22.405420",
+    "timestamp": "2026-07-03T06:34:15.967378",
     "tests": {
       "speed": {
-        "avg_tokens_per_sec": 167.23,
+        "avg_tokens_per_sec": 121.23,
         "details": [
           {
             "test": "simple",
-            "time": 2.74,
-            "tokens_per_sec": 109.49,
+            "time": 2.455,
+            "tokens_per_sec": 122.21,
             "tokens": 300
           },
           {
             "test": "medium",
-            "time": 1.425,
-            "tokens_per_sec": 210.56,
+            "time": 2.82,
+            "tokens_per_sec": 106.39,
             "tokens": 300
           },
           {
             "test": "long",
-            "time": 1.652,
-            "tokens_per_sec": 181.64,
+            "time": 2.221,
+            "tokens_per_sec": 135.1,
             "tokens": 300
           }
         ]
@@ -1750,7 +1750,7 @@
             "test": "coin_flip",
             "correct": false,
             "score": 0,
-            "answer_given": "The probability of getting heads on the 4th flip is  \n\n\\[\n\\boxed{\\frac{1}{2}}\n\\]"
+            "answer_given": "The outcome of each flip of a fair coin is independent of previous flips.  \nTherefore, regardless of the first three results, the probability that the fourth flip is heads is  \n\n\\[\n\\boxed{\\tfrac12}\n\\]"
           },
           {
             "test": "word_problem",
@@ -1795,12 +1795,12 @@
         ]
       },
       "translation": {
-        "avg_score": 66.7,
+        "avg_score": 100.0,
         "details": [
           {
             "test": "en_ru",
-            "score": 0,
-            "cyrillic_ratio": 0.13
+            "score": 100,
+            "cyrillic_ratio": 0.89
           },
           {
             "test": "ru_en",
@@ -1815,11 +1815,11 @@
         ]
       }
     },
-    "quality_score": 75.0,
-    "raw_speed": 167.23,
-    "overall_score": 75.0,
+    "quality_score": 80.0,
+    "raw_speed": 121.23,
+    "overall_score": 80.0,
     "speed_score": 100.0,
-    "tier_quality_score": 81.8
+    "tier_quality_score": 90.6
   },
   {
     "model_id": "gpt-oss-20b-openrouter",
@@ -1831,555 +1831,27 @@
     "size_category": "medium",
     "tier": "medium",
     "context": "131k",
-    "timestamp": "2026-07-02T06:59:36.851023",
+    "timestamp": "2026-07-03T06:59:03.466177",
     "tests": {
       "speed": {
-        "avg_tokens_per_sec": 50.45,
+        "avg_tokens_per_sec": 60.1,
         "details": [
           {
             "test": "simple",
-            "time": 4.6,
-            "tokens_per_sec": 57.6,
-            "tokens": 265
-          },
-          {
-            "test": "medium",
-            "time": 6.607,
-            "tokens_per_sec": 45.41,
-            "tokens": 300
-          },
-          {
-            "test": "long",
-            "time": 6.205,
-            "tokens_per_sec": 48.35,
-            "tokens": 300
-          }
-        ]
-      },
-      "code": {
-        "avg_score": 93.3,
-        "details": [
-          {
-            "test": "is_prime",
-            "pass_rate": 1.0,
-            "passed": 6,
-            "total": 6,
-            "details": [
-              {
-                "input": "1",
-                "expected": "False",
-                "got": "False",
-                "passed": true
-              },
-              {
-                "input": "2",
-                "expected": "True",
-                "got": "True",
-                "passed": true
-              },
-              {
-                "input": "3",
-                "expected": "True",
-                "got": "True",
-                "passed": true
-              },
-              {
-                "input": "4",
-                "expected": "False",
-                "got": "False",
-                "passed": true
-              },
-              {
-                "input": "17",
-                "expected": "True",
-                "got": "True",
-                "passed": true
-              },
-              {
-                "input": "100",
-                "expected": "False",
-                "got": "False",
-                "passed": true
-              }
-            ]
-          },
-          {
-            "test": "bubble_sort",
-            "pass_rate": 1.0,
-            "passed": 5,
-            "total": 5,
-            "details": [
-              {
-                "input": "[3, 1, 4, 1, 5]",
-                "expected": "[1, 1, 3, 4, 5]",
-                "got": "[1, 1, 3, 4, 5]",
-                "passed": true
-              },
-              {
-                "input": "[5, 4, 3, 2, 1]",
-                "expected": "[1, 2, 3, 4, 5]",
-                "got": "[1, 2, 3, 4, 5]",
-                "passed": true
-              },
-              {
-                "input": "[]",
-                "expected": "[]",
-                "got": "[]",
-                "passed": true
-              },
-              {
-                "input": "[1]",
-                "expected": "[1]",
-                "got": "[1]",
-                "passed": true
-              },
-              {
-                "input": "[2, 2, 2]",
-                "expected": "[2, 2, 2]",
-                "got": "[2, 2, 2]",
-                "passed": true
-              }
-            ]
-          },
-          {
-            "test": "count_vowels",
-            "pass_rate": 0.8,
-            "passed": 4,
-            "total": 5,
-            "details": [
-              {
-                "input": "'hello'",
-                "expected": "2",
-                "got": "2",
-                "passed": true
-              },
-              {
-                "input": "'AEIOU'",
-                "expected": "5",
-                "got": "5",
-                "passed": true
-              },
-              {
-                "input": "'rhythm'",
-                "expected": "0",
-                "got": "0",
-                "passed": true
-              },
-              {
-                "input": "'Python is great'",
-                "expected": "5",
-                "got": "4",
-                "passed": false
-              },
-              {
-                "input": "''",
-                "expected": "0",
-                "got": "0",
-                "passed": true
-              }
-            ]
-          }
-        ]
-      },
-      "reasoning": {
-        "score": 60.0,
-        "correct": 3,
-        "total": 5,
-        "details": [
-          {
-            "test": "river_crossing",
-            "correct": false,
-            "score": 0
-          },
-          {
-            "test": "coin_flip",
-            "correct": false,
-            "score": 0,
-            "answer_given": "\\(\\displaystyle \\frac12\\)"
-          },
-          {
-            "test": "word_problem",
-            "correct": true,
-            "score": 100,
-            "answer_given": "14"
-          },
-          {
-            "test": "deduction",
-            "correct": true,
-            "score": 100,
-            "answer_given": "Yes"
-          },
-          {
-            "test": "counting",
-            "correct": true,
-            "score": 100,
-            "answer_given": "11"
-          }
-        ]
-      },
-      "instruction": {
-        "avg_score": 83.3,
-        "details": [
-          {
-            "test": "json",
-            "score": 100,
-            "reason": "ok"
-          },
-          {
-            "test": "list",
-            "score": 100,
-            "found": 5,
-            "expected": 5
-          },
-          {
-            "test": "sentence_count",
-            "score": 50,
-            "found": 2,
-            "expected": 3
-          }
-        ]
-      },
-      "translation": {
-        "avg_score": 100.0,
-        "details": [
-          {
-            "test": "en_ru",
-            "score": 100,
-            "cyrillic_ratio": 0.89
-          },
-          {
-            "test": "ru_en",
-            "score": 100,
-            "latin_ratio": 0.87
-          },
-          {
-            "test": "en_es",
-            "score": 100,
-            "keywords_found": 10
-          }
-        ]
-      }
-    },
-    "quality_score": 82.3,
-    "raw_speed": 50.45,
-    "overall_score": 82.3,
-    "speed_score": 100.0,
-    "tier_quality_score": 100.0
-  },
-  {
-    "model_id": "nemotron-super-120b",
-    "model_name": "Nemotron 3 Super 120B",
-    "provider": "OpenRouter",
-    "api_provider": "openrouter",
-    "is_open_source": false,
-    "size": "120B",
-    "size_category": "large",
-    "tier": "large",
-    "context": "262k",
-    "timestamp": "2026-07-02T06:42:22.407208",
-    "tests": {
-      "speed": {
-        "avg_tokens_per_sec": 39.77,
-        "details": [
-          {
-            "test": "simple",
-            "time": 13.451,
-            "tokens_per_sec": 22.3,
+            "time": 5.304,
+            "tokens_per_sec": 56.56,
             "tokens": 300
           },
           {
             "test": "medium",
-            "time": 3.84,
-            "tokens_per_sec": 78.13,
+            "time": 7.359,
+            "tokens_per_sec": 40.77,
             "tokens": 300
           },
           {
             "test": "long",
-            "time": 15.89,
-            "tokens_per_sec": 18.88,
-            "tokens": 300
-          }
-        ]
-      },
-      "code": {
-        "avg_score": 25.0,
-        "details": [
-          {
-            "test": "binary_search",
-            "pass_rate": 0.0,
-            "passed": 0,
-            "total": 5,
-            "details": [
-              {
-                "input": "([1, 3, 5, 7, 9], 5)",
-                "expected": "2",
-                "got": "File \"<string>\", line 1\n    defbinary_search(arr, target):\n                                 ^\nSyntax",
-                "passed": false
-              },
-              {
-                "input": "([1, 3, 5, 7, 9], 6)",
-                "expected": "-1",
-                "got": "File \"<string>\", line 1\n    defbinary_search(arr, target):\n                                 ^\nSyntax",
-                "passed": false
-              },
-              {
-                "input": "([2, 4, 6], 2)",
-                "expected": "0",
-                "got": "File \"<string>\", line 1\n    defbinary_search(arr, target):\n                                 ^\nSyntax",
-                "passed": false
-              },
-              {
-                "input": "([], 1)",
-                "expected": "-1",
-                "got": "File \"<string>\", line 1\n    defbinary_search(arr, target):\n                                 ^\nSyntax",
-                "passed": false
-              },
-              {
-                "input": "([42], 42)",
-                "expected": "0",
-                "got": "File \"<string>\", line 1\n    defbinary_search(arr, target):\n                                 ^\nSyntax",
-                "passed": false
-              }
-            ]
-          },
-          {
-            "test": "flatten",
-            "pass_rate": 0.0,
-            "passed": 0,
-            "total": 4,
-            "details": [
-              {
-                "input": "[1, [2, [3, 4]], 5]",
-                "expected": "[1, 2, 3, 4, 5]",
-                "got": "File \"<string>\", line 1\n    defflatten(lst):\n                   ^\nSyntaxError: invalid syntax",
-                "passed": false
-              },
-              {
-                "input": "[[[]]]",
-                "expected": "[]",
-                "got": "File \"<string>\", line 1\n    defflatten(lst):\n                   ^\nSyntaxError: invalid syntax",
-                "passed": false
-              },
-              {
-                "input": "[1, 2, 3]",
-                "expected": "[1, 2, 3]",
-                "got": "File \"<string>\", line 1\n    defflatten(lst):\n                   ^\nSyntaxError: invalid syntax",
-                "passed": false
-              },
-              {
-                "input": "[[[1]], [[2]], [[3]]]",
-                "expected": "[1, 2, 3]",
-                "got": "File \"<string>\", line 1\n    defflatten(lst):\n                   ^\nSyntaxError: invalid syntax",
-                "passed": false
-              }
-            ]
-          },
-          {
-            "test": "longest_common_prefix",
-            "pass_rate": 1.0,
-            "passed": 4,
-            "total": 4,
-            "details": [
-              {
-                "input": "['flower', 'flow', 'flight']",
-                "expected": "'fl'",
-                "got": "'fl'",
-                "passed": true
-              },
-              {
-                "input": "['dog', 'racecar', 'car']",
-                "expected": "''",
-                "got": "''",
-                "passed": true
-              },
-              {
-                "input": "['interview', 'interact', 'interface']",
-                "expected": "'inter'",
-                "got": "'inter'",
-                "passed": true
-              },
-              {
-                "input": "['']",
-                "expected": "''",
-                "got": "''",
-                "passed": true
-              }
-            ]
-          },
-          {
-            "test": "is_prime",
-            "pass_rate": 0.0,
-            "passed": 0,
-            "total": 6,
-            "details": [
-              {
-                "input": "1",
-                "expected": "False",
-                "got": "File \"<string>\", line 1\n    defis_prime(n):\n                  ^\nSyntaxError: invalid syntax",
-                "passed": false
-              },
-              {
-                "input": "2",
-                "expected": "True",
-                "got": "File \"<string>\", line 1\n    defis_prime(n):\n                  ^\nSyntaxError: invalid syntax",
-                "passed": false
-              },
-              {
-                "input": "3",
-                "expected": "True",
-                "got": "File \"<string>\", line 1\n    defis_prime(n):\n                  ^\nSyntaxError: invalid syntax",
-                "passed": false
-              },
-              {
-                "input": "4",
-                "expected": "False",
-                "got": "File \"<string>\", line 1\n    defis_prime(n):\n                  ^\nSyntaxError: invalid syntax",
-                "passed": false
-              },
-              {
-                "input": "17",
-                "expected": "True",
-                "got": "File \"<string>\", line 1\n    defis_prime(n):\n                  ^\nSyntaxError: invalid syntax",
-                "passed": false
-              },
-              {
-                "input": "100",
-                "expected": "False",
-                "got": "File \"<string>\", line 1\n    defis_prime(n):\n                  ^\nSyntaxError: invalid syntax",
-                "passed": false
-              }
-            ]
-          }
-        ]
-      },
-      "reasoning": {
-        "score": 83.3,
-        "correct": 5,
-        "total": 6,
-        "details": [
-          {
-            "test": "knights_knaves",
-            "correct": false,
-            "score": 0,
-            "answer_given": "We need to solve logic puzzle.\n\nLet A says: \"B is a knave.\" B says: \"A and I are both knights.\"\n\nLet\u2019s denote: A is knight (truth-teller) or knave (liar). Same for B.\n\nStatement of A: \"B is a knave.\" So if A is knight, then statement true => B is knave. If A is knave, statement false => B is not a knave => B is knight.\n\nStatement of B: \"A and I are both knights.\" So B claims both A and B are knights.\n\nIf B is knight, then statement true => A is knight and B is knight (consistent). If B is knave, statement false => it's not the case that both A and B are knights. So at least one of A or B is knave.\n\nNow evaluate possibilities.\n\nCase 1: A knight. Then from A's statement, B is knave. So B knave. Then evaluate B's statement: B is knave, so his statement must be false. B says \"A and I are both knights.\" Since B is knave, statement false. Is it false? A is knight (true), B is knave (false). So \"A and I are both knights\" is false because B is not knight. So the statement is false, which matches B being knave (liar). So consistent. So A knight, B knave works"
-          },
-          {
-            "test": "scheduling",
-            "correct": true,
-            "score": 100,
-            "answer_given": "No"
-          },
-          {
-            "test": "base_rate",
-            "correct": true,
-            "score": 100,
-            "answer_given": "Healthy"
-          },
-          {
-            "test": "river_crossing",
-            "correct": true,
-            "score": 100,
-            "answer_given": "Chicken"
-          },
-          {
-            "test": "coin_flip",
-            "correct": true,
-            "score": 100,
-            "answer_given": "1/2"
-          },
-          {
-            "test": "counting",
-            "correct": true,
-            "score": 100,
-            "answer_given": "11"
-          }
-        ]
-      },
-      "instruction": {
-        "avg_score": 62.5,
-        "details": [
-          {
-            "test": "json_nested",
-            "score": 0,
-            "reason": "no JSON found"
-          },
-          {
-            "test": "sentence_count",
-            "score": 50,
-            "found": 2,
-            "expected": 3
-          },
-          {
-            "test": "list",
-            "score": 100,
-            "found": 5,
-            "expected": 5
-          },
-          {
-            "test": "json",
-            "score": 100,
-            "reason": "ok"
-          }
-        ]
-      },
-      "translation": {
-        "avg_score": 100.0,
-        "details": [
-          {
-            "test": "en_ru",
-            "score": 100,
-            "cyrillic_ratio": 0.89
-          },
-          {
-            "test": "ru_en",
-            "score": 100,
-            "latin_ratio": 0.89
-          },
-          {
-            "test": "en_es",
-            "score": 100,
-            "keywords_found": 10
-          }
-        ]
-      }
-    },
-    "quality_score": 61.2,
-    "raw_speed": 39.77,
-    "overall_score": 61.2,
-    "speed_score": 100.0,
-    "tier_quality_score": 100.0
-  },
-  {
-    "model_id": "nemotron-nano-12b",
-    "model_name": "Nemotron Nano 12B",
-    "provider": "OpenRouter",
-    "api_provider": "openrouter",
-    "is_open_source": false,
-    "size": "12B",
-    "size_category": "medium",
-    "tier": "medium",
-    "context": "128k",
-    "timestamp": "2026-07-02T06:42:22.405164",
-    "tests": {
-      "speed": {
-        "avg_tokens_per_sec": 31.7,
-        "details": [
-          {
-            "test": "simple",
-            "time": 0.765,
-            "tokens_per_sec": 22.22,
-            "tokens": 17
-          },
-          {
-            "test": "medium",
-            "time": 4.731,
-            "tokens_per_sec": 43.75,
-            "tokens": 207
-          },
-          {
-            "test": "long",
-            "time": 10.298,
-            "tokens_per_sec": 29.13,
+            "time": 3.616,
+            "tokens_per_sec": 82.97,
             "tokens": 300
           }
         ]
@@ -2524,7 +1996,7 @@
             "test": "coin_flip",
             "correct": false,
             "score": 0,
-            "answer_given": "The probability of getting heads on any single flip of a fair coin is always 1/2, regardless of the outcomes of previous flips. This is because each flip is an independent event. Therefore, the probability of getting heads on the 4th flip is 1/2."
+            "answer_given": "\\(\\displaystyle \\frac12\\)"
           },
           {
             "test": "word_problem",
@@ -2547,7 +2019,7 @@
         ]
       },
       "instruction": {
-        "avg_score": 100.0,
+        "avg_score": 66.7,
         "details": [
           {
             "test": "json",
@@ -2558,6 +2030,534 @@
             "test": "list",
             "score": 100,
             "found": 5,
+            "expected": 5
+          },
+          {
+            "test": "sentence_count",
+            "score": 0,
+            "reason": "empty response"
+          }
+        ]
+      },
+      "translation": {
+        "avg_score": 100.0,
+        "details": [
+          {
+            "test": "en_ru",
+            "score": 100,
+            "cyrillic_ratio": 0.89
+          },
+          {
+            "test": "ru_en",
+            "score": 100,
+            "latin_ratio": 0.87
+          },
+          {
+            "test": "en_es",
+            "score": 100,
+            "keywords_found": 10
+          }
+        ]
+      }
+    },
+    "quality_score": 85.0,
+    "raw_speed": 60.1,
+    "overall_score": 85.0,
+    "speed_score": 100.0,
+    "tier_quality_score": 100.0
+  },
+  {
+    "model_id": "nemotron-super-120b",
+    "model_name": "Nemotron 3 Super 120B",
+    "provider": "OpenRouter",
+    "api_provider": "openrouter",
+    "is_open_source": false,
+    "size": "120B",
+    "size_category": "large",
+    "tier": "large",
+    "context": "262k",
+    "timestamp": "2026-07-03T06:34:15.968569",
+    "tests": {
+      "speed": {
+        "avg_tokens_per_sec": 44.82,
+        "details": [
+          {
+            "test": "simple",
+            "time": 5.402,
+            "tokens_per_sec": 55.53,
+            "tokens": 300
+          },
+          {
+            "test": "medium",
+            "time": 7.141,
+            "tokens_per_sec": 42.01,
+            "tokens": 300
+          },
+          {
+            "test": "long",
+            "time": 8.125,
+            "tokens_per_sec": 36.92,
+            "tokens": 300
+          }
+        ]
+      },
+      "code": {
+        "avg_score": 75.0,
+        "details": [
+          {
+            "test": "binary_search",
+            "pass_rate": 1.0,
+            "passed": 5,
+            "total": 5,
+            "details": [
+              {
+                "input": "([1, 3, 5, 7, 9], 5)",
+                "expected": "2",
+                "got": "2",
+                "passed": true
+              },
+              {
+                "input": "([1, 3, 5, 7, 9], 6)",
+                "expected": "-1",
+                "got": "-1",
+                "passed": true
+              },
+              {
+                "input": "([2, 4, 6], 2)",
+                "expected": "0",
+                "got": "0",
+                "passed": true
+              },
+              {
+                "input": "([], 1)",
+                "expected": "-1",
+                "got": "-1",
+                "passed": true
+              },
+              {
+                "input": "([42], 42)",
+                "expected": "0",
+                "got": "0",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "test": "flatten",
+            "pass_rate": 1.0,
+            "passed": 4,
+            "total": 4,
+            "details": [
+              {
+                "input": "[1, [2, [3, 4]], 5]",
+                "expected": "[1, 2, 3, 4, 5]",
+                "got": "[1, 2, 3, 4, 5]",
+                "passed": true
+              },
+              {
+                "input": "[[[]]]",
+                "expected": "[]",
+                "got": "[]",
+                "passed": true
+              },
+              {
+                "input": "[1, 2, 3]",
+                "expected": "[1, 2, 3]",
+                "got": "[1, 2, 3]",
+                "passed": true
+              },
+              {
+                "input": "[[[1]], [[2]], [[3]]]",
+                "expected": "[1, 2, 3]",
+                "got": "[1, 2, 3]",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "test": "longest_common_prefix",
+            "pass_rate": 1.0,
+            "passed": 4,
+            "total": 4,
+            "details": [
+              {
+                "input": "['flower', 'flow', 'flight']",
+                "expected": "'fl'",
+                "got": "'fl'",
+                "passed": true
+              },
+              {
+                "input": "['dog', 'racecar', 'car']",
+                "expected": "''",
+                "got": "''",
+                "passed": true
+              },
+              {
+                "input": "['interview', 'interact', 'interface']",
+                "expected": "'inter'",
+                "got": "'inter'",
+                "passed": true
+              },
+              {
+                "input": "['']",
+                "expected": "''",
+                "got": "''",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "test": "is_prime",
+            "pass_rate": 0.0,
+            "passed": 0,
+            "total": 6,
+            "details": [
+              {
+                "input": "1",
+                "expected": "False",
+                "got": "File \"<string>\", line 1\n    defis_prime(n):\n                  ^\nSyntaxError: invalid syntax",
+                "passed": false
+              },
+              {
+                "input": "2",
+                "expected": "True",
+                "got": "File \"<string>\", line 1\n    defis_prime(n):\n                  ^\nSyntaxError: invalid syntax",
+                "passed": false
+              },
+              {
+                "input": "3",
+                "expected": "True",
+                "got": "File \"<string>\", line 1\n    defis_prime(n):\n                  ^\nSyntaxError: invalid syntax",
+                "passed": false
+              },
+              {
+                "input": "4",
+                "expected": "False",
+                "got": "File \"<string>\", line 1\n    defis_prime(n):\n                  ^\nSyntaxError: invalid syntax",
+                "passed": false
+              },
+              {
+                "input": "17",
+                "expected": "True",
+                "got": "File \"<string>\", line 1\n    defis_prime(n):\n                  ^\nSyntaxError: invalid syntax",
+                "passed": false
+              },
+              {
+                "input": "100",
+                "expected": "False",
+                "got": "File \"<string>\", line 1\n    defis_prime(n):\n                  ^\nSyntaxError: invalid syntax",
+                "passed": false
+              }
+            ]
+          }
+        ]
+      },
+      "reasoning": {
+        "score": 83.3,
+        "correct": 5,
+        "total": 6,
+        "details": [
+          {
+            "test": "knights_knaves",
+            "correct": false,
+            "score": 0,
+            "answer_given": "We need to solve logic puzzle.\n\nLet A says: \"B is a knave.\" B says: \"A and I are both knights.\"\n\nLet\u2019s denote: A is knight (truth-teller) or knave (liar). Same for B.\n\nStatement of A: \"B is a knave.\" So if A is knight, then statement true => B is knave. If A is knave, statement false => B is not a knave => B is knight.\n\nStatement of B: \"A and I are both knights.\" So B claims both A and B are knights.\n\nIf B is knight, then statement true => A is knight and B is knight (consistent). If B is knave, then statement false => it's not the case that both A and B are knights. So at least one of A or B is knave.\n\nNow evaluate possibilities.\n\nCase 1: A knight. Then from A's statement, B is knave. So B knave. Then evaluate B's statement: B is knave, so his statement must be false. B says \"A and I are both knights.\" Since B is knave, statement false. Is it false? A is knight (true), B is knave (false). So \"A and I are both knights\" is false because B is not knight. So the statement is false, which matches B being knave (liar). So consistent. So A knight, B knave"
+          },
+          {
+            "test": "scheduling",
+            "correct": true,
+            "score": 100,
+            "answer_given": "No"
+          },
+          {
+            "test": "base_rate",
+            "correct": true,
+            "score": 100,
+            "answer_given": "Healthy"
+          },
+          {
+            "test": "river_crossing",
+            "correct": true,
+            "score": 100,
+            "answer_given": "Chicken"
+          },
+          {
+            "test": "coin_flip",
+            "correct": true,
+            "score": 100,
+            "answer_given": "1/2"
+          },
+          {
+            "test": "counting",
+            "correct": true,
+            "score": 100,
+            "answer_given": "11"
+          }
+        ]
+      },
+      "instruction": {
+        "avg_score": 100.0,
+        "details": [
+          {
+            "test": "json_nested",
+            "score": 100,
+            "reason": "ok"
+          },
+          {
+            "test": "sentence_count",
+            "score": 100,
+            "found": 3,
+            "expected": 3
+          },
+          {
+            "test": "list",
+            "score": 100,
+            "found": 5,
+            "expected": 5
+          },
+          {
+            "test": "json",
+            "score": 100,
+            "reason": "ok"
+          }
+        ]
+      },
+      "translation": {
+        "avg_score": 100.0,
+        "details": [
+          {
+            "test": "en_ru",
+            "score": 100,
+            "cyrillic_ratio": 0.89
+          },
+          {
+            "test": "ru_en",
+            "score": 100,
+            "latin_ratio": 0.89
+          },
+          {
+            "test": "en_es",
+            "score": 100,
+            "keywords_found": 10
+          }
+        ]
+      }
+    },
+    "quality_score": 86.2,
+    "raw_speed": 44.82,
+    "overall_score": 86.2,
+    "speed_score": 100.0,
+    "tier_quality_score": 100.0
+  },
+  {
+    "model_id": "nemotron-nano-12b",
+    "model_name": "Nemotron Nano 12B",
+    "provider": "OpenRouter",
+    "api_provider": "openrouter",
+    "is_open_source": false,
+    "size": "12B",
+    "size_category": "medium",
+    "tier": "medium",
+    "context": "128k",
+    "timestamp": "2026-07-03T06:34:15.966353",
+    "tests": {
+      "speed": {
+        "avg_tokens_per_sec": 30.1,
+        "details": [
+          {
+            "test": "simple",
+            "time": 1.122,
+            "tokens_per_sec": 15.15,
+            "tokens": 17
+          },
+          {
+            "test": "medium",
+            "time": 6.461,
+            "tokens_per_sec": 32.19,
+            "tokens": 208
+          },
+          {
+            "test": "long",
+            "time": 6.985,
+            "tokens_per_sec": 42.95,
+            "tokens": 300
+          }
+        ]
+      },
+      "code": {
+        "avg_score": 93.3,
+        "details": [
+          {
+            "test": "is_prime",
+            "pass_rate": 1.0,
+            "passed": 6,
+            "total": 6,
+            "details": [
+              {
+                "input": "1",
+                "expected": "False",
+                "got": "False",
+                "passed": true
+              },
+              {
+                "input": "2",
+                "expected": "True",
+                "got": "True",
+                "passed": true
+              },
+              {
+                "input": "3",
+                "expected": "True",
+                "got": "True",
+                "passed": true
+              },
+              {
+                "input": "4",
+                "expected": "False",
+                "got": "False",
+                "passed": true
+              },
+              {
+                "input": "17",
+                "expected": "True",
+                "got": "True",
+                "passed": true
+              },
+              {
+                "input": "100",
+                "expected": "False",
+                "got": "False",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "test": "bubble_sort",
+            "pass_rate": 1.0,
+            "passed": 5,
+            "total": 5,
+            "details": [
+              {
+                "input": "[3, 1, 4, 1, 5]",
+                "expected": "[1, 1, 3, 4, 5]",
+                "got": "[1, 1, 3, 4, 5]",
+                "passed": true
+              },
+              {
+                "input": "[5, 4, 3, 2, 1]",
+                "expected": "[1, 2, 3, 4, 5]",
+                "got": "[1, 2, 3, 4, 5]",
+                "passed": true
+              },
+              {
+                "input": "[]",
+                "expected": "[]",
+                "got": "[]",
+                "passed": true
+              },
+              {
+                "input": "[1]",
+                "expected": "[1]",
+                "got": "[1]",
+                "passed": true
+              },
+              {
+                "input": "[2, 2, 2]",
+                "expected": "[2, 2, 2]",
+                "got": "[2, 2, 2]",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "test": "count_vowels",
+            "pass_rate": 0.8,
+            "passed": 4,
+            "total": 5,
+            "details": [
+              {
+                "input": "'hello'",
+                "expected": "2",
+                "got": "2",
+                "passed": true
+              },
+              {
+                "input": "'AEIOU'",
+                "expected": "5",
+                "got": "5",
+                "passed": true
+              },
+              {
+                "input": "'rhythm'",
+                "expected": "0",
+                "got": "0",
+                "passed": true
+              },
+              {
+                "input": "'Python is great'",
+                "expected": "5",
+                "got": "4",
+                "passed": false
+              },
+              {
+                "input": "''",
+                "expected": "0",
+                "got": "0",
+                "passed": true
+              }
+            ]
+          }
+        ]
+      },
+      "reasoning": {
+        "score": 80.0,
+        "correct": 4,
+        "total": 5,
+        "details": [
+          {
+            "test": "river_crossing",
+            "correct": true,
+            "score": 100,
+            "answer_given": "Chicken"
+          },
+          {
+            "test": "coin_flip",
+            "correct": false,
+            "score": 0,
+            "answer_given": "The probability of getting heads on any single flip of a fair coin is always 1/2, regardless of the outcomes of previous flips. This is because each coin flip is an independent event. Therefore, the probability of getting heads on the 4th flip is 1/2."
+          },
+          {
+            "test": "word_problem",
+            "correct": true,
+            "score": 100,
+            "answer_given": "14"
+          },
+          {
+            "test": "deduction",
+            "correct": true,
+            "score": 100,
+            "answer_given": "Yes"
+          },
+          {
+            "test": "counting",
+            "correct": true,
+            "score": 100,
+            "answer_given": "11"
+          }
+        ]
+      },
+      "instruction": {
+        "avg_score": 83.3,
+        "details": [
+          {
+            "test": "json",
+            "score": 100,
+            "reason": "ok"
+          },
+          {
+            "test": "list",
+            "score": 50,
+            "found": 1,
             "expected": 5
           },
           {
@@ -2589,10 +2589,243 @@
         ]
       }
     },
-    "quality_score": 91.7,
-    "raw_speed": 31.7,
-    "overall_score": 91.7,
-    "speed_score": 19.0,
+    "quality_score": 88.3,
+    "raw_speed": 30.1,
+    "overall_score": 88.3,
+    "speed_score": 24.8,
+    "tier_quality_score": 100.0
+  },
+  {
+    "model_id": "gemini-2.5-flash-lite",
+    "model_name": "Gemini 2.5 Flash-Lite",
+    "provider": "Google",
+    "api_provider": "google",
+    "is_open_source": false,
+    "size": "N/A",
+    "size_category": "medium",
+    "tier": "medium",
+    "context": "1048k",
+    "timestamp": "2026-07-03T06:57:38.931241",
+    "tests": {
+      "speed": {
+        "avg_tokens_per_sec": 26.79,
+        "details": [
+          {
+            "test": "simple",
+            "time": 0.672,
+            "tokens_per_sec": 26.79,
+            "tokens": 18
+          }
+        ]
+      },
+      "code": {
+        "avg_score": 93.3,
+        "details": [
+          {
+            "test": "is_prime",
+            "pass_rate": 1.0,
+            "passed": 6,
+            "total": 6,
+            "details": [
+              {
+                "input": "1",
+                "expected": "False",
+                "got": "False",
+                "passed": true
+              },
+              {
+                "input": "2",
+                "expected": "True",
+                "got": "True",
+                "passed": true
+              },
+              {
+                "input": "3",
+                "expected": "True",
+                "got": "True",
+                "passed": true
+              },
+              {
+                "input": "4",
+                "expected": "False",
+                "got": "False",
+                "passed": true
+              },
+              {
+                "input": "17",
+                "expected": "True",
+                "got": "True",
+                "passed": true
+              },
+              {
+                "input": "100",
+                "expected": "False",
+                "got": "False",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "test": "bubble_sort",
+            "pass_rate": 1.0,
+            "passed": 5,
+            "total": 5,
+            "details": [
+              {
+                "input": "[3, 1, 4, 1, 5]",
+                "expected": "[1, 1, 3, 4, 5]",
+                "got": "[1, 1, 3, 4, 5]",
+                "passed": true
+              },
+              {
+                "input": "[5, 4, 3, 2, 1]",
+                "expected": "[1, 2, 3, 4, 5]",
+                "got": "[1, 2, 3, 4, 5]",
+                "passed": true
+              },
+              {
+                "input": "[]",
+                "expected": "[]",
+                "got": "[]",
+                "passed": true
+              },
+              {
+                "input": "[1]",
+                "expected": "[1]",
+                "got": "[1]",
+                "passed": true
+              },
+              {
+                "input": "[2, 2, 2]",
+                "expected": "[2, 2, 2]",
+                "got": "[2, 2, 2]",
+                "passed": true
+              }
+            ]
+          },
+          {
+            "test": "count_vowels",
+            "pass_rate": 0.8,
+            "passed": 4,
+            "total": 5,
+            "details": [
+              {
+                "input": "'hello'",
+                "expected": "2",
+                "got": "2",
+                "passed": true
+              },
+              {
+                "input": "'AEIOU'",
+                "expected": "5",
+                "got": "5",
+                "passed": true
+              },
+              {
+                "input": "'rhythm'",
+                "expected": "0",
+                "got": "0",
+                "passed": true
+              },
+              {
+                "input": "'Python is great'",
+                "expected": "5",
+                "got": "4",
+                "passed": false
+              },
+              {
+                "input": "''",
+                "expected": "0",
+                "got": "0",
+                "passed": true
+              }
+            ]
+          }
+        ]
+      },
+      "reasoning": {
+        "score": 80.0,
+        "correct": 4,
+        "total": 5,
+        "details": [
+          {
+            "test": "river_crossing",
+            "correct": true,
+            "score": 100,
+            "answer_given": "Chicken"
+          },
+          {
+            "test": "coin_flip",
+            "correct": false,
+            "score": 0,
+            "error": "Status 503 - This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."
+          },
+          {
+            "test": "word_problem",
+            "correct": true,
+            "score": 100,
+            "answer_given": "14"
+          },
+          {
+            "test": "deduction",
+            "correct": true,
+            "score": 100,
+            "answer_given": "Yes"
+          },
+          {
+            "test": "counting",
+            "correct": true,
+            "score": 100,
+            "answer_given": "11"
+          }
+        ]
+      },
+      "instruction": {
+        "avg_score": 33.3,
+        "details": [
+          {
+            "test": "json",
+            "score": 0,
+            "error": "Status 429 - You exceeded your current quota, please check your plan and billing details. For more information on this error, head to"
+          },
+          {
+            "test": "list",
+            "score": 100,
+            "found": 5,
+            "expected": 5
+          },
+          {
+            "test": "sentence_count",
+            "score": 0,
+            "error": "Status 429 - You exceeded your current quota, please check your plan and billing details. For more information on this error, head to"
+          }
+        ]
+      },
+      "translation": {
+        "avg_score": 0.0,
+        "details": [
+          {
+            "test": "en_ru",
+            "score": 0,
+            "error": "Status 429 - You exceeded your current quota, please check your plan and billing details. For more information on this error, head to"
+          },
+          {
+            "test": "ru_en",
+            "score": 0,
+            "error": "Status 429 - You exceeded your current quota, please check your plan and billing details. For more information on this error, head to"
+          },
+          {
+            "test": "en_es",
+            "score": 0,
+            "error": "Status 429 - You exceeded your current quota, please check your plan and billing details. For more information on this error, head to"
+          }
+        ]
+      }
+    },
+    "quality_score": 63.3,
+    "raw_speed": 26.79,
+    "overall_score": 63.3,
+    "speed_score": 100.0,
     "tier_quality_score": 100.0
   },
   {
@@ -2605,27 +2838,27 @@
     "size_category": "small",
     "tier": "small",
     "context": "128k",
-    "timestamp": "2026-07-02T06:42:22.406846",
+    "timestamp": "2026-07-03T06:34:15.966905",
     "tests": {
       "speed": {
-        "avg_tokens_per_sec": 26.87,
+        "avg_tokens_per_sec": 14.64,
         "details": [
           {
             "test": "simple",
-            "time": 22.088,
-            "tokens_per_sec": 13.58,
+            "time": 36.575,
+            "tokens_per_sec": 8.2,
             "tokens": 300
           },
           {
             "test": "medium",
-            "time": 7.483,
-            "tokens_per_sec": 40.09,
+            "time": 45.405,
+            "tokens_per_sec": 6.61,
             "tokens": 300
           },
           {
             "test": "long",
-            "time": 11.136,
-            "tokens_per_sec": 26.94,
+            "time": 10.309,
+            "tokens_per_sec": 29.1,
             "tokens": 300
           }
         ]
@@ -2675,7 +2908,7 @@
         ]
       },
       "instruction": {
-        "avg_score": 100.0,
+        "avg_score": 50.0,
         "details": [
           {
             "test": "json",
@@ -2684,19 +2917,17 @@
           },
           {
             "test": "list",
-            "score": 100,
-            "found": 5,
-            "expected": 5
+            "score": 0,
+            "reason": "empty response"
           }
         ]
       },
       "translation": {
-        "avg_score": 100.0,
+        "avg_score": 50.0,
         "details": [
           {
             "test": "en_ru",
-            "score": 100,
-            "cyrillic_ratio": 0.95
+            "score": 0
           },
           {
             "test": "ru_en",
@@ -2706,9 +2937,9 @@
         ]
       }
     },
-    "quality_score": 65.0,
-    "raw_speed": 26.87,
-    "overall_score": 65.0,
+    "quality_score": 47.5,
+    "raw_speed": 14.64,
+    "overall_score": 47.5,
     "speed_score": 100.0,
     "tier_quality_score": 100.0
   },
@@ -2722,28 +2953,28 @@
     "size_category": "large",
     "tier": "large",
     "context": "1048k",
-    "timestamp": "2026-07-02T06:57:29.608598",
+    "timestamp": "2026-07-03T06:56:57.157557",
     "tests": {
       "speed": {
-        "avg_tokens_per_sec": 4.97,
+        "avg_tokens_per_sec": 5.19,
         "details": [
           {
             "test": "simple",
-            "time": 2.054,
-            "tokens_per_sec": 4.38,
-            "tokens": 9
+            "time": 2.074,
+            "tokens_per_sec": 5.79,
+            "tokens": 12
           },
           {
             "test": "medium",
-            "time": 1.889,
-            "tokens_per_sec": 5.82,
-            "tokens": 11
+            "time": 2.19,
+            "tokens_per_sec": 5.48,
+            "tokens": 12
           },
           {
             "test": "long",
-            "time": 1.908,
-            "tokens_per_sec": 4.72,
-            "tokens": 9
+            "time": 1.857,
+            "tokens_per_sec": 4.31,
+            "tokens": 8
           }
         ]
       },
@@ -2797,25 +3028,25 @@
               {
                 "input": "[1, [2, [3, 4]], 5]",
                 "expected": "[1, 2, 3, 4, 5]",
-                "got": "File \"<string>\", line 2\n    print(repr(flatten([1, [2, [3, 4]], 5])))\n    ^\nIndentationError: expect",
+                "got": "File \"<string>\", line 2\n    \"\"\"\n    ^\nSyntaxError: unterminated triple-quoted string literal (detect",
                 "passed": false
               },
               {
                 "input": "[[[]]]",
                 "expected": "[]",
-                "got": "File \"<string>\", line 2\n    print(repr(flatten([[[]]])))\n    ^\nIndentationError: expected an indente",
+                "got": "File \"<string>\", line 2\n    \"\"\"\n    ^\nSyntaxError: unterminated triple-quoted string literal (detect",
                 "passed": false
               },
               {
                 "input": "[1, 2, 3]",
                 "expected": "[1, 2, 3]",
-                "got": "File \"<string>\", line 2\n    print(repr(flatten([1, 2, 3])))\n    ^\nIndentationError: expected an inde",
+                "got": "File \"<string>\", line 2\n    \"\"\"\n    ^\nSyntaxError: unterminated triple-quoted string literal (detect",
                 "passed": false
               },
               {
                 "input": "[[[1]], [[2]], [[3]]]",
                 "expected": "[1, 2, 3]",
-                "got": "File \"<string>\", line 2\n    print(repr(flatten([[[1]], [[2]], [[3]]])))\n    ^\nIndentationError: expe",
+                "got": "File \"<string>\", line 2\n    \"\"\"\n    ^\nSyntaxError: unterminated triple-quoted string literal (detect",
                 "passed": false
               }
             ]
@@ -2829,25 +3060,25 @@
               {
                 "input": "['flower', 'flow', 'flight']",
                 "expected": "'fl'",
-                "got": "File \"<string>\", line 2\n    print(repr(longest_common_prefix(['flower', 'flow', 'flight'])))\n    ^\nI",
+                "got": "File \"<string>\", line 1\n    def longest_common_prefix(\n                             ^\nSyntaxError: '",
                 "passed": false
               },
               {
                 "input": "['dog', 'racecar', 'car']",
                 "expected": "''",
-                "got": "File \"<string>\", line 2\n    print(repr(longest_common_prefix(['dog', 'racecar', 'car'])))\n    ^\nInde",
+                "got": "File \"<string>\", line 1\n    def longest_common_prefix(\n                             ^\nSyntaxError: '",
                 "passed": false
               },
               {
                 "input": "['interview', 'interact', 'interface']",
                 "expected": "'inter'",
-                "got": "File \"<string>\", line 2\n    print(repr(longest_common_prefix(['interview', 'interact', 'interface'])",
+                "got": "File \"<string>\", line 1\n    def longest_common_prefix(\n                             ^\nSyntaxError: '",
                 "passed": false
               },
               {
                 "input": "['']",
                 "expected": "''",
-                "got": "File \"<string>\", line 2\n    print(repr(longest_common_prefix([''])))\n    ^\nIndentationError: expecte",
+                "got": "File \"<string>\", line 1\n    def longest_common_prefix(\n                             ^\nSyntaxError: '",
                 "passed": false
               }
             ]
@@ -2874,15 +3105,15 @@
           },
           {
             "test": "scheduling",
-            "correct": false,
-            "score": 0,
-            "error": "Status 429 - You exceeded your current quota, please check your plan and billing details. For more information on this error, head to"
+            "correct": true,
+            "score": 100,
+            "answer_given": "No"
           },
           {
             "test": "base_rate",
-            "correct": true,
-            "score": 100,
-            "answer_given": "Healthy"
+            "correct": false,
+            "score": 0,
+            "error": "Status 429 - You exceeded your current quota, please check your plan and billing details. For more information on this error, head to"
           },
           {
             "test": "river_crossing",
@@ -2894,7 +3125,7 @@
             "test": "coin_flip",
             "correct": false,
             "score": 0,
-            "error": "Status 429 - You exceeded your current quota, please check your plan and billing details. For more information on this error, head to"
+            "answer_given": "The probability of getting heads on the 4th"
           },
           {
             "test": "counting",
@@ -2951,172 +3182,9 @@
       }
     },
     "quality_score": 5.0,
-    "raw_speed": 4.97,
+    "raw_speed": 5.19,
     "overall_score": 5.0,
     "speed_score": 100.0,
-    "tier_quality_score": 100.0
-  },
-  {
-    "model_id": "gemini-2.5-flash-lite",
-    "model_name": "Gemini 2.5 Flash-Lite",
-    "provider": "Google",
-    "api_provider": "google",
-    "is_open_source": false,
-    "size": "N/A",
-    "size_category": "medium",
-    "tier": "medium",
-    "context": "1048k",
-    "timestamp": "2026-07-02T06:58:09.200808",
-    "tests": {
-      "speed": {
-        "avg_tokens_per_sec": 0,
-        "details": []
-      },
-      "code": {
-        "avg_score": 33.3,
-        "details": [
-          {
-            "test": "is_prime",
-            "pass_rate": 1.0,
-            "passed": 6,
-            "total": 6,
-            "details": [
-              {
-                "input": "1",
-                "expected": "False",
-                "got": "False",
-                "passed": true
-              },
-              {
-                "input": "2",
-                "expected": "True",
-                "got": "True",
-                "passed": true
-              },
-              {
-                "input": "3",
-                "expected": "True",
-                "got": "True",
-                "passed": true
-              },
-              {
-                "input": "4",
-                "expected": "False",
-                "got": "False",
-                "passed": true
-              },
-              {
-                "input": "17",
-                "expected": "True",
-                "got": "True",
-                "passed": true
-              },
-              {
-                "input": "100",
-                "expected": "False",
-                "got": "False",
-                "passed": true
-              }
-            ]
-          },
-          {
-            "test": "bubble_sort",
-            "pass_rate": 0.0,
-            "passed": 0,
-            "total": 5,
-            "error": "Status 429 - You exceeded your current quota, please check your plan and billing details. For more information on this error, head to"
-          },
-          {
-            "test": "count_vowels",
-            "pass_rate": 0.0,
-            "passed": 0,
-            "total": 5,
-            "error": "Status 429 - You exceeded your current quota, please check your plan and billing details. For more information on this error, head to"
-          }
-        ]
-      },
-      "reasoning": {
-        "score": 20.0,
-        "correct": 1,
-        "total": 5,
-        "details": [
-          {
-            "test": "river_crossing",
-            "correct": true,
-            "score": 100,
-            "answer_given": "Chicken"
-          },
-          {
-            "test": "coin_flip",
-            "correct": false,
-            "score": 0,
-            "error": "Status 429 - You exceeded your current quota, please check your plan and billing details. For more information on this error, head to"
-          },
-          {
-            "test": "word_problem",
-            "correct": false,
-            "score": 0,
-            "error": "Status 429 - You exceeded your current quota, please check your plan and billing details. For more information on this error, head to"
-          },
-          {
-            "test": "deduction",
-            "correct": false,
-            "score": 0,
-            "error": "Status 429 - You exceeded your current quota, please check your plan and billing details. For more information on this error, head to"
-          },
-          {
-            "test": "counting",
-            "correct": false,
-            "score": 0,
-            "error": "Status 429 - You exceeded your current quota, please check your plan and billing details. For more information on this error, head to"
-          }
-        ]
-      },
-      "instruction": {
-        "avg_score": 0.0,
-        "details": [
-          {
-            "test": "json",
-            "score": 0,
-            "error": "Status 429 - You exceeded your current quota, please check your plan and billing details. For more information on this error, head to"
-          },
-          {
-            "test": "list",
-            "score": 0,
-            "error": "Status 429 - You exceeded your current quota, please check your plan and billing details. For more information on this error, head to"
-          },
-          {
-            "test": "sentence_count",
-            "score": 0,
-            "error": "Status 429 - You exceeded your current quota, please check your plan and billing details. For more information on this error, head to"
-          }
-        ]
-      },
-      "translation": {
-        "avg_score": 0.0,
-        "details": [
-          {
-            "test": "en_ru",
-            "score": 0,
-            "error": "Status 429 - You exceeded your current quota, please check your plan and billing details. For more information on this error, head to"
-          },
-          {
-            "test": "ru_en",
-            "score": 0,
-            "error": "Status 429 - You exceeded your current quota, please check your plan and billing details. For more information on this error, head to"
-          },
-          {
-            "test": "en_es",
-            "score": 0,
-            "error": "Status 429 - You exceeded your current quota, please check your plan and billing details. For more information on this error, head to"
-          }
-        ]
-      }
-    },
-    "quality_score": 17.7,
-    "raw_speed": 0,
-    "overall_score": 17.7,
-    "speed_score": 0.0,
     "tier_quality_score": 100.0
   }
 ]
