@@ -1,6 +1,6 @@
 {
-  "date": "2026-07-18",
-  "timestamp": "2026-07-18T05:49:13.743335",
+  "date": "2026-07-19",
+  "timestamp": "2026-07-19T06:06:17.079541",
   "results": [
     {
       "model_id": "llama-3.1-8b",
@@ -12,27 +12,27 @@
       "size_category": "small",
       "tier": "small",
       "context": "131k",
-      "timestamp": "2026-07-18T05:28:20.045163",
+      "timestamp": "2026-07-19T05:55:53.073635",
       "tests": {
         "speed": {
-          "avg_tokens_per_sec": 421.46,
+          "avg_tokens_per_sec": 444.33,
           "details": [
             {
               "test": "simple",
-              "time": 0.297,
-              "tokens_per_sec": 47.22,
-              "tokens": 14
+              "time": 0.25,
+              "tokens_per_sec": 60.09,
+              "tokens": 15
             },
             {
               "test": "medium",
-              "time": 0.356,
-              "tokens_per_sec": 656.89,
-              "tokens": 234
+              "time": 0.433,
+              "tokens_per_sec": 611.91,
+              "tokens": 265
             },
             {
               "test": "long",
-              "time": 0.535,
-              "tokens_per_sec": 560.26,
+              "time": 0.454,
+              "tokens_per_sec": 661.0,
               "tokens": 300
             }
           ]
@@ -127,7 +127,7 @@
               "test": "speed_math",
               "correct": false,
               "score": 0,
-              "answer_given": "To determine which train is faster, we need to calculate their speeds.\n\nThe first train travels 120 km in 2 hours, so its speed is:\n120 km / 2 hours = 60 km/h\n\nThe second train travels 180 km in 3 hours, so its speed is:\n180 km / 3 hours = 60 km/h\n\nSince both trains have the same speed, the answer is:\nSame"
+              "answer_given": "To determine which train is faster, we need to calculate their speeds.\n\nTrain 1: 120 km / 2 hours = 60 km/h\nTrain 2: 180 km / 3 hours = 60 km/h\n\nSince both trains have the same speed, the answer is: Same."
             },
             {
               "test": "counting",
@@ -170,7 +170,7 @@
         }
       },
       "quality_score": 90.0,
-      "raw_speed": 421.46,
+      "raw_speed": 444.33,
       "overall_score": 90.0,
       "speed_score": 100.0,
       "tier_quality_score": 100.0
@@ -185,27 +185,27 @@
       "size_category": "medium",
       "tier": "medium",
       "context": "256k",
-      "timestamp": "2026-07-18T05:28:24.352957",
+      "timestamp": "2026-07-19T05:55:57.265814",
       "tests": {
         "speed": {
-          "avg_tokens_per_sec": 85.21,
+          "avg_tokens_per_sec": 102.83,
           "details": [
             {
               "test": "simple",
-              "time": 4.531,
-              "tokens_per_sec": 66.22,
-              "tokens": 300
+              "time": 5.124,
+              "tokens_per_sec": 55.42,
+              "tokens": 284
             },
             {
               "test": "medium",
-              "time": 3.312,
-              "tokens_per_sec": 90.58,
+              "time": 2.805,
+              "tokens_per_sec": 106.96,
               "tokens": 300
             },
             {
               "test": "long",
-              "time": 3.035,
-              "tokens_per_sec": 98.84,
+              "time": 2.053,
+              "tokens_per_sec": 146.1,
               "tokens": 300
             }
           ]
@@ -350,7 +350,7 @@
               "test": "coin_flip",
               "correct": false,
               "score": 0,
-              "answer_given": "The outcome of each flip of a fair coin is independent of previous flips.  \nTherefore, regardless of the first three results, the probability of getting heads on the fourth flip is  \n\n\\[\n\\boxed{\\tfrac12}\n\\]"
+              "answer_given": "The outcome of each flip of a fair coin is independent of previous flips.  \nTherefore, regardless of the first three results, the probability of heads on the fourth flip is  \n\n\\[\n\\boxed{\\tfrac12}\n\\]"
             },
             {
               "test": "word_problem",
@@ -389,7 +389,7 @@
             {
               "test": "sentence_count",
               "score": 0,
-              "found": 14,
+              "found": 17,
               "expected": 3
             }
           ]
@@ -416,7 +416,7 @@
         }
       },
       "quality_score": 73.3,
-      "raw_speed": 85.21,
+      "raw_speed": 102.83,
       "overall_score": 73.3,
       "speed_score": 100.0,
       "tier_quality_score": 79.9
@@ -431,27 +431,27 @@
       "size_category": "large",
       "tier": "large",
       "context": "262k",
-      "timestamp": "2026-07-18T05:28:24.353238",
+      "timestamp": "2026-07-19T05:55:57.264295",
       "tests": {
         "speed": {
-          "avg_tokens_per_sec": 68.42,
+          "avg_tokens_per_sec": 99.02,
           "details": [
             {
               "test": "simple",
-              "time": 3.363,
-              "tokens_per_sec": 89.22,
-              "tokens": 300
+              "time": 2.042,
+              "tokens_per_sec": 137.63,
+              "tokens": 281
             },
             {
               "test": "medium",
-              "time": 2.959,
-              "tokens_per_sec": 101.39,
+              "time": 3.131,
+              "tokens_per_sec": 95.8,
               "tokens": 300
             },
             {
               "test": "long",
-              "time": 20.487,
-              "tokens_per_sec": 14.64,
+              "time": 4.714,
+              "tokens_per_sec": 63.64,
               "tokens": 300
             }
           ]
@@ -699,7 +699,7 @@
         }
       },
       "quality_score": 100.0,
-      "raw_speed": 68.42,
+      "raw_speed": 99.02,
       "overall_score": 100.0,
       "speed_score": 100.0,
       "tier_quality_score": 100.0
@@ -714,27 +714,27 @@
       "size_category": "small",
       "tier": "small",
       "context": "128k",
-      "timestamp": "2026-07-18T05:28:24.352361",
+      "timestamp": "2026-07-19T05:55:57.265117",
       "tests": {
         "speed": {
-          "avg_tokens_per_sec": 19.08,
+          "avg_tokens_per_sec": 40.28,
           "details": [
             {
               "test": "simple",
-              "time": 18.376,
-              "tokens_per_sec": 16.33,
+              "time": 8.133,
+              "tokens_per_sec": 36.89,
               "tokens": 300
             },
             {
               "test": "medium",
-              "time": 13.096,
-              "tokens_per_sec": 22.91,
+              "time": 9.46,
+              "tokens_per_sec": 31.71,
               "tokens": 300
             },
             {
               "test": "long",
-              "time": 16.666,
-              "tokens_per_sec": 18.0,
+              "time": 5.743,
+              "tokens_per_sec": 52.24,
               "tokens": 300
             }
           ]
@@ -815,7 +815,7 @@
         }
       },
       "quality_score": 57.5,
-      "raw_speed": 19.08,
+      "raw_speed": 40.28,
       "overall_score": 57.5,
       "speed_score": 100.0,
       "tier_quality_score": 100.0
@@ -830,27 +830,27 @@
       "size_category": "medium",
       "tier": "medium",
       "context": "128k",
-      "timestamp": "2026-07-18T05:28:24.354953",
+      "timestamp": "2026-07-19T05:55:57.264523",
       "tests": {
         "speed": {
-          "avg_tokens_per_sec": 28.36,
+          "avg_tokens_per_sec": 38.03,
           "details": [
             {
               "test": "simple",
-              "time": 1.393,
-              "tokens_per_sec": 15.07,
-              "tokens": 21
+              "time": 0.888,
+              "tokens_per_sec": 22.53,
+              "tokens": 20
             },
             {
               "test": "medium",
-              "time": 4.353,
-              "tokens_per_sec": 37.45,
-              "tokens": 163
+              "time": 5.298,
+              "tokens_per_sec": 41.15,
+              "tokens": 218
             },
             {
               "test": "long",
-              "time": 9.212,
-              "tokens_per_sec": 32.57,
+              "time": 5.95,
+              "tokens_per_sec": 50.42,
               "tokens": 300
             }
           ]
@@ -995,7 +995,7 @@
               "test": "coin_flip",
               "correct": false,
               "score": 0,
-              "error": "all keys exhausted"
+              "answer_given": "The probability of getting heads on any single flip of a fair coin is always 1/2, regardless of the outcomes of previous flips. This is because each coin flip is an independent event. Therefore, the probability of getting heads on the 4th flip is 1/2."
             },
             {
               "test": "word_problem",
@@ -1061,9 +1061,9 @@
         }
       },
       "quality_score": 91.7,
-      "raw_speed": 28.36,
+      "raw_speed": 38.03,
       "overall_score": 91.7,
-      "speed_score": 33.3,
+      "speed_score": 37.0,
       "tier_quality_score": 100.0
     },
     {
@@ -1076,28 +1076,28 @@
       "size_category": "large",
       "tier": "large",
       "context": "1048k",
-      "timestamp": "2026-07-18T05:45:04.105078",
+      "timestamp": "2026-07-19T06:01:56.177530",
       "tests": {
         "speed": {
-          "avg_tokens_per_sec": 5.72,
+          "avg_tokens_per_sec": 5.36,
           "details": [
             {
               "test": "simple",
-              "time": 1.995,
-              "tokens_per_sec": 6.02,
-              "tokens": 12
+              "time": 1.899,
+              "tokens_per_sec": 5.27,
+              "tokens": 10
             },
             {
               "test": "medium",
-              "time": 2.054,
-              "tokens_per_sec": 5.84,
+              "time": 1.819,
+              "tokens_per_sec": 6.6,
               "tokens": 12
             },
             {
               "test": "long",
-              "time": 1.891,
-              "tokens_per_sec": 5.29,
-              "tokens": 10
+              "time": 1.897,
+              "tokens_per_sec": 4.22,
+              "tokens": 8
             }
           ]
         },
@@ -1151,25 +1151,25 @@
                 {
                   "input": "[1, [2, [3, 4]], 5]",
                   "expected": "[1, 2, 3, 4, 5]",
-                  "got": "Traceback (most recent call last):\n  File \"<string>\", line 3, in <module>\n  File \"<string>\", line 2,",
+                  "got": "File \"<string>\", line 2\n    print(repr(flatten([1, [2, [3, 4]], 5])))\n    ^\nIndentationError: expect",
                   "passed": false
                 },
                 {
                   "input": "[[[]]]",
                   "expected": "[]",
-                  "got": "Traceback (most recent call last):\n  File \"<string>\", line 3, in <module>\n  File \"<string>\", line 2,",
+                  "got": "File \"<string>\", line 2\n    print(repr(flatten([[[]]])))\n    ^\nIndentationError: expected an indente",
                   "passed": false
                 },
                 {
                   "input": "[1, 2, 3]",
                   "expected": "[1, 2, 3]",
-                  "got": "Traceback (most recent call last):\n  File \"<string>\", line 3, in <module>\n  File \"<string>\", line 2,",
+                  "got": "File \"<string>\", line 2\n    print(repr(flatten([1, 2, 3])))\n    ^\nIndentationError: expected an inde",
                   "passed": false
                 },
                 {
                   "input": "[[[1]], [[2]], [[3]]]",
                   "expected": "[1, 2, 3]",
-                  "got": "Traceback (most recent call last):\n  File \"<string>\", line 3, in <module>\n  File \"<string>\", line 2,",
+                  "got": "File \"<string>\", line 2\n    print(repr(flatten([[[1]], [[2]], [[3]]])))\n    ^\nIndentationError: expe",
                   "passed": false
                 }
               ]
@@ -1211,50 +1211,13 @@
               "pass_rate": 0.0,
               "passed": 0,
               "total": 6,
-              "details": [
-                {
-                  "input": "1",
-                  "expected": "False",
-                  "got": "File \"<string>\", line 2\n    print(repr(is_prime(1)))\n    ^\nIndentationError: expected an indented bl",
-                  "passed": false
-                },
-                {
-                  "input": "2",
-                  "expected": "True",
-                  "got": "File \"<string>\", line 2\n    print(repr(is_prime(2)))\n    ^\nIndentationError: expected an indented bl",
-                  "passed": false
-                },
-                {
-                  "input": "3",
-                  "expected": "True",
-                  "got": "File \"<string>\", line 2\n    print(repr(is_prime(3)))\n    ^\nIndentationError: expected an indented bl",
-                  "passed": false
-                },
-                {
-                  "input": "4",
-                  "expected": "False",
-                  "got": "File \"<string>\", line 2\n    print(repr(is_prime(4)))\n    ^\nIndentationError: expected an indented bl",
-                  "passed": false
-                },
-                {
-                  "input": "17",
-                  "expected": "True",
-                  "got": "File \"<string>\", line 2\n    print(repr(is_prime(17)))\n    ^\nIndentationError: expected an indented b",
-                  "passed": false
-                },
-                {
-                  "input": "100",
-                  "expected": "False",
-                  "got": "File \"<string>\", line 2\n    print(repr(is_prime(100)))\n    ^\nIndentationError: expected an indented ",
-                  "passed": false
-                }
-              ]
+              "error": "Status 429 - You exceeded your current quota, please check your plan and billing details. For more information on this error, head to"
             }
           ]
         },
         "reasoning": {
-          "score": 33.3,
-          "correct": 2,
+          "score": 16.7,
+          "correct": 1,
           "total": 6,
           "details": [
             {
@@ -1265,15 +1228,15 @@
             },
             {
               "test": "scheduling",
-              "correct": true,
-              "score": 100,
-              "answer_given": "No"
+              "correct": false,
+              "score": 0,
+              "error": "Status 429 - You exceeded your current quota, please check your plan and billing details. For more information on this error, head to"
             },
             {
               "test": "base_rate",
-              "correct": true,
-              "score": 100,
-              "answer_given": "Healthy"
+              "correct": false,
+              "score": 0,
+              "error": "Status 429 - You exceeded your current quota, please check your plan and billing details. For more information on this error, head to"
             },
             {
               "test": "river_crossing",
@@ -1289,14 +1252,14 @@
             },
             {
               "test": "counting",
-              "correct": false,
-              "score": 0,
-              "error": "Status 429 - You exceeded your current quota, please check your plan and billing details. For more information on this error, head to"
+              "correct": true,
+              "score": 100,
+              "answer_given": "11"
             }
           ]
         },
         "instruction": {
-          "avg_score": 0.0,
+          "avg_score": 25.0,
           "details": [
             {
               "test": "json_nested",
@@ -1305,8 +1268,9 @@
             },
             {
               "test": "sentence_count",
-              "score": 0,
-              "error": "Status 429 - You exceeded your current quota, please check your plan and billing details. For more information on this error, head to"
+              "score": 100,
+              "found": 3,
+              "expected": 3
             },
             {
               "test": "list",
@@ -1342,7 +1306,7 @@
         }
       },
       "quality_score": 10.0,
-      "raw_speed": 5.72,
+      "raw_speed": 5.36,
       "overall_score": 10.0,
       "speed_score": 100.0,
       "tier_quality_score": 100.0
@@ -1357,27 +1321,27 @@
       "size_category": "large",
       "tier": "large",
       "context": "131k",
-      "timestamp": "2026-07-18T05:45:32.594094",
+      "timestamp": "2026-07-19T06:02:22.839072",
       "tests": {
         "speed": {
-          "avg_tokens_per_sec": 229.47,
+          "avg_tokens_per_sec": 223.26,
           "details": [
             {
               "test": "simple",
-              "time": 0.358,
-              "tokens_per_sec": 50.31,
+              "time": 0.173,
+              "tokens_per_sec": 104.01,
               "tokens": 18
             },
             {
               "test": "medium",
-              "time": 0.884,
-              "tokens_per_sec": 265.89,
-              "tokens": 235
+              "time": 0.835,
+              "tokens_per_sec": 255.04,
+              "tokens": 213
             },
             {
               "test": "long",
-              "time": 0.806,
-              "tokens_per_sec": 372.2,
+              "time": 0.966,
+              "tokens_per_sec": 310.72,
               "tokens": 300
             }
           ]
@@ -1534,8 +1498,8 @@
           ]
         },
         "reasoning": {
-          "score": 83.3,
-          "correct": 5,
+          "score": 66.7,
+          "correct": 4,
           "total": 6,
           "details": [
             {
@@ -1564,9 +1528,9 @@
             },
             {
               "test": "coin_flip",
-              "correct": true,
-              "score": 100,
-              "answer_given": "The probability of getting heads on the 4th flip is 1/2. \n\nSince the coin is fair, the outcome of each flip is independent of the previous flips. The fact that you got heads on the first 3 flips does not affect the probability of getting heads on the 4th flip. The probability remains the same, which is 1/2."
+              "correct": false,
+              "score": 0,
+              "answer_given": "Since the coin is fair, the outcome of each flip is independent of the previous flips. The probability of getting heads on any single flip is 1/2. \n\nSo, the probability of getting heads on the 4th flip is 1/2."
             },
             {
               "test": "counting",
@@ -1624,9 +1588,9 @@
           ]
         }
       },
-      "quality_score": 95.0,
-      "raw_speed": 229.47,
-      "overall_score": 95.0,
+      "quality_score": 90.0,
+      "raw_speed": 223.26,
+      "overall_score": 90.0,
       "speed_score": 100.0,
       "tier_quality_score": 100.0
     },
@@ -1640,27 +1604,27 @@
       "size_category": "medium",
       "tier": "medium",
       "context": "1048k",
-      "timestamp": "2026-07-18T05:45:44.897454",
+      "timestamp": "2026-07-19T06:02:34.178468",
       "tests": {
         "speed": {
-          "avg_tokens_per_sec": 122.74,
+          "avg_tokens_per_sec": 119.02,
           "details": [
             {
               "test": "simple",
-              "time": 0.444,
-              "tokens_per_sec": 40.55,
+              "time": 0.399,
+              "tokens_per_sec": 45.15,
               "tokens": 18
             },
             {
               "test": "medium",
-              "time": 1.183,
-              "tokens_per_sec": 150.42,
-              "tokens": 178
+              "time": 1.345,
+              "tokens_per_sec": 130.81,
+              "tokens": 176
             },
             {
               "test": "long",
-              "time": 1.693,
-              "tokens_per_sec": 177.25,
+              "time": 1.657,
+              "tokens_per_sec": 181.09,
               "tokens": 300
             }
           ]
@@ -1805,7 +1769,7 @@
               "test": "coin_flip",
               "correct": true,
               "score": 100,
-              "answer_given": "The probability of getting heads on the 4th flip is **1/2**.\n\nHere's why:\n\nEach coin flip is an independent event. This means that the outcome of previous flips has absolutely no influence on the outcome of the next flip. A fair coin has two equally likely outcomes: heads or tails.\n\nTherefore, regardless of what happened in the first three flips, the probability of getting heads on the 4th flip remains the same as it always is for a fair coin."
+              "answer_given": "The probability of getting heads on the 4th flip is **1/2**.\n\nHere's why:\n\nEach coin flip is an independent event. This means that the outcome of previous flips has absolutely no influence on the outcome of the next flip. A fair coin has two equally likely outcomes: heads or tails.\n\nTherefore, regardless of the results of the first three flips, the probability of getting heads on the 4th flip remains the same as it is for any single flip of a fair coin."
             },
             {
               "test": "word_problem",
@@ -1828,12 +1792,12 @@
           ]
         },
         "instruction": {
-          "avg_score": 66.7,
+          "avg_score": 0.0,
           "details": [
             {
               "test": "json",
-              "score": 100,
-              "reason": "ok"
+              "score": 0,
+              "error": "Status 429 - You exceeded your current quota, please check your plan and billing details. For more information on this error, head to"
             },
             {
               "test": "list",
@@ -1842,9 +1806,8 @@
             },
             {
               "test": "sentence_count",
-              "score": 100,
-              "found": 3,
-              "expected": 3
+              "score": 0,
+              "error": "Status 429 - You exceeded your current quota, please check your plan and billing details. For more information on this error, head to"
             }
           ]
         },
@@ -1853,13 +1816,13 @@
           "details": [
             {
               "test": "en_ru",
-              "score": 0,
-              "error": "Status 429 - You exceeded your current quota, please check your plan and billing details. For more information on this error, head to"
+              "score": 100,
+              "cyrillic_ratio": 0.89
             },
             {
               "test": "ru_en",
-              "score": 100,
-              "latin_ratio": 0.87
+              "score": 0,
+              "error": "Status 429 - You exceeded your current quota, please check your plan and billing details. For more information on this error, head to"
             },
             {
               "test": "en_es",
@@ -1869,9 +1832,9 @@
           ]
         }
       },
-      "quality_score": 81.0,
-      "raw_speed": 122.74,
-      "overall_score": 81.0,
+      "quality_score": 67.6,
+      "raw_speed": 119.02,
+      "overall_score": 67.6,
       "speed_score": 100.0,
       "tier_quality_score": 100.0
     },
@@ -1885,27 +1848,27 @@
       "size_category": "medium",
       "tier": "medium",
       "context": "131k",
-      "timestamp": "2026-07-18T05:46:30.231148",
+      "timestamp": "2026-07-19T06:03:21.636638",
       "tests": {
         "speed": {
-          "avg_tokens_per_sec": 644.04,
+          "avg_tokens_per_sec": 517.06,
           "details": [
             {
               "test": "simple",
-              "time": 0.25,
-              "tokens_per_sec": 682.86,
-              "tokens": 171
+              "time": 0.561,
+              "tokens_per_sec": 488.77,
+              "tokens": 274
             },
             {
               "test": "medium",
-              "time": 0.461,
-              "tokens_per_sec": 651.14,
+              "time": 0.572,
+              "tokens_per_sec": 524.15,
               "tokens": 300
             },
             {
               "test": "long",
-              "time": 0.502,
-              "tokens_per_sec": 598.13,
+              "time": 0.557,
+              "tokens_per_sec": 538.27,
               "tokens": 300
             }
           ]
@@ -2073,7 +2036,7 @@
           ]
         },
         "instruction": {
-          "avg_score": 66.7,
+          "avg_score": 83.3,
           "details": [
             {
               "test": "json",
@@ -2088,8 +2051,9 @@
             },
             {
               "test": "sentence_count",
-              "score": 0,
-              "reason": "empty response"
+              "score": 50,
+              "found": 2,
+              "expected": 3
             }
           ]
         },
@@ -2114,9 +2078,9 @@
           ]
         }
       },
-      "quality_score": 91.0,
-      "raw_speed": 644.04,
-      "overall_score": 91.0,
+      "quality_score": 94.3,
+      "raw_speed": 517.06,
+      "overall_score": 94.3,
       "speed_score": 100.0,
       "tier_quality_score": 100.0
     },
@@ -2130,27 +2094,27 @@
       "size_category": "large",
       "tier": "large",
       "context": "131k",
-      "timestamp": "2026-07-18T05:46:44.625890",
+      "timestamp": "2026-07-19T06:03:36.509656",
       "tests": {
         "speed": {
-          "avg_tokens_per_sec": 899.6,
+          "avg_tokens_per_sec": 778.3,
           "details": [
             {
               "test": "simple",
-              "time": 0.267,
-              "tokens_per_sec": 1122.36,
-              "tokens": 300
+              "time": 0.201,
+              "tokens_per_sec": 482.54,
+              "tokens": 97
             },
             {
               "test": "medium",
-              "time": 0.278,
-              "tokens_per_sec": 1077.42,
+              "time": 0.267,
+              "tokens_per_sec": 1123.16,
               "tokens": 300
             },
             {
               "test": "long",
-              "time": 0.601,
-              "tokens_per_sec": 499.03,
+              "time": 0.411,
+              "tokens_per_sec": 729.2,
               "tokens": 300
             }
           ]
@@ -2334,7 +2298,7 @@
         }
       },
       "quality_score": 17.5,
-      "raw_speed": 899.6,
+      "raw_speed": 778.3,
       "overall_score": 17.5,
       "speed_score": 100.0,
       "tier_quality_score": 100.0
@@ -2349,33 +2313,33 @@
       "size_category": "medium",
       "tier": "medium",
       "context": "131k",
-      "timestamp": "2026-07-18T05:46:53.456979",
+      "timestamp": "2026-07-19T06:03:43.924079",
       "tests": {
         "speed": {
-          "avg_tokens_per_sec": 37.41,
+          "avg_tokens_per_sec": 30.6,
           "details": [
             {
               "test": "simple",
-              "time": 9.232,
-              "tokens_per_sec": 28.16,
-              "tokens": 260
+              "time": 3.188,
+              "tokens_per_sec": 45.18,
+              "tokens": 144
             },
             {
               "test": "medium",
-              "time": 6.798,
-              "tokens_per_sec": 44.13,
+              "time": 12.088,
+              "tokens_per_sec": 24.82,
               "tokens": 300
             },
             {
               "test": "long",
-              "time": 7.514,
-              "tokens_per_sec": 39.93,
+              "time": 13.765,
+              "tokens_per_sec": 21.79,
               "tokens": 300
             }
           ]
         },
         "code": {
-          "avg_score": 60.0,
+          "avg_score": 93.3,
           "details": [
             {
               "test": "is_prime",
@@ -2423,39 +2387,39 @@
             },
             {
               "test": "bubble_sort",
-              "pass_rate": 0.0,
-              "passed": 0,
+              "pass_rate": 1.0,
+              "passed": 5,
               "total": 5,
               "details": [
                 {
                   "input": "[3, 1, 4, 1, 5]",
                   "expected": "[1, 1, 3, 4, 5]",
-                  "got": "None",
-                  "passed": false
+                  "got": "[1, 1, 3, 4, 5]",
+                  "passed": true
                 },
                 {
                   "input": "[5, 4, 3, 2, 1]",
                   "expected": "[1, 2, 3, 4, 5]",
-                  "got": "None",
-                  "passed": false
+                  "got": "[1, 2, 3, 4, 5]",
+                  "passed": true
                 },
                 {
                   "input": "[]",
                   "expected": "[]",
-                  "got": "None",
-                  "passed": false
+                  "got": "[]",
+                  "passed": true
                 },
                 {
                   "input": "[1]",
                   "expected": "[1]",
-                  "got": "None",
-                  "passed": false
+                  "got": "[1]",
+                  "passed": true
                 },
                 {
                   "input": "[2, 2, 2]",
                   "expected": "[2, 2, 2]",
-                  "got": "None",
-                  "passed": false
+                  "got": "[2, 2, 2]",
+                  "passed": true
                 }
               ]
             },
@@ -2537,7 +2501,7 @@
           ]
         },
         "instruction": {
-          "avg_score": 83.3,
+          "avg_score": 66.7,
           "details": [
             {
               "test": "json",
@@ -2552,8 +2516,8 @@
             },
             {
               "test": "sentence_count",
-              "score": 50,
-              "found": 2,
+              "score": 0,
+              "found": 1,
               "expected": 3
             }
           ]
@@ -2579,9 +2543,9 @@
           ]
         }
       },
-      "quality_score": 76.7,
-      "raw_speed": 37.41,
-      "overall_score": 76.7,
+      "quality_score": 85.0,
+      "raw_speed": 30.6,
+      "overall_score": 85.0,
       "speed_score": 100.0,
       "tier_quality_score": 100.0
     },
@@ -2595,69 +2559,69 @@
       "size_category": "large",
       "tier": "large",
       "context": "131k",
-      "timestamp": "2026-07-18T05:48:58.933078",
+      "timestamp": "2026-07-19T06:05:59.791032",
       "tests": {
         "speed": {
-          "avg_tokens_per_sec": 593.61,
+          "avg_tokens_per_sec": 539.1,
           "details": [
             {
               "test": "simple",
-              "time": 0.477,
-              "tokens_per_sec": 628.45,
+              "time": 0.505,
+              "tokens_per_sec": 593.93,
               "tokens": 300
             },
             {
               "test": "medium",
-              "time": 0.57,
-              "tokens_per_sec": 525.98,
+              "time": 0.524,
+              "tokens_per_sec": 572.56,
               "tokens": 300
             },
             {
               "test": "long",
-              "time": 0.479,
-              "tokens_per_sec": 626.39,
+              "time": 0.665,
+              "tokens_per_sec": 450.82,
               "tokens": 300
             }
           ]
         },
         "code": {
-          "avg_score": 0.0,
+          "avg_score": 25.0,
           "details": [
             {
               "test": "binary_search",
-              "pass_rate": 0.0,
-              "passed": 0,
+              "pass_rate": 1.0,
+              "passed": 5,
               "total": 5,
               "details": [
                 {
                   "input": "([1, 3, 5, 7, 9], 5)",
                   "expected": "2",
-                  "got": "File \"<string>\", line 5\n    print(repr(binary_search(*([1, 3, 5, 7, 9], 5))))\nIndentationError: expe",
-                  "passed": false
+                  "got": "2",
+                  "passed": true
                 },
                 {
                   "input": "([1, 3, 5, 7, 9], 6)",
                   "expected": "-1",
-                  "got": "File \"<string>\", line 5\n    print(repr(binary_search(*([1, 3, 5, 7, 9], 6))))\nIndentationError: expe",
-                  "passed": false
+                  "got": "-1",
+                  "passed": true
                 },
                 {
                   "input": "([2, 4, 6], 2)",
                   "expected": "0",
-                  "got": "File \"<string>\", line 5\n    print(repr(binary_search(*([2, 4, 6], 2))))\nIndentationError: expected a",
-                  "passed": false
+                  "got": "0",
+                  "passed": true
                 },
                 {
                   "input": "([], 1)",
                   "expected": "-1",
-                  "got": "File \"<string>\", line 5\n    print(repr(binary_search(*([], 1))))\nIndentationError: expected an inden",
-                  "passed": false
+                  "got": "-1",
+                  "passed": true
                 },
                 {
                   "input": "([42], 42)",
                   "expected": "0",
-                  "got": "File \"<string>\", line 5\n    print(repr(binary_search(*([42], 42))))\nIndentationError: expected an in",
-                  "passed": false
+                  "got": "0",
+                  "passed": true
                 }
               ]
             },
@@ -2773,11 +2737,11 @@
           ]
         }
       },
-      "quality_score": 0.0,
-      "raw_speed": 593.61,
-      "overall_score": 0.0,
+      "quality_score": 8.8,
+      "raw_speed": 539.1,
+      "overall_score": 8.8,
       "speed_score": 100.0,
-      "tier_quality_score": 0.0
+      "tier_quality_score": 100.0
     }
   ]
 }
