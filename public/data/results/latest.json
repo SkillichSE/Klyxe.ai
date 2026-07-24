@@ -1,6 +1,6 @@
 {
-  "date": "2026-07-23",
-  "timestamp": "2026-07-23T06:12:53.328330",
+  "date": "2026-07-24",
+  "timestamp": "2026-07-24T06:06:00.790970",
   "results": [
     {
       "model_id": "llama-3.1-8b",
@@ -12,27 +12,27 @@
       "size_category": "small",
       "tier": "small",
       "context": "131k",
-      "timestamp": "2026-07-23T05:56:31.137722",
+      "timestamp": "2026-07-24T05:51:23.185292",
       "tests": {
         "speed": {
-          "avg_tokens_per_sec": 379.59,
+          "avg_tokens_per_sec": 301.8,
           "details": [
             {
               "test": "simple",
-              "time": 0.301,
-              "tokens_per_sec": 49.9,
-              "tokens": 15
+              "time": 0.317,
+              "tokens_per_sec": 44.23,
+              "tokens": 14
             },
             {
               "test": "medium",
-              "time": 0.415,
-              "tokens_per_sec": 560.88,
-              "tokens": 233
+              "time": 0.674,
+              "tokens_per_sec": 422.98,
+              "tokens": 285
             },
             {
               "test": "long",
-              "time": 0.568,
-              "tokens_per_sec": 527.99,
+              "time": 0.685,
+              "tokens_per_sec": 438.2,
               "tokens": 300
             }
           ]
@@ -159,7 +159,7 @@
             {
               "test": "en_ru",
               "score": 100,
-              "cyrillic_ratio": 0.89
+              "cyrillic_ratio": 0.84
             },
             {
               "test": "ru_en",
@@ -170,7 +170,7 @@
         }
       },
       "quality_score": 90.0,
-      "raw_speed": 379.59,
+      "raw_speed": 301.8,
       "overall_score": 90.0,
       "speed_score": 100.0,
       "tier_quality_score": 100.0
@@ -185,27 +185,27 @@
       "size_category": "medium",
       "tier": "medium",
       "context": "256k",
-      "timestamp": "2026-07-23T05:56:35.917955",
+      "timestamp": "2026-07-24T05:51:28.612316",
       "tests": {
         "speed": {
-          "avg_tokens_per_sec": 130.37,
+          "avg_tokens_per_sec": 167.16,
           "details": [
             {
               "test": "simple",
-              "time": 2.652,
-              "tokens_per_sec": 113.14,
-              "tokens": 300
+              "time": 1.445,
+              "tokens_per_sec": 197.26,
+              "tokens": 285
             },
             {
               "test": "medium",
-              "time": 2.301,
-              "tokens_per_sec": 130.41,
+              "time": 1.481,
+              "tokens_per_sec": 202.61,
               "tokens": 300
             },
             {
               "test": "long",
-              "time": 2.033,
-              "tokens_per_sec": 147.55,
+              "time": 2.953,
+              "tokens_per_sec": 101.6,
               "tokens": 300
             }
           ]
@@ -350,7 +350,7 @@
               "test": "coin_flip",
               "correct": false,
               "score": 0,
-              "answer_given": "The outcome of each flip is independent of the previous ones.  \nEven after seeing three heads in a row, the chance that the next flip is heads is still\n\n\\[\n\\frac{1}{2}.\n\\]"
+              "answer_given": "The probability of getting heads on the 4th flip is  \n\n\\[\n\\frac{1}{2}\n\\]"
             },
             {
               "test": "word_problem",
@@ -405,18 +405,18 @@
             {
               "test": "ru_en",
               "score": 100,
-              "latin_ratio": 0.87
+              "latin_ratio": 0.66
             },
             {
               "test": "en_es",
               "score": 100,
-              "keywords_found": 7
+              "keywords_found": 12
             }
           ]
         }
       },
       "quality_score": 73.3,
-      "raw_speed": 130.37,
+      "raw_speed": 167.16,
       "overall_score": 73.3,
       "speed_score": 100.0,
       "tier_quality_score": 79.9
@@ -431,33 +431,33 @@
       "size_category": "large",
       "tier": "large",
       "context": "262k",
-      "timestamp": "2026-07-23T05:56:35.918243",
+      "timestamp": "2026-07-24T05:51:28.612879",
       "tests": {
         "speed": {
-          "avg_tokens_per_sec": 64.99,
+          "avg_tokens_per_sec": 122.56,
           "details": [
             {
               "test": "simple",
-              "time": 5.932,
-              "tokens_per_sec": 50.57,
+              "time": 3.033,
+              "tokens_per_sec": 98.9,
               "tokens": 300
             },
             {
               "test": "medium",
-              "time": 3.152,
-              "tokens_per_sec": 95.17,
+              "time": 2.441,
+              "tokens_per_sec": 122.9,
               "tokens": 300
             },
             {
               "test": "long",
-              "time": 6.092,
-              "tokens_per_sec": 49.24,
+              "time": 2.056,
+              "tokens_per_sec": 145.88,
               "tokens": 300
             }
           ]
         },
         "code": {
-          "avg_score": 100.0,
+          "avg_score": 75.0,
           "details": [
             {
               "test": "binary_search",
@@ -563,45 +563,45 @@
             },
             {
               "test": "is_prime",
-              "pass_rate": 1.0,
-              "passed": 6,
+              "pass_rate": 0.0,
+              "passed": 0,
               "total": 6,
               "details": [
                 {
                   "input": "1",
                   "expected": "False",
-                  "got": "False",
-                  "passed": true
+                  "got": "File \"<string>\", line 1\n    We need to output<unk><unk><unk><unk><unk><unk><unk><unk><unk><unk><unk>",
+                  "passed": false
                 },
                 {
                   "input": "2",
                   "expected": "True",
-                  "got": "True",
-                  "passed": true
+                  "got": "File \"<string>\", line 1\n    We need to output<unk><unk><unk><unk><unk><unk><unk><unk><unk><unk><unk>",
+                  "passed": false
                 },
                 {
                   "input": "3",
                   "expected": "True",
-                  "got": "True",
-                  "passed": true
+                  "got": "File \"<string>\", line 1\n    We need to output<unk><unk><unk><unk><unk><unk><unk><unk><unk><unk><unk>",
+                  "passed": false
                 },
                 {
                   "input": "4",
                   "expected": "False",
-                  "got": "False",
-                  "passed": true
+                  "got": "File \"<string>\", line 1\n    We need to output<unk><unk><unk><unk><unk><unk><unk><unk><unk><unk><unk>",
+                  "passed": false
                 },
                 {
                   "input": "17",
                   "expected": "True",
-                  "got": "True",
-                  "passed": true
+                  "got": "File \"<string>\", line 1\n    We need to output<unk><unk><unk><unk><unk><unk><unk><unk><unk><unk><unk>",
+                  "passed": false
                 },
                 {
                   "input": "100",
                   "expected": "False",
-                  "got": "False",
-                  "passed": true
+                  "got": "File \"<string>\", line 1\n    We need to output<unk><unk><unk><unk><unk><unk><unk><unk><unk><unk><unk>",
+                  "passed": false
                 }
               ]
             }
@@ -616,7 +616,7 @@
               "test": "knights_knaves",
               "correct": false,
               "score": 0,
-              "answer_given": "We need to solve logic puzzle.\n\nLet A says: \"B is a knave.\" B says: \"A and I are both knights.\"\n\nWe need to determine A's type.\n\nLet\u2019s denote: A is Knight (truth-teller) or Knave (liar). Same for B.\n\nStatement of A: \"B is a knave.\" So if A is Knight, then statement true => B is Knave. If A is Knave, statement false => B is not a knave => B is Knight.\n\nStatement of B: \"A and I are both knights.\" So B claims both A and B are knights.\n\nIf B is Knight, then statement true => A is Knight and B is Knight (so both knights). If B is Knave, statement false => it's not the case that both A and B are knights. So at least one of A or B is not a knight (i.e., at least one is a knave).\n\nNow evaluate possibilities.\n\nCase 1: A Knight. Then from A's statement, B is Knave. So B is Knave. Then evaluate B's statement: B is Knave, so his statement must be false. B says \"A and I are both knights.\" Since B is Knave, statement false. Let's check: A is Knight (true), B is Knave (false). So \"A and I are both knights\" is false because B is not a knight. So the statement is"
+              "answer_given": "We need to solve logic puzzle.\n\nLet A says: \"B is a knave.\" B says: \"A and I are both knights.\"\n\nLet\u2019s denote: A is Knight (truth-teller) or Knave (liar). Same for B.\n\nStatement of A: \"B is a knave.\" So if A is Knight, then statement true => B is Knave. If A is Knave, statement false => B is not a knave => B is Knight.\n\nStatement of B: \"A and I are both knights.\" So if B is Knight, statement true => A is Knight and B is Knight (so both knights). If B is Knave, statement false => it's not the case that both A and B are knights. So at least one of them is not a knight (i.e., at least one is a knave). Since B is knave in this case, the statement being false is consistent regardless of A? Let's evaluate.\n\nWe need consistent assignments.\n\nCase 1: A is Knight. Then from A's statement, B is Knave. So B is Knave. Now evaluate B's statement: B is Knave, so his statement must be false. B says \"A and I are both knights.\" Since B is Knave, the statement must be false. Is it false? A is Knight (true), B is Knave (false). So \"A and I are both knights\" is false because B is"
             },
             {
               "test": "scheduling",
@@ -698,9 +698,9 @@
           ]
         }
       },
-      "quality_score": 95.0,
-      "raw_speed": 64.99,
-      "overall_score": 95.0,
+      "quality_score": 86.2,
+      "raw_speed": 122.56,
+      "overall_score": 86.2,
       "speed_score": 100.0,
       "tier_quality_score": 100.0
     },
@@ -714,27 +714,27 @@
       "size_category": "small",
       "tier": "small",
       "context": "128k",
-      "timestamp": "2026-07-23T05:56:35.917062",
+      "timestamp": "2026-07-24T05:51:28.614527",
       "tests": {
         "speed": {
-          "avg_tokens_per_sec": 39.28,
+          "avg_tokens_per_sec": 36.12,
           "details": [
             {
               "test": "simple",
-              "time": 10.549,
-              "tokens_per_sec": 28.44,
+              "time": 8.626,
+              "tokens_per_sec": 34.78,
               "tokens": 300
             },
             {
               "test": "medium",
-              "time": 6.851,
-              "tokens_per_sec": 43.79,
+              "time": 8.113,
+              "tokens_per_sec": 36.98,
               "tokens": 300
             },
             {
               "test": "long",
-              "time": 6.577,
-              "tokens_per_sec": 45.61,
+              "time": 8.197,
+              "tokens_per_sec": 36.6,
               "tokens": 300
             }
           ]
@@ -759,8 +759,8 @@
           ]
         },
         "reasoning": {
-          "score": 100.0,
-          "correct": 3,
+          "score": 66.7,
+          "correct": 2,
           "total": 3,
           "details": [
             {
@@ -777,9 +777,8 @@
             },
             {
               "test": "counting",
-              "correct": true,
-              "score": 100,
-              "answer_given": "11"
+              "correct": false,
+              "score": 0
             }
           ]
         },
@@ -814,9 +813,9 @@
           ]
         }
       },
-      "quality_score": 57.5,
-      "raw_speed": 39.28,
-      "overall_score": 57.5,
+      "quality_score": 47.5,
+      "raw_speed": 36.12,
+      "overall_score": 47.5,
       "speed_score": 100.0,
       "tier_quality_score": 100.0
     },
@@ -830,27 +829,27 @@
       "size_category": "medium",
       "tier": "medium",
       "context": "128k",
-      "timestamp": "2026-07-23T05:56:35.916696",
+      "timestamp": "2026-07-24T05:51:28.614208",
       "tests": {
         "speed": {
-          "avg_tokens_per_sec": 30.23,
+          "avg_tokens_per_sec": 14.74,
           "details": [
             {
               "test": "simple",
-              "time": 0.728,
-              "tokens_per_sec": 23.34,
-              "tokens": 17
+              "time": 0.936,
+              "tokens_per_sec": 22.45,
+              "tokens": 21
             },
             {
               "test": "medium",
-              "time": 6.074,
-              "tokens_per_sec": 31.45,
-              "tokens": 191
+              "time": 20.428,
+              "tokens_per_sec": 6.66,
+              "tokens": 136
             },
             {
               "test": "long",
-              "time": 8.359,
-              "tokens_per_sec": 35.89,
+              "time": 19.842,
+              "tokens_per_sec": 15.12,
               "tokens": 300
             }
           ]
@@ -1061,9 +1060,9 @@
         }
       },
       "quality_score": 91.7,
-      "raw_speed": 30.23,
+      "raw_speed": 14.74,
       "overall_score": 91.7,
-      "speed_score": 23.2,
+      "speed_score": 8.8,
       "tier_quality_score": 100.0
     },
     {
@@ -1076,22 +1075,16 @@
       "size_category": "large",
       "tier": "large",
       "context": "1048k",
-      "timestamp": "2026-07-23T06:08:08.400212",
+      "timestamp": "2026-07-24T06:00:58.752456",
       "tests": {
         "speed": {
-          "avg_tokens_per_sec": 5.88,
+          "avg_tokens_per_sec": 5.26,
           "details": [
             {
-              "test": "simple",
-              "time": 2.133,
-              "tokens_per_sec": 5.63,
-              "tokens": 12
-            },
-            {
-              "test": "medium",
-              "time": 1.954,
-              "tokens_per_sec": 6.14,
-              "tokens": 12
+              "test": "long",
+              "time": 2.09,
+              "tokens_per_sec": 5.26,
+              "tokens": 11
             }
           ]
         },
@@ -1117,32 +1110,7 @@
               "pass_rate": 0.0,
               "passed": 0,
               "total": 4,
-              "details": [
-                {
-                  "input": "['flower', 'flow', 'flight']",
-                  "expected": "'fl'",
-                  "got": "File \"<string>\", line 1\n    def longest_common_prefix(strs\n                             ^\nSyntaxErro",
-                  "passed": false
-                },
-                {
-                  "input": "['dog', 'racecar', 'car']",
-                  "expected": "''",
-                  "got": "File \"<string>\", line 1\n    def longest_common_prefix(strs\n                             ^\nSyntaxErro",
-                  "passed": false
-                },
-                {
-                  "input": "['interview', 'interact', 'interface']",
-                  "expected": "'inter'",
-                  "got": "File \"<string>\", line 1\n    def longest_common_prefix(strs\n                             ^\nSyntaxErro",
-                  "passed": false
-                },
-                {
-                  "input": "['']",
-                  "expected": "''",
-                  "got": "File \"<string>\", line 1\n    def longest_common_prefix(strs\n                             ^\nSyntaxErro",
-                  "passed": false
-                }
-              ]
+              "error": "Status 503 - This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."
             },
             {
               "test": "is_prime",
@@ -1191,21 +1159,21 @@
           ]
         },
         "reasoning": {
-          "score": 0.0,
-          "correct": 0,
+          "score": 33.3,
+          "correct": 2,
           "total": 6,
           "details": [
             {
               "test": "knights_knaves",
               "correct": false,
               "score": 0,
-              "answer_given": "Let's analyze the statements:\n\n1.  **"
+              "error": "Status 429 - You exceeded your current quota, please check your plan and billing details. For more information on this error, head to"
             },
             {
               "test": "scheduling",
-              "correct": false,
-              "score": 0,
-              "error": "Status 503 - This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later."
+              "correct": true,
+              "score": 100,
+              "answer_given": "No"
             },
             {
               "test": "base_rate",
@@ -1221,9 +1189,9 @@
             },
             {
               "test": "coin_flip",
-              "correct": false,
-              "score": 0,
-              "error": "Status 429 - You exceeded your current quota, please check your plan and billing details. For more information on this error, head to"
+              "correct": true,
+              "score": 100,
+              "answer_given": "The probability of getting heads on the 4th flip is **1/2**.\n\nEach coin flip is an independent event. The results of previous flips do not influence the outcome of the next flip, as long as the coin is"
             },
             {
               "test": "counting",
@@ -1279,11 +1247,11 @@
           ]
         }
       },
-      "quality_score": 0.0,
-      "raw_speed": 5.88,
-      "overall_score": 0.0,
+      "quality_score": 10.0,
+      "raw_speed": 5.26,
+      "overall_score": 10.0,
       "speed_score": 100.0,
-      "tier_quality_score": 0.0
+      "tier_quality_score": 100.0
     },
     {
       "model_id": "llama-3.3-70b",
@@ -1295,27 +1263,27 @@
       "size_category": "large",
       "tier": "large",
       "context": "131k",
-      "timestamp": "2026-07-23T06:08:36.096068",
+      "timestamp": "2026-07-24T06:01:25.676251",
       "tests": {
         "speed": {
-          "avg_tokens_per_sec": 238.08,
+          "avg_tokens_per_sec": 216.7,
           "details": [
             {
               "test": "simple",
-              "time": 0.22,
-              "tokens_per_sec": 81.85,
+              "time": 0.386,
+              "tokens_per_sec": 46.59,
               "tokens": 18
             },
             {
               "test": "medium",
-              "time": 0.752,
-              "tokens_per_sec": 285.71,
-              "tokens": 215
+              "time": 0.905,
+              "tokens_per_sec": 250.76,
+              "tokens": 227
             },
             {
               "test": "long",
-              "time": 0.865,
-              "tokens_per_sec": 346.67,
+              "time": 0.85,
+              "tokens_per_sec": 352.75,
               "tokens": 300
             }
           ]
@@ -1504,7 +1472,7 @@
               "test": "coin_flip",
               "correct": false,
               "score": 0,
-              "answer_given": "## Step 1: Understand the problem\nThe problem involves flipping a fair coin 3 times and getting heads each time. We need to find the probability of getting heads on the 4th flip.\n\n## Step 2: Recall the properties of a fair coin\nA fair coin has two sides: heads and tails. The probability of getting heads or tails on a single flip is equal, which is 1/2.\n\n## Step 3: Determine the independence of events\nEach coin flip is an independent event, meaning the outcome of one flip does not affect the outcome of another flip.\n\n## Step 4: Apply the concept of independence to the problem\nSince each flip is independent, the probability of getting heads on the 4th flip is not affected by the previous 3 flips, all of which were heads.\n\n## Step 5: Calculate the probability of getting heads on the 4th flip\nGiven that the coin is fair and each flip is independent, the probability of getting heads on the 4th flip remains the same as any single flip, which is 1/2.\n\nThe final answer is: $\\boxed{\\frac{1}{2}}$"
+              "answer_given": "## Step 1: Understand the nature of the problem\nThe problem involves flipping a fair coin, which means each flip has two equally likely outcomes: heads or tails.\n\n## Step 2: Recognize the independence of events\nIn coin flipping, each flip is an independent event. The outcome of one flip does not affect the outcome of another flip.\n\n## Step 3: Apply the concept of independence to the given scenario\nGiven that the first three flips resulted in heads, this information does not influence the outcome of the fourth flip because each flip is independent.\n\n## Step 4: Determine the probability of getting heads on the 4th flip\nSince the coin is fair, the probability of getting heads on any single flip is 1 out of 2, or 1/2. This probability remains the same for the 4th flip, regardless of the outcomes of the previous flips.\n\nThe final answer is: $\\boxed{\\frac{1}{2}}$"
             },
             {
               "test": "counting",
@@ -1563,7 +1531,7 @@
         }
       },
       "quality_score": 90.0,
-      "raw_speed": 238.08,
+      "raw_speed": 216.7,
       "overall_score": 90.0,
       "speed_score": 100.0,
       "tier_quality_score": 100.0
@@ -1578,27 +1546,27 @@
       "size_category": "medium",
       "tier": "medium",
       "context": "1048k",
-      "timestamp": "2026-07-23T06:08:47.872676",
+      "timestamp": "2026-07-24T06:01:41.382994",
       "tests": {
         "speed": {
-          "avg_tokens_per_sec": 147.87,
+          "avg_tokens_per_sec": 104.83,
           "details": [
             {
               "test": "simple",
-              "time": 0.43,
-              "tokens_per_sec": 41.87,
-              "tokens": 18
+              "time": 0.628,
+              "tokens_per_sec": 33.44,
+              "tokens": 21
             },
             {
               "test": "medium",
-              "time": 1.203,
-              "tokens_per_sec": 171.25,
-              "tokens": 206
+              "time": 1.828,
+              "tokens_per_sec": 98.47,
+              "tokens": 180
             },
             {
               "test": "long",
-              "time": 1.302,
-              "tokens_per_sec": 230.5,
+              "time": 1.643,
+              "tokens_per_sec": 182.58,
               "tokens": 300
             }
           ]
@@ -1729,8 +1697,8 @@
           ]
         },
         "reasoning": {
-          "score": 100.0,
-          "correct": 5,
+          "score": 80.0,
+          "correct": 4,
           "total": 5,
           "details": [
             {
@@ -1741,9 +1709,9 @@
             },
             {
               "test": "coin_flip",
-              "correct": true,
-              "score": 100,
-              "answer_given": "The probability of getting heads on the 4th flip is **1/2**.\n\nHere's why:\n\nEach coin flip is an independent event. This means that the outcome of previous flips has absolutely no influence on the outcome of the next flip. A fair coin has two equally likely outcomes: heads or tails.\n\nTherefore, regardless of what happened in the first three flips, the probability of getting heads on the 4th flip remains the same as it always is for a fair coin."
+              "correct": false,
+              "score": 0,
+              "answer_given": "The probability of getting heads on the 4th flip of a fair coin is **1/2**.\n\nHere's why:\n\nEach coin flip is an independent event. This means that the outcome of previous flips has absolutely no influence on the outcome of the next flip. A fair coin has two equally likely outcomes: heads or tails.\n\nTherefore, regardless of the fact that you got heads on the first three flips, the probability of getting heads on the fourth flip remains the same as it always is for a fair coin."
             },
             {
               "test": "word_problem",
@@ -1770,8 +1738,8 @@
           "details": [
             {
               "test": "json",
-              "score": 100,
-              "reason": "ok"
+              "score": 0,
+              "error": "Status 429 - You exceeded your current quota, please check your plan and billing details. For more information on this error, head to"
             },
             {
               "test": "list",
@@ -1780,13 +1748,14 @@
             },
             {
               "test": "sentence_count",
-              "score": 0,
-              "error": "Status 429 - You exceeded your current quota, please check your plan and billing details. For more information on this error, head to"
+              "score": 100,
+              "found": 3,
+              "expected": 3
             }
           ]
         },
         "translation": {
-          "avg_score": 33.3,
+          "avg_score": 0.0,
           "details": [
             {
               "test": "en_ru",
@@ -1795,8 +1764,8 @@
             },
             {
               "test": "ru_en",
-              "score": 100,
-              "latin_ratio": 0.87
+              "score": 0,
+              "error": "Status 429 - You exceeded your current quota, please check your plan and billing details. For more information on this error, head to"
             },
             {
               "test": "en_es",
@@ -1806,9 +1775,9 @@
           ]
         }
       },
-      "quality_score": 74.3,
-      "raw_speed": 147.87,
-      "overall_score": 74.3,
+      "quality_score": 63.3,
+      "raw_speed": 104.83,
+      "overall_score": 63.3,
       "speed_score": 100.0,
       "tier_quality_score": 100.0
     },
@@ -1822,27 +1791,27 @@
       "size_category": "medium",
       "tier": "medium",
       "context": "131k",
-      "timestamp": "2026-07-23T06:09:35.936143",
+      "timestamp": "2026-07-24T06:02:31.305263",
       "tests": {
         "speed": {
-          "avg_tokens_per_sec": 475.78,
+          "avg_tokens_per_sec": 392.87,
           "details": [
             {
               "test": "simple",
-              "time": 0.595,
-              "tokens_per_sec": 452.33,
-              "tokens": 269
+              "time": 0.514,
+              "tokens_per_sec": 332.44,
+              "tokens": 171
             },
             {
               "test": "medium",
-              "time": 0.586,
-              "tokens_per_sec": 512.25,
+              "time": 0.558,
+              "tokens_per_sec": 537.83,
               "tokens": 300
             },
             {
               "test": "long",
-              "time": 0.648,
-              "tokens_per_sec": 462.77,
+              "time": 0.973,
+              "tokens_per_sec": 308.33,
               "tokens": 300
             }
           ]
@@ -2010,7 +1979,7 @@
           ]
         },
         "instruction": {
-          "avg_score": 83.3,
+          "avg_score": 66.7,
           "details": [
             {
               "test": "json",
@@ -2025,9 +1994,8 @@
             },
             {
               "test": "sentence_count",
-              "score": 50,
-              "found": 2,
-              "expected": 3
+              "score": 0,
+              "reason": "empty response"
             }
           ]
         },
@@ -2047,14 +2015,14 @@
             {
               "test": "en_es",
               "score": 100,
-              "keywords_found": 10
+              "keywords_found": 12
             }
           ]
         }
       },
-      "quality_score": 94.3,
-      "raw_speed": 475.78,
-      "overall_score": 94.3,
+      "quality_score": 91.0,
+      "raw_speed": 392.87,
+      "overall_score": 91.0,
       "speed_score": 100.0,
       "tier_quality_score": 100.0
     },
@@ -2068,27 +2036,27 @@
       "size_category": "large",
       "tier": "large",
       "context": "131k",
-      "timestamp": "2026-07-23T06:10:02.787023",
+      "timestamp": "2026-07-24T06:02:51.239548",
       "tests": {
         "speed": {
-          "avg_tokens_per_sec": 658.67,
+          "avg_tokens_per_sec": 762.61,
           "details": [
             {
               "test": "simple",
-              "time": 0.215,
-              "tokens_per_sec": 404.95,
-              "tokens": 87
+              "time": 0.403,
+              "tokens_per_sec": 743.97,
+              "tokens": 300
             },
             {
               "test": "medium",
-              "time": 0.583,
-              "tokens_per_sec": 514.34,
+              "time": 0.439,
+              "tokens_per_sec": 683.49,
               "tokens": 300
             },
             {
               "test": "long",
-              "time": 0.284,
-              "tokens_per_sec": 1056.72,
+              "time": 0.349,
+              "tokens_per_sec": 860.36,
               "tokens": 300
             }
           ]
@@ -2272,7 +2240,7 @@
         }
       },
       "quality_score": 17.5,
-      "raw_speed": 658.67,
+      "raw_speed": 762.61,
       "overall_score": 17.5,
       "speed_score": 100.0,
       "tier_quality_score": 100.0
@@ -2287,75 +2255,75 @@
       "size_category": "medium",
       "tier": "medium",
       "context": "131k",
-      "timestamp": "2026-07-23T06:10:10.581924",
+      "timestamp": "2026-07-24T06:03:00.805097",
       "tests": {
         "speed": {
-          "avg_tokens_per_sec": 20.48,
+          "avg_tokens_per_sec": 26.19,
           "details": [
             {
               "test": "simple",
-              "time": 15.715,
-              "tokens_per_sec": 17.82,
-              "tokens": 280
+              "time": 7.421,
+              "tokens_per_sec": 24.26,
+              "tokens": 180
             },
             {
               "test": "medium",
-              "time": 11.796,
-              "tokens_per_sec": 25.43,
+              "time": 10.877,
+              "tokens_per_sec": 27.58,
               "tokens": 300
             },
             {
               "test": "long",
-              "time": 16.498,
-              "tokens_per_sec": 18.18,
+              "time": 11.217,
+              "tokens_per_sec": 26.74,
               "tokens": 300
             }
           ]
         },
         "code": {
-          "avg_score": 93.3,
+          "avg_score": 60.0,
           "details": [
             {
               "test": "is_prime",
-              "pass_rate": 1.0,
-              "passed": 6,
+              "pass_rate": 0.0,
+              "passed": 0,
               "total": 6,
               "details": [
                 {
                   "input": "1",
                   "expected": "False",
-                  "got": "False",
-                  "passed": true
+                  "got": "File \"<string>\", line 8\n    i =\n       ^\nSyntaxError: invalid syntax",
+                  "passed": false
                 },
                 {
                   "input": "2",
                   "expected": "True",
-                  "got": "True",
-                  "passed": true
+                  "got": "File \"<string>\", line 8\n    i =\n       ^\nSyntaxError: invalid syntax",
+                  "passed": false
                 },
                 {
                   "input": "3",
                   "expected": "True",
-                  "got": "True",
-                  "passed": true
+                  "got": "File \"<string>\", line 8\n    i =\n       ^\nSyntaxError: invalid syntax",
+                  "passed": false
                 },
                 {
                   "input": "4",
                   "expected": "False",
-                  "got": "False",
-                  "passed": true
+                  "got": "File \"<string>\", line 8\n    i =\n       ^\nSyntaxError: invalid syntax",
+                  "passed": false
                 },
                 {
                   "input": "17",
                   "expected": "True",
-                  "got": "True",
-                  "passed": true
+                  "got": "File \"<string>\", line 8\n    i =\n       ^\nSyntaxError: invalid syntax",
+                  "passed": false
                 },
                 {
                   "input": "100",
                   "expected": "False",
-                  "got": "False",
-                  "passed": true
+                  "got": "File \"<string>\", line 8\n    i =\n       ^\nSyntaxError: invalid syntax",
+                  "passed": false
                 }
               ]
             },
@@ -2491,8 +2459,7 @@
             {
               "test": "sentence_count",
               "score": 0,
-              "found": 1,
-              "expected": 3
+              "reason": "empty response"
             }
           ]
         },
@@ -2517,9 +2484,9 @@
           ]
         }
       },
-      "quality_score": 85.0,
-      "raw_speed": 20.48,
-      "overall_score": 85.0,
+      "quality_score": 73.3,
+      "raw_speed": 26.19,
+      "overall_score": 73.3,
       "speed_score": 100.0,
       "tier_quality_score": 100.0
     },
@@ -2533,69 +2500,69 @@
       "size_category": "large",
       "tier": "large",
       "context": "131k",
-      "timestamp": "2026-07-23T06:12:37.988894",
+      "timestamp": "2026-07-24T06:05:36.170532",
       "tests": {
         "speed": {
-          "avg_tokens_per_sec": 527.57,
+          "avg_tokens_per_sec": 360.69,
           "details": [
             {
               "test": "simple",
-              "time": 0.57,
-              "tokens_per_sec": 526.38,
+              "time": 0.563,
+              "tokens_per_sec": 533.04,
               "tokens": 300
             },
             {
               "test": "medium",
-              "time": 0.598,
-              "tokens_per_sec": 501.39,
+              "time": 0.647,
+              "tokens_per_sec": 463.55,
               "tokens": 300
             },
             {
               "test": "long",
-              "time": 0.541,
-              "tokens_per_sec": 554.95,
+              "time": 3.509,
+              "tokens_per_sec": 85.49,
               "tokens": 300
             }
           ]
         },
         "code": {
-          "avg_score": 25.0,
+          "avg_score": 0.0,
           "details": [
             {
               "test": "binary_search",
-              "pass_rate": 1.0,
-              "passed": 5,
+              "pass_rate": 0.0,
+              "passed": 0,
               "total": 5,
               "details": [
                 {
                   "input": "([1, 3, 5, 7, 9], 5)",
                   "expected": "2",
-                  "got": "2",
-                  "passed": true
+                  "got": "None",
+                  "passed": false
                 },
                 {
                   "input": "([1, 3, 5, 7, 9], 6)",
                   "expected": "-1",
-                  "got": "-1",
-                  "passed": true
+                  "got": "None",
+                  "passed": false
                 },
                 {
                   "input": "([2, 4, 6], 2)",
                   "expected": "0",
-                  "got": "0",
-                  "passed": true
+                  "got": "None",
+                  "passed": false
                 },
                 {
                   "input": "([], 1)",
                   "expected": "-1",
-                  "got": "-1",
-                  "passed": true
+                  "got": "None",
+                  "passed": false
                 },
                 {
                   "input": "([42], 42)",
                   "expected": "0",
-                  "got": "0",
-                  "passed": true
+                  "got": "None",
+                  "passed": false
                 }
               ]
             },
@@ -2711,11 +2678,11 @@
           ]
         }
       },
-      "quality_score": 8.8,
-      "raw_speed": 527.57,
-      "overall_score": 8.8,
+      "quality_score": 0.0,
+      "raw_speed": 360.69,
+      "overall_score": 0.0,
       "speed_score": 100.0,
-      "tier_quality_score": 100.0
+      "tier_quality_score": 0.0
     }
   ]
 }
